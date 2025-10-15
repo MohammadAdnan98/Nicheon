@@ -1,45 +1,72 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Nicheon\\Nicheon.Api\\",
+  "WorkspaceRootPath": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|d:\\nicheon\\nicheon.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{D3AA3C7C-6F89-4310-9158-65ED71D3F845}|..\\Nicheon.Shared\\Nicheon.Shared.csproj|c:\\nicheon\\nicheonapi\\nicheon.shared\\sharedrepositories\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|d:\\nicheon\\nicheon.persistence\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|d:\\nicheon\\nicheon.persistence\\repositories\\usertyperepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|d:\\nicheon\\nicheon.persistence\\repositories\\authenticationrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\iauthentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\authenticationrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCCB430B-7F78-457E-8B42-867E4E147399}|..\\Nicheon.Domain\\Nicheon.Domain.csproj|c:\\nicheon\\nicheonapi\\nicheon.domain\\entities\\authenticationmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCCB430B-7F78-457E-8B42-867E4E147399}|..\\Nicheon.Domain\\Nicheon.Domain.csproj|c:\\nicheon\\nicheonapi\\nicheon.domain\\entities\\usertype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCCB430B-7F78-457E-8B42-867E4E147399}|..\\Nicheon.Domain\\Nicheon.Domain.csproj|c:\\nicheon\\nicheonapi\\nicheon.domain\\entities\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\iusertyperepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\sharedrepositories\\otpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\authenticationrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:authenticationrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Shared\\IOtpService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|d:\\nicheon\\nicheon.api\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|d:\\nicheon\\nicheon.api\\authenticationrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:authenticationrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|d:\\nicheon\\nicheon.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|d:\\nicheon\\nicheon.api\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|d:\\nicheon\\nicheon.api\\controllers\\usertypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\controllers\\usertypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\usertypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Shared\\IOtpService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
@@ -76,6 +103,12 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Nicheon\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -85,79 +118,261 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProductRepository.cs",
-              "DocumentMoniker": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
-              "ToolTip": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
-              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAAAtAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Shared\\SharedRepositories\\EmailService.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Shared\\SharedRepositories\\EmailService.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Shared\\SharedRepositories\\EmailService.cs",
+              "RelativeToolTip": "..\\Nicheon.Shared\\SharedRepositories\\EmailService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T08:48:33.185Z",
+              "WhenOpened": "2025-10-15T12:33:19.663Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IEmailService.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IEmailService.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IEmailService.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IEmailService.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IEmailService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T12:30:44.402Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "AuthenticationRepository.cs",
-              "DocumentMoniker": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
-              "ToolTip": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
-              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Title": "IAuthentication.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAkwBgAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T08:43:21.645Z",
+              "WhenOpened": "2025-10-15T11:59:39.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UserType.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\UserType.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Domain\\Entities\\UserType.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\UserType.cs",
+              "RelativeToolTip": "..\\Nicheon.Domain\\Entities\\UserType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T11:59:30.695Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\Product.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Domain\\Entities\\Product.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\Product.cs",
+              "RelativeToolTip": "..\\Nicheon.Domain\\Entities\\Product.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T11:59:28.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AuthenticationModel.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
+              "RelativeToolTip": "..\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAUwCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T11:18:55.534Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "AuthenticationRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T11:18:42.554Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACAAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T13:20:22.745Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IUserTypeRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T11:59:49.013Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AuthenticationController.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\AuthenticationController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthenticationController.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\AuthenticationController.cs",
+              "RelativeToolTip": "Controllers\\AuthenticationController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABwAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T18:41:10.377Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IProductRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T11:59:47.659Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "OtpService.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T11:58:17.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T11:18:46.378Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AuthenticationRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-31T18:30:28.999Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "IOtpService.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Shared\\IOtpService.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Application\\Shared\\IOtpService.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Shared\\IOtpService.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAADgvwoAAAASAAAAAAAAAA==",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Application\\Shared\\IOtpService.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-27T18:22:07.348Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
+              "Title": "AuthenticationRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\AuthenticationRepository.cs",
+              "RelativeDocumentMoniker": "AuthenticationRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\AuthenticationRepository.cs",
+              "RelativeToolTip": "AuthenticationRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T17:19:32.994Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "AuthenticationRepository.cs",
+              "DocumentMoniker": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
+              "ToolTip": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T08:43:21.645Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "ToolTip": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T08:48:33.185Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
               "Title": "ProductRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-23T15:20:17.428Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 21,
               "Title": "OtpService.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-27T18:27:59.186Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 17,
               "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\Nicheon\\Nicheon.Api\\appsettings.json",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "D:\\Nicheon\\Nicheon.Api\\appsettings.json",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAACeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -166,92 +381,57 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 33,
               "Title": "UserTypeRepository.cs",
               "DocumentMoniker": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
               "ToolTip": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
-              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T08:46:24.427Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-15T08:46:24.427Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AuthenticationController.cs",
-              "DocumentMoniker": "D:\\Nicheon\\Nicheon.Api\\Controllers\\AuthenticationController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AuthenticationController.cs",
-              "ToolTip": "D:\\Nicheon\\Nicheon.Api\\Controllers\\AuthenticationController.cs",
-              "RelativeToolTip": "Controllers\\AuthenticationController.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAASwB8AAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T18:41:10.377Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AuthenticationRepository.cs",
-              "DocumentMoniker": "D:\\Nicheon\\Nicheon.Api\\AuthenticationRepository.cs",
-              "RelativeDocumentMoniker": "AuthenticationRepository.cs",
-              "ToolTip": "D:\\Nicheon\\Nicheon.Api\\AuthenticationRepository.cs",
-              "RelativeToolTip": "AuthenticationRepository.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAAADwAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-28T17:19:32.994Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 22,
               "Title": "IAuthentication.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAASwA0AAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-24T18:43:50.188Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 23,
               "Title": "AuthenticationModel.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
               "ViewState": "AgIAABoAAAAAAAAAAAA5wCcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-24T18:45:01.652Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Nicheon\\Nicheon.Api\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\Nicheon\\Nicheon.Api\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAhwDgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-23T13:20:22.745Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 24,
               "Title": "IProductRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAIBJwA0AAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-23T15:16:49.07Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 19,
               "Title": "UserTypeController.cs",
-              "DocumentMoniker": "D:\\Nicheon\\Nicheon.Api\\Controllers\\UserTypeController.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\UserTypeController.cs",
               "RelativeDocumentMoniker": "Controllers\\UserTypeController.cs",
-              "ToolTip": "D:\\Nicheon\\Nicheon.Api\\Controllers\\UserTypeController.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\UserTypeController.cs",
               "RelativeToolTip": "Controllers\\UserTypeController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -259,41 +439,47 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 25,
               "Title": "Product.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\Product.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\Product.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\Product.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\Product.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAIBJwAkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-23T15:15:07.836Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 26,
               "Title": "UserType.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\UserType.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\UserType.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\UserType.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\UserType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-23T13:14:21.941Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 27,
               "Title": "UserTypeRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAIBJwA4AAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-23T13:17:41.555Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 18,
               "Title": "ProductController.cs",
-              "DocumentMoniker": "D:\\Nicheon\\Nicheon.Api\\Controllers\\ProductController.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
-              "ToolTip": "D:\\Nicheon\\Nicheon.Api\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\ProductController.cs",
               "RelativeToolTip": "Controllers\\ProductController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -301,40 +487,48 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 28,
               "Title": "IUserTypeRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAYwA8AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-23T13:15:57.999Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 29,
               "Title": "Nicheon.Shared.csproj",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Nicheon.Shared.csproj",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Nicheon.Shared.csproj",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Nicheon.Shared.csproj",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Nicheon.Shared.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2025-07-23T13:09:33.498Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 30,
               "Title": "Class1.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Tests\\Class1.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Tests\\Class1.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Tests\\Class1.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Tests\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-23T12:54:46.875Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 31,
               "Title": "Class1.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Class1.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Class1.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Class1.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-23T12:54:17.884Z"

@@ -1,0 +1,311 @@
+CREATE OR ALTER PROCEDURE sp_RegisterUser
+    @Username NVARCHAR(150),
+    @Password NVARCHAR(200),
+    @FullName NVARCHAR(200),
+    @Email NVARCHAR(255),
+    @Phone NVARCHAR(20),
+    @Role NVARCHAR(50), -- 'Seller' | 'Buyer' | 'Manufacturer' | 'Wholesaler' | 'Retailer'
+    @BusinessName NVARCHAR(255) = NULL,
+    @BusinessType NVARCHAR(50) = NULL, -- Manufacturer / Wholesaler / Retailer
+    @GSTNumber NVARCHAR(20) = NULL,
+    @Address NVARCHAR(500) = NULL,
+    @Landmark NVARCHAR(200) = NULL,
+    @City NVARCHAR(100) = NULL,
+    @State NVARCHAR(100) = NULL,
+    @Country NVARCHAR(100) = 'India',
+    @Pincode NVARCHAR(10) = NULL,
+
+    @Result INT OUTPUT,
+    @OutLoginId INT OUTPUT,
+    @OutOtp NVARCHAR(10) OUTPUT  -- return OTP for dev/testing only
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    -- Basic required checks for seller/business registration
+    IF @Role IS NULL
+    BEGIN
+        SET @Result = -3;
+        RETURN;
+    END
+
+    IF @Role IN ('Seller','Manufacturer','Wholesaler') 
+    BEGIN
+        IF @GSTNumber IS NULL OR LEN(@GSTNumber) <> 15
+        BEGIN
+            SET @Result = -3;
+            RETURN;
+        END
+        IF @Address IS NULL OR LTRIM(RTRIM(@Address)) = ''
+            OR @Landmark IS NULL OR LTRIM(RTRIM(@Landmark)) = ''
+            OR @Pincode IS NULL OR LEN(@Pincode) < 5
+        BEGIN
+            SET @Result = -3;
+            RETURN;
+        END
+    END
+
+    -- Check duplicates
+    IF EXISTS(SELECT 1 FROM UserLogins WHERE Username = @Username)
+    BEGIN
+        SET @Result = -1; RETURN;
+    END
+
+    IF EXISTS(SELECT 1 FROM Users WHERE PrimaryEmail = @Email)
+    BEGIN
+        SET @Result = -2; RETURN;
+    END
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        -- store password as hex string of hash
+        DECLARE @HashHex NVARCHAR(128) = CONVERT(NVARCHAR(128), HASHBYTES('SHA2_512', @Password), 2);
+
+        INSERT INTO UserLogins (Username, PasswordHash, IsActive, CreatedAt)
+        VALUES (@Username, @HashHex, 1, GETDATE());
+
+        SET @OutLoginId = SCOPE_IDENTITY();
+
+        -- Insert Users profile
+        INSERT INTO Users (LoginId, FullName, PrimaryEmail, PrimaryPhone, Role, IsVerified, CreatedAt, IsActive)
+        VALUES (@OutLoginId, @FullName, @Email, @Phone, @Role, 0, GETDATE(), 1);
+
+        DECLARE @UserId INT = SCOPE_IDENTITY();
+
+        -- If business fields provided, create BusinessProfiles (for Seller/W holesaler/manufacturer)
+        IF @Role IN ('Seller','Manufacturer','Wholesaler')
+        BEGIN
+            INSERT INTO BusinessProfiles (UserId, BusinessName, BusinessType, GSTNumber, Address, Landmark, City, State, Country, Pincode, IsVerified, CreatedAt, IsActive)
+            VALUES (@UserId, @BusinessName, @BusinessType, @GSTNumber, @Address, @Landmark, @City, @State, @Country, @Pincode, 0, GETDATE(), 1);
+        END
+
+        -- Generate 6-digit OTP
+        DECLARE @Otp NVARCHAR(10) = LEFT(CONVERT(VARCHAR(36), NEWID()),6); -- simple random string; you can replace with RNG
+        -- Better approach (numeric): 
+        -- DECLARE @Otp INT = ABS(CHECKSUM(NEWID())) % 900000 + 100000;
+
+        DECLARE @Expires DATETIME2 = DATEADD(MINUTE, 10, GETDATE());
+
+        INSERT INTO UserOtps (LoginId, OtpCode, Purpose, ExpiresAt, IsUsed, EmailSent, CreatedAt)
+        VALUES (@OutLoginId, @Otp, 'Registration', @Expires, 0, 0, GETDATE());
+
+        SET @OutOtp = @Otp; -- return OTP for dev/testing (remove in prod)
+        SET @Result = 1;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        DECLARE @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
+        RAISERROR('Registration failed: %s', 16, 1, @ErrMsg);
+        SET @Result = -9;
+        RETURN;
+    END CATCH
+END
+
+GO
+
+CREATE PROCEDURE sp_LoginUser
+    @Username NVARCHAR(150),
+    @Password NVARCHAR(200),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @HashHex NVARCHAR(128) = CONVERT(NVARCHAR(128), HASHBYTES('SHA2_512', @Password), 2);
+    DECLARE @LoginId INT = (SELECT LoginId FROM UserLogins WHERE Username = @Username AND PasswordHash = @HashHex AND IsActive = 1);
+
+    IF @LoginId IS NULL
+    BEGIN
+        SET @Result = -1; -- invalid username/password
+        RETURN;
+    END
+
+    -- check verified
+    IF EXISTS(SELECT 1 FROM Users WHERE LoginId = @LoginId AND IsVerified = 0)
+    BEGIN
+        SET @Result = -2; -- not verified
+        RETURN;
+    END
+
+    -- successful login: return user basic data as resultset and set @Result = 1
+    SET @Result = 1;
+
+    SELECT 
+        u.UserId,
+        ul.Username,
+        u.FullName,
+        u.PrimaryEmail,
+        u.PrimaryPhone,
+        u.Role,
+        bp.BusinessId,
+        bp.BusinessName,
+        bp.BusinessType,
+        bp.GSTNumber
+    FROM Users u
+    JOIN UserLogins ul ON u.LoginId = ul.LoginId
+    LEFT JOIN BusinessProfiles bp ON bp.UserId = u.UserId
+    WHERE ul.LoginId = @LoginId;
+END
+GO
+
+
+CREATE PROCEDURE sp_ForgotPassword
+    @Username NVARCHAR(100),
+    @NewPassword NVARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF NOT EXISTS(SELECT 1 FROM UserLogins WHERE Username = @Username)
+    BEGIN
+        RAISERROR('Username not found.', 16, 1);
+        RETURN;
+    END
+
+    UPDATE UserLogins
+    SET PasswordHash = HASHBYTES('SHA2_512', @NewPassword),
+        UpdatedAt = GETDATE()
+    WHERE Username = @Username;
+
+    PRINT 'Password updated successfully.';
+END
+
+GO
+
+CREATE PROCEDURE sp_VerifyRegistrationOtp
+    @Username NVARCHAR(150),
+    @OtpCode NVARCHAR(10),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    DECLARE @LoginId INT = (SELECT LoginId FROM UserLogins WHERE Username = @Username);
+
+    IF @LoginId IS NULL
+    BEGIN
+        SET @Result = -1; RETURN;
+    END
+
+    -- find un-used OTP for registration
+    DECLARE @rowCount INT =
+    (
+        SELECT COUNT(1) FROM UserOtps
+        WHERE LoginId = @LoginId AND Purpose = 'Registration' AND IsUsed = 0 AND OtpCode = @OtpCode AND ExpiresAt >= GETDATE()
+    );
+
+    IF @rowCount = 0
+    BEGIN
+        SET @Result = -2; -- invalid or expired
+        RETURN;
+    END
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        -- mark otp used
+        UPDATE UserOtps SET IsUsed = 1 WHERE LoginId = @LoginId AND Purpose = 'Registration' AND OtpCode = @OtpCode;
+
+        -- set user verified
+        UPDATE Users SET IsVerified = 1, UpdatedAt = GETDATE() WHERE LoginId = @LoginId;
+
+        -- set business profile verified (if exists)
+        UPDATE BusinessProfiles SET IsVerified = 1, UpdatedAt = GETDATE() WHERE UserId = (SELECT UserId FROM Users WHERE LoginId = @LoginId);
+
+        SET @Result = 1; -- success
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        SET @Result = -9;
+    END CATCH
+END
+
+GO
+
+CREATE PROCEDURE sp_RequestPasswordReset
+    @Username NVARCHAR(150),
+    @Result INT OUTPUT,
+    @OutOtp NVARCHAR(10) OUTPUT  -- dev only
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    DECLARE @LoginId INT = (SELECT LoginId FROM UserLogins WHERE Username = @Username);
+    IF @LoginId IS NULL
+    BEGIN
+        SET @Result = -1; RETURN;
+    END
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        -- Generate numeric 6-digit OTP
+        DECLARE @NumOtp INT = ABS(CHECKSUM(NEWID())) % 900000 + 100000;
+        DECLARE @Otp NVARCHAR(10) = CONVERT(NVARCHAR(10), @NumOtp);
+        DECLARE @Expires DATETIME2 = DATEADD(MINUTE, 10, GETDATE());
+
+        INSERT INTO UserOtps (LoginId, OtpCode, Purpose, ExpiresAt, IsUsed, EmailSent, CreatedAt)
+        VALUES (@LoginId, @Otp, 'PasswordReset', @Expires, 0, 0, GETDATE());
+
+        SET @OutOtp = @Otp;
+        SET @Result = 1;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        SET @Result = -9;
+    END CATCH
+END
+
+GO
+
+CREATE PROCEDURE sp_ResetPasswordWithOtp
+    @Username NVARCHAR(150),
+    @OtpCode NVARCHAR(10),
+    @NewPassword NVARCHAR(200),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    DECLARE @LoginId INT = (SELECT LoginId FROM UserLogins WHERE Username = @Username);
+    IF @LoginId IS NULL
+    BEGIN
+        SET @Result = -1; RETURN;
+    END
+
+    IF NOT EXISTS(SELECT 1 FROM UserOtps WHERE LoginId = @LoginId AND Purpose='PasswordReset' AND IsUsed=0 AND OtpCode=@OtpCode AND ExpiresAt >= GETDATE())
+    BEGIN
+        SET @Result = -2; RETURN; -- invalid or expired
+    END
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        -- Update password (stored as hex)
+        DECLARE @HashHex NVARCHAR(128) = CONVERT(NVARCHAR(128), HASHBYTES('SHA2_512', @NewPassword), 2);
+
+        UPDATE UserLogins SET PasswordHash = @HashHex, UpdatedAt = GETDATE() WHERE LoginId = @LoginId;
+
+        -- mark OTP used
+        UPDATE UserOtps SET IsUsed = 1 WHERE LoginId = @LoginId AND Purpose='PasswordReset' AND OtpCode=@OtpCode;
+
+        SET @Result = 1;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        SET @Result = -9;
+    END CATCH
+END
+
+GO
+
+
+
+
+

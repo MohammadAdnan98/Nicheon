@@ -200,3 +200,14 @@ D:\Nicheon\Nicheon.Api\obj\Debug\net8.0\refint\Nicheon.Api.dll
 D:\Nicheon\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.pdb
 D:\Nicheon\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.genruntimeconfig.cache
 D:\Nicheon\Nicheon.Api\obj\Debug\net8.0\ref\Nicheon.Api.dll
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.csproj.AssemblyReference.cache
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.AssemblyInfoInputs.cache
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.AssemblyInfo.cs
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.csproj.CoreCompileInputs.cache
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.MvcApplicationPartsAssemblyInfo.cache
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.sourcelink.json
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.dll
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\refint\Nicheon.Api.dll
+C:\Nicheon\NicheonApi\Nicheon.Api\obj\Debug\net8.0\Nicheon.Api.pdb

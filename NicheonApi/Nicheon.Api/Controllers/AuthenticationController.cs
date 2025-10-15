@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nicheon.Application.Interfaces;
-using Nicheon.Application.Shared;
 using Nicheon.Domain.Entities;
 using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
 
 namespace Nicheon.Api.Controllers
 {
@@ -12,63 +10,38 @@ namespace Nicheon.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthentication _authService;
-        private readonly IOtpService _otpService;
 
-        public AuthController(IAuthentication authService, IOtpService otpService)
+        public AuthController(IAuthentication authService)
         {
             _authService = authService;
-            _otpService = otpService;
         }
 
-        [HttpPost("UserRegistration")]
-        public async Task<IActionResult> RegisterUser([FromBody] AuthenticationModel model)
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] AuthenticationModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var result = await _authService.RegisterUserAsync(model);
-            if (result == "User registered successfully.")
-            {
-                int otpresult = await _otpService.GenerateAndSendOtpAsync(model.Mobile);
-
-                //var otpresult = await _authService.SaveOtp(model);
-
-                if (otpresult > 0)
-                {
-                    return Ok(new { message = result});
-                }
-            }
-
             return Ok(new { message = result });
         }
 
-        [HttpPost("ResendOtp")]
-        public async Task<IActionResult> ResendOtp([FromBody] AuthenticationModel model)
+        [HttpPost("VerifyOtp")]
+        public async Task<IActionResult> VerifyOtp([FromQuery] string email, [FromQuery] string otp)
         {
-            var otpresult = await _otpService.GenerateAndSendOtpAsync(model.Mobile);
-
-            //var otpresult = await _authService.SaveOtp(model);
-
-            if (otpresult > 0)
-            {
-                return Ok(new {  otp = "otp resend sucessfully" });
-            }
-
-            return Ok(new { otp = "opt not sent" });
+            var result = await _authService.VerifyOtpAsync(email, otp);
+            return Ok(new { message = result });
         }
 
-        [HttpPost("CheckOtp")]
-        public async Task<int> CheckOtp([FromBody] AuthenticationModel model)
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromQuery] string username)
         {
-            int  otpresult = await _authService.CheckOtp(model);
-
-            return otpresult;
-
-
-
+            var result = await _authService.ForgotPasswordAsync(username);
+            return Ok(new { message = result });
         }
 
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromQuery] string username, [FromQuery] string otp, [FromQuery] string password)
+        {
+            var result = await _authService.ResetPasswordAsync(username, password, otp);
+            return Ok(new { message = result });
+        }
     }
-
-
 }

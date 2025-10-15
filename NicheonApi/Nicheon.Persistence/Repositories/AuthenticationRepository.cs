@@ -2,20 +2,21 @@
 using Microsoft.Data.SqlClient;
 using Nicheon.Application.Interfaces;
 using Nicheon.Domain.Entities;
+using Nicheon.Shared;
 using System.Data;
-using BCrypt.Net;
-
-
+using System.Threading.Tasks;
 
 namespace Nicheon.Persistence.Repositories
 {
     public class AuthenticationRepository : IAuthentication
     {
         private readonly IDbConnection _db;
+        private readonly IEmailService _emailService;
 
-        public AuthenticationRepository(IDbConnection db)
+        public AuthenticationRepository(IDbConnection db, IEmailService emailService)
         {
             _db = db;
+            _emailService = emailService;
         }
 
         public async Task<string> RegisterUserAsync(AuthenticationModel model)
@@ -23,91 +24,108 @@ namespace Nicheon.Persistence.Repositories
             try
             {
                 var parameters = new DynamicParameters();
+                parameters.Add("@Username", model.Email);
+                parameters.Add("@Password", model.Password);
                 parameters.Add("@FullName", model.FullName);
-                parameters.Add("@MobileNumber", model.Mobile);
                 parameters.Add("@Email", model.Email);
-                parameters.Add("@PasswordHash", BCrypt.Net.BCrypt.HashPassword(model.Password));
+                parameters.Add("@Phone", model.Mobile);
                 parameters.Add("@Role", model.Role);
-                parameters.Add("@PANNo", model.PANNo);
 
-                if (model.Role == "Seller")
+                // Seller fields
+                parameters.Add("@BusinessName", model.BusinessName);
+                parameters.Add("@BusinessType", model.Role == "Seller" ? model.SellerTypeId.ToString() : null);
+                parameters.Add("@GSTNumber", model.GSTIN);
+                parameters.Add("@Address", model.Address);
+                parameters.Add("@Landmark", model.Landmark);
+                parameters.Add("@City", model.City);
+                parameters.Add("@State", model.State);
+                parameters.Add("@Pincode", model.Pincode);
+
+                // Output params
+                parameters.Add("@Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parameters.Add("@OutLoginId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parameters.Add("@OutOtp", dbType: DbType.String, size: 6, direction: ParameterDirection.Output);
+
+                await _db.ExecuteAsync("sp_RegisterUser", parameters, commandType: CommandType.StoredProcedure);
+
+                int result = parameters.Get<int>("@Result");
+                string otp = parameters.Get<string>("@OutOtp");
+
+                if (result == 1)
                 {
-                    parameters.Add("@SellerTypeId", model.SellerTypeId);
-                    parameters.Add("@GSTNo", model.GSTIN);
-                    parameters.Add("@ShopOrCompanyName", model.BusinessName);
-                    parameters.Add("@ShopNo", model.ShopNo);
-                    parameters.Add("@BuildingName", model.BuildingName);
-                    parameters.Add("@Landmark", model.Landmark);
-                    parameters.Add("@AddressLine", model.Address);
-                    parameters.Add("@City", model.City);
-                    parameters.Add("@State", model.State);
-                    parameters.Add("@Pincode", model.Pincode);
+                    // send OTP via email
+                    string subject = "Nicheon - Verify your account";
+                    string body = $"Your OTP is: {otp}. It will expire in 10 minutes.";
+                    await _emailService.SendEmailAsync(model.Email, subject, body);
+                    return "Registration successful. OTP sent to email.";
                 }
-                else if (model.Role == "Buyer")
-                {
-                    parameters.Add("@BusinessExperienceYears", model.Exprience);
-                    parameters.Add("@MaxPurchaseCapacity", model.Capacity);
-                }
-
-                int result = await _db.ExecuteAsync("sp_RegisterUser", parameters, commandType: CommandType.StoredProcedure);
-
-                if (result == -1)
+                else if (result == -1)
                 {
                     return "User already exists.";
                 }
-                else if (result == 1)
-                {
-                    return "User registered successfully.";
-                }
-                else
-                {
-                    return "Registration failed. Please try again.";
-                }
+                return "Registration failed.";
             }
             catch (Exception ex)
             {
-                // Log the exception if needed
-                return $"Error occurred: {ex.Message}";
+                return $"Error: {ex.Message}";
             }
         }
 
-        public async Task<string> SaveOtp(AuthenticationModel model)
+        public async Task<string> VerifyOtpAsync(string email, string otp)
         {
-            try
+            var parameters = new DynamicParameters();
+            parameters.Add("@Username", email);
+            parameters.Add("@OtpCode", otp);
+            parameters.Add("@Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            await _db.ExecuteAsync("sp_VerifyRegistrationOtp", parameters, commandType: CommandType.StoredProcedure);
+
+            int res = parameters.Get<int>("@Result");
+            return res switch
             {
-                var parameters = new DynamicParameters();
-                parameters.Add("@MobileNumber", model.Mobile);
-                parameters.Add("@OTP", model.otp); // Assuming OTP is passed as Password for simplicity
-                parameters.Add("@ExpiresAt", DateTime.UtcNow.AddMinutes(10));
-                await _db.ExecuteAsync("sp_SaveOtp", parameters, commandType: CommandType.StoredProcedure);
-                return "OTP saved successfully.";
-            }
-            catch (Exception ex)
-            {
-                // Log the exception if needed
-                return $"Error occurred while saving OTP: {ex.Message}";
-            }
+                1 => "OTP Verified",
+                -2 => "Invalid or expired OTP",
+                _ => "Verification failed"
+            };
         }
 
-        public async Task<int> CheckOtp(AuthenticationModel model)
+        public async Task<string> ForgotPasswordAsync(string username)
         {
-            try
-            {
-                int result = 0;
-                var parameters = new DynamicParameters();
-                parameters.Add("@UserId", model.Mobile);
-                parameters.Add("@OTP", model.otp); // Assuming OTP is passed as Password for simplicity
-                result = await _db.ExecuteAsync("sp_CheckOtp", parameters, commandType: CommandType.StoredProcedure);
-                return result;
+            var parameters = new DynamicParameters();
+            parameters.Add("@Username", username);
+            parameters.Add("@Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("@OutOtp", dbType: DbType.String, size: 6, direction: ParameterDirection.Output);
 
+            await _db.ExecuteAsync("sp_RequestPasswordReset", parameters, commandType: CommandType.StoredProcedure);
 
-            }
-            catch (Exception ex)
+            int r = parameters.Get<int>("@Result");
+            string otp = parameters.Get<string>("@OutOtp");
+
+            if (r == 1)
             {
-                // Log the exception if needed
-                return -1;
+                await _emailService.SendEmailAsync(username, "Password Reset OTP", $"Your code: {otp}");
+                return "Password reset OTP sent to email.";
             }
+            return "Username not found.";
         }
 
+        public async Task<string> ResetPasswordAsync(string username, string password, string otp)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Username", username);
+            parameters.Add("@Password", password);
+            parameters.Add("@OtpCode", otp);
+            parameters.Add("@Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            await _db.ExecuteAsync("sp_ResetPassword", parameters, commandType: CommandType.StoredProcedure);
+
+            int res = parameters.Get<int>("@Result");
+            return res switch
+            {
+                1 => "Password reset successful",
+                -2 => "Invalid OTP",
+                _ => "Password reset failed"
+            };
+        }
     }
 }

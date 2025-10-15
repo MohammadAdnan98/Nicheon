@@ -1,0 +1,191 @@
+USE NicheonDB1;
+GO
+
+/* =====================================================
+   1️⃣  UserLogins / Users / BusinessProfiles
+   ===================================================== */
+INSERT INTO UserLogins (Username, PasswordHash, IsActive)
+VALUES
+('royalgold@gmail.com', 'HASHED_PASS_123', 1),
+('bharatgems@gmail.com', 'HASHED_PASS_456', 1),
+('shinewholesale@gmail.com', 'HASHED_PASS_789', 1),
+('urbanglitter@gmail.com', 'HASHED_PASS_999', 1),
+('classicretail@gmail.com', 'HASHED_PASS_555', 1);
+GO
+
+INSERT INTO Users (LoginId, FullName, PrimaryEmail, PrimaryPhone, Role, IsVerified)
+VALUES
+(1, 'Rohit Mehra', 'royalgold@gmail.com', '9876543210', 'Manufacturer', 1),
+(2, 'Anil Sharma', 'bharatgems@gmail.com', '9988776655', 'Wholesaler', 1),
+(3, 'Neha Jain', 'shinewholesale@gmail.com', '9811223344', 'Wholesaler', 1),
+(4, 'Farhan Ali', 'urbanglitter@gmail.com', '9922334455', 'Retailer', 1),
+(5, 'Priya Kapoor', 'classicretail@gmail.com', '9001122334', 'Retailer', 1);
+GO
+
+INSERT INTO BusinessProfiles (UserId, BusinessName, BusinessType, GSTNumber, PAN, City, State, Country, Pincode, IsVerified)
+VALUES
+(1, 'Royal Gold Creations', 'Manufacturer', '27ABCDE1234F1Z5', 'ABCDE1234F', 'Mumbai', 'Maharashtra', 'India', '400001', 1),
+(2, 'Bharat Gems & Jewels', 'Wholesaler', '07XYZAB4567K1Z2', 'XYZAB4567K', 'Delhi', 'Delhi', 'India', '110001', 1),
+(3, 'ShineStar Wholesale', 'Wholesaler', '29LMNOP9876P1Z9', 'LMNOP9876P', 'Bengaluru', 'Karnataka', 'India', '560001', 1),
+(4, 'Urban Glitter', 'Retailer', '24QWERT1234J1Z8', 'QWERT1234J', 'Ahmedabad', 'Gujarat', 'India', '380015', 1),
+(5, 'Classic Ornaments', 'Retailer', '19POIUY5678L1Z7', 'POIUY5678L', 'Jaipur', 'Rajasthan', 'India', '302001', 1);
+GO
+
+/* =====================================================
+   2️⃣  Master Data: Metals / Jewellery Types / SubTypes / Styles
+   ===================================================== */
+INSERT INTO MetalTypes (MetalName, TypicalPurity, Description)
+VALUES
+('Gold', '22K', 'Standard gold jewellery metal used across India'),
+('Silver', '925', 'Sterling silver'),
+('Platinum', '950', 'High-end precious metal'),
+('Diamond', NULL, 'Diamond stone based jewellery'),
+('Artificial', NULL, 'Imitation or fashion jewellery');
+GO
+
+INSERT INTO JewelleryTypes (TypeName, Description)
+VALUES
+('Ring', 'Finger rings for men and women'),
+('Necklace', 'Various necklace designs'),
+('Earring', 'All types of earrings'),
+('Bangle', 'Different bangle styles'),
+('Mangalsutra', 'Traditional Indian mangalsutra jewellery');
+GO
+
+INSERT INTO JewellerySubTypes (JewelleryTypeId, SubTypeName, Description)
+VALUES
+(1, 'Wedding Band', 'Plain or diamond-studded wedding bands'),
+(1, 'Eternity Ring', 'Full diamond band symbolizing love'),
+(1, 'Couple Ring', 'Matching male-female ring set'),
+(2, 'Rani Haar', 'Long royal style necklace'),
+(2, 'Temple Necklace', 'South Indian traditional design'),
+(2, 'Choker', 'Short close-to-neck necklace'),
+(3, 'Jhumka', 'Traditional bell-shaped earrings'),
+(3, 'Stud', 'Small stone-studded earrings'),
+(3, 'Drop Earrings', 'Longer modern design earrings'),
+(4, 'Kada', 'Heavy men’s bangle design'),
+(4, 'Stone Bangle', 'Gemstone-studded bangle'),
+(5, 'Black Bead Mangalsutra', 'Traditional Indian black bead chain'),
+(5, 'Diamond Mangalsutra', 'Modern style diamond pendant mangalsutra');
+GO
+
+INSERT INTO JewelleryStyleRegions (StyleName, Country, Region, Description)
+VALUES
+('Kundan', 'India', 'Rajasthan', 'Gemstone jewellery from Jaipur'),
+('Temple', 'India', 'Tamil Nadu', 'Inspired by South Indian temples'),
+('Meenakari', 'India', 'Rajasthan', 'Colorful enamel jewellery'),
+('Polki', 'India', 'Gujarat', 'Uncut diamond style'),
+('Modern Fusion', 'India', 'Metro Cities', 'Mix of modern and traditional designs');
+GO
+
+/* =====================================================
+   3️⃣  Categories
+   ===================================================== */
+INSERT INTO Categories (ParentCategoryId, CategoryName, MetalId, JewelleryTypeId, SubTypeId, StyleId)
+VALUES
+(NULL, 'Gold Ring', 1, 1, NULL, 5),
+(NULL, 'Silver Necklace', 2, 2, 6, 3),
+(NULL, 'Gold Rani Haar', 1, 2, 4, 1),
+(NULL, 'Temple Necklace', 1, 2, 5, 2),
+(NULL, 'Diamond Mangalsutra', 4, 5, 13, 5);
+GO
+
+/* =====================================================
+   4️⃣  Products
+   ===================================================== */
+INSERT INTO Products (BusinessId, CategoryId, MetalId, JewelleryTypeId, SubTypeId, StyleId, ProductCode, ProductName, ShortDescription, Gender, Colour, Karat, WeightGrams, PricePerGram, MakingCharges, Stock, IsHallmarked)
+VALUES
+(1, 1, 1, 1, 1, 5, 'RG-RING-001', '22K Gold Wedding Band', 'Classic plain gold wedding band', 'Male', 'Yellow Gold', '22K', 8.500, 6500, 1500, 20, 1),
+(1, 3, 1, 2, 4, 1, 'RG-NECK-002', 'Rani Haar Kundan', 'Traditional Jaipur kundan long haar', 'Female', 'Yellow Gold', '22K', 68.750, 6400, 12000, 5, 1),
+(2, 4, 1, 2, 5, 2, 'BJ-NECK-003', 'Temple Necklace', 'Antique South Indian temple jewellery', 'Female', 'Yellow Gold', '22K', 55.000, 6450, 9000, 3, 1),
+(3, 5, 4, 5, 13, 5, 'SS-MANG-004', 'Diamond Pendant Mangalsutra', 'Modern mangalsutra with diamond pendant', 'Female', 'Yellow Gold', '18K', 20.300, 7100, 4000, 10, 1),
+(4, 2, 2, 2, 6, 3, 'UG-NECK-005', 'Silver Choker Necklace', '925 silver meenakari choker design', 'Female', 'Silver', '925', 42.000, 90, 1500, 15, 0);
+GO
+
+/* =====================================================
+   5️⃣  Product Images
+   ===================================================== */
+INSERT INTO ProductImages (ProductId, ImageUrl, AltText, IsPrimary)
+VALUES
+(1, '/images/products/RG-RING-001.jpg', 'Gold Wedding Band', 1),
+(2, '/images/products/RG-NECK-002.jpg', 'Kundan Rani Haar', 1),
+(3, '/images/products/BJ-NECK-003.jpg', 'Temple Necklace', 1),
+(4, '/images/products/SS-MANG-004.jpg', 'Diamond Mangalsutra', 1),
+(5, '/images/products/UG-NECK-005.jpg', 'Silver Choker Necklace', 1);
+GO
+
+/* =====================================================
+   6️⃣  Attributes
+   ===================================================== */
+INSERT INTO ProductAttributes (ProductId, AttributeName, AttributeValue)
+VALUES
+(1, 'Ring Size', '18'),
+(1, 'Finish', 'Glossy'),
+(2, 'Length (inches)', '22'),
+(2, 'Gemstone', 'Kundan'),
+(3, 'Length (inches)', '18'),
+(3, 'Theme', 'Temple'),
+(4, 'Bead Type', 'Black'),
+(4, 'Pendant Stone', 'Diamond'),
+(5, 'Finish', 'Oxidized Silver');
+GO
+
+/* =====================================================
+   7️⃣  Hallmark Details
+   ===================================================== */
+INSERT INTO HallmarkDetails (ProductId, IsHallmarked, HUID, Purity, AssayingCentre, JewellerCode, HallmarkedAt)
+VALUES
+(1, 1, 'HUID12345678', '22K', 'Mumbai BIS Centre', 'RGJ001', '2024-12-10'),
+(2, 1, 'HUID22345678', '22K', 'Jaipur BIS Centre', 'RGJ002', '2025-01-20'),
+(3, 1, 'HUID32345678', '22K', 'Chennai BIS Centre', 'BJG003', '2025-03-15'),
+(4, 1, 'HUID42345678', '18K', 'Bengaluru BIS Centre', 'SSW004', '2025-02-05');
+GO
+
+/* =====================================================
+   8️⃣  Inventory
+   ===================================================== */
+INSERT INTO StockInventory (ProductId, BusinessId, Quantity, Location)
+VALUES
+(1, 1, 20, 'Mumbai Main Factory'),
+(2, 1, 5, 'Jaipur Workshop'),
+(3, 2, 3, 'Chennai Stockroom'),
+(4, 3, 10, 'Bengaluru Warehouse'),
+(5, 4, 15, 'Ahmedabad Store');
+GO
+
+/* =====================================================
+   9️⃣  Orders / OrderItems / Payments / Shipments
+   ===================================================== */
+INSERT INTO OrdersInfo (OrderNumber, BuyerBusinessId, SellerBusinessId, SubTotal, ShippingCharges, TaxAmount, TotalAmount, DeliveryAddress, Status)
+VALUES
+('ORD1001', 4, 1, 55200, 500, 2800, 58500, 'Urban Glitter, Ahmedabad', 'Delivered'),
+('ORD1002', 5, 2, 367000, 0, 18350, 385350, 'Classic Ornaments, Jaipur', 'Shipped');
+GO
+
+INSERT INTO OrderItems (OrderId, ProductId, Quantity, UnitPrice, MakingCharges)
+VALUES
+(1, 1, 2, 6500*8.5, 1500),
+(2, 3, 5, 6450*55, 9000);
+GO
+
+INSERT INTO PaymentsDetails (OrderId, PaymentMethod, Amount, PaymentStatus, CollectedBy, CollectedOn)
+VALUES
+(1, 'BankTransfer', 58500, 'Collected', 'Royal Gold Creations', '2025-05-01'),
+(2, 'COD', 385350, 'Pending', NULL, NULL);
+GO
+
+INSERT INTO ShipmentDetails (OrderId, ShippedOn, EstimatedDelivery, DeliveredOn, ShipperName, TrackingNumber, Status)
+VALUES
+(1, '2025-04-25', '2025-04-29', '2025-04-29', 'BlueDart', 'BD123456', 'Delivered'),
+(2, '2025-10-10', '2025-10-17', NULL, 'DTDC', 'DT987654', 'Shipped');
+GO
+
+INSERT INTO OrderTracking (OrderId, Status, Message)
+VALUES
+(1, 'Delivered', 'Delivered successfully on 29 April 2025'),
+(2, 'Shipped', 'Shipment in transit via DTDC');
+GO
+
+/* =====================================================
+   ✅ DEMO DATA COMPLETE
+   ===================================================== */

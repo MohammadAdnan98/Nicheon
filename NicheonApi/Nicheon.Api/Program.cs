@@ -2,6 +2,7 @@
 using Nicheon.Application.Interfaces;
 using Nicheon.Application.Shared;
 using Nicheon.Persistence.Repositories;
+using Nicheon.Shared.SharedRepositories;
 using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +34,8 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 builder.Services.AddScoped<IUserTypeRepository, UserTypeRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAuthentication, AuthenticationRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 
 // ✅ Register the missing IOtpService
 builder.Services.AddScoped<IOtpService, OtpService>(); // ← THIS FIXES YOUR ERROR!

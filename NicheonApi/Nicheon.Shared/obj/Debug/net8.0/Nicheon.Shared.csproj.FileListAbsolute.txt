@@ -22,3 +22,12 @@ D:\Nicheon\Nicheon.Shared\obj\Debug\net8.0\Nicheon.Shared.dll
 D:\Nicheon\Nicheon.Shared\obj\Debug\net8.0\refint\Nicheon.Shared.dll
 D:\Nicheon\Nicheon.Shared\obj\Debug\net8.0\Nicheon.Shared.pdb
 D:\Nicheon\Nicheon.Shared\obj\Debug\net8.0\ref\Nicheon.Shared.dll
+C:\Nicheon\NicheonApi\Nicheon.Shared\obj\Debug\net8.0\Nicheon.Shared.csproj.AssemblyReference.cache
+C:\Nicheon\NicheonApi\Nicheon.Shared\obj\Debug\net8.0\Nicheon.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Nicheon\NicheonApi\Nicheon.Shared\obj\Debug\net8.0\Nicheon.Shared.AssemblyInfoInputs.cache
+C:\Nicheon\NicheonApi\Nicheon.Shared\obj\Debug\net8.0\Nicheon.Shared.AssemblyInfo.cs
+C:\Nicheon\NicheonApi\Nicheon.Shared\obj\Debug\net8.0\Nicheon.Shared.csproj.CoreCompileInputs.cache
+C:\Nicheon\NicheonApi\Nicheon.Shared\obj\Debug\net8.0\Nicheon.Shared.sourcelink.json
+C:\Nicheon\NicheonApi\Nicheon.Shared\obj\Debug\net8.0\Nicheon.Shared.dll
+C:\Nicheon\NicheonApi\Nicheon.Shared\obj\Debug\net8.0\refint\Nicheon.Shared.dll
+C:\Nicheon\NicheonApi\Nicheon.Shared\obj\Debug\net8.0\Nicheon.Shared.pdb

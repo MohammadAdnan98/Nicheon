@@ -1,0 +1,460 @@
+/* =========================================================
+   NicheonDB - Phase 1 (Complete DB Architecture)
+   Author: Prepared for Saiyed Mohammad Adnan
+   Date: 2025-10-14
+   Purpose: Full schema for B2B jewellery marketplace (phase 1)
+   ========================================================= */
+
+-- Drop DB if exists (CAUTION: will remove old data)
+IF DB_ID('NicheonDB') IS NOT NULL
+BEGIN
+    ALTER DATABASE NicheonDB1 SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE NicheonDB1;
+END
+GO
+
+CREATE DATABASE NicheonDB1;
+GO
+USE NicheonDB1;
+GO
+
+/* =========================================================
+   0. Utility: basic types / settings (optional)
+   ========================================================= */
+-- (none required)
+
+/* =========================================================
+   1. Authentication & Users
+   - UserLogins stores auth (username, password hash, login meta)
+   - Users stores profile & business-linked details
+   - LoginHistory and ActivityLogs for audit
+   ========================================================= */
+CREATE TABLE UserLogins (
+    LoginId INT IDENTITY(1,1) PRIMARY KEY,
+    Username NVARCHAR(150) NOT NULL UNIQUE,    -- email / phone / custom
+    PasswordHash NVARCHAR(512) NOT NULL,       -- hashed password
+    PreviousPasswordHash NVARCHAR(512) NULL,
+    Salt NVARCHAR(100) NULL,                   -- if using salted hashes
+    FailedLoginCount INT DEFAULT 0,
+    LockedUntil DATETIME2 NULL,
+    IsActive BIT DEFAULT 1,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    UpdatedAt DATETIME2 NULL
+);
+GO
+
+CREATE TABLE Users (
+    UserId INT IDENTITY(1,1) PRIMARY KEY,
+    LoginId INT NULL,                          -- FK to UserLogins
+    FullName NVARCHAR(200) NOT NULL,
+    PrimaryEmail NVARCHAR(255) NULL,
+    PrimaryPhone NVARCHAR(20) NULL,
+    Role NVARCHAR(30) NOT NULL,                -- 'Admin' | 'Manufacturer' | 'Wholesaler' | 'Retailer' | 'Buyer'
+    IsVerified BIT DEFAULT 0,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    UpdatedAt DATETIME2 NULL,
+    IsActive BIT DEFAULT 1,
+    CONSTRAINT FK_Users_Logins FOREIGN KEY (LoginId) REFERENCES UserLogins(LoginId)
+);
+GO
+
+CREATE TABLE LoginHistory (
+    LoginHistoryId INT IDENTITY(1,1) PRIMARY KEY,
+    LoginId INT NOT NULL,
+    AttemptedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    Success BIT NOT NULL,
+    IpAddress NVARCHAR(50) NULL,
+    UserAgent NVARCHAR(500) NULL,
+    CONSTRAINT FK_LoginHistory_Login FOREIGN KEY (LoginId) REFERENCES UserLogins(LoginId)
+);
+GO
+
+CREATE TABLE ActivityLogs (
+    ActivityLogId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NULL,
+    Action NVARCHAR(200) NOT NULL,
+    Details NVARCHAR(MAX) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_ActivityLogs_User FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
+GO
+
+/* =========================================================
+   2. Business profile (B2B) - each seller/manufacturer/wholesaler has a business
+   ========================================================= */
+CREATE TABLE BusinessProfiles (
+    BusinessId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,                       -- owner/contact person (Users.UserId)
+    BusinessName NVARCHAR(255) NOT NULL,
+    BusinessType NVARCHAR(50) NOT NULL CHECK (BusinessType IN ('Manufacturer','Wholesaler','Retailer','Distributor','Other')),
+    GSTNumber NVARCHAR(32) NULL,
+    PAN NVARCHAR(20) NULL,
+    ContactPerson NVARCHAR(200) NULL,
+    ContactPhone NVARCHAR(20) NULL,
+    BusinessEmail NVARCHAR(255) NULL,
+    Address NVARCHAR(500) NULL,
+    Landmark NVARCHAR(250) NULL,
+    City NVARCHAR(100) NULL,
+    State NVARCHAR(100) NULL,
+    Country NVARCHAR(100) DEFAULT 'India',
+    Pincode NVARCHAR(20) NULL,
+    IsVerified BIT DEFAULT 0,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    UpdatedAt DATETIME2 NULL,
+    IsActive BIT DEFAULT 1,
+    CONSTRAINT FK_Business_User FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
+GO
+
+/* =========================================================
+   3. Category/metadata masters (create parents first)
+   - MetalTypes, JewelleryTypes, JewellerySubTypes, Styles, Categories
+   ========================================================= */
+
+CREATE TABLE MetalTypes (
+    MetalId INT IDENTITY(1,1) PRIMARY KEY,
+    MetalName NVARCHAR(100) NOT NULL UNIQUE,   -- Gold, Silver, Platinum, Diamond etc.
+    TypicalPurity NVARCHAR(50) NULL,           -- e.g., 22K, 18K, 925
+    Description NVARCHAR(500) NULL,
+    IsActive BIT DEFAULT 1,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE())
+);
+GO
+
+CREATE TABLE JewelleryTypes (
+    JewelleryTypeId INT IDENTITY(1,1) PRIMARY KEY,
+    TypeName NVARCHAR(150) NOT NULL UNIQUE,    -- Ring, Necklace, Earring, Bangle...
+    Description NVARCHAR(500) NULL,
+    IsActive BIT DEFAULT 1,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE())
+);
+GO
+
+CREATE TABLE JewellerySubTypes (
+    SubTypeId INT IDENTITY(1,1) PRIMARY KEY,
+    JewelleryTypeId INT NOT NULL,
+    SubTypeName NVARCHAR(200) NOT NULL,        -- Wedding Band, Eternity Ring, Rani Haar
+    Description NVARCHAR(500) NULL,
+    IsActive BIT DEFAULT 1,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_JewellerySubTypes_Type FOREIGN KEY (JewelleryTypeId) REFERENCES JewelleryTypes(JewelleryTypeId)
+);
+GO
+
+CREATE TABLE JewelleryStyleRegions (
+    StyleId INT IDENTITY(1,1) PRIMARY KEY,
+    StyleName NVARCHAR(150) NOT NULL UNIQUE,   -- Punjabi, South Indian, Kundan, Arabic ...
+    Country NVARCHAR(100) NULL,
+    Region NVARCHAR(100) NULL,
+    Description NVARCHAR(500) NULL,
+    IsActive BIT DEFAULT 1,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE())
+);
+GO
+
+CREATE TABLE Categories (
+    CategoryId INT IDENTITY(1,1) PRIMARY KEY,
+    ParentCategoryId INT NULL,
+    CategoryName NVARCHAR(200) NOT NULL,
+    Slug NVARCHAR(200) NULL,
+    MetalId INT NULL,
+    JewelleryTypeId INT NULL,
+    SubTypeId INT NULL,
+    StyleId INT NULL,
+    IsActive BIT DEFAULT 1,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    UpdatedAt DATETIME2 NULL,
+    CONSTRAINT FK_Categories_Parent FOREIGN KEY (ParentCategoryId) REFERENCES Categories(CategoryId),
+    CONSTRAINT FK_Categories_Metal FOREIGN KEY (MetalId) REFERENCES MetalTypes(MetalId),
+    CONSTRAINT FK_Categories_Type FOREIGN KEY (JewelleryTypeId) REFERENCES JewelleryTypes(JewelleryTypeId),
+    CONSTRAINT FK_Categories_SubType FOREIGN KEY (SubTypeId) REFERENCES JewellerySubTypes(SubTypeId),
+    CONSTRAINT FK_Categories_Style FOREIGN KEY (StyleId) REFERENCES JewelleryStyleRegions(StyleId)
+);
+GO
+
+/* =========================================================
+   4. Products & inventory
+   - Products table stores design-level records (one design = one product entry)
+   - ProductImages, ProductAttributes (KV store), StockInventory
+   ========================================================= */
+CREATE TABLE Products (
+    ProductId INT IDENTITY(1,1) PRIMARY KEY,
+    BusinessId INT NOT NULL,                   -- owner / seller business
+    CategoryId INT NULL,
+    MetalId INT NULL,
+    JewelleryTypeId INT NULL,
+    SubTypeId INT NULL,
+    StyleId INT NULL,
+    ProductCode NVARCHAR(100) NOT NULL UNIQUE, -- design code / SKU
+    ProductName NVARCHAR(300) NOT NULL,
+    ShortDescription NVARCHAR(500) NULL,
+    Description NVARCHAR(MAX) NULL,
+    Gender NVARCHAR(20) NULL,                  -- 'Male'|'Female'|'Unisex'
+    Colour NVARCHAR(50) NULL,                  -- 'Yellow Gold','Rose Gold','White Gold','Silver'...
+    Karat NVARCHAR(20) NULL,
+    WeightGrams DECIMAL(10,3) NULL,
+    HeightCm DECIMAL(10,2) NULL,
+    WidthCm DECIMAL(10,2) NULL,
+    DepthCm DECIMAL(10,2) NULL,
+    PricePerGram DECIMAL(18,2) NULL,
+    MakingCharges DECIMAL(18,2) NULL,
+    MOQ INT DEFAULT 1,
+    Stock INT DEFAULT 0,                       -- cached stock (suitable for MVP)
+    IsHallmarked BIT DEFAULT 0,
+    IsActive BIT DEFAULT 1,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    UpdatedAt DATETIME2 NULL,
+    CONSTRAINT FK_Products_Business FOREIGN KEY (BusinessId) REFERENCES BusinessProfiles(BusinessId),
+    CONSTRAINT FK_Products_Category FOREIGN KEY (CategoryId) REFERENCES Categories(CategoryId),
+    CONSTRAINT FK_Products_Metal FOREIGN KEY (MetalId) REFERENCES MetalTypes(MetalId),
+    CONSTRAINT FK_Products_Type FOREIGN KEY (JewelleryTypeId) REFERENCES JewelleryTypes(JewelleryTypeId),
+    CONSTRAINT FK_Products_SubType FOREIGN KEY (SubTypeId) REFERENCES JewellerySubTypes(SubTypeId),
+    CONSTRAINT FK_Products_Style FOREIGN KEY (StyleId) REFERENCES JewelleryStyleRegions(StyleId)
+);
+GO
+
+CREATE TABLE ProductImages (
+    ImageId INT IDENTITY(1,1) PRIMARY KEY,
+    ProductId INT NOT NULL,
+    ImageUrl NVARCHAR(1000) NOT NULL,
+    AltText NVARCHAR(250) NULL,
+    IsPrimary BIT DEFAULT 0,
+    SortOrder INT DEFAULT 0,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    IsActive BIT DEFAULT 1,
+    CONSTRAINT FK_ProductImages_Product FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
+);
+GO
+
+CREATE TABLE ProductAttributes (
+    AttributeId INT IDENTITY(1,1) PRIMARY KEY,
+    ProductId INT NOT NULL,
+    AttributeName NVARCHAR(150) NOT NULL,      -- e.g., 'Gemstone','RingSize','HUID'
+    AttributeValue NVARCHAR(500) NOT NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_ProductAttributes_Product FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
+);
+GO
+
+CREATE TABLE HallmarkDetails (
+    HallmarkId INT IDENTITY(1,1) PRIMARY KEY,
+    ProductId INT NOT NULL UNIQUE,
+    IsHallmarked BIT NOT NULL DEFAULT 0,
+    HUID NVARCHAR(100) NULL,
+    Purity NVARCHAR(50) NULL,
+    AssayingCentre NVARCHAR(200) NULL,
+    JewellerCode NVARCHAR(100) NULL,
+    HallmarkedAt DATE NULL,
+    VerificationUrl NVARCHAR(1000) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    IsActive BIT DEFAULT 1,
+    CONSTRAINT FK_Hallmark_Product FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
+);
+GO
+
+CREATE TABLE StockInventory (
+    InventoryId INT IDENTITY(1,1) PRIMARY KEY,
+    ProductId INT NOT NULL,
+    BusinessId INT NOT NULL,                   -- which business holds this stock
+    Quantity INT NOT NULL,
+    Location NVARCHAR(200) NULL,               -- warehouse / store
+    LastUpdated DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_Stock_Product FOREIGN KEY (ProductId) REFERENCES Products(ProductId),
+    CONSTRAINT FK_Stock_Business FOREIGN KEY (BusinessId) REFERENCES BusinessProfiles(BusinessId)
+);
+GO
+
+/* =========================================================
+   5. Orders + order items
+   - OrdersInfo holds header; OrderItems holds lines; supports B2B buyer/seller pair
+   ========================================================= */
+
+CREATE TABLE OrdersInfo (
+    OrderId INT IDENTITY(1,1) PRIMARY KEY,
+    OrderNumber NVARCHAR(100) NOT NULL UNIQUE,
+    BuyerBusinessId INT NOT NULL,
+    SellerBusinessId INT NOT NULL,
+    OrderDate DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    SubTotal DECIMAL(18,2) NULL,
+    ShippingCharges DECIMAL(18,2) NULL,
+    TaxAmount DECIMAL(18,2) NULL,
+    TotalAmount DECIMAL(18,2) NULL,
+    DeliveryAddress NVARCHAR(500) NULL,
+    ExpectedDeliveryDate DATE NULL,
+    Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',
+    Notes NVARCHAR(1000) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    IsActive BIT DEFAULT 1,
+    CONSTRAINT FK_Orders_Buyer FOREIGN KEY (BuyerBusinessId) REFERENCES BusinessProfiles(BusinessId),
+    CONSTRAINT FK_Orders_Seller FOREIGN KEY (SellerBusinessId) REFERENCES BusinessProfiles(BusinessId)
+);
+GO
+
+CREATE TABLE OrderItems (
+    OrderItemId INT IDENTITY(1,1) PRIMARY KEY,
+    OrderId INT NOT NULL,
+    ProductId INT NOT NULL,
+    Quantity INT NOT NULL DEFAULT 1,
+    UnitPrice DECIMAL(18,2) NOT NULL,
+    MakingCharges DECIMAL(18,2) NULL,
+    LineTotal AS (Quantity * (UnitPrice + ISNULL(MakingCharges,0))) PERSISTED,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    IsActive BIT DEFAULT 1,
+    CONSTRAINT FK_OrderItems_Order FOREIGN KEY (OrderId) REFERENCES OrdersInfo(OrderId),
+    CONSTRAINT FK_OrderItems_Product FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
+);
+GO
+
+/* =========================================================
+   6. Payments (MVP: COD; kept generic for future online)
+   ========================================================= */
+CREATE TABLE PaymentsDetails (
+    PaymentId INT IDENTITY(1,1) PRIMARY KEY,
+    OrderId INT NOT NULL,
+    PaymentMethod NVARCHAR(50) NOT NULL DEFAULT 'COD',   -- COD / BankTransfer / UPI / Other
+    Amount DECIMAL(18,2) NOT NULL,
+    PaymentStatus NVARCHAR(50) DEFAULT 'Pending',       -- Pending | Collected | Failed | Refunded
+    CollectedBy NVARCHAR(200) NULL,
+    CollectedOn DATETIME2 NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    IsActive BIT DEFAULT 1,
+    CONSTRAINT FK_Payments_Order FOREIGN KEY (OrderId) REFERENCES OrdersInfo(OrderId)
+);
+GO
+
+/* =========================================================
+   7. Shipment / delivery tracking (MVP minimal)
+   - For Phase1 you deliver by yourself; we'll store tracking info & status updates
+   ========================================================= */
+CREATE TABLE ShipmentDetails (
+    ShipmentId INT IDENTITY(1,1) PRIMARY KEY,
+    OrderId INT NOT NULL,
+    ShippedOn DATETIME2 NULL,
+    EstimatedDelivery DATETIME2 NULL,
+    DeliveredOn DATETIME2 NULL,
+    ShipperName NVARCHAR(200) NULL,
+    TrackingNumber NVARCHAR(200) NULL,
+    Status NVARCHAR(100) DEFAULT 'Preparing',  -- Preparing | Shipped | OutForDelivery | Delivered | Returned
+    Notes NVARCHAR(1000) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_Shipment_Order FOREIGN KEY (OrderId) REFERENCES OrdersInfo(OrderId)
+);
+GO
+
+CREATE TABLE OrderTracking (
+    TrackingId INT IDENTITY(1,1) PRIMARY KEY,
+    OrderId INT NOT NULL,
+    Status NVARCHAR(100) NOT NULL,
+    Message NVARCHAR(500) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_OrderTracking_Order FOREIGN KEY (OrderId) REFERENCES OrdersInfo(OrderId)
+);
+GO
+
+/* =========================================================
+   8. Platform interaction (optional for Phase1 but included)
+   - ChatMessages, UserReviews, Wishlist, Notifications, SupportTickets
+   ========================================================= */
+CREATE TABLE ChatMessages (
+    MessageId INT IDENTITY(1,1) PRIMARY KEY,
+    FromUserId INT NOT NULL,
+    ToUserId INT NOT NULL,
+    BusinessContextId INT NULL,   -- optional link to BusinessProfiles or Orders
+    MessageText NVARCHAR(MAX) NOT NULL,
+    IsRead BIT DEFAULT 0,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_Chat_FromUser FOREIGN KEY (FromUserId) REFERENCES Users(UserId),
+    CONSTRAINT FK_Chat_ToUser FOREIGN KEY (ToUserId) REFERENCES Users(UserId)
+);
+GO
+
+CREATE TABLE UserReviews (
+    ReviewId INT IDENTITY(1,1) PRIMARY KEY,
+    ReviewerUserId INT NOT NULL,
+    BusinessId INT NULL,            -- review for seller / business
+    ProductId INT NULL,             -- or review for product
+    Rating INT NOT NULL CHECK (Rating BETWEEN 1 AND 5),
+    ReviewText NVARCHAR(2000) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_Reviews_User FOREIGN KEY (ReviewerUserId) REFERENCES Users(UserId),
+    CONSTRAINT FK_Reviews_Business FOREIGN KEY (BusinessId) REFERENCES BusinessProfiles(BusinessId),
+    CONSTRAINT FK_Reviews_Product FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
+);
+GO
+
+CREATE TABLE Wishlists (
+    WishlistId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,
+    ProductId INT NOT NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_Wishlist_User FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    CONSTRAINT FK_Wishlist_Product FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
+);
+GO
+
+CREATE TABLE Notifications (
+    NotificationId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NULL,
+    BusinessId INT NULL,
+    Title NVARCHAR(200) NOT NULL,
+    Message NVARCHAR(1000) NOT NULL,
+    IsRead BIT DEFAULT 0,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE())
+);
+GO
+
+CREATE TABLE SupportTickets (
+    TicketId INT IDENTITY(1,1) PRIMARY KEY,
+    CreatedByUserId INT NOT NULL,
+    BusinessId INT NULL,
+    Subject NVARCHAR(300) NOT NULL,
+    Message NVARCHAR(MAX) NOT NULL,
+    Status NVARCHAR(50) DEFAULT 'Open',
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_Ticket_User FOREIGN KEY (CreatedByUserId) REFERENCES Users(UserId),
+    CONSTRAINT FK_Ticket_Business FOREIGN KEY (BusinessId) REFERENCES BusinessProfiles(BusinessId)
+);
+GO
+
+/* =========================================================
+   9. Audit & housekeeping
+   - ActivityLogs already created above. Add a small system table if needed.
+   ========================================================= */
+-- (ActivityLogs and LoginHistory are above)
+
+/* =========================================================
+   10. Indexes to help common queries (add more as needed)
+   ========================================================= */
+CREATE INDEX IX_UserLogins_Username ON UserLogins(Username);
+CREATE INDEX IX_Users_Role ON Users(Role);
+CREATE INDEX IX_Business_User ON BusinessProfiles(UserId);
+CREATE INDEX IX_Products_ProductCode ON Products(ProductCode);
+CREATE INDEX IX_Products_Business ON Products(BusinessId);
+CREATE INDEX IX_Products_Type ON Products(JewelleryTypeId);
+CREATE INDEX IX_Products_Metal ON Products(MetalId);
+CREATE INDEX IX_OrderItems_Order ON OrderItems(OrderId);
+CREATE INDEX IX_Orders_Buyer ON OrdersInfo(BuyerBusinessId);
+CREATE INDEX IX_Orders_Seller ON OrdersInfo(SellerBusinessId);
+GO
+
+
+IF OBJECT_ID('dbo.UserOtps', 'U') IS NULL
+BEGIN
+    CREATE TABLE UserOtps (
+        OtpId INT IDENTITY(1,1) PRIMARY KEY,
+        LoginId INT NOT NULL,
+        OtpCode NVARCHAR(10) NOT NULL,
+        Purpose NVARCHAR(50) NOT NULL, -- 'Registration' | 'PasswordReset'
+        ExpiresAt DATETIME2 NOT NULL,
+        IsUsed BIT NOT NULL DEFAULT 0,
+        EmailSent BIT NOT NULL DEFAULT 0,
+        CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+        CONSTRAINT FK_UserOtps_Login FOREIGN KEY (LoginId) REFERENCES UserLogins(LoginId)
+    );
+END
+GO
+
+
+/* =========================================================
+   End of schema
+   ========================================================= */
