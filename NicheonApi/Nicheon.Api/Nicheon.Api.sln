@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nicheon.Api", "Nicheon.Api.csproj", "{16D58FC2-29E4-468F-9A1A-24595E8A937C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nicheon.Application", "..\Nicheon.Application\Nicheon.Application.csproj", "{835CBC14-DCD6-491C-A376-446EF14F491D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nicheon.Domain", "..\Nicheon.Domain\Nicheon.Domain.csproj", "{FCCB430B-7F78-457E-8B42-867E4E147399}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nicheon.Infrastructure", "..\Nicheon.Infrastructure\Nicheon.Infrastructure.csproj", "{DEE1BAAD-E852-4305-B981-C7FBC0F16622}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nicheon.Persistence", "..\Nicheon.Persistence\Nicheon.Persistence.csproj", "{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nicheon.Shared", "..\Nicheon.Shared\Nicheon.Shared.csproj", "{D3AA3C7C-6F89-4310-9158-65ED71D3F845}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nicheon.Tests", "..\Nicheon.Tests\Nicheon.Tests.csproj", "{9D35B647-FA0B-4E61-BB1F-8947B755ADCC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16D58FC2-29E4-468F-9A1A-24595E8A937C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16D58FC2-29E4-468F-9A1A-24595E8A937C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16D58FC2-29E4-468F-9A1A-24595E8A937C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16D58FC2-29E4-468F-9A1A-24595E8A937C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{835CBC14-DCD6-491C-A376-446EF14F491D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{835CBC14-DCD6-491C-A376-446EF14F491D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{835CBC14-DCD6-491C-A376-446EF14F491D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{835CBC14-DCD6-491C-A376-446EF14F491D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCCB430B-7F78-457E-8B42-867E4E147399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCCB430B-7F78-457E-8B42-867E4E147399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCCB430B-7F78-457E-8B42-867E4E147399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCCB430B-7F78-457E-8B42-867E4E147399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEE1BAAD-E852-4305-B981-C7FBC0F16622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE1BAAD-E852-4305-B981-C7FBC0F16622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE1BAAD-E852-4305-B981-C7FBC0F16622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE1BAAD-E852-4305-B981-C7FBC0F16622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3AA3C7C-6F89-4310-9158-65ED71D3F845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3AA3C7C-6F89-4310-9158-65ED71D3F845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3AA3C7C-6F89-4310-9158-65ED71D3F845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3AA3C7C-6F89-4310-9158-65ED71D3F845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D35B647-FA0B-4E61-BB1F-8947B755ADCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D35B647-FA0B-4E61-BB1F-8947B755ADCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D35B647-FA0B-4E61-BB1F-8947B755ADCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D35B647-FA0B-4E61-BB1F-8947B755ADCC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Nicheon.Domain/1.0.0": {
+        "runtime": {
+          "Nicheon.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Nicheon.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
