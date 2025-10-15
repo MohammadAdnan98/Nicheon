@@ -11,4 +11,8 @@
     <PackageReference Include="FluentValidation" Version="12.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Nicheon.Application\Nicheon.Application.csproj" />
+  </ItemGroup>
+
 </Project>

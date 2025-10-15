@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Nicheon.Persistence")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5fc8df06bdf6e41cf66c39dbbe3603cbad73af0a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6ab86b2e664447eeea7f75f96f391987598d8cd8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Nicheon.Persistence")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Nicheon.Persistence")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

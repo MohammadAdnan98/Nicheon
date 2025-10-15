@@ -204,6 +204,29 @@
             "related": ".xml"
           }
         }
+      },
+      "Nicheon.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Nicheon.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Nicheon.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Nicheon.Application.dll": {}
+        }
+      },
+      "Nicheon.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Nicheon.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Nicheon.Domain.dll": {}
+        }
       }
     }
   },
@@ -580,32 +603,43 @@
         "microsoft.identitymodel.tokens.8.0.1.nupkg.sha512",
         "microsoft.identitymodel.tokens.nuspec"
       ]
+    },
+    "Nicheon.Application/1.0.0": {
+      "type": "project",
+      "path": "../Nicheon.Application/Nicheon.Application.csproj",
+      "msbuildProject": "../Nicheon.Application/Nicheon.Application.csproj"
+    },
+    "Nicheon.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Nicheon.Domain/Nicheon.Domain.csproj",
+      "msbuildProject": "../Nicheon.Domain/Nicheon.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "AutoMapper >= 15.0.1",
-      "FluentValidation >= 12.0.0"
+      "FluentValidation >= 12.0.0",
+      "Nicheon.Application >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\adnan.mohd\\.nuget\\packages\\": {},
+    "C:\\Users\\adnan\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Nicheon\\NicheonApi\\Nicheon.Shared\\Nicheon.Shared.csproj",
+      "projectUniqueName": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Shared\\Nicheon.Shared.csproj",
       "projectName": "Nicheon.Shared",
-      "projectPath": "C:\\Nicheon\\NicheonApi\\Nicheon.Shared\\Nicheon.Shared.csproj",
-      "packagesPath": "C:\\Users\\adnan.mohd\\.nuget\\packages\\",
-      "outputPath": "C:\\Nicheon\\NicheonApi\\Nicheon.Shared\\obj\\",
+      "projectPath": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Shared\\Nicheon.Shared.csproj",
+      "packagesPath": "C:\\Users\\adnan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Shared\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\adnan.mohd\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\adnan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -614,12 +648,17 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Nicheon.Application.csproj": {
+              "projectPath": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Nicheon.Application.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -632,7 +671,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -663,7 +702,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

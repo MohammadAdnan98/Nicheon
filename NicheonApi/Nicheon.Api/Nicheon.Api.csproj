@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nicheon.Application\Nicheon.Application.csproj" />
-    <ProjectReference Include="..\Nicheon.Infrastructure\Nicheon.Infrastructure.csproj" />
     <ProjectReference Include="..\Nicheon.Persistence\Nicheon.Persistence.csproj" />
     <ProjectReference Include="..\Nicheon.Shared\Nicheon.Shared.csproj" />
   </ItemGroup>

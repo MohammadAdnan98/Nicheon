@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nicheon.Domain\Nicheon.Domain.csproj" />
-    <ProjectReference Include="..\Nicheon.Shared\Nicheon.Shared.csproj" />
   </ItemGroup>
 
 </Project>

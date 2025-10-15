@@ -32,3 +32,15 @@ C:\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\Nicheon.Domain.dll
 C:\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\refint\Nicheon.Domain.dll
 C:\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\Nicheon.Domain.pdb
 C:\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\ref\Nicheon.Domain.dll
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\bin\Debug\net8.0\Nicheon.Domain.deps.json
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\bin\Debug\net8.0\Nicheon.Domain.dll
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\bin\Debug\net8.0\Nicheon.Domain.pdb
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\Nicheon.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\Nicheon.Domain.AssemblyInfoInputs.cache
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\Nicheon.Domain.AssemblyInfo.cs
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\Nicheon.Domain.csproj.CoreCompileInputs.cache
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\Nicheon.Domain.sourcelink.json
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\Nicheon.Domain.dll
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\refint\Nicheon.Domain.dll
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\Nicheon.Domain.pdb
+C:\Users\adnan\Nicheon\NicheonApi\Nicheon.Domain\obj\Debug\net8.0\ref\Nicheon.Domain.dll

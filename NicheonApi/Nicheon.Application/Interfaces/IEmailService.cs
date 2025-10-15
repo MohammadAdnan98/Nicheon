@@ -9,4 +9,6 @@ namespace Nicheon.Application.Interfaces
         /// </summary>
         Task SendEmailAsync(string toEmail, string subject, string body);
     }
+
+
 }

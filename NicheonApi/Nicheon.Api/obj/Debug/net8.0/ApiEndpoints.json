@@ -1,34 +1,24 @@
 [
   {
     "ContainingType": "Nicheon.Api.Controllers.AuthController",
-    "Method": "CheckOtp",
-    "RelativePath": "api/Auth/CheckOtp",
+    "Method": "ForgotPassword",
+    "RelativePath": "api/Auth/ForgotPassword",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "model",
-        "Type": "Nicheon.Domain.Entities.AuthenticationModel",
-        "IsRequired": true
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Int32",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.AuthController",
-    "Method": "ResendOtp",
-    "RelativePath": "api/Auth/ResendOtp",
+    "Method": "Register",
+    "RelativePath": "api/Auth/Register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -43,16 +33,47 @@
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.AuthController",
-    "Method": "RegisterUser",
-    "RelativePath": "api/Auth/UserRegistration",
+    "Method": "ResetPassword",
+    "RelativePath": "api/Auth/ResetPassword",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "model",
-        "Type": "Nicheon.Domain.Entities.AuthenticationModel",
-        "IsRequired": true
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "otp",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.AuthController",
+    "Method": "VerifyOtp",
+    "RelativePath": "api/Auth/VerifyOtp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "otp",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

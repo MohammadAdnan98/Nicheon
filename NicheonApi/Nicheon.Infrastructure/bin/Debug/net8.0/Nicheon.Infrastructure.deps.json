@@ -140,10 +140,21 @@
           }
         }
       },
+      "Nicheon.Application/1.0.0": {
+        "dependencies": {
+          "Nicheon.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Nicheon.Application.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Nicheon.Domain/1.0.0": {
         "runtime": {
           "Nicheon.Domain.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -151,11 +162,12 @@
       "Nicheon.Shared/1.0.0": {
         "dependencies": {
           "AutoMapper": "15.0.1",
-          "FluentValidation": "12.0.0"
+          "FluentValidation": "12.0.0",
+          "Nicheon.Application": "1.0.0"
         },
         "runtime": {
           "Nicheon.Shared.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -251,6 +263,11 @@
       "sha512": "sha512-kDimB6Dkd3nkW2oZPDkMkVHfQt3IDqO5gL0oa8WVy3OP4uE8Ij+8TXnqg9TOd9ufjsY3IDiGz7pCUbnfL18tjg==",
       "path": "microsoft.identitymodel.tokens/8.0.1",
       "hashPath": "microsoft.identitymodel.tokens.8.0.1.nupkg.sha512"
+    },
+    "Nicheon.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Nicheon.Domain/1.0.0": {
       "type": "project",
