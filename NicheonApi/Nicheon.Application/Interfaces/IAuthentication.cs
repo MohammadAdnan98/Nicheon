@@ -1,28 +1,16 @@
-﻿using Nicheon.Domain.Entities;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Nicheon.Domain.Entities;
 
 namespace Nicheon.Application.Interfaces
 {
     public interface IAuthentication
     {
-        /// <summary>
-        /// Register a new user and send OTP to email
-        /// </summary>
-        Task<string> RegisterUserAsync(AuthenticationModel model);
-
-        /// <summary>
-        /// Verify OTP during registration
-        /// </summary>
+        Task<string> RegisterUserAsync(RegisterModel model);
         Task<string> VerifyOtpAsync(string email, string otp);
-
-        /// <summary>
-        /// Send password reset OTP to user's email
-        /// </summary>
         Task<string> ForgotPasswordAsync(string username);
+        Task<string> ResetPasswordAsync(string username, string newPassword, string otp);
 
-        /// <summary>
-        /// Reset password using OTP
-        /// </summary>
-        Task<string> ResetPasswordAsync(string username, string password, string otp);
+        Task<(string message, LoginResponseModel? data)> LoginAsync(LoginModel model);
+
     }
 }

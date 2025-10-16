@@ -1,0 +1,43 @@
+# Visual Studio user-specific files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# Node modules (if you have frontend)
+node_modules/
+
+# Environment and config
+.env
+appsettings.Development.json
+
+# Others
+_ReSharper*/
+*.cache
+*.dbmdl
+*.bak
+*.log
+*.ldf
+*.mdf

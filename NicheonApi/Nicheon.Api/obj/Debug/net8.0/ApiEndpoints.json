@@ -8,9 +8,25 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "username",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "model",
+        "Type": "Nicheon.Domain.Entities.ForgotPasswordModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Nicheon.Domain.Entities.LoginModel",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -25,7 +41,7 @@
     "Parameters": [
       {
         "Name": "model",
-        "Type": "Nicheon.Domain.Entities.AuthenticationModel",
+        "Type": "Nicheon.Domain.Entities.RegisterModel",
         "IsRequired": true
       }
     ],
@@ -40,19 +56,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "username",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "otp",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "password",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "model",
+        "Type": "Nicheon.Domain.Entities.ResetPasswordModel",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -66,14 +72,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "otp",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "model",
+        "Type": "Nicheon.Domain.Entities.VerifyOtpModel",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

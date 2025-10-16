@@ -16,32 +16,55 @@ namespace Nicheon.Api.Controllers
             _authService = authService;
         }
 
+        // ---------------- Register ----------------
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] AuthenticationModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var result = await _authService.RegisterUserAsync(model);
             return Ok(new { message = result });
         }
 
+        // ---------------- Verify OTP ----------------
         [HttpPost("VerifyOtp")]
-        public async Task<IActionResult> VerifyOtp([FromQuery] string email, [FromQuery] string otp)
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpModel model)
         {
-            var result = await _authService.VerifyOtpAsync(email, otp);
+            var result = await _authService.VerifyOtpAsync(model.Email, model.Otp);
             return Ok(new { message = result });
         }
 
+        // ---------------- Forgot Password ----------------
         [HttpPost("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword([FromQuery] string username)
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
         {
-            var result = await _authService.ForgotPasswordAsync(username);
+            var result = await _authService.ForgotPasswordAsync(model.Email);
             return Ok(new { message = result });
         }
 
+        // ---------------- Reset Password ----------------
         [HttpPost("ResetPassword")]
-        public async Task<IActionResult> ResetPassword([FromQuery] string username, [FromQuery] string otp, [FromQuery] string password)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordModel model)
         {
-            var result = await _authService.ResetPasswordAsync(username, password, otp);
+            var result = await _authService.ResetPasswordAsync(model.Email, model.NewPassword, model.Otp);
             return Ok(new { message = result });
         }
+
+        // ---------------- Login ----------------
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var (message, data) = await _authService.LoginAsync(model);
+
+            if (data != null)
+                return Ok(new { message, user = data });
+
+            return Unauthorized(new { message });
+        }
+
     }
 }
