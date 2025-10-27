@@ -21,7 +21,7 @@ namespace Nicheon.Persistence.Repositories
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            var sql = "SELECT * FROM Products";
+            var sql = "SELECT * FROM Users";
             return await _db.QueryAsync<Product>(sql);
         }
 

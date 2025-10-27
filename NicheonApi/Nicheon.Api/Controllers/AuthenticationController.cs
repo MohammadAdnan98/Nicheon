@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Nicheon.Application.Interfaces;
 using Nicheon.Domain.Entities;
 using System.Threading.Tasks;
 
 namespace Nicheon.Api.Controllers
 {
+    [AllowAnonymous]  // ✅ This controller does not require token unless we specify
     [ApiController]
     [Route("api/[controller]")]
+
     public class AuthController : ControllerBase
     {
         private readonly IAuthentication _authService;
@@ -17,6 +20,7 @@ namespace Nicheon.Api.Controllers
         }
 
         // ---------------- Register ----------------
+        [AllowAnonymous]
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
@@ -28,6 +32,7 @@ namespace Nicheon.Api.Controllers
         }
 
         // ---------------- Verify OTP ----------------
+        [AllowAnonymous]
         [HttpPost("VerifyOtp")]
         public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpModel model)
         {
@@ -36,6 +41,7 @@ namespace Nicheon.Api.Controllers
         }
 
         // ---------------- Forgot Password ----------------
+        [AllowAnonymous]
         [HttpPost("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
         {
@@ -44,6 +50,7 @@ namespace Nicheon.Api.Controllers
         }
 
         // ---------------- Reset Password ----------------
+        [AllowAnonymous]
         [HttpPost("ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordModel model)
         {
@@ -52,6 +59,7 @@ namespace Nicheon.Api.Controllers
         }
 
         // ---------------- Login ----------------
+        [AllowAnonymous]
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
