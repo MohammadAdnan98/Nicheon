@@ -314,6 +314,7 @@ C:\Nicheon\NicheonApi\Nicheon.Api\bin\Debug\net8.0\Azure.Identity.dll
 C:\Nicheon\NicheonApi\Nicheon.Api\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Nicheon\NicheonApi\Nicheon.Api\bin\Debug\net8.0\Dapper.dll
 C:\Nicheon\NicheonApi\Nicheon.Api\bin\Debug\net8.0\FluentValidation.dll
+C:\Nicheon\NicheonApi\Nicheon.Api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Nicheon\NicheonApi\Nicheon.Api\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Nicheon\NicheonApi\Nicheon.Api\bin\Debug\net8.0\Microsoft.Bcl.Cryptography.dll
 C:\Nicheon\NicheonApi\Nicheon.Api\bin\Debug\net8.0\Microsoft.Bcl.Memory.dll

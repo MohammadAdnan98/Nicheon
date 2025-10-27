@@ -83,17 +83,20 @@ namespace Nicheon.Domain.Entities
     {
         public int UserId { get; set; }
         public int LoginId { get; set; }
-        public string Username { get; set; }
-        public string FullName { get; set; }
-        public string PrimaryEmail { get; set; }
-        public string PrimaryPhone { get; set; }
-        public string Role { get; set; }
+        public string Username { get; set; } = "";
+        public string FullName { get; set; } = "";
+        public string PrimaryEmail { get; set; } = "";
+        public string PrimaryPhone { get; set; } = "";
+        public string Role { get; set; } = "";
         public string? BusinessName { get; set; }
         public string? BusinessType { get; set; }
         public string? GSTNumber { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
         public string? Pincode { get; set; }
+
+        // JWT token will be set after SP runs
+        public string? Token { get; set; }
     }
 
 }

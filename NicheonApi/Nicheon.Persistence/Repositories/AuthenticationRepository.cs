@@ -11,12 +11,17 @@ namespace Nicheon.Persistence.Repositories
     public class AuthenticationRepository : IAuthentication
     {
         private readonly IDbConnection _db;
-        private readonly IEmailService _emailService;
+        private readonly IEmailService _emailService;     // keep (used by your other flows)
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public AuthenticationRepository(IDbConnection db, IEmailService emailService)
+        public AuthenticationRepository(
+            IDbConnection db,
+            IEmailService emailService,
+            IJwtTokenService jwtTokenService)
         {
             _db = db;
             _emailService = emailService;
+            _jwtTokenService = jwtTokenService;
         }
 
         // -------------------------------------------------------
@@ -166,30 +171,30 @@ namespace Nicheon.Persistence.Repositories
         {
             try
             {
-                var parameters = new DynamicParameters();
-                parameters.Add("@Username", model.Username);
-                parameters.Add("@Password", model.Password);
-                parameters.Add("@Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                var p = new DynamicParameters();
+                p.Add("@Username", model.Username);
+                p.Add("@Password", model.Password);
+                p.Add("@Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                var resultSet = await _db.QueryAsync<LoginResponseModel>(
+                var rs = await _db.QueryAsync<LoginResponseModel>(
                     "sp_LoginUser",
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
+                    p,
+                    commandType: CommandType.StoredProcedure);
 
-                int result = parameters.Get<int>("@Result");
+                int result = p.Get<int>("@Result");
 
-                if (result == -1)
-                    return ("Invalid username or password.", null);
-                else if (result == -2)
-                    return ("Your account is not verified yet. Please verify your OTP.", null);
-                else if (result == 1)
-                {
-                    var user = resultSet.FirstOrDefault();
-                    return ("Login successful.", user);
-                }
+                if (result == -1) return ("Invalid username or password.", null);
+                if (result == -2) return ("Your account is not verified yet. Please verify your OTP.", null);
+                if (result != 1) return ("Login failed. Please try again.", null);
 
-                return ("Login failed. Please try again.", null);
+                var user = rs.FirstOrDefault();
+                if (user == null) return ("Login failed. No user data.", null);
+
+                var token = _jwtTokenService.GenerateToken(
+                    user.UserId.ToString(), user.FullName, user.PrimaryEmail, user.Role);
+
+                user.Token = token;
+                return ("Login successful.", user);
             }
             catch (Exception ex)
             {
