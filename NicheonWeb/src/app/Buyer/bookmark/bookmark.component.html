@@ -1,0 +1,96 @@
+<div class="container-fluid saved-page py-4 px-md-5 px-3">
+  <!-- Page Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+    <div>
+      <h2 class="mb-1 fw-bold text-primary-emphasis">💖 Saved Items</h2>
+      <p class="text-muted mb-0">Your favorite scrap listings — all in one place.</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="card filter-bar p-4 rounded-4 shadow mb-4 sticky-top bg-light z-1">
+    <div class="row g-3">
+      <div class="col-md-6 col-lg-4">
+        <label class="form-label small fw-semibold text-secondary">Status</label>
+        <select class="form-select rounded-pill shadow-sm" [(ngModel)]="filters.status" (change)="applyFilters()">
+          <option value="All">All</option>
+          <option value="Available">Available</option>
+          <option value="Expired">Expired</option>
+          <option value="Sold">Sold</option>
+        </select>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <label class="form-label small fw-semibold text-secondary">Sort By</label>
+        <select class="form-select rounded-pill shadow-sm" [(ngModel)]="filters.sortBy" (change)="applyFilters()">
+          <option value="recent">Most Recently Saved</option>
+          <option value="expiring">Soonest Expiring</option>
+          <option value="priceHigh">Highest Price</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saved Items Grid -->
+  <div class="row g-4">
+    <div class="col-xl-3 col-lg-4 col-md-6" *ngFor="let item of filteredListings">
+      <div class="card shadow-lg rounded-4 border border-2 border-light-subtle h-100">
+        <div class="ratio ratio-1x1">
+          <img [src]="item.image" class="card-img-top object-fit-cover rounded-top-4" alt="scrap">
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="fw-semibold text-dark">🏷 {{ item.type }}</h5>
+          <p class="mb-1 text-muted">⚖ {{ item.weight }}</p>
+          <p class="mb-1 text-muted">📍 {{ item.city }}, {{ item.state }}</p>
+          <p class="mb-1 text-muted">⏳ {{ item.expiry }}</p>
+          <p class="mb-1"><span class="badge rounded-pill" [ngClass]="{
+            'bg-success': item.status === 'Available',
+            'bg-danger': item.status === 'Expired',
+            'bg-secondary': item.status === 'Sold'
+          }">{{ item.status }}</span></p>
+          <p class="text-success fw-bold fs-5">₹{{ item.price }}</p>
+          <p class="text-muted small">🧍‍♂️ {{ item.sellerName }} <span *ngIf="item.verified" class="badge bg-success ms-2">Verified</span></p>
+          <div class="mt-auto">
+            <button class="btn btn-success btn-sm rounded-pill w-100 mb-2" (click)="startChat(item)">💬 Message Seller</button>
+            <button class="btn btn-outline-dark btn-sm rounded-pill w-100 mb-2" (click)="callSeller(item)">📞 Call</button>
+            <button class="btn btn-outline-danger btn-sm rounded-pill w-100" (click)="removeSaved(item)">❌ Remove</button>
+            <div class="form-check mt-2">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="item.remind" id="reminder-{{item.id}}">
+              <label class="form-check-label small text-secondary" for="reminder-{{item.id}}">
+                🛎️ Remind me before this expires
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="filteredListings.length === 0" class="text-center py-5">
+    <p class="text-muted fs-5">You haven’t saved any listings yet. Start browsing and tap the 🔖 icon.</p>
+  </div>
+</div>
+
+<!-- Bottom Navigation (Always Visible) -->
+<nav class="navbar fixed-bottom bg-white border-top shadow-sm d-flex d-md-flex justify-content-around py-2 z-3">
+  <a routerLink="/home" class="text-center text-decoration-none text-dark">
+    <i class="bi bi-house-fill fs-5"></i>
+    <div class="small">Home</div>
+  </a>
+  <a routerLink="/browse" class="text-center text-decoration-none text-dark">
+    <i class="bi bi-search fs-5"></i>
+    <div class="small">Browse</div>
+  </a>
+  <a routerLink="/messages" class="text-center text-decoration-none text-dark">
+    <i class="bi bi-chat-dots fs-5"></i>
+    <div class="small">Messages</div>
+  </a>
+  <a routerLink="/saved" class="text-center text-primary text-decoration-none">
+    <i class="bi bi-bookmark-fill fs-5"></i>
+    <div class="small">Saved</div>
+  </a>
+  <a routerLink="/profile" class="text-center text-decoration-none text-dark">
+    <i class="bi bi-person fs-5"></i>
+    <div class="small">Profile</div>
+  </a>
+</nav>

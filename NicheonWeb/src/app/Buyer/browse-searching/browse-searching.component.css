@@ -1,0 +1,70 @@
+.browse-page h2 {
+  font-size: 1.8rem;
+}
+
+.filter-bar .form-select,
+.filter-bar .form-control {
+  min-height: 42px;
+}
+
+.scrap-card img {
+  object-fit: cover;
+}
+
+.scrap-card .btn {
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .browse-page h2 {
+    font-size: 1.4rem;
+  }
+  .scrap-card .btn {
+    font-size: 0.75rem;
+  }
+  .filter-bar .form-label {
+    font-size: 0.8rem;
+  }
+  .filter-bar .form-select,
+  .filter-bar .form-control {
+    font-size: 0.85rem;
+  }
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1050;
+  font-size: 13px;
+  background-color: #fff;
+  border-top: 1px solid #dee2e6;
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  color: #333;
+  flex: 1;
+  transition: all 0.2s ease-in-out;
+}
+
+.bottom-nav a:hover {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.bottom-nav .nav-label {
+  font-size: 11px;
+}
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    height: 70px;
+    font-size: 14px;
+  }
+  .bottom-nav .nav-label {
+    font-size: 12px;
+  }
+}

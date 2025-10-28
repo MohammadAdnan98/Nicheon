@@ -1,0 +1,81 @@
+<!-- seller-dashboard.component.html -->
+<div class="seller-dashboard-container">
+  <!-- Top Bar -->
+  <div class="top-bar d-flex justify-content-between align-items-center px-3 py-2">
+    <img src="assets\Image\LumaJewalLogo.png" alt="LumaJweal Logo" class="logo-img">
+    <div>
+      <i class="bi bi-bell me-3 fs-5"></i>
+      <i class="bi bi-person-circle fs-5"></i>
+    </div>
+  </div>
+
+  <!-- Seller Summary -->
+  <div class="summary-card card p-3 m-3">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h6 class="mb-1">Mohit Jewellers <span class="badge bg-success">✅ Verified</span></h6>
+        <p class="text-muted mb-1 small">Subscription: <strong>Free</strong></p>
+      </div>
+      <button class="btn btn-success btn-sm">+ Add Scrap</button>
+    </div>
+    <div class="mt-2 d-flex justify-content-between">
+      <p class="mb-0 small">Scrap Active: <strong>3</strong></p>
+      <p class="mb-0 small">Buyer Interests: <strong>5+</strong></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- My Listings -->
+    <div class="section">
+      <h6 class="section-title">📦 My Listings</h6>
+      <div class="row g-3">
+        <div class="col-12 col-md-6 col-lg-4" *ngFor="let item of listings">
+          <div class="card p-3">
+            <p class="mb-1 fw-semibold">{{ item.scrapType }}</p>
+            <p class="mb-1 small">Weight: {{ item.weight }}</p>
+            <p class="mb-1 small">Expected Price: ₹{{ item.price }}</p>
+            <p class="mb-1 small">Buyers Interested: {{ item.buyers }}</p>
+            <span class="badge bg-info text-dark">{{ item.status }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contract Offers -->
+    <div class="section mt-4">
+      <h6 class="section-title">🤝 Contract Offers from Recyclers</h6>
+      <div class="card p-3 mb-3" *ngFor="let offer of offers">
+        <p class="mb-1">Buyer: <strong>{{ offer.buyer }}</strong></p>
+        <p class="mb-1">Offer: ₹{{ offer.price }}/month</p>
+        <p class="mb-1">Duration: {{ offer.duration }}</p>
+        <div class="mt-2">
+          <button class="btn btn-sm btn-success me-2">Accept</button>
+          <button class="btn btn-sm btn-outline-secondary">Reject</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages Preview -->
+    <div class="section mt-4">
+      <h6 class="section-title">💬 Messages</h6>
+      <div class="card p-2 mb-2" *ngFor="let msg of messages">
+        <p class="mb-1 small"><strong>{{ msg.buyer }}:</strong> {{ msg.preview }}</p>
+      </div>
+      <button class="btn btn-outline-dark w-100">Open Full Chat</button>
+    </div>
+
+    <!-- Promote Listing -->
+    <div class="section mt-4 text-center">
+      <button class="btn btn-dark">🚀 Promote Your Listing</button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation (mobile only) -->
+  <div class="bottom-nav d-flex">
+    <div><i class="bi bi-house"></i><p>Home</p></div>
+    <div><i class="bi bi-card-list"></i><p>Listings</p></div>
+    <div><i class="bi bi-plus-circle"></i><p>Add</p></div>
+    <div><i class="bi bi-chat-dots"></i><p>Messages</p></div>
+    <div><i class="bi bi-person"></i><p>Profile</p></div>
+  </div>
+</div>

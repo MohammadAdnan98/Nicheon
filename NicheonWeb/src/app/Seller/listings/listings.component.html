@@ -1,0 +1,68 @@
+<!-- seller-my-listings.component.html -->
+<div class="my-listings-container">
+  <!-- Top Bar -->
+  <div class="top-bar d-flex justify-content-between align-items-center px-3 py-2">
+    <h5 class="mb-0">My Listings</h5>
+    <button class="btn btn-success btn-sm">📤 Add New Listing</button>
+  </div>
+
+  <!-- Subheading -->
+  <div class="px-3 pb-2 text-muted small">
+    Track and manage your posted scrap.
+  </div>
+
+  <!-- Filter & Sort -->
+  <div class="filter-sort-bar d-flex justify-content-between align-items-center px-3 pb-2">
+    <select class="form-select form-select-sm w-50">
+      <option>All</option>
+      <option>Active</option>
+      <option>Expired</option>
+      <option>Sold</option>
+    </select>
+    <select class="form-select form-select-sm w-50">
+      <option>Newest</option>
+      <option>Highest Interest</option>
+    </select>
+  </div>
+
+  <!-- Listings Grid -->
+  <div class="row g-3 px-3">
+    <div class="col-12 col-sm-6 col-md-4" *ngFor="let listing of listings">
+      <div class="card p-2 h-100">
+        <img [src]="listing.image" class="img-fluid rounded mb-2" alt="scrap-thumbnail">
+        <p class="fw-semibold mb-1">🏷 {{ listing.scrapType }}</p>
+        <p class="small mb-1">⚖ Weight: {{ listing.weight }}</p>
+        <p class="small mb-1">₹ {{ listing.price }}</p>
+        <p class="small mb-1">📍 {{ listing.location }}</p>
+        <span class="badge mb-2" [ngClass]="{
+          'bg-success': listing.status === 'Active',
+          'bg-secondary': listing.status === 'Expired',
+          'bg-warning': listing.status === 'Sold' }">{{ listing.status }}</span>
+        <p class="small text-muted mb-2">🧍‍♂️ {{ listing.buyers }} Buyers Interested</p>
+
+        <div class="btn-group d-flex gap-1">
+          <button class="btn btn-outline-primary btn-sm w-100">📝 Edit</button>
+          <button class="btn btn-outline-danger btn-sm w-100">🗑 Delete</button>
+        </div>
+        <div class="btn-group d-flex gap-1 mt-1">
+          <button class="btn btn-outline-success btn-sm w-100">✔️ Sold</button>
+          <button class="btn btn-outline-dark btn-sm w-100">🔍 View</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination (optional) -->
+  <div class="text-center mt-4">
+    <button class="btn btn-outline-secondary btn-sm">Load More</button>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav d-flex">
+    <div><i class="bi bi-house"></i><p>Home</p></div>
+    <div><i class="bi bi-card-list"></i><p>Listings</p></div>
+    <div><i class="bi bi-plus-circle"></i><p>Add</p></div>
+    <div><i class="bi bi-chat-dots"></i><p>Messages</p></div>
+    <div><i class="bi bi-person"></i><p>Profile</p></div>
+  </div>
+</div>

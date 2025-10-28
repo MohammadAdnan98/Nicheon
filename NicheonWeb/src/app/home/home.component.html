@@ -1,0 +1,91 @@
+<!-- home.component.html -->
+<div class="home-container container-fluid">
+  <!-- Logo -->
+  <div class="logo-section text-center py-3">
+    <img
+      src="assets/Image/NicheonLogo.png"
+      alt="Nicheon Logo"
+      class="logo-img mb-2"
+    />
+    <p class="tagline">Empowering the Jewelry Industry — Digitally</p>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero-section text-center px-3">
+    <h2 class="hero-title">
+      Connect. Trade. Grow — All on <span class="highlight">Nicheon</span>
+    </h2>
+    <p class="hero-subtitle">
+      India’s first verified B2B jewelry business platform for Buyers,
+      Sellers, Wholesalers, and Manufacturers.
+    </p>
+
+    <!-- Role Buttons -->
+    <div class="role-buttons">
+      <button class="btn btn-sell mb-2 w-100" (click)="navigate('seller')">
+        <i class="bi bi-gem me-2"></i> I'm a Seller / Manufacturer
+      </button>
+      <button class="btn btn-buy w-100" (click)="navigate('buyer')">
+        <i class="bi bi-cart4 me-2"></i> I'm a Buyer / Retailer
+      </button>
+    </div>
+
+    <!-- Features -->
+    <div class="features-section row text-center px-3 py-4">
+      <div class="feature-box col-6 col-md-3">
+        <i class="bi bi-patch-check-fill feature-icon"></i>
+        <p>Verified Businesses</p>
+      </div>
+      <div class="feature-box col-6 col-md-3">
+        <i class="bi bi-lightning-charge-fill feature-icon"></i>
+        <p>Instant Connections</p>
+      </div>
+      <div class="feature-box col-6 col-md-3">
+        <i class="bi bi-lock-fill feature-icon"></i>
+        <p>Secure & Transparent</p>
+      </div>
+      <div class="feature-box col-6 col-md-3">
+        <i class="bi bi-graph-up-arrow feature-icon"></i>
+        <p>Grow Your Business</p>
+      </div>
+    </div>
+
+    <!-- How It Works + Trust -->
+    <div class="how-trust-wrapper px-3 py-4">
+      <div class="row">
+        <div class="col-12 col-md-6 mb-4 mb-md-0">
+          <div class="how-it-works p-3 h-100 shadow-sm rounded">
+            <h4 class="section-title">How Nicheon Works</h4>
+            <ul class="step-list">
+              <li>🧭 Create your verified business profile</li>
+              <li>💍 Post products, offers, or buying requirements</li>
+              <li>💬 Connect directly with verified businesses</li>
+              <li>💸 Trade securely and grow your network</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="trust-section p-3 h-100 shadow-sm rounded">
+            <h4 class="section-title">Why Businesses Trust Nicheon</h4>
+            <div class="trust-items">
+              <p>🔒 Verified KYC & GST Businesses</p>
+              <p>💬 Real-Time Communication</p>
+              <p>📞 Dedicated Business Support</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-4 px-3 mb-5">
+      <h5 class="fw-semibold mb-2">Join India’s Growing Jewelry Network</h5>
+      <p class="small text-muted">
+        Whether you buy, sell, or manufacture — Nicheon helps you connect, trade, and expand.
+      </p>
+      <a class="btn btn-dark mt-2 w-100" routerLink="/auth/register">
+        Get Started Now
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+<div class="container-fluid browse-page py-4 px-md-5 px-3">
+  <!-- Page Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+    <div>
+      <h2 class="mb-1 fw-bold">Browse Listings</h2>
+      <p class="text-muted mb-0">Explore the latest jewelry scrap posted by trusted sellers.</p>
+    </div>
+    <div *ngIf="!userVerified" class="alert alert-warning py-1 px-3 mb-0 small rounded-pill shadow-sm">
+      ⚠️ Verify your account to access full seller contact info.
+    </div>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="card filter-bar p-4 rounded-4 shadow-sm mb-5">
+    <div class="row g-3">
+      <div class="col-lg-3 col-md-6">
+        <label class="form-label small fw-medium">Search Scrap</label>
+        <input type="text" class="form-control rounded-pill" [(ngModel)]="filters.search" (input)="applyFilters()" placeholder="Enter scrap name...">
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6">
+        <label class="form-label small fw-medium">Scrap Type</label>
+        <select class="form-select rounded-pill" [(ngModel)]="filters.type" (change)="applyFilters()">
+          <option value="">All Types</option>
+          <option *ngFor="let type of scrapTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6">
+        <label class="form-label small fw-medium">City</label>
+        <select class="form-select rounded-pill" [(ngModel)]="filters.city" (change)="applyFilters()">
+          <option value="">All Cities</option>
+          <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+        </select>
+      </div>
+      <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" [(ngModel)]="filters.verifiedOnly" (change)="applyFilters()" id="verifiedOnly">
+          <label class="form-check-label small" for="verifiedOnly">Verified Sellers</label>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-4 col-6">
+        <label class="form-label small fw-medium">Sort By</label>
+        <select class="form-select rounded-pill" [(ngModel)]="filters.sortBy" (change)="applyFilters()">
+          <option value="newest">Newest First</option>
+          <option value="priceHigh">Price High–Low</option>
+        </select>
+      </div>
+      <div class="col-lg-1 col-md-4 col-12 d-flex align-items-center">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" [(ngModel)]="filters.contractsOnly" (change)="applyFilters()" id="contractsOnly">
+          <label class="form-check-label small" for="contractsOnly">Contracts</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Listings -->
+  <div class="row g-4">
+    <div class="col-xl-3 col-lg-4 col-md-6" *ngFor="let item of filteredListings">
+      <div class="card scrap-card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="ratio ratio-1x1">
+          <img [src]="item.image" class="card-img-top object-fit-cover" alt="scrap" />
+        </div>
+        <div class="card-body d-flex flex-column">
+          <div class="mb-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="fw-semibold mb-1">🏷 {{ item.type }}</h5>
+              <i class="bi" [ngClass]="{'bi-bookmark': !item.saved, 'bi-bookmark-fill text-primary': item.saved}" style="cursor: pointer;" (click)="toggleSave(item)"></i>
+            </div>
+            <p class="mb-1 small">⚖ {{ item.weight }}</p>
+            <p class="mb-1 small">📍 {{ item.city }}, {{ item.state }}</p>
+            <p class="mb-1 small text-success" *ngIf="item.verified">✅ Verified Seller</p>
+            <p class="text-success fw-bold fs-6">₹{{ item.price }}</p>
+          </div>
+          <div class="mt-auto d-flex gap-2">
+            <button class="btn btn-success btn-sm w-50 rounded-pill" (click)="startChat(item)">💬 Chat</button>
+            <button class="btn btn-outline-dark btn-sm w-50 rounded-pill" (click)="callSeller(item)">📞 Call</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="filteredListings.length === 0" class="text-center py-5">
+    <p class="text-muted">No matching listings — try changing filters.</p>
+  </div>
+</div>
+
+<!-- Bottom Navigation (Visible on all devices) -->
+<nav class="bottom-nav d-flex justify-content-around align-items-center px-3 py-2 shadow-lg border-top bg-white">
+  <a class="text-center text-dark small" href="#">
+    <div>🏠</div>
+    <div class="nav-label">Home</div>
+  </a>
+  <a class="text-center text-primary small fw-bold" href="#">
+    <div>🔍</div>
+    <div class="nav-label">Browse</div>
+  </a>
+  <a class="text-center text-dark small" href="#">
+    <div>💬</div>
+    <div class="nav-label">Messages</div>
+  </a>
+  <a class="text-center text-dark small" href="#">
+    <div>📥</div>
+    <div class="nav-label">Saved</div>
+  </a>
+  <a class="text-center text-dark small" href="#">
+    <div>👤</div>
+    <div class="nav-label">Profile</div>
+  </a>
+</nav>
+

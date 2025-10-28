@@ -1,0 +1,73 @@
+.saved-items-page {
+  padding-bottom: 90px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.saved-filter-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.card.saved-card {
+  transition: 0.3s ease;
+}
+
+.card.saved-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+.card-img-top {
+  object-fit: cover;
+  height: 200px;
+}
+
+.badge.status {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 1rem;
+}
+
+.status-Available {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.status-Sold {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.status-Expired {
+  background-color: #e2e3e5;
+  color: #41464b;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  font-size: 0.9rem;
+  z-index: 1000;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.08);
+}
+
+.bottom-nav div {
+  flex: 1;
+  text-align: center;
+  color: #444;
+}
+
+.bottom-nav i {
+  display: block;
+  font-size: 1.2rem;
+}

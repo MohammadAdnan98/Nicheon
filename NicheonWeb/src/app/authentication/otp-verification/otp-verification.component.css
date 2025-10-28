@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.otp-container, .success-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.lock-icon {
+  font-size: 50px;
+  color: green;
+}
+
+.check-icon {
+  font-size: 80px;
+  color: green;
+}
+
+.otp-inputs {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.otp-inputs input {
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  text-align: center;
+  border: 2px solid green;
+  border-radius: 10px;
+  outline: none;
+}
+
+.otp-inputs input:focus {
+  border-color: #27ae60;
+}
+
+.confirm-button {
+  background-color: green;
+  color: white;
+  padding: 12px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-button:hover {
+  background-color: #27ae60;
+}
+
+.resend-section {
+  margin-top: 20px;
+}
+
+.resend-button {
+  background: none;
+  border: none;
+  color: green;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.toast {
+  position: absolute;
+  bottom: 40px;
+  background-color: #2ecc71;
+  padding: 12px 20px;
+  color: white;
+  border-radius: 10px;
+  font-size: 14px;
+  animation: fadeInOut 3s ease forwards;
+}
+
+.toast.error {
+  background-color: #e74c3c;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(20px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(20px); }
+}
+
+.success-screen h3 {
+  color: green;
+  font-size: 24px;
+  margin: 15px 0 5px;
+}
+
+.success-screen p {
+  font-size: 16px;
+  color: #555;
+}
+
+@media (max-width: 600px) {
+  .otp-inputs {
+    gap: 6px;
+  }
+
+  .otp-inputs input {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .confirm-button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .check-icon {
+    font-size: 60px;
+  }
+}

@@ -1,0 +1,113 @@
+<!-- add-scrap-listing.component.html -->
+<div class="add-listing-container">
+  <!-- Top Bar -->
+  <div class="top-bar d-flex justify-content-between align-items-center px-3 py-2">
+    <h5 class="mb-0">Add Scrap Listing</h5>
+  </div>
+
+  <!-- Subheading -->
+  <div class="px-3 text-muted small mb-2">
+    Post your jewelry scrap with full details.
+  </div>
+
+  <!-- Form Section -->
+  <form class="px-3">
+    <!-- Upload Images -->
+    <div class="mb-3">
+      <label class="form-label">📸 Upload Images (max 4)</label>
+      <input type="file" class="form-control" (change)="onImageUpload($event)" multiple accept="image/*">
+      <div class="d-flex gap-2 mt-2 flex-wrap">
+        <img *ngFor="let img of previewImages" [src]="img" class="img-thumbnail thumb-img">
+      </div>
+    </div>
+
+    <!-- Scrap Type -->
+    <div class="mb-3">
+      <label class="form-label">📦 Scrap Type</label>
+      <select class="form-select" [(ngModel)]="scrapType" name="scrapType">
+        <option>Gold Dust</option>
+        <option>Silver Filings</option>
+        <option>Mixed Scrap</option>
+        <option>Other</option>
+      </select>
+      <input *ngIf="scrapType === 'Other'" type="text" class="form-control mt-2" placeholder="Specify Scrap Type">
+    </div>
+
+    <!-- Weight -->
+    <div class="mb-3">
+      <label class="form-label">⚖ Weight (g or kg)</label>
+      <input type="number" class="form-control" [(ngModel)]="weight" name="weight">
+    </div>
+
+    <!-- Expected Price -->
+    <div class="mb-3">
+      <label class="form-label">₹ Expected Price (optional)</label>
+      <input type="number" class="form-control" [(ngModel)]="expectedPrice" name="expectedPrice">
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+      <label class="form-label">📝 Description (optional)</label>
+      <textarea class="form-control" rows="2" [(ngModel)]="description" name="description"></textarea>
+    </div>
+
+    <!-- Location -->
+    <div class="mb-3">
+      <label class="form-label">📍 Location</label>
+      <input type="text" class="form-control" [(ngModel)]="location" name="location" placeholder="City Name">
+    </div>
+
+    <!-- Listing Validity -->
+    <div class="mb-3">
+      <label class="form-label">📅 Listing Validity</label>
+      <select class="form-select" [(ngModel)]="validity" name="validity">
+        <option>7 Days</option>
+        <option>15 Days</option>
+        <option>30 Days</option>
+      </select>
+    </div>
+
+    <!-- Contract Availability -->
+    <div class="form-check form-switch mb-3">
+      <input class="form-check-input" type="checkbox" id="contractToggle" [(ngModel)]="contractEnabled" name="contractEnabled">
+      <label class="form-check-label" for="contractToggle">🤝 Offer as Monthly Contract</label>
+    </div>
+
+    <div *ngIf="contractEnabled">
+      <div class="mb-3">
+        <label class="form-label">Estimated Monthly Scrap Weight</label>
+        <input type="text" class="form-control" [(ngModel)]="monthlyWeight" name="monthlyWeight">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Preferred Contract Duration</label>
+        <select class="form-select" [(ngModel)]="contractDuration" name="contractDuration">
+          <option>3 months</option>
+          <option>6 months</option>
+          <option>12 months</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Terms Checkbox -->
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" id="termsCheck" [(ngModel)]="termsAccepted" name="termsAccepted">
+      <label class="form-check-label" for="termsCheck">
+        I confirm that this scrap belongs to my business.
+      </label>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center sticky-bottom py-2 bg-white">
+      <button class="btn btn-dark w-100" [disabled]="!termsAccepted" (click)="submitListing()">Post Listing</button>
+    </div>
+  </form>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav d-flex">
+    <div><i class="bi bi-house"></i><p>Home</p></div>
+    <div><i class="bi bi-card-list"></i><p>Listings</p></div>
+    <div><i class="bi bi-plus-circle"></i><p>Add</p></div>
+    <div><i class="bi bi-chat-dots"></i><p>Messages</p></div>
+    <div><i class="bi bi-person"></i><p>Profile</p></div>
+  </div>
+</div>

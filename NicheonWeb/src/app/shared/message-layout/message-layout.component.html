@@ -1,0 +1,24 @@
+<div class="chat-container">
+  <!-- Left: Chat List -->
+  <div class="chat-sidebar" [class.hide-on-mobile]="selectedChat">
+  <div class="sidebar-header d-flex align-items-center mb-3">
+    <i class="bi bi-arrow-left me-2 back-icon" (click)="goBack()"></i>
+    <h3 class="sidebar-title m-0">Chats</h3>
+  </div>
+
+  <div *ngFor="let chat of chats" class="chat-item" (click)="selectChat(chat)">
+    <img class="chat-avatar" [src]="chat.image || 'https://via.placeholder.com/50'" alt="profile" />
+    <div class="chat-details">
+      <strong>{{ chat.name }}</strong>
+      <p>{{ chat.lastMessage }}</p>
+    </div>
+    <span class="chat-time">{{ chat.time }}</span>
+  </div>
+</div>
+
+
+  <!-- Right: Message Component -->
+  <div class="chat-thread" *ngIf="selectedChat">
+    <app-message [chat]="selectedChat" (back)="clearChat()"></app-message>
+  </div>
+</div>

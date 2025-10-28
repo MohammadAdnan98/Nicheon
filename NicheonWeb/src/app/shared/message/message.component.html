@@ -1,0 +1,59 @@
+<div class="chat-container">
+  <!-- Top Bar -->
+  <div class="top-bar d-flex align-items-center px-3 py-2">
+    <i class="bi bi-arrow-left me-3" (click)="goBack()"></i>
+    <img [src]="scrap.image" class="scrap-thumb me-2" alt="scrap" />
+    <div>
+      <div class="fw-semibold">{{ scrap.title }}</div>
+      <div class="small text-muted">
+        {{ opponent.businessName }}
+        <i class="bi bi-patch-check-fill text-success"></i>
+      </div>
+    </div>
+    <div class="ms-auto">
+      <button class="btn btn-sm btn-outline-success" *ngIf="opponent.verified">
+        📞 Call
+      </button>
+    </div>
+  </div>
+
+  <!-- Chat Body (Messages + Input) -->
+  <div class="chat-body">
+    <!-- Messages -->
+    <div class="chat-thread">
+      <div
+        *ngFor="let msg of messages"
+        [ngClass]="{ 'my-msg': msg.isMine, 'their-msg': !msg.isMine }"
+        class="chat-bubble"
+      >
+        <div *ngIf="msg.type === 'text'">{{ msg.text }}</div>
+        <img *ngIf="msg.type === 'image'" [src]="msg.imageUrl" class="chat-image" />
+        <div *ngIf="msg.type === 'offer'" class="chat-offer">💰 Offer: ₹{{ msg.amount }}</div>
+        <div class="chat-meta">
+          <span class="small text-muted">{{ msg.timestamp }}</span>
+          <span *ngIf="msg.isMine && msg.read" class="text-success ms-1">✓✓</span>
+        </div>
+      </div>
+
+      <!-- System Messages -->
+      <div
+        class="system-msg text-center small text-muted my-2 w-100"
+        *ngFor="let sys of systemMessages"
+      >
+        {{ sys }}
+      </div>
+    </div>
+
+    <!-- Input Bar -->
+    <div class="input-bar d-flex align-items-center px-3 py-2">
+      <input
+        type="text"
+        class="form-control me-2"
+        [(ngModel)]="newMessage"
+        placeholder="Type a message..."
+      />
+      <i class="bi bi-paperclip me-2"></i>
+      <button class="btn btn-dark" (click)="sendMessage()">📤</button>
+    </div>
+  </div>
+</div>

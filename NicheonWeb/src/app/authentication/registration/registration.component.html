@@ -1,0 +1,241 @@
+<div class="container registration-container py-4">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h4 class="text-center mb-1">Register with LumaJweal</h4>
+      <p class="text-center text-muted mb-4">
+        जुड़िए सुनहरी कबाड़ के डिजिटल बाजार से
+      </p>
+
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <!-- Personal Info -->
+        <h6 class="section-heading">🧑 Personal Info</h6>
+        <div class="mb-3">
+          <label class="form-label">Full Name 👤</label>
+          <input type="text" class="form-control" formControlName="fullName" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Mobile Number 📱</label>
+          <input type="text" class="form-control" formControlName="mobile" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">PAN Number</label>
+          <input type="email" class="form-control" formControlName="panno" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email ID (optional)</label>
+          <input type="text" class="form-control" formControlName="email" />
+        </div>
+
+        <!-- Role Selection -->
+        <h6 class="section-heading mt-4">
+          👥 आप क्या करना चाहते हैं? (Select Role)
+        </h6>
+        <div class="d-flex gap-3 mb-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="role"
+              value="seller"
+              (change)="onRoleChange()"
+            />
+            <label class="form-check-label"
+              >मैं Scrap बेचना चाहता हूँ (Sell)</label
+            >
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="role"
+              value="buyer"
+              (change)="onRoleChange()"
+            />
+            <label class="form-check-label"
+              >मैं Scrap खरीदना चाहता हूँ (Buy)</label
+            >
+          </div>
+        </div>
+
+        <!-- Business Details for Seller -->
+        <div *ngIf="registrationForm.get('role')?.value === 'seller'">
+          <h6 class="section-heading">🏪 Business Details</h6>
+
+          <div class="mb-3">
+            <label class="form-label">Business Type</label>
+            <select
+              class="form-select"
+              formControlName="businessType"
+              (change)="
+                registrationForm.get('businessType')?.updateValueAndValidity()
+              "
+            >
+              <option value="" disabled>Select Business Type</option>
+              <option value="localShop">Local Shop</option>
+              <option value="company">Company</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">
+              {{
+                registrationForm.get("businessType")?.value === "company"
+                  ? "Company Name"
+                  : "Shop Name"
+              }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="businessName"
+            />
+          </div>
+
+          <div
+            class="mb-3"
+            *ngIf="registrationForm.get('businessType')?.value === 'company'"
+          >
+            <label class="form-label">GSTIN (optional)</label>
+            <input type="text" class="form-control" formControlName="gstin" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Full Address</label>
+            <input type="text" class="form-control" formControlName="address" />
+          </div>
+
+          <div
+            class="mb-3"
+            *ngIf="registrationForm.get('businessType')?.value === 'localShop'"
+          >
+            <label class="form-label">Shop No.</label>
+            <input type="text" class="form-control" formControlName="shopno" />
+          </div>
+
+          <div
+            class="mb-3"
+            *ngIf="registrationForm.get('businessType')?.value === 'localShop'"
+          >
+            <label class="form-label">Building Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="buildingName"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Landmark</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="landmark"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">City</label>
+            <input type="text" class="form-control" formControlName="city" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">State</label>
+            <input type="text" class="form-control" formControlName="state" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Pincode</label>
+            <input type="text" class="form-control" formControlName="pincode" />
+          </div>
+
+          <!-- <div class="mb-3">
+            <label class="form-label">Upload KYC Documents</label>
+            <input type="file" class="form-control" (change)="onFileSelected($event)" />
+          </div> -->
+        </div>
+
+        <!-- Buyer Details -->
+        <div *ngIf="registrationForm.get('role')?.value === 'buyer'">
+          <h6 class="section-heading">🛒 Buyer Details</h6>
+
+          <div class="mb-3">
+            <label class="form-label">Total Experience</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="Exprience"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Max Buying Capacity</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="Capacity"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Full Address</label>
+            <input type="text" class="form-control" formControlName="address" />
+          </div>
+        </div>
+
+        <!-- Security -->
+        <h6 class="section-heading">🔐 Security</h6>
+        <div class="mb-3">
+          <label class="form-label">Create Password</label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Confirm Password</label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="confirmPassword"
+          />
+        </div>
+
+        <!-- Terms and Subscribe -->
+        <div class="form-check mb-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="terms"
+          />
+          <label class="form-check-label">
+            I agree to the Terms & Privacy Policy
+          </label>
+        </div>
+
+        <div class="form-check mb-4">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="subscribe"
+          />
+          <label class="form-check-label">
+            Subscribe to industry updates on WhatsApp
+          </label>
+        </div>
+
+        <!-- Submit -->
+        <button class="btn btn-primary w-100" type="submit">
+          Create Account
+        </button>
+
+        <p class="mt-3 text-center">
+          Already have an account?
+          <a routerLink="/login">Login here</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>

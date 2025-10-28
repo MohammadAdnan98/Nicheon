@@ -1,0 +1,96 @@
+<div class="buyer-dashboard-container">
+  <!-- Top Bar -->
+  <div class="top-bar d-flex justify-content-between align-items-center px-3 py-2">
+    <img src="assets\Image\LumaJewalLogo.png" alt="LumaJweal Logo" class="logo-img">
+    <div>
+      <i class="bi bi-bell me-3 fs-5"></i>
+      <i class="bi bi-person-circle fs-5"></i>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar d-flex flex-wrap gap-2 px-3 py-2">
+    <select class="form-select form-select-sm">
+      <option>All Scrap Types</option>
+      <option>Gold Dust</option>
+      <option>Polishing Residue</option>
+    </select>
+    <select class="form-select form-select-sm">
+      <option>All Cities</option>
+      <option>Delhi</option>
+      <option>Mumbai</option>
+    </select>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="verifiedToggle">
+      <label class="form-check-label small" for="verifiedToggle">Verified Only</label>
+    </div>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="sortToggle">
+      <label class="form-check-label small" for="sortToggle">Newest First</label>
+    </div>
+  </div>
+
+  <!-- Contract Leads Section (Horizontal Scroll) -->
+  <div class="section px-3 mt-3">
+    <h6 class="section-title">💼 Contract Leads</h6>
+    <div class="horizontal-scroll d-flex overflow-auto gap-3 pb-2">
+      <div class="card p-3 min-width-250" *ngFor="let contract of contractLeads">
+        <p class="mb-1 fw-semibold">{{ contract.sellerName }} - {{ contract.location }}</p>
+        <p class="mb-1 small">Volume: {{ contract.volume }}</p>
+        <p class="mb-1 small">Duration: {{ contract.duration }}</p>
+        <p class="mb-2 small">Bid Price: ₹{{ contract.price }}</p>
+        <button class="btn btn-sm btn-success">Send Contract Offer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saved Listings Section -->
+  <div class="section px-3 mt-4">
+    <h6 class="section-title">📥 Saved Listings</h6>
+    <div class="row g-3">
+      <div class="col-12 col-sm-6 col-md-4" *ngFor="let saved of savedListings">
+        <div class="card p-2 d-flex justify-content-between align-items-center">
+          <div>
+            <p class="small mb-1 fw-semibold">{{ saved.scrapType }}</p>
+            <p class="small mb-0">{{ saved.weight }}</p>
+          </div>
+          <button class="btn btn-sm btn-outline-danger">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scrap Listings Feed (Instagram-style Vertical Scroll) -->
+  <div class="section px-3 mt-4">
+    <h6 class="section-title text-center">📦 Scrap Listings</h6>
+    <div class="scrap-feed d-flex flex-column align-items-center">
+      <div class="card mb-4 w-100" *ngFor="let listing of scrapListings">
+        <img [src]="listing.image" class="img-fluid w-100 rounded-top" alt="scrap-thumbnail">
+        <div class="p-3">
+          <p class="mb-1 fw-semibold">{{ listing.scrapType }}</p>
+          <p class="mb-1 small">Weight: {{ listing.weight }}</p>
+          <p class="mb-1 small">Location: {{ listing.location }}</p>
+          <span class="badge bg-success mb-2">✅ Verified</span>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm w-50">💬 Chat</button>
+            <button class="btn btn-outline-secondary btn-sm w-50">📞 Call</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Promote Section (optional) -->
+  <div class="section px-3 mt-4 text-center">
+    <button class="btn btn-dark">🚀 Explore Premium Sellers</button>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav d-flex">
+    <div><i class="bi bi-house"></i><p>Home</p></div>
+    <div><i class="bi bi-search"></i><p>Browse</p></div>
+    <div><i class="bi bi-chat-dots"></i><p>Messages</p></div>
+    <div><i class="bi bi-bookmark"></i><p>Saved</p></div>
+    <div><i class="bi bi-person"></i><p>Profile</p></div>
+  </div>
+</div>
