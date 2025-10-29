@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    debugger;
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -52,6 +53,8 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         this.spinner.hide();
 
+        debugger;
+
         if (response?.user?.token) {
           localStorage.setItem('token', response.user.token);
           localStorage.setItem('user', JSON.stringify(response.user));
@@ -63,7 +66,7 @@ export class LoginComponent implements OnInit {
 
           // const role = response.user.role?.toLowerCase();
           // if (role === 'seller' || role === 'manufacturer' || role === 'wholesaler') {
-            this.router.navigate(['/seller/dashboard']);
+            this.router.navigate(['/seller-dashboard']);
           // } else {
           //   this.router.navigate(['/buyer/dashboard']);
           // }
@@ -85,7 +88,7 @@ export class LoginComponent implements OnInit {
   }
 
   navigate(): void {
-    this.router.navigate(['/auth/register'], {
+    this.router.navigate(['/auth/registration'], {
       queryParams: { role: this.userRole },
     });
   }

@@ -1,239 +1,238 @@
-<div class="container registration-container py-4">
-  <div class="card shadow-sm">
+<div class="registration-container container py-4">
+  <div class="card shadow-sm border-0">
     <div class="card-body">
-      <h4 class="text-center mb-1">Register with LumaJweal</h4>
+      <h3 class="text-center mb-2">Register Your Business on Nicheon</h3>
       <p class="text-center text-muted mb-4">
-        जुड़िए सुनहरी कबाड़ के डिजिटल बाजार से
+        Join India’s Trusted Jewelry Business Network
       </p>
 
       <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-        <!-- Personal Info -->
-        <h6 class="section-heading">🧑 Personal Info</h6>
-        <div class="mb-3">
-          <label class="form-label">Full Name 👤</label>
-          <input type="text" class="form-control" formControlName="fullName" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Mobile Number 📱</label>
-          <input type="text" class="form-control" formControlName="mobile" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">PAN Number</label>
-          <input type="email" class="form-control" formControlName="panno" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Email ID (optional)</label>
-          <input type="text" class="form-control" formControlName="email" />
-        </div>
-
-        <!-- Role Selection -->
-        <h6 class="section-heading mt-4">
-          👥 आप क्या करना चाहते हैं? (Select Role)
-        </h6>
-        <div class="d-flex gap-3 mb-3">
-          <div class="form-check">
+        <!-- 👤 Personal Info -->
+        <h6 class="section-heading">👤 Personal Information</h6>
+        <div class="row">
+          <!-- Full Name -->
+          <div class="col-md-6 mb-3">
+            <label>Full Name</label>
             <input
-              class="form-check-input"
-              type="radio"
-              formControlName="role"
-              value="seller"
-              (change)="onRoleChange()"
+              formControlName="fullName"
+              class="form-control"
+              placeholder="Enter your full name"
             />
-            <label class="form-check-label"
-              >मैं Scrap बेचना चाहता हूँ (Sell)</label
-            >
+            <div *ngIf="f['fullName'].touched && f['fullName'].invalid" class="error">
+              Full name is required.
+            </div>
           </div>
-          <div class="form-check">
+
+          <!-- Email -->
+          <div class="col-md-6 mb-3">
+            <label>Email ID</label>
             <input
-              class="form-check-input"
-              type="radio"
-              formControlName="role"
-              value="buyer"
-              (change)="onRoleChange()"
+              formControlName="email"
+              class="form-control"
+              placeholder="example@domain.com"
             />
-            <label class="form-check-label"
-              >मैं Scrap खरीदना चाहता हूँ (Buy)</label
-            >
+            <div *ngIf="f['email'].touched && f['email'].errors" class="error">
+              <div *ngIf="f['email'].errors['required']">Email is required.</div>
+              <div *ngIf="f['email'].errors['email']">Invalid email format.</div>
+            </div>
           </div>
-        </div>
 
-        <!-- Business Details for Seller -->
-        <div *ngIf="registrationForm.get('role')?.value === 'seller'">
-          <h6 class="section-heading">🏪 Business Details</h6>
+          <!-- Mobile -->
+          <div class="col-md-6 mb-3">
+            <label>Mobile Number</label>
+            <input
+              formControlName="mobile"
+              class="form-control"
+              placeholder="10-digit mobile number"
+            />
+            <div *ngIf="f['mobile'].touched && f['mobile'].errors" class="error">
+              <div *ngIf="f['mobile'].errors['required']">Mobile number is required.</div>
+              <div *ngIf="f['mobile'].errors['pattern']">Enter a valid 10-digit number.</div>
+            </div>
+          </div>
 
-          <div class="mb-3">
-            <label class="form-label">Business Type</label>
-            <select
-              class="form-select"
-              formControlName="businessType"
-              (change)="
-                registrationForm.get('businessType')?.updateValueAndValidity()
+          <!-- Password -->
+          <div class="col-md-6 mb-3">
+            <label>Password</label>
+            <input
+              type="password"
+              formControlName="password"
+              class="form-control"
+              placeholder="8–16 characters"
+            />
+            <div *ngIf="f['password'].touched && f['password'].errors" class="error">
+              <div *ngIf="f['password'].errors['required']">Password is required.</div>
+              <div *ngIf="f['password'].errors['minlength']">Minimum 8 characters.</div>
+              <div *ngIf="f['password'].errors['maxlength']">Maximum 16 characters.</div>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="col-md-6 mb-3">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              formControlName="confirmPassword"
+              class="form-control"
+              placeholder="Re-enter password"
+            />
+            <div
+              *ngIf="
+                registrationForm.hasError('passwordMismatch') &&
+                f['confirmPassword'].touched
               "
+              class="error"
             >
-              <option value="" disabled>Select Business Type</option>
-              <option value="localShop">Local Shop</option>
-              <option value="company">Company</option>
-            </select>
+              Passwords do not match.
+            </div>
           </div>
+        </div>
 
-          <div class="mb-3">
-            <label class="form-label">
-              {{
-                registrationForm.get("businessType")?.value === "company"
-                  ? "Company Name"
-                  : "Shop Name"
-              }}
-            </label>
+        <!-- 🏷️ Role -->
+        <h6 class="section-heading mt-4">👥 Role Selection</h6>
+        <div class="mb-3">
+          <label>Role</label>
+          <input formControlName="role" class="form-control" readonly />
+          <small class="text-muted">Default: Seller</small>
+        </div>
+
+        <!-- 🏭 Business Details -->
+        <h6 class="section-heading mt-4">🏭 Business Information</h6>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Business Name</label>
             <input
-              type="text"
-              class="form-control"
               formControlName="businessName"
+              class="form-control"
+              placeholder="Your Shop or Company Name"
+            />
+            <div
+              *ngIf="f['businessName'].touched && f['businessName'].invalid"
+              class="error"
+            >
+              Business name is required.
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Business Type</label>
+            <select formControlName="businessType" class="form-select">
+              <option value="">Select Business Type</option>
+              <option value="Manufacturer">Manufacturer</option>
+              <option value="Wholesaler">Wholesaler</option>
+              <option value="Retailer">Retailer</option>
+              <option value="Trader">Trader</option>
+              <option value="Exporter">Exporter</option>
+              <option value="Importer">Importer</option>
+            </select>
+            <div
+              *ngIf="f['businessType'].touched && f['businessType'].invalid"
+              class="error"
+            >
+              Business type is required.
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>GST Number</label>
+            <input
+              formControlName="gstNumber"
+              class="form-control"
+              placeholder="Enter GSTIN (optional)"
             />
           </div>
+        </div>
 
-          <div
-            class="mb-3"
-            *ngIf="registrationForm.get('businessType')?.value === 'company'"
-          >
-            <label class="form-label">GSTIN (optional)</label>
-            <input type="text" class="form-control" formControlName="gstin" />
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Full Address</label>
-            <input type="text" class="form-control" formControlName="address" />
-          </div>
-
-          <div
-            class="mb-3"
-            *ngIf="registrationForm.get('businessType')?.value === 'localShop'"
-          >
-            <label class="form-label">Shop No.</label>
-            <input type="text" class="form-control" formControlName="shopno" />
-          </div>
-
-          <div
-            class="mb-3"
-            *ngIf="registrationForm.get('businessType')?.value === 'localShop'"
-          >
-            <label class="form-label">Building Name</label>
+        <!-- 📍 Address -->
+        <h6 class="section-heading mt-4">📍 Address Information</h6>
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <label>Address</label>
             <input
-              type="text"
+              formControlName="address"
               class="form-control"
-              formControlName="buildingName"
+              placeholder="Full business address"
             />
+            <div *ngIf="f['address'].touched && f['address'].invalid" class="error">
+              Address is required.
+            </div>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Landmark</label>
+          <div class="col-md-6 mb-3">
+            <label>Landmark</label>
             <input
-              type="text"
-              class="form-control"
               formControlName="landmark"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">City</label>
-            <input type="text" class="form-control" formControlName="city" />
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">State</label>
-            <input type="text" class="form-control" formControlName="state" />
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Pincode</label>
-            <input type="text" class="form-control" formControlName="pincode" />
-          </div>
-
-          <!-- <div class="mb-3">
-            <label class="form-label">Upload KYC Documents</label>
-            <input type="file" class="form-control" (change)="onFileSelected($event)" />
-          </div> -->
-        </div>
-
-        <!-- Buyer Details -->
-        <div *ngIf="registrationForm.get('role')?.value === 'buyer'">
-          <h6 class="section-heading">🛒 Buyer Details</h6>
-
-          <div class="mb-3">
-            <label class="form-label">Total Experience</label>
-            <input
-              type="text"
               class="form-control"
-              formControlName="Exprience"
+              placeholder="Optional landmark"
             />
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Max Buying Capacity</label>
+          <div class="col-md-6 mb-3">
+            <label>City</label>
             <input
-              type="text"
+              formControlName="city"
               class="form-control"
-              formControlName="Capacity"
+              placeholder="Enter city"
             />
+            <div *ngIf="f['city'].touched && f['city'].invalid" class="error">
+              City is required.
+            </div>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Full Address</label>
-            <input type="text" class="form-control" formControlName="address" />
+
+          <div class="col-md-6 mb-3">
+            <label>State</label>
+            <input
+              formControlName="state"
+              class="form-control"
+              placeholder="Enter state"
+            />
+            <div *ngIf="f['state'].touched && f['state'].invalid" class="error">
+              State is required.
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Country</label>
+            <input formControlName="country" class="form-control" readonly />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Pincode</label>
+            <input
+              formControlName="pincode"
+              class="form-control"
+              placeholder="Enter pincode"
+            />
+            <div *ngIf="f['pincode'].touched && f['pincode'].invalid" class="error">
+              <div *ngIf="f['pincode'].errors?.['required']">Pincode is required.</div>
+              <div *ngIf="f['pincode'].errors?.['minlength']">Minimum 5 digits.</div>
+              <div *ngIf="f['pincode'].errors?.['maxlength']">Maximum 10 digits.</div>
+            </div>
           </div>
         </div>
 
-        <!-- Security -->
-        <h6 class="section-heading">🔐 Security</h6>
-        <div class="mb-3">
-          <label class="form-label">Create Password</label>
+        <!-- ✅ Terms -->
+        <div class="form-check mb-3">
           <input
-            type="password"
-            class="form-control"
-            formControlName="password"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Confirm Password</label>
-          <input
-            type="password"
-            class="form-control"
-            formControlName="confirmPassword"
-          />
-        </div>
-
-        <!-- Terms and Subscribe -->
-        <div class="form-check mb-2">
-          <input
-            class="form-check-input"
             type="checkbox"
             formControlName="terms"
+            class="form-check-input"
           />
           <label class="form-check-label">
             I agree to the Terms & Privacy Policy
           </label>
+          <div *ngIf="f['terms'].touched && f['terms'].invalid" class="error">
+            You must agree before submitting.
+          </div>
         </div>
 
-        <div class="form-check mb-4">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="subscribe"
-          />
-          <label class="form-check-label">
-            Subscribe to industry updates on WhatsApp
-          </label>
-        </div>
-
-        <!-- Submit -->
         <button class="btn btn-primary w-100" type="submit">
           Create Account
         </button>
 
-        <p class="mt-3 text-center">
+        <p class="text-center mt-3 mb-0">
           Already have an account?
-          <a routerLink="/login">Login here</a>
+          <a routerLink="auth/login" class="text-link">Login here</a>
         </p>
       </form>
     </div>

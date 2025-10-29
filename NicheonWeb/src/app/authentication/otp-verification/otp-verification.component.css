@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-.otp-container, .success-screen {
+.otp-container,
+.success-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,17 +10,16 @@
   padding: 20px;
   text-align: center;
   box-sizing: border-box;
-  position: relative;
 }
 
 .lock-icon {
   font-size: 50px;
-  color: green;
+  color: #1b5e20;
 }
 
 .check-icon {
   font-size: 80px;
-  color: green;
+  color: #1b5e20;
 }
 
 .otp-inputs {
@@ -33,17 +33,19 @@
   height: 50px;
   font-size: 24px;
   text-align: center;
-  border: 2px solid green;
+  border: 2px solid #1b5e20;
   border-radius: 10px;
   outline: none;
+  transition: border-color 0.3s ease;
 }
 
 .otp-inputs input:focus {
   border-color: #27ae60;
+  box-shadow: 0 0 4px rgba(27, 94, 32, 0.3);
 }
 
 .confirm-button {
-  background-color: green;
+  background-color: #1b5e20;
   color: white;
   padding: 12px 30px;
   font-size: 16px;
@@ -55,46 +57,25 @@
 }
 
 .confirm-button:hover {
-  background-color: #27ae60;
+  background-color: #145c16;
 }
 
 .resend-section {
   margin-top: 20px;
+  font-size: 14px;
 }
 
 .resend-button {
   background: none;
   border: none;
-  color: green;
-  font-size: 14px;
+  color: #1b5e20;
+  font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
 }
 
-.toast {
-  position: absolute;
-  bottom: 40px;
-  background-color: #2ecc71;
-  padding: 12px 20px;
-  color: white;
-  border-radius: 10px;
-  font-size: 14px;
-  animation: fadeInOut 3s ease forwards;
-}
-
-.toast.error {
-  background-color: #e74c3c;
-}
-
-@keyframes fadeInOut {
-  0% { opacity: 0; transform: translateY(20px); }
-  10% { opacity: 1; transform: translateY(0); }
-  90% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(20px); }
-}
-
 .success-screen h3 {
-  color: green;
+  color: #1b5e20;
   font-size: 24px;
   margin: 15px 0 5px;
 }

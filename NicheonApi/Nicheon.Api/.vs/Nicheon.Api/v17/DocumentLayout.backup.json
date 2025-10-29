@@ -172,7 +172,7 @@
               "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAA1wAsAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAQwBsAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-27T18:43:03.848Z",
               "EditorCaption": ""
@@ -187,8 +187,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAE4AAAAAAAAAAAAAAFcAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T05:50:06.664Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-16T05:50:06.664Z"
             },
             {
               "$type": "Document",
@@ -200,8 +199,7 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-27T17:44:35.823Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T17:44:35.823Z"
             },
             {
               "$type": "Document",
@@ -213,8 +211,7 @@
               "RelativeToolTip": "..\\Nicheon.Shared\\SharedRepositories\\JwtTokenService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T17:41:03.088Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T17:41:03.088Z"
             },
             {
               "$type": "Document",
@@ -226,8 +223,7 @@
               "RelativeToolTip": "Nicheon.Api.http",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2025-10-27T17:42:28.885Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T17:42:28.885Z"
             },
             {
               "$type": "Document",
@@ -239,8 +235,7 @@
               "RelativeToolTip": "Controllers\\AuthenticationController.cs",
               "ViewState": "AgIAADQAAAAAAAAAAAAkwD0AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T05:50:06.67Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-16T05:50:06.67Z"
             },
             {
               "$type": "Document",
@@ -252,8 +247,7 @@
               "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IJwtTokenService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T17:40:30.305Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T17:40:30.305Z"
             },
             {
               "$type": "Document",
@@ -265,8 +259,7 @@
               "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T17:40:24.341Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T17:40:24.341Z"
             },
             {
               "$type": "Document",
@@ -278,8 +271,7 @@
               "RelativeToolTip": "appsettings.Development.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-16T05:50:06.651Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-16T05:50:06.651Z"
             },
             {
               "$type": "Document",

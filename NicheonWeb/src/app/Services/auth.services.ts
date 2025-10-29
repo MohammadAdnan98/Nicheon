@@ -25,23 +25,37 @@ export class AuthService {
     });
   }
 
-  // 🔑 Verify OTP
-  verifyOtp(email: string, otp: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/VerifyOtp`, { email, otp });
+  // ✅ Verify OTP Method
+  verifyOtp(data: { email: string; otp: string }) {
+    return this.http.post(`${this.apiUrl}/VerifyOtp`, data, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    });
   }
 
-  // 🔁 Forgot Password
+  // 🔁 Forgot Password (Send OTP)
   forgotPassword(email: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/ForgotPassword`, { email });
+    return this.http.post(
+      `${this.apiUrl}/ForgotPassword`,
+      { email },
+      {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      }
+    );
   }
 
   // 🔄 Reset Password
-  resetPassword(email: string, newPassword: string, otp: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/ResetPassword`, {
-      email,
-      newPassword,
-      otp,
-    });
+  resetPassword(
+    email: string,
+    newPassword: string,
+    otp: string
+  ): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/ResetPassword`,
+      { email, newPassword, otp },
+      {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      }
+    );
   }
 
   // 🚪 Logout

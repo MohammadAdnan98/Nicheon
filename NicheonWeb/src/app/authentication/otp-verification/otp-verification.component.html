@@ -4,15 +4,21 @@
   </div>
 
   <h2>OTP Verification</h2>
-  <p>Please enter the 6-digit OTP sent to your mobile.</p>
+  <p>Please enter the 6-digit OTP sent to your email or mobile.</p>
 
   <div class="otp-inputs">
-    <input type="text" maxlength="1" [(ngModel)]="otpDigits[0]" (input)="moveNext($event, 1)" autofocus />
-    <input type="text" maxlength="1" [(ngModel)]="otpDigits[1]" (input)="moveNext($event, 2)" />
-    <input type="text" maxlength="1" [(ngModel)]="otpDigits[2]" (input)="moveNext($event, 3)" />
-    <input type="text" maxlength="1" [(ngModel)]="otpDigits[3]" (input)="moveNext($event, 4)" />
-    <input type="text" maxlength="1" [(ngModel)]="otpDigits[4]" (input)="moveNext($event, 5)" />
-    <input type="text" maxlength="1" [(ngModel)]="otpDigits[5]" />
+    <input
+      #otpInput
+      *ngFor="let digit of otpDigits; let i = index"
+      type="text"
+      maxlength="1"
+      [value]="otpDigits[i]"
+      (input)="onInput($event, i)"
+      (keydown)="onKeyDown($event, i)"
+      (paste)="onPaste($event)"
+      autocomplete="one-time-code"
+      inputmode="numeric"
+    />
   </div>
 
   <button class="confirm-button" (click)="verifyOtp()">Confirm</button>
@@ -23,15 +29,13 @@
       Didn’t receive OTP? <strong>Resend</strong>
     </button>
   </div>
-
-  <div class="toast" *ngIf="message" [ngClass]="messageType">{{ message }}</div>
 </div>
 
-<!-- ✅ Success Message View -->
+<!-- ✅ Success View -->
 <div class="success-screen" *ngIf="showSuccessScreen">
   <div class="success-icon">
     <span class="material-icons check-icon">check_circle</span>
   </div>
   <h3>Successful!</h3>
-  <p>Your mobile number has been successfully verified.</p>
+  <p>Your account has been successfully verified.</p>
 </div>
