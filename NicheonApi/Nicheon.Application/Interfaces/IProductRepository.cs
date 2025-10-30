@@ -1,16 +1,16 @@
 ﻿using Nicheon.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Nicheon.Application.DTOs;
 
 namespace Nicheon.Application.Interfaces
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<Product>> GetAllAsync();
-        Task<Product> GetByIdAsync(int id);
-        Task<int> CreateAsync(Product product);
+        Task<int> CreateAsync(ProductCreateDto dto);
+        Task<int> UpdateAsync(Product product);
+        Task<int> DeleteAsync(int productId, int businessId);
+        Task<Product?> GetByIdAsync(int productId);
+        Task<IEnumerable<Product>> ListAsync(int? businessId, int? categoryId, string? search, int page = 1, int pageSize = 20);
+        Task<int> AddImageAsync(int productId, int businessId, string imageUrl, string? altText, bool isPrimary, int sortOrder);
+        Task<int> DeleteImageAsync(int imageId, int businessId);
     }
 }

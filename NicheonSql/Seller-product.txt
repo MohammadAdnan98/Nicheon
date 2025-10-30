@@ -1,0 +1,279 @@
+CREATE PROCEDURE sp_CreateProduct
+    @BusinessId INT,
+    @CategoryId INT = NULL,
+    @MetalId INT = NULL,
+    @JewelleryTypeId INT = NULL,
+    @SubTypeId INT = NULL,
+    @StyleId INT = NULL,
+    @ProductCode NVARCHAR(100),
+    @ProductName NVARCHAR(300),
+    @ShortDescription NVARCHAR(500) = NULL,
+    @Description NVARCHAR(MAX) = NULL,
+    @Gender NVARCHAR(20) = NULL,
+    @Colour NVARCHAR(50) = NULL,
+    @Karat NVARCHAR(20) = NULL,
+    @WeightGrams DECIMAL(10,3) = NULL,
+    @PricePerGram DECIMAL(18,2) = NULL,
+    @MakingCharges DECIMAL(18,2) = NULL,
+    @MOQ INT = 1,
+    @Stock INT = 0,
+    @IsHallmarked BIT = 0,
+    @Result INT OUTPUT,
+    @OutProductId INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        -- ✅ Check valid business
+        IF NOT EXISTS (SELECT 1 FROM BusinessProfiles WHERE BusinessId = @BusinessId AND IsActive = 1)
+        BEGIN
+            SET @Result = -1; ROLLBACK TRANSACTION; RETURN;
+        END
+
+        -- ✅ Ensure ProductCode is unique
+        IF EXISTS (SELECT 1 FROM Products WHERE ProductCode = @ProductCode)
+        BEGIN
+            SET @Result = -2; ROLLBACK TRANSACTION; RETURN;
+        END
+
+        INSERT INTO Products (
+            BusinessId, CategoryId, MetalId, JewelleryTypeId, SubTypeId, StyleId,
+            ProductCode, ProductName, ShortDescription, Description, Gender, Colour,
+            Karat, WeightGrams, PricePerGram, MakingCharges, MOQ, Stock,
+            IsHallmarked, CreatedAt, IsActive
+        )
+        VALUES (
+            @BusinessId, @CategoryId, @MetalId, @JewelleryTypeId, @SubTypeId, @StyleId,
+            @ProductCode, @ProductName, @ShortDescription, @Description, @Gender, @Colour,
+            @Karat, @WeightGrams, @PricePerGram, @MakingCharges, @MOQ, @Stock,
+            @IsHallmarked, GETDATE(), 1
+        );
+
+        SET @OutProductId = SCOPE_IDENTITY();
+        SET @Result = 1;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        SET @Result = -9;
+    END CATCH
+END
+
+GO
+
+CREATE PROCEDURE sp_UpdateProduct
+    @ProductId INT,
+    @BusinessId INT,
+    @CategoryId INT = NULL,
+    @MetalId INT = NULL,
+    @JewelleryTypeId INT = NULL,
+    @SubTypeId INT = NULL,
+    @StyleId INT = NULL,
+    @ProductName NVARCHAR(300),
+    @ShortDescription NVARCHAR(500) = NULL,
+    @Description NVARCHAR(MAX) = NULL,
+    @Gender NVARCHAR(20) = NULL,
+    @Colour NVARCHAR(50) = NULL,
+    @Karat NVARCHAR(20) = NULL,
+    @WeightGrams DECIMAL(10,3) = NULL,
+    @PricePerGram DECIMAL(18,2) = NULL,
+    @MakingCharges DECIMAL(18,2) = NULL,
+    @MOQ INT = 1,
+    @Stock INT = 0,
+    @IsHallmarked BIT = 0,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    IF NOT EXISTS (SELECT 1 FROM Products WHERE ProductId = @ProductId AND BusinessId = @BusinessId AND IsActive = 1)
+    BEGIN
+        SET @Result = -1; RETURN;
+    END
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        UPDATE Products
+        SET CategoryId = @CategoryId,
+            MetalId = @MetalId,
+            JewelleryTypeId = @JewelleryTypeId,
+            SubTypeId = @SubTypeId,
+            StyleId = @StyleId,
+            ProductName = @ProductName,
+            ShortDescription = @ShortDescription,
+            Description = @Description,
+            Gender = @Gender,
+            Colour = @Colour,
+            Karat = @Karat,
+            WeightGrams = @WeightGrams,
+            PricePerGram = @PricePerGram,
+            MakingCharges = @MakingCharges,
+            MOQ = @MOQ,
+            Stock = @Stock,
+            IsHallmarked = @IsHallmarked,
+            UpdatedAt = GETDATE()
+        WHERE ProductId = @ProductId AND BusinessId = @BusinessId;
+
+        SET @Result = 1;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        SET @Result = -9;
+    END CATCH
+END
+
+GO
+
+CREATE PROCEDURE sp_DeleteProduct
+    @ProductId INT,
+    @BusinessId INT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    IF NOT EXISTS (SELECT 1 FROM Products WHERE ProductId = @ProductId AND BusinessId = @BusinessId AND IsActive = 1)
+    BEGIN
+        SET @Result = -1; RETURN;
+    END
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        UPDATE Products
+        SET IsActive = 0, UpdatedAt = GETDATE()
+        WHERE ProductId = @ProductId AND BusinessId = @BusinessId;
+
+        SET @Result = 1;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        SET @Result = -9;
+    END CATCH
+END
+GO
+
+CREATE PROCEDURE sp_GetProductById
+    @ProductId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        P.ProductId, P.ProductCode, P.ProductName, P.ShortDescription, P.Description,
+        P.Gender, P.Colour, P.Karat, P.WeightGrams, P.PricePerGram, P.MakingCharges,
+        P.MOQ, P.Stock, P.IsHallmarked, P.IsActive,
+        P.CategoryId, C.CategoryName,
+        P.MetalId, M.MetalName,
+        P.JewelleryTypeId, JT.TypeName AS JewelleryType,
+        P.SubTypeId, ST.SubTypeName,
+        P.StyleId, SR.StyleName,
+        B.BusinessName, B.City, B.State
+    FROM Products P
+    LEFT JOIN Categories C ON P.CategoryId = C.CategoryId
+    LEFT JOIN MetalTypes M ON P.MetalId = M.MetalId
+    LEFT JOIN JewelleryTypes JT ON P.JewelleryTypeId = JT.JewelleryTypeId
+    LEFT JOIN JewellerySubTypes ST ON P.SubTypeId = ST.SubTypeId
+    LEFT JOIN JewelleryStyleRegions SR ON P.StyleId = SR.StyleId
+    INNER JOIN BusinessProfiles B ON P.BusinessId = B.BusinessId
+    WHERE P.ProductId = @ProductId;
+
+    SELECT ImageId, ImageUrl, AltText, IsPrimary, SortOrder, CreatedAt
+    FROM ProductImages WHERE ProductId = @ProductId AND IsActive = 1
+    ORDER BY SortOrder;
+END
+GO
+
+CREATE PROCEDURE sp_ListProducts
+    @BusinessId INT = NULL,
+    @CategoryId INT = NULL,
+    @MetalId INT = NULL,
+    @Search NVARCHAR(200) = NULL,
+    @MinPrice DECIMAL(18,2) = NULL,
+    @MaxPrice DECIMAL(18,2) = NULL,
+    @Page INT = 1,
+    @PageSize INT = 20
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Offset INT = (@Page - 1) * @PageSize;
+
+    SELECT 
+        P.ProductId, P.ProductCode, P.ProductName, P.PricePerGram, P.Stock, 
+        M.MetalName, JT.TypeName AS JewelleryType, B.BusinessName, 
+        (SELECT TOP 1 ImageUrl FROM ProductImages WHERE ProductId = P.ProductId AND IsActive = 1 ORDER BY IsPrimary DESC, SortOrder) AS ThumbnailUrl,
+        COUNT(1) OVER() AS TotalRecords
+    FROM Products P
+    INNER JOIN BusinessProfiles B ON P.BusinessId = B.BusinessId
+    LEFT JOIN MetalTypes M ON P.MetalId = M.MetalId
+    LEFT JOIN JewelleryTypes JT ON P.JewelleryTypeId = JT.JewelleryTypeId
+    WHERE P.IsActive = 1
+      AND (@BusinessId IS NULL OR P.BusinessId = @BusinessId)
+      AND (@CategoryId IS NULL OR P.CategoryId = @CategoryId)
+      AND (@MetalId IS NULL OR P.MetalId = @MetalId)
+      AND (@Search IS NULL OR P.ProductName LIKE '%' + @Search + '%' OR P.Description LIKE '%' + @Search + '%')
+      AND (@MinPrice IS NULL OR P.PricePerGram >= @MinPrice)
+      AND (@MaxPrice IS NULL OR P.PricePerGram <= @MaxPrice)
+    ORDER BY P.CreatedAt DESC
+    OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+END
+GO
+
+CREATE PROCEDURE sp_AddProductImage
+    @ProductId INT,
+    @BusinessId INT,
+    @ImageUrl NVARCHAR(1000),
+    @AltText NVARCHAR(250) = NULL,
+    @IsPrimary BIT = 0,
+    @SortOrder INT = 0,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF NOT EXISTS (SELECT 1 FROM Products WHERE ProductId = @ProductId AND BusinessId = @BusinessId)
+    BEGIN
+        SET @Result = -1; RETURN;
+    END
+
+    INSERT INTO ProductImages (ProductId, ImageUrl, AltText, IsPrimary, SortOrder, CreatedAt, IsActive)
+    VALUES (@ProductId, @ImageUrl, @AltText, @IsPrimary, @SortOrder, GETDATE(), 1);
+
+    SET @Result = 1;
+END
+GO
+
+CREATE PROCEDURE sp_DeleteProductImage
+    @ImageId INT,
+    @BusinessId INT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM ProductImages I
+        INNER JOIN Products P ON I.ProductId = P.ProductId
+        WHERE I.ImageId = @ImageId AND P.BusinessId = @BusinessId
+    )
+    BEGIN
+        SET @Result = -1; RETURN;
+    END
+
+    UPDATE ProductImages
+    SET IsActive = 0
+    WHERE ImageId = @ImageId;
+
+    SET @Result = 1;
+END
+GO
+
+

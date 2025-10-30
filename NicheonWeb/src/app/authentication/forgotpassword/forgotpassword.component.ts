@@ -153,7 +153,7 @@ export class ForgotpasswordComponent implements OnInit, OnDestroy {
             duration: 3000,
             panelClass: ['snackbar-success'],
           });
-          this.router.navigate(['/login']);
+          this.router.navigate(['auth/login']);
         } else {
           this.snackBar.open(res?.message || 'Password reset failed', 'Close', {
             duration: 3500,

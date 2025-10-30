@@ -81,33 +81,7 @@
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.ProductController",
-    "Method": "GetAll",
-    "RelativePath": "api/Product",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Nicheon.Api.Controllers.ProductController",
-    "Method": "Create",
-    "RelativePath": "api/Product",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "product",
-        "Type": "Nicheon.Domain.Entities.Product",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Nicheon.Api.Controllers.ProductController",
-    "Method": "Get",
+    "Method": "GetById",
     "RelativePath": "api/Product/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -116,6 +90,157 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.ProductController",
+    "Method": "Delete",
+    "RelativePath": "api/Product/{productId}/{businessId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "businessId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.ProductController",
+    "Method": "AddImage",
+    "RelativePath": "api/Product/add-image",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "businessId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "imageUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "altText",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "isPrimary",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortOrder",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.ProductController",
+    "Method": "Create",
+    "RelativePath": "api/Product/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Nicheon.Application.DTOs.ProductCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.ProductController",
+    "Method": "DeleteImage",
+    "RelativePath": "api/Product/delete-image/{imageId}/{businessId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "imageId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "businessId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.ProductController",
+    "Method": "List",
+    "RelativePath": "api/Product/list",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "categoryId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.ProductController",
+    "Method": "Update",
+    "RelativePath": "api/Product/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "product",
+        "Type": "Nicheon.Domain.Entities.Product",
         "IsRequired": true
       }
     ],

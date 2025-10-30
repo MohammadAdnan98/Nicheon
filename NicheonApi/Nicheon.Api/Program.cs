@@ -50,6 +50,8 @@ builder.Services.AddScoped<IAuthentication, AuthenticationRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();         // you already have this
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();   // add token service
 builder.Services.AddScoped<IOtpService, OtpService>();             // your existing OTP svc if needed
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
 // JWT auth
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!);

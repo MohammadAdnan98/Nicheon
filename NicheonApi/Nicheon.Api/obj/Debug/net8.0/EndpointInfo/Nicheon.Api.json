@@ -160,18 +160,39 @@
         }
       }
     },
-    "/api/Product": {
-      "get": {
+    "/api/Product/create": {
+      "post": {
         "tags": [
           "Product"
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCreateDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
           }
         }
-      },
-      "post": {
+      }
+    },
+    "/api/Product/update": {
+      "put": {
         "tags": [
           "Product"
         ],
@@ -201,6 +222,38 @@
         }
       }
     },
+    "/api/Product/{productId}/{businessId}": {
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "businessId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Product/{id}": {
       "get": {
         "tags": [
@@ -209,6 +262,152 @@
         "parameters": [
           {
             "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product/list": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "businessId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product/add-image": {
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "businessId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "altText",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isPrimary",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product/delete-image/{imageId}/{businessId}": {
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "businessId",
             "in": "path",
             "required": true,
             "schema": {
@@ -391,21 +590,207 @@
             "type": "integer",
             "format": "int32"
           },
+          "businessId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productCode": {
+            "type": "string",
+            "nullable": true
+          },
           "productName": {
             "type": "string",
             "nullable": true
           },
-          "price": {
+          "shortDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "colour": {
+            "type": "string",
+            "nullable": true
+          },
+          "karat": {
+            "type": "string",
+            "nullable": true
+          },
+          "weightGrams": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
-          "sellerId": {
+          "pricePerGram": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "makingCharges": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "moq": {
             "type": "integer",
             "format": "int32"
           },
-          "garbageAgeInMonths": {
+          "stock": {
             "type": "integer",
             "format": "int32"
+          },
+          "isHallmarked": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductImage"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductCreateDto": {
+        "type": "object",
+        "properties": {
+          "businessId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "metalId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "jewelleryTypeId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "subTypeId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "styleId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "productCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "productName": {
+            "type": "string",
+            "nullable": true
+          },
+          "shortDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "colour": {
+            "type": "string",
+            "nullable": true
+          },
+          "karat": {
+            "type": "string",
+            "nullable": true
+          },
+          "weightGrams": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "pricePerGram": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "makingCharges": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "moq": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isHallmarked": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductImage": {
+        "type": "object",
+        "properties": {
+          "imageId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "altText": {
+            "type": "string",
+            "nullable": true
+          },
+          "isPrimary": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
