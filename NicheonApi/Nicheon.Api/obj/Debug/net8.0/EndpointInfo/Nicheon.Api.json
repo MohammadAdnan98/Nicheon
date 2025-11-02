@@ -1,8 +1,9 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Nicheon.Api",
-    "version": "1.0"
+    "title": "Nicheon API",
+    "description": "B2B Jewelry Platform API for Seller, Buyer, Admin",
+    "version": "v1"
   },
   "paths": {
     "/api/Auth/Register": {
@@ -938,13 +939,15 @@
     "securitySchemes": {
       "Bearer": {
         "type": "http",
-        "description": "Enter 'Bearer {token}'",
+        "description": "Enter JWT token in the format: Bearer {your_token}",
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
     }
   },
   "security": [
-    { }
+    {
+      "Bearer": [ ]
+    }
   ]
 }

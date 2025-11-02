@@ -31,6 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { AddProductComponent } from './Seller/add-product/add-product.component';
 
 
 
@@ -52,7 +53,8 @@ import { MatButtonModule } from '@angular/material/button';
     BrowseSearchingComponent,
     BookmarkComponent,
     ProductDetailComponent,
-    OtpVerificationComponent
+    OtpVerificationComponent,
+    AddProductComponent
   ],
   imports: [
     BrowserModule,

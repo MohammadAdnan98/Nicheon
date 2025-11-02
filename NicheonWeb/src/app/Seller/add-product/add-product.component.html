@@ -1,0 +1,202 @@
+<div class="add-product-container">
+  <!-- Header -->
+  <div
+    class="top-bar d-flex justify-content-between align-items-center px-3 py-2 shadow-sm"
+  >
+    <h5 class="mb-0 fw-semibold">➕ Add Product</h5>
+    <i class="bi bi-x-lg text-muted fs-5" routerLink="/seller-dashboard"></i>
+  </div>
+
+  <!-- Product Form -->
+  <form class="p-3" (ngSubmit)="submitProduct()">
+    <!-- Product Name -->
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Product Name *</label>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="product.productName"
+        name="productName"
+        required
+      />
+    </div>
+
+    <!-- Category & Metal -->
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Category</label>
+        <select
+          class="form-select"
+          [(ngModel)]="product.categoryId"
+          name="categoryId"
+        >
+          <option [value]="1">Necklace</option>
+          <option [value]="2">Ring</option>
+          <option [value]="3">Bracelet</option>
+          <option [value]="4">Earrings</option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Metal Type</label>
+        <select
+          class="form-select"
+          [(ngModel)]="product.metalId"
+          name="metalId"
+        >
+          <option [value]="1">Gold</option>
+          <option [value]="2">Silver</option>
+          <option [value]="3">Platinum</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Karat & Colour -->
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Karat</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="product.karat"
+          name="karat"
+          placeholder="e.g. 22K"
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Colour</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="product.colour"
+          name="colour"
+          placeholder="e.g. Yellow"
+        />
+      </div>
+    </div>
+
+    <!-- Weight & Price -->
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Weight (grams)</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="product.weightGrams"
+          name="weightGrams"
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Price per Gram (₹)</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="product.pricePerGram"
+          name="pricePerGram"
+        />
+      </div>
+    </div>
+
+    <!-- Making Charges -->
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Making Charges (₹)</label>
+      <input
+        type="number"
+        class="form-control"
+        [(ngModel)]="product.makingCharges"
+        name="makingCharges"
+      />
+    </div>
+
+    <!-- Stock & MOQ -->
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Stock</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="product.stock"
+          name="stock"
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">MOQ</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="product.moq"
+          name="moq"
+        />
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Description</label>
+      <textarea
+        class="form-control"
+        rows="3"
+        [(ngModel)]="product.description"
+        name="description"
+      ></textarea>
+    </div>
+
+    <!-- Images -->
+    <label class="form-label fw-semibold">Product Images (1–6 allowed)</label>
+    <input
+      type="file"
+      multiple
+      (change)="onImageUpload($event)"
+      accept="image/*"
+      class="form-control"
+    />
+    <div class="preview-container mt-3">
+      <div *ngFor="let img of previewImages; let i = index" class="image-box">
+        <img [src]="img" alt="Product Image" />
+        <button type="button" class="btn-remove" (click)="removeImage(i)">
+          ×
+        </button>
+      </div>
+    </div>
+    <p class="small text-muted mt-1">You can upload up to 6 images.</p>
+
+    <!-- Hallmark Checkbox -->
+    <div class="form-check mb-3">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="hallmarkCheck"
+        [(ngModel)]="product.isHallmarked"
+        name="isHallmarked"
+      />
+      <label class="form-check-label" for="hallmarkCheck"
+        >✔️ Hallmarked Product</label
+      >
+    </div>
+
+    <!-- Hallmark Number Field (Visible only if checked) -->
+    <div class="mb-3" *ngIf="product.isHallmarked">
+      <label class="form-label fw-semibold">Hallmark Number *</label>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="product.hallmarkNumber"
+        name="hallmarkNumber"
+        placeholder="Enter Hallmark Certificate Number"
+        required
+      />
+    </div>
+
+    <!-- Submit -->
+    <div class="text-center mt-4">
+      <button class="btn btn-dark w-100 py-2" [disabled]="loading">
+        {{ loading ? "Saving..." : "Add Product" }}
+      </button>
+    </div>
+  </form>
+
+  <!-- Loading Overlay -->
+  <div *ngIf="loading" class="overlay">
+    <div class="spinner-border text-primary"></div>
+    <p class="mt-2 text-muted">Saving product...</p>
+  </div>
+</div>

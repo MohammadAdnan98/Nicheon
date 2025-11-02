@@ -1,67 +1,86 @@
-<!-- seller-my-listings.component.html -->
 <div class="my-listings-container">
   <!-- Top Bar -->
-  <div class="top-bar d-flex justify-content-between align-items-center px-3 py-2">
-    <h5 class="mb-0">My Listings</h5>
-    <button class="btn btn-success btn-sm">📤 Add New Listing</button>
+  <div class="top-bar d-flex justify-content-between align-items-center px-3 py-2 shadow-sm">
+    <h5 class="mb-0 fw-semibold">My Product Listings</h5>
+    <button class="btn btn-success btn-sm" routerLink="/seller-add-product">
+      ➕ Add Product
+    </button>
   </div>
 
   <!-- Subheading -->
   <div class="px-3 pb-2 text-muted small">
-    Track and manage your posted scrap.
+    Manage and track your jewelry products.
   </div>
 
-  <!-- Filter & Sort -->
+  <!-- Filter and Sort -->
   <div class="filter-sort-bar d-flex justify-content-between align-items-center px-3 pb-2">
-    <select class="form-select form-select-sm w-50">
-      <option>All</option>
-      <option>Active</option>
-      <option>Expired</option>
-      <option>Sold</option>
+    <select class="form-select form-select-sm w-50" [(ngModel)]="filterStatus" (change)="applyFilter()">
+      <option value="All">All</option>
+      <option value="Active">Active</option>
+      <option value="OutOfStock">Out of Stock</option>
+      <option value="Inactive">Inactive</option>
     </select>
-    <select class="form-select form-select-sm w-50">
-      <option>Newest</option>
-      <option>Highest Interest</option>
+    <select class="form-select form-select-sm w-50" [(ngModel)]="sortOption" (change)="applySort()">
+      <option value="Newest">Newest</option>
+      <option value="PriceHigh">Price: High to Low</option>
+      <option value="PriceLow">Price: Low to High</option>
     </select>
   </div>
 
-  <!-- Listings Grid -->
+  <!-- Product Grid -->
   <div class="row g-3 px-3">
-    <div class="col-12 col-sm-6 col-md-4" *ngFor="let listing of listings">
+    <div class="col-12 col-sm-6 col-md-4" *ngFor="let product of filteredProducts">
       <div class="card p-2 h-100">
-        <img [src]="listing.image" class="img-fluid rounded mb-2" alt="scrap-thumbnail">
-        <p class="fw-semibold mb-1">🏷 {{ listing.scrapType }}</p>
-        <p class="small mb-1">⚖ Weight: {{ listing.weight }}</p>
-        <p class="small mb-1">₹ {{ listing.price }}</p>
-        <p class="small mb-1">📍 {{ listing.location }}</p>
-        <span class="badge mb-2" [ngClass]="{
-          'bg-success': listing.status === 'Active',
-          'bg-secondary': listing.status === 'Expired',
-          'bg-warning': listing.status === 'Sold' }">{{ listing.status }}</span>
-        <p class="small text-muted mb-2">🧍‍♂️ {{ listing.buyers }} Buyers Interested</p>
+        <img
+          [src]="product.primaryImage || 'assets/Image/no-image.png'"
+          class="img-fluid rounded mb-2"
+          alt="{{ product.productName }}"
+        />
+        <h6 class="fw-semibold mb-1 text-truncate">{{ product.productName }}</h6>
+        <p class="small mb-1">💎 Karat: {{ product.karat || 'N/A' }}</p>
+        <p class="small mb-1">⚖ Weight: {{ product.weightGrams }} g</p>
+        <p class="small mb-1">₹ {{ product.pricePerGram }} /g</p>
+        <p class="small mb-1">📦 Stock: {{ product.stock }}</p>
+        <span class="badge mb-2"
+          [ngClass]="{
+            'bg-success': product.isActive,
+            'bg-secondary': !product.isActive
+          }"
+        >
+          {{ product.isActive ? 'Active' : 'Inactive' }}
+        </span>
 
-        <div class="btn-group d-flex gap-1">
-          <button class="btn btn-outline-primary btn-sm w-100">📝 Edit</button>
-          <button class="btn btn-outline-danger btn-sm w-100">🗑 Delete</button>
+        <div *ngIf="product.isHallmarked" class="small text-muted">
+          ✅ Hallmarked ({{ product.hallmarkNumber || 'N/A' }})
         </div>
-        <div class="btn-group d-flex gap-1 mt-1">
-          <button class="btn btn-outline-success btn-sm w-100">✔️ Sold</button>
-          <button class="btn btn-outline-dark btn-sm w-100">🔍 View</button>
+
+        <!-- Action Buttons -->
+        <div class="btn-group d-flex gap-1 mt-2">
+          <button class="btn btn-outline-primary btn-sm w-100" (click)="editProduct(product)">✏️ Edit</button>
+          <button class="btn btn-outline-danger btn-sm w-100" (click)="deleteProduct(product)">🗑 Delete</button>
         </div>
+        <button class="btn btn-outline-dark btn-sm w-100 mt-2" (click)="viewProduct(product)">🔍 View</button>
       </div>
     </div>
   </div>
 
-  <!-- Pagination (optional) -->
-  <div class="text-center mt-4">
-    <button class="btn btn-outline-secondary btn-sm">Load More</button>
+  <!-- Empty State -->
+  <div *ngIf="filteredProducts.length === 0" class="text-center mt-5 text-muted">
+    <i class="bi bi-box-seam fs-1"></i>
+    <p>No products found.</p>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center mt-4">
+    <div class="spinner-border text-primary"></div>
+    <p class="text-muted mt-2">Loading products...</p>
   </div>
 
   <!-- Bottom Navigation -->
   <div class="bottom-nav d-flex">
-    <div><i class="bi bi-house"></i><p>Home</p></div>
+    <div routerLink="/seller-dashboard"><i class="bi bi-house"></i><p>Home</p></div>
     <div><i class="bi bi-card-list"></i><p>Listings</p></div>
-    <div><i class="bi bi-plus-circle"></i><p>Add</p></div>
+    <div routerLink="/seller-add-product"><i class="bi bi-plus-circle"></i><p>Add</p></div>
     <div><i class="bi bi-chat-dots"></i><p>Messages</p></div>
     <div><i class="bi bi-person"></i><p>Profile</p></div>
   </div>

@@ -28,14 +28,15 @@ namespace Nicheon.Shared.SharedRepositories
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, userId ?? ""),
-                new Claim(JwtRegisteredClaimNames.Email, email ?? ""),
-                new Claim(ClaimTypes.Role, role ?? "User"),
-                new Claim("FullName", fullName ?? ""),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+            var claims = new List<Claim>
+    {
+        new Claim(JwtRegisteredClaimNames.Sub, userId ?? ""),
+        new Claim(JwtRegisteredClaimNames.Email, email ?? ""),
+        new Claim(ClaimTypes.Role, role ?? "User"),
+        new Claim("role", role ?? "User"), // ✅ Add plain role claim for Swagger/Auth
+        new Claim("FullName", fullName ?? ""),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+    };
 
             var token = new JwtSecurityToken(
                 issuer: _issuer,
@@ -47,5 +48,7 @@ namespace Nicheon.Shared.SharedRepositories
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
     }
 }

@@ -8,7 +8,7 @@ namespace Nicheon.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Seller")]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _repository;

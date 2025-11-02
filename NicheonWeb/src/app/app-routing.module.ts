@@ -16,6 +16,7 @@ import { BrowseSearchingComponent } from './Buyer/browse-searching/browse-search
 import { BookmarkComponent } from './Buyer/bookmark/bookmark.component';
 import { ProductDetailComponent } from './Buyer/product-detail/product-detail.component';
 import { OtpVerificationComponent } from './authentication/otp-verification/otp-verification.component';
+import { AddProductComponent } from './Seller/add-product/add-product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -35,13 +36,14 @@ const routes: Routes = [
   { path: 'buyer-dashboard', component: BuyerDashboardComponent },
   { path: 'seller-listings', component: ListingsComponent },
   { path: 'buyer-listings', component: BuyerListingsComponent },
-  { path: 'seller-add-scrap', component: AddScrapListingComponent },
+  //{ path: 'seller-add-product', component: AddScrapListingComponent },
   { path: 'message', component: MessageComponent },
   { path: 'message-list', component: MessageLayoutComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'Browser-serach', component: BrowseSearchingComponent },
   { path: 'bookmark', component: BookmarkComponent },
   { path: 'product-deatil', component: ProductDetailComponent },
+  { path: 'seller-add-product', component: AddProductComponent}
 ];
 
 @NgModule({

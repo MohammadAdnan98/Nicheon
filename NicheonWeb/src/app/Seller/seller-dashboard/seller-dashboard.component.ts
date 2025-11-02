@@ -1,57 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProductService } from 'src/app/Services/ProductService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-seller-dashboard',
   templateUrl: './seller-dashboard.component.html',
   styleUrls: ['./seller-dashboard.component.css']
 })
-export class SellerDashboardComponent {
-  listings = [
-    {
-      scrapType: 'Gold Dust',
-      weight: '250 grams',
-      price: 480000,
-      buyers: 4,
-      status: 'Active'
-    },
-    {
-      scrapType: 'Broken Chains',
-      weight: '120 grams',
-      price: 210000,
-      buyers: 2,
-      status: 'Active'
-    },
-    {
-      scrapType: 'Silver Polishing Residue',
-      weight: '1.5 kg',
-      price: 65000,
-      buyers: 1,
-      status: 'Expired'
-    }
-  ];
+export class SellerDashboardComponent implements OnInit {
 
-  offers = [
-    {
-      buyer: 'Raj Refiners Pvt Ltd',
-      price: 180000,
-      duration: '6 months'
-    },
-    {
-      buyer: 'PureGold Recyclers',
-      price: 210000,
-      duration: '3 months'
-    }
-  ];
+  products: any[] = [];
+  sellerName: string = '';
+  businessName: string = '';
+  verified: boolean = true; // ✅ Added property
+  loading: boolean = true;
 
-  messages = [
-    {
-      buyer: 'Anand Metals',
-      preview: 'Can you drop a pickup today?'
-    },
-    {
-      buyer: 'Sharma Refinery',
-      preview: 'Interested in your Gold Dust listing'
-    }
-  ];
+  constructor(
+    private productService: ProductService,
+    private router: Router
+  ) {}
 
+  ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.sellerName = user?.fullName || 'Seller';
+    this.businessName = user?.businessName || 'Your Business';
+    this.verified = user?.isVerified ?? true; // ✅ dynamic verification if available
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    const businessId = 1; // 🔹 Replace later with actual logged-in user's businessId
+    this.productService.getSellerProducts(businessId).subscribe({
+      next: (res) => {
+        this.products = res;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('❌ Failed to load products:', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  addProduct() {
+    this.router.navigate(['/seller-add-product']);
+  }
+
+  // ✅ Added logout function
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.router.navigate(['/auth/login']);
+  }
 }
