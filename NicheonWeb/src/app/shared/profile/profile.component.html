@@ -1,101 +1,62 @@
-<!-- profile.component.html -->
-<div class="profile-container container py-4">
-  <!-- Header Section -->
-  <div class="card mb-4 text-center p-3">
-    <div class="d-flex justify-content-center align-items-center flex-column">
-      <img [src]="user.profileImage || 'https://via.placeholder.com/100'" class="profile-img mb-2" alt="Profile">
-      <h4 class="fw-semibold mb-0">{{ user.businessName }}</h4>
-      <div>
-        <span class="badge bg-success me-1" *ngIf="user.kycVerified">✔ Verified</span>
-        <span class="badge bg-primary">{{ user.role | titlecase }}</span>
-      </div>
-      <button class="btn btn-outline-primary btn-sm mt-2">✏️ Edit Profile</button>
+<div class="profile-wrapper">
+
+  <!-- Profile Header -->
+  <div class="profile-header text-center">
+    <img [src]="user.profileImage" class="profile-photo" alt="Business Logo">
+
+    <h3 class="mt-2 fw-semibold">{{ user.businessName }}</h3>
+    <p class="text-muted">{{ user.businessType }}</p>
+
+    <button class="btn-outline-primary edit-btn" routerLink="/seller-profile-Edite">✏️ Edit Business Profile</button>
+  </div>
+
+  <!-- Business Stats -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <h4>24</h4><p>Active Products</p>
+    </div>
+    <div class="stat-box">
+      <h4>18</h4><p>Total Orders</p>
+    </div>
+    <div class="stat-box">
+      <h4>52</h4><p>Buyer Interests</p>
     </div>
   </div>
 
-  <!-- Contact Info -->
-  <div class="card mb-4 p-3">
-    <h5 class="fw-bold mb-3">📞 Contact Information</h5>
-    <p><strong>Full Name:</strong> {{ user.fullName }}</p>
+  <!-- Business Info -->
+  <div class="card-section">
+    <h5>🏭 Business Information</h5>
+    <p><strong>Business Name:</strong> {{ user.businessName }}</p>
+    <p><strong>Business Type:</strong> {{ user.businessType }}</p>
+    <p><strong>GST Number:</strong> {{ user.gstNumber }}</p>
+  </div>
+
+  <!-- Owner Details -->
+  <div class="card-section">
+    <h5>👤 Owner Details</h5>
+    <p><strong>Name:</strong> {{ user.fullName }}</p>
+    <p><strong>Mobile:</strong> {{ user.mobile }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+  </div>
+
+  <!-- Address -->
+  <div class="card-section">
+    <h5>📍 Business Address</h5>
     <p>
-      <strong>Mobile:</strong> {{ user.mobile }}
-      <span *ngIf="user.mobileVerified" class="text-success">✔</span>
-    </p>
-    <p *ngIf="user.email"><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Location:</strong> {{ user.city }}, {{ user.state }}</p>
-    <p>
-      <strong>GSTIN / KYC:</strong>
-      <span *ngIf="user.kycDocs">📄 Uploaded</span>
+      {{ user.address }} {{ user.landmark }}<br>
+      {{ user.city }}, {{ user.state }} - {{ user.pincode }}<br>
+      {{ user.country }}
     </p>
   </div>
 
-  <!-- Seller Section -->
-  <div *ngIf="user.role === 'seller'">
-    <div class="card mb-3 p-3 border-success">
-      <h5 class="fw-bold text-success mb-2">🧾 Listings Summary</h5>
-      <p>Active Listings: {{ user.activeListings }}</p>
-      <p>Total Scrap Posted: {{ user.totalScrap }} kg</p>
-      <button class="btn btn-success btn-sm">View My Listings</button>
-    </div>
-
-    <div class="card mb-3 p-3 border-success">
-      <h5 class="fw-bold text-success mb-2">📃 Contracts Summary</h5>
-      <p>Active Monthly Deals: {{ user.activeContracts }}</p>
-      <button class="btn btn-outline-success btn-sm">View Contracts</button>
-    </div>
-
-    <div class="card mb-3 p-3">
-      <h6 class="fw-bold">📈 Stats</h6>
-      <p>Buyer Interests This Week: {{ user.stats.interests }}</p>
-      <p>Avg. Scrap Price (30d): ₹{{ user.stats.avgPrice }}/kg</p>
-    </div>
-
-    <div class="card p-3 bg-light border-warning">
-      <h5 class="fw-bold">💎 Upgrade to Premium Seller</h5>
-      <ul>
-        <li>Featured Listings</li>
-        <li>Priority Buyer Access</li>
-      </ul>
-      <button class="btn btn-warning btn-sm">Upgrade Now</button>
-    </div>
+  <!-- Quick Actions -->
+  <div class="actions-grid">
+    <button (click)="goToListings()">📦 My Listings</button>
+    <button class="green" (click)="goToAddProduct()">➕ Add Product</button>
+    <button (click)="goToOrders()">📄 Orders</button>
+    <button>💬 Messages</button>
   </div>
 
-  <!-- Buyer Section -->
-  <div *ngIf="user.role === 'buyer'">
-    <div class="card mb-3 p-3 border-primary">
-      <h5 class="fw-bold text-primary">📥 Saved Scrap</h5>
-      <p>Total Saved: {{ user.savedItems }}</p>
-      <button class="btn btn-primary btn-sm">View Saved Items</button>
-    </div>
+  <button class="logout-btn" (click)="logout()">Logout</button>
 
-    <div class="card mb-3 p-3 border-primary">
-      <h5 class="fw-bold text-primary">📑 Contract Offers</h5>
-      <p>Sent: {{ user.contractOffers.sent }} | Accepted: {{ user.contractOffers.accepted }}</p>
-      <button class="btn btn-outline-primary btn-sm">Track My Contracts</button>
-    </div>
-
-    <div class="card mb-3 p-3">
-      <h6 class="fw-bold">📊 Lead Filters</h6>
-      <p>Scrap Types: {{ user.leadFilters.types.join(', ') }}</p>
-      <p>Cities: {{ user.leadFilters.cities.join(', ') }}</p>
-      <button class="btn btn-sm btn-outline-secondary">Edit Preferences</button>
-    </div>
-
-    <div class="card p-3 bg-light border-info">
-      <h6 class="fw-bold">⭐ Buyer Tier: {{ user.buyerTier }}</h6>
-      <p>Upgrade for early access & more leads</p>
-      <button class="btn btn-info btn-sm">Upgrade</button>
-    </div>
-  </div>
-
-  <!-- Settings -->
-  <div class="card mt-4 p-3">
-    <h5 class="fw-bold">⚙️ Settings</h5>
-    <ul class="list-unstyled">
-      <li><a href="#">Change Password</a></li>
-      <li><a href="#">Manage Notifications</a></li>
-      <li><a href="#">Terms & Conditions</a></li>
-      <li><button class="btn btn-outline-danger btn-sm mt-2">Log Out</button></li>
-    </ul>
-  </div>
 </div>

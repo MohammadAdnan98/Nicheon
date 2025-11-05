@@ -1,71 +1,91 @@
-<div class="seller-dashboard-container" *ngIf="!loading; else loadingTemplate">
+<div class="dashboard-container" *ngIf="!loading; else loadingTemplate">
   <!-- Top Bar -->
   <div class="top-bar d-flex justify-content-between align-items-center px-3 py-2">
-    <img src="assets/Image/NicheonLogo.png" alt="Nicheon Logo" class="logo-img">
-    <div>
-      <i class="bi bi-bell me-3 fs-5"></i>
-      <i class="bi bi-person-circle fs-5" (click)="logout()"></i>
+    <img src="assets/Image/NicheonLogo.png" alt="Nicheon Logo" class="logo-img" />
+    <div class="d-flex align-items-center">
+      <i class="bi bi-bell me-3 fs-5" routerLink="/seller-notifications"></i>
+      <i class="bi bi-chat-dots me-3 fs-5" routerLink="/seller-messages"></i>
+      <i class="bi bi-person-circle fs-5" routerLink="/seller-profile"></i>
     </div>
   </div>
 
-  <!-- Seller Summary -->
-  <div class="summary-card card p-3 m-3">
+  <!-- Seller Info -->
+  <div class="seller-info card m-3 p-3 shadow-sm">
     <div class="d-flex justify-content-between align-items-center">
       <div>
-        <h6 class="mb-1">{{ businessName }} 
-          <span *ngIf="verified" class="badge bg-success">✅ Verified</span>
+        <h6>{{ businessName }} 
+          <span *ngIf="verified" class="badge bg-success ms-1">Verified</span>
         </h6>
-        <p class="text-muted mb-1 small">Welcome, <strong>{{ sellerName }}</strong></p>
+        <p class="small text-muted mb-0">Welcome, {{ sellerName }}</p>
       </div>
       <button class="btn btn-success btn-sm" (click)="addProduct()">+ Add Product</button>
     </div>
   </div>
 
-  <div class="container">
-    <!-- My Listings -->
-    <div class="section">
-      <h6 class="section-title">📦 My Product Listings</h6>
-
-      <div *ngIf="products.length === 0" class="text-center text-muted py-4">
-        <p>No products listed yet.</p>
-        <button class="btn btn-dark btn-sm" (click)="addProduct()">Add Your First Product</button>
+  <!-- Summary Stats -->
+<div class="dashboard-stats container mt-3">
+  <div class="row g-3">
+    
+    <div class="col-6 col-md-3" *ngFor="let s of summary">
+      <div class="stat-card">
+        <div class="stat-value">{{ s.value }}</div>
+        <div class="stat-label">{{ s.label }}</div>
       </div>
+    </div>
 
-      <div class="row g-3" *ngIf="products.length > 0">
-        <div class="col-12 col-md-6 col-lg-4" *ngFor="let product of products">
-          <div class="card p-3">
-            <p class="mb-1 fw-semibold">{{ product.productName }}</p>
-            <p class="mb-1 small">Price: ₹{{ product.pricePerGram || product.price }}</p>
-            <p class="mb-1 small">Stock: {{ product.stock }}</p>
-            <span class="badge bg-info text-dark">
-              {{ product.isActive ? 'Active' : 'Inactive' }}
-            </span>
+  </div>
+</div>
+
+  <!-- Recent Orders -->
+  <div class="section px-3 mt-4">
+    <h6 class="section-title">🧾 Recent Orders</h6>
+    <div *ngIf="orders.length === 0" class="text-muted small text-center py-3">No new orders yet.</div>
+    <div *ngFor="let order of orders" class="order-card card p-2 mb-2">
+      <div class="d-flex justify-content-between">
+        <div>
+          <p class="fw-semibold mb-1">{{ order.buyer }}</p>
+          <p class="small mb-1">{{ order.product }} (x{{ order.quantity }})</p>
+          <p class="small text-muted">₹{{ order.amount }}</p>
+        </div>
+        <div class="text-end">
+          <span class="badge" [ngClass]="order.status === 'Pending' ? 'bg-warning' : 'bg-success'">{{ order.status }}</span>
+          <div class="mt-2">
+            <button class="btn btn-sm btn-outline-success me-1">Accept</button>
+            <button class="btn btn-sm btn-outline-danger">Reject</button>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Promote Listing -->
-    <div class="section mt-4 text-center">
-      <button class="btn btn-dark">🚀 Promote Your Listing</button>
+  <!-- Top Products -->
+  <div class="section px-3 mt-4">
+    <h6 class="section-title">💎 Top Products</h6>
+    <div class="row g-3">
+      <div class="col-6 col-md-4" *ngFor="let product of products | slice:0:3">
+        <div class="card p-2 text-center product-card">
+          <img [src]="product.image" alt="{{ product.productName }}" class="product-img" />
+          <p class="fw-semibold mb-0">{{ product.productName }}</p>
+          <p class="small text-muted mb-1">₹{{ product.pricePerGram }}/g</p>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Bottom Navigation -->
   <div class="bottom-nav d-flex">
-    <div><i class="bi bi-house"></i><p>Home</p></div>
-    <div><i class="bi bi-card-list"></i><p>Listings</p></div>
-    <div (click)="addProduct()"><i class="bi bi-plus-circle"></i><p>Add</p></div>
-    <div><i class="bi bi-chat-dots"></i><p>Messages</p></div>
-    <div><i class="bi bi-person"></i><p>Profile</p></div>
+    <div routerLink="/seller-dashboard"><i class="bi bi-house"></i><p>Home</p></div>
+    <div routerLink="/product-listings"><i class="bi bi-box-seam"></i><p>Products</p></div>
+    <div routerLink="/seller-orders"><i class="bi bi-cart"></i><p>Orders</p></div>
+    <div routerLink="/seller-messages-list"><i class="bi bi-chat-dots"></i><p>Messages</p></div>
+    <div routerLink="/seller-profile"><i class="bi bi-person"></i><p>Profile</p></div>
   </div>
 </div>
 
+<!-- Loading -->
 <ng-template #loadingTemplate>
   <div class="text-center py-5">
-    <div class="spinner-border text-success" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-3 text-muted">Loading your dashboard...</p>
+    <div class="spinner-border text-success"></div>
+    <p class="mt-3 text-muted">Loading Dashboard...</p>
   </div>
 </ng-template>

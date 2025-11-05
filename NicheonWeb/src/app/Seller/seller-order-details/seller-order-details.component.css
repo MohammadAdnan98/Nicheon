@@ -1,0 +1,49 @@
+.order-details-container {
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.section-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid #eeeeee;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 5px;
+}
+
+.bg-new { background: #ffb703; }
+.bg-accepted { background: #0077ff; }
+.bg-shipped { background: #1b9900; }
+.bg-rejected { background: #d32f2f; }
+
+.product-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.product-img {
+  width: 75px;
+  height: 75px;
+  border-radius: 8px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.product-link {
+  cursor: pointer;
+  color: #0d47a1;
+}
+.product-link:hover {
+  text-decoration: underline;
+}
+
+.cursor-pointer { cursor: pointer; }

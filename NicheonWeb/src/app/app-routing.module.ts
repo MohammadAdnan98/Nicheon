@@ -17,6 +17,9 @@ import { BookmarkComponent } from './Buyer/bookmark/bookmark.component';
 import { ProductDetailComponent } from './Buyer/product-detail/product-detail.component';
 import { OtpVerificationComponent } from './authentication/otp-verification/otp-verification.component';
 import { AddProductComponent } from './Seller/add-product/add-product.component';
+import { SellerOrdersComponent } from './Seller/seller-orders/seller-orders.component';
+import { SellerOrderDetailsComponent } from './Seller/seller-order-details/seller-order-details.component';
+import { ProfilEditeComponent } from './shared/profil-edite/profil-edite.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -34,16 +37,21 @@ const routes: Routes = [
 
   { path: 'seller-dashboard', component: SellerDashboardComponent },
   { path: 'buyer-dashboard', component: BuyerDashboardComponent },
-  { path: 'seller-listings', component: ListingsComponent },
+  { path: 'product-listings', component: ListingsComponent },
   { path: 'buyer-listings', component: BuyerListingsComponent },
   //{ path: 'seller-add-product', component: AddScrapListingComponent },
-  { path: 'message', component: MessageComponent },
-  { path: 'message-list', component: MessageLayoutComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'seller-messages', component: MessageComponent },
+  { path: 'seller-messages-list', component: MessageLayoutComponent },
+  { path: 'seller-profile', component: ProfileComponent },
   { path: 'Browser-serach', component: BrowseSearchingComponent },
   { path: 'bookmark', component: BookmarkComponent },
   { path: 'product-deatil', component: ProductDetailComponent },
-  { path: 'seller-add-product', component: AddProductComponent}
+  { path: 'seller-add-product', component: AddProductComponent},
+  { path: 'seller-orders', component: SellerOrdersComponent},
+  { path: 'seller-order-details/:id', component: SellerOrderDetailsComponent },
+  { path: 'seller-profile-Edite', component: ProfilEditeComponent },
+
+
 ];
 
 @NgModule({

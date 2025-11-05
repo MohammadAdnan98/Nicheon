@@ -8,48 +8,79 @@ import { Router } from '@angular/router';
   styleUrls: ['./seller-dashboard.component.css']
 })
 export class SellerDashboardComponent implements OnInit {
-
   products: any[] = [];
-  sellerName: string = '';
-  businessName: string = '';
-  verified: boolean = true; // ✅ Added property
-  loading: boolean = true;
+  orders: any[] = [];
+  summaryCards: any[] = [];
+  sellerName = '';
+  businessName = '';
+  verified = true;
+  loading = true;
 
-  constructor(
-    private productService: ProductService,
-    private router: Router
-  ) {}
+  constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     this.sellerName = user?.fullName || 'Seller';
     this.businessName = user?.businessName || 'Your Business';
-    this.verified = user?.isVerified ?? true; // ✅ dynamic verification if available
-    this.loadProducts();
+    this.verified = user?.isVerified ?? true;
+
+    this.loadDashboard();
   }
 
-  loadProducts() {
-    const businessId = 1; // 🔹 Replace later with actual logged-in user's businessId
-    this.productService.getSellerProducts(businessId).subscribe({
+  loadDashboard() {
+    this.productService.getSellerProducts(1).subscribe({
       next: (res) => {
-        this.products = res;
-        this.loading = false;
+        this.products = Array.isArray(res) ? res : res.data || [];
+        this.loadDemoOrders();
       },
       error: (err) => {
-        console.error('❌ Failed to load products:', err);
-        this.loading = false;
+        console.warn('API failed, using demo data');
+        this.loadDemoData();
       }
     });
   }
 
-  addProduct() {
-    this.router.navigate(['/seller-add-product']);
+  loadDemoData() {
+    this.products = [
+      { productName: 'Gold Ring', pricePerGram: 5800, image: 'assets/Image/golddust.png', stock: 10 },
+      { productName: 'Silver Chain', pricePerGram: 90, image: 'assets/Image/rawgold.png', stock: 25 }
+    ];
+    this.loadDemoOrders();
   }
 
-  // ✅ Added logout function
-  logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.router.navigate(['/auth/login']);
+  loadDemoOrders() {
+    this.orders = [
+      { buyer: 'Raj Jewellers', product: 'Gold Ring', quantity: 2, amount: 12000, status: 'Pending' },
+      { buyer: 'Anand Jewellers', product: 'Silver Chain', quantity: 5, amount: 4500, status: 'Accepted' }
+    ];
+
+    // this.summaryCards = [
+    //   { label: 'Products', value: this.products.length },
+    //   { label: 'Orders', value: this.orders.length },
+    //   { label: 'Active Orders', value: this.orders.filter(o => o.status === 'Pending').length },
+    //   { label: 'Earnings', value: '₹45,200' }
+    // ];
+
+    this.loading = false;
+  }
+
+  summary = [
+  { label: "New Orders", value: 0 },
+  { label: "Accepted", value: 0 },
+  { label: "Shipped", value: 0 },
+  { label: "Revenue (Demo)", value: "₹0" }
+];
+
+loadDemoSummary() {
+  this.summary = [
+    { label: "New Orders", value: this.orders.filter(o => o.status === 'New').length },
+    { label: "Accepted", value: this.orders.filter(o => o.status === 'Accepted').length },
+    { label: "Shipped", value: this.orders.filter(o => o.status === 'Shipped').length },
+    { label: "Revenue (Demo)", value: "₹" + this.orders.reduce((sum, o) => sum + o.totalAmount, 0) }
+  ];
+}
+
+  addProduct() {
+    this.router.navigate(['/seller-add-product']);
   }
 }

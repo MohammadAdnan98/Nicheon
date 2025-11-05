@@ -32,6 +32,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AddProductComponent } from './Seller/add-product/add-product.component';
+import { SellerOrdersComponent } from './Seller/seller-orders/seller-orders.component';
+import { SellerOrderDetailsComponent } from './Seller/seller-order-details/seller-order-details.component';
+import { ProfilEditeComponent } from './shared/profil-edite/profil-edite.component';
 
 
 
@@ -54,7 +57,10 @@ import { AddProductComponent } from './Seller/add-product/add-product.component'
     BookmarkComponent,
     ProductDetailComponent,
     OtpVerificationComponent,
-    AddProductComponent
+    AddProductComponent,
+    SellerOrdersComponent,
+    SellerOrderDetailsComponent,
+    ProfilEditeComponent
   ],
   imports: [
     BrowserModule,

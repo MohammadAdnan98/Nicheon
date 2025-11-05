@@ -1,66 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
-  user = {
-    fullName: 'Adnan Khan',
-    businessName: 'Star Jewels',
-    role: 'seller', // 'buyer' or 'seller'
-    verified: true,
-    kycVerified: true,
-    mobileVerified: true,
-    mobile: '9876543210',
-    email: 'starjewels@gmail.com',
-    city: 'Surat',
-    state: 'Gujarat',
-    gstin: '27AAACI1234F1Z5',
-    kycDocs: true,
-    profileImage: '',
+export class ProfileComponent implements OnInit {
 
-    // Seller-only data
-    activeListings: 4,
-    totalScrap: 31,
-    activeContracts: 2,
-    stats: {
-      interests: 9,
-      avgPrice: 22500
-    },
+  user: any = {};
 
-    // Buyer-only data
-    savedItems: 12,
-    contractOffers: {
-      sent: 3,
-      accepted: 1
-    },
-    leadFilters: {
-      types: ['Gold Dust', 'Silver Waste'],
-      cities: ['Surat', 'Mumbai']
-    },
+  constructor(private router: Router) {}
 
-    buyerTier: 'Pro Buyer' // or 'Free Plan'
-  };
+  ngOnInit(): void {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      this.user = JSON.parse(stored);
+    }
 
-  get isSeller() {
-    return this.user.role === 'seller';
+    // Fallbacks so UI never looks empty
+    this.user.profileImage = this.user.profileImage || 'assets/Image/profile-logo.jpg';
+    this.user.businessType = this.user.businessType || 'Not Provided';
+    this.user.gstNumber = this.user.gstNumber || 'Not Provided';
+    this.user.address = this.user.address || '';
+    this.user.landmark = this.user.landmark || '';
+    this.user.city = this.user.city || '';
+    this.user.state = this.user.state || '';
+    this.user.country = this.user.country || '';
+    this.user.pincode = this.user.pincode || '';
   }
 
-  get isBuyer() {
-    return this.user.role === 'buyer';
+  goToListings() {
+    this.router.navigate(['/seller-listings']);
   }
 
-  editProfile() {
-    alert('Edit profile clicked!');
+  goToAddProduct() {
+    this.router.navigate(['/seller-add-product']);
   }
 
-  upgrade() {
-    alert('Upgrade clicked!');
+  goToOrders() {
+    this.router.navigate(['/seller-orders']);
   }
 
   logout() {
-    alert('Logged out!');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.router.navigate(['/auth/login']);
   }
 }

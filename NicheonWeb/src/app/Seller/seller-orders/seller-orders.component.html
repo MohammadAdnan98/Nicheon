@@ -1,0 +1,176 @@
+<div class="orders-container" *ngIf="!loading; else loadingTemplate">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex align-items-center gap-3">
+      <i
+        class="bi bi-arrow-left-circle fs-4 cursor-pointer"
+        (click)="goDashboard()"
+      ></i>
+      <h4 class="fw-semibold mb-0">Orders</h4>
+    </div>
+
+    <div class="d-flex gap-2 flex-grow-1 justify-content-end">
+      <input
+        type="text"
+        class="form-control search-large"
+        placeholder="Search by buyer, product, or order #"
+        [(ngModel)]="searchText"
+        (input)="applyFilter()"
+      />
+
+      <select
+        class="form-select w-auto"
+        [(ngModel)]="filterStatus"
+        (change)="applyFilter()"
+      >
+        <option value="">All Status</option>
+        <option value="New">New</option>
+        <option value="Accepted">Accepted</option>
+        <option value="Shipped">Shipped</option>
+      </select>
+
+      <button class="btn btn-outline-secondary" (click)="refresh()">
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary Stats -->
+  <div class="stats-row mb-3">
+    <div class="stat-card">
+      <div class="stat-value">{{ stats.newOrders }}</div>
+      <div class="stat-label">New Orders</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ stats.accepted }}</div>
+      <div class="stat-label">Accepted</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ stats.shipped }}</div>
+      <div class="stat-label">Shipped</div>
+    </div>
+    <div class="stat-card revenue">
+      <div class="stat-value">₹{{ stats.revenue }}</div>
+      <div class="stat-label">Revenue (Demo)</div>
+    </div>
+  </div>
+
+  <!-- Bulk Actions -->
+  <div class="d-flex align-items-center mb-2">
+    <span class="text-muted me-3">{{ selectedOrders.length }} selected</span>
+
+    <button
+      class="btn btn-success btn-sm me-2"
+      (click)="bulkAccept()"
+      [disabled]="!selectedOrders.length"
+    >
+      Accept
+    </button>
+    <button
+      class="btn btn-danger btn-sm me-2"
+      (click)="bulkReject()"
+      [disabled]="!selectedOrders.length"
+    >
+      Reject
+    </button>
+    <button
+      class="btn btn-primary btn-sm"
+      (click)="bulkShip()"
+      [disabled]="!selectedOrders.length"
+    >
+      Mark Shipped
+    </button>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead class="table-light">
+        <tr>
+          <th><input type="checkbox" (change)="toggleSelectAll($event)" /></th>
+          <th>Order #</th>
+          <th>Buyer</th>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Total Value</th>
+          <th>Payment</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let o of filteredOrders">
+          <td>
+            <input
+              type="checkbox"
+              [(ngModel)]="o.selected"
+              (change)="updateSelection()"
+            />
+          </td>
+          <td class="fw-semibold">#{{ o.orderNumber }}</td>
+          <td>
+            {{ o.buyerName }}<br /><span class="small text-muted">{{
+              o.city
+            }}</span>
+          </td>
+          <td>{{ o.items[0].name }}</td>
+          <td>{{ o.items[0].qty }}</td>
+          <td>₹{{ o.totalAmount }}</td>
+          <td>{{ o.paymentMethod }}</td>
+
+          <td>
+            <span
+              class="badge"
+              [ngClass]="{
+                'bg-warning text-dark': o.status === 'New',
+                'bg-primary': o.status === 'Accepted',
+                'bg-success': o.status === 'Shipped'
+              }"
+            >
+              {{ o.status }}
+            </span>
+          </td>
+
+          <td>{{ o.orderDate | date }}</td>
+
+          <td>
+            <button
+              class="btn btn-outline-success btn-sm me-1"
+              (click)="accept(o)"
+              [disabled]="o.status != 'New'"
+            >
+              Accept
+            </button>
+            <button
+              class="btn btn-outline-danger btn-sm me-1"
+              (click)="reject(o)"
+              [disabled]="o.status != 'New'"
+            >
+              Reject
+            </button>
+            <button
+              class="btn btn-outline-primary btn-sm me-1"
+              (click)="ship(o)"
+              [disabled]="o.status != 'Accepted'"
+            >
+              Ship
+            </button>
+            <button class="btn btn-dark btn-sm" (click)="viewDetails(o)">
+              View
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Loading Spinner -->
+<ng-template #loadingTemplate>
+  <div class="text-center py-5">
+    <div class="spinner-border text-success"></div>
+    <p class="mt-2 text-muted">Loading orders...</p>
+  </div>
+</ng-template>

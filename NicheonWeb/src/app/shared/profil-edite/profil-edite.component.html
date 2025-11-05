@@ -1,0 +1,146 @@
+<div class="edit-profile-container">
+  <h4 class="page-title">✏️ Edit Seller Profile</h4>
+
+  <form [formGroup]="editForm" (ngSubmit)="saveProfile()">
+    <div class="image-section text-center mb-3">
+      <img
+        [src]="editForm.value.profileImage || 'assets/Image/profile-logo.jpg'"
+        class="profile-img"
+        alt="Profile"
+      />
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+    </div>
+
+    <div class="row g-3">
+      <!-- Personal Details -->
+      <div class="col-md-6">
+        <label>Full Name *</label>
+        <input
+          formControlName="fullName"
+          type="text"
+          class="form-control"
+          placeholder="Enter owner name"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>Email *</label>
+        <input
+          formControlName="primaryEmail"
+          type="email"
+          class="form-control"
+          placeholder="Business email"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>Mobile *</label>
+        <input
+          formControlName="primaryPhone"
+          type="text"
+          class="form-control"
+          placeholder="Mobile number"
+        />
+      </div>
+
+      <!-- Business Info -->
+      <div class="col-md-6">
+        <label>Business Name *</label>
+        <input
+          formControlName="businessName"
+          type="text"
+          class="form-control"
+          placeholder="Company or Shop name"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>Business Type *</label>
+        <input
+          formControlName="businessType"
+          type="text"
+          class="form-control"
+          placeholder="Manufacturer / Wholesaler / Retailer"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>GST Number</label>
+        <input
+          formControlName="gstNumber"
+          type="text"
+          class="form-control"
+          placeholder="GSTIN"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>PAN</label>
+        <input
+          formControlName="pan"
+          type="text"
+          class="form-control"
+          placeholder="PAN Number"
+        />
+      </div>
+
+      <!-- Address Section -->
+      <div class="col-12 mt-3">
+        <h6 class="section-heading">📍 Business Address</h6>
+      </div>
+
+      <div class="col-md-12">
+        <label>Address (Street / Shop Address) *</label>
+        <input
+          formControlName="address"
+          type="text"
+          class="form-control"
+          placeholder="Shop No. 12, Moti Bazaar"
+        />
+      </div>
+
+      <div class="col-md-12">
+        <label>Landmark</label>
+        <input
+          formControlName="landmark"
+          type="text"
+          class="form-control"
+          placeholder="Near Jain Temple"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>City *</label>
+        <input formControlName="city" type="text" class="form-control" />
+      </div>
+
+      <div class="col-md-6">
+        <label>State *</label>
+        <input formControlName="state" type="text" class="form-control" />
+      </div>
+
+      <div class="col-md-6">
+        <label>Country *</label>
+        <input formControlName="country" type="text" class="form-control" />
+      </div>
+
+      <div class="col-md-6">
+        <label>Pincode *</label>
+        <input formControlName="pincode" type="text" class="form-control" />
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-success me-2" [disabled]="loading">
+        💾 Save Changes
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="cancelEdit()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

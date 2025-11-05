@@ -1,0 +1,76 @@
+<div class="order-details-container">
+
+  <!-- Back -->
+  <div class="d-flex align-items-center mb-3">
+    <i class="bi bi-arrow-left-circle fs-4 cursor-pointer" (click)="goBack()"></i>
+    <h4 class="ms-3 mb-0 fw-semibold">Order #{{ order.orderNumber }}</h4>
+  </div>
+
+  <!-- Status Badge -->
+  <div class="status-badge" [ngClass]="statusColor(order.status)">
+    {{ order.status }}
+  </div>
+
+  <!-- Buyer Info -->
+  <div class="section-card mt-3">
+    <h6 class="fw-semibold mb-2">Buyer Details</h6>
+    <p class="mb-1 fw-medium">{{ order.buyerName }}</p>
+    <p class="small text-muted">{{ order.businessName }}</p>
+    <p class="small text-muted">{{ order.city }}, {{ order.state }}</p>
+    <p class="small">📞 {{ order.phone }}</p>
+  </div>
+
+  <!-- Product List -->
+  <div class="section-card mt-3">
+    <h6 class="fw-semibold mb-3">Products ({{ order.items.length }})</h6>
+
+    <div *ngFor="let item of order.items" class="product-row">
+
+      <!-- Product Image -->
+      <img [src]="item.images[0]" class="product-img" (click)="viewProduct(item.productId)"/>
+
+      <!-- Product Info -->
+      <div class="flex-grow-1 ms-3">
+        <p class="fw-semibold mb-1 product-link" (click)="viewProduct(item.productId)">
+          {{ item.productName }}
+        </p>
+        <div class="small text-muted">
+          <p class="mb-1">Metal: <strong>{{ item.metal }}</strong></p>
+          <p class="mb-1">Karat: <strong>{{ item.karat }}</strong></p>
+          <p class="mb-1">Weight: <strong>{{ item.weightGrams }} g</strong></p>
+          <p class="mb-1">Color: <strong>{{ item.colour || 'N/A' }}</strong></p>
+          <p class="mb-1">Size: <strong>{{ item.size || 'N/A' }}</strong></p>
+        </div>
+      </div>
+
+      <!-- Pricing -->
+      <div class="text-end">
+        <p class="small text-muted">Qty: <strong>{{ item.qty }}</strong></p>
+        <p class="fw-semibold">₹{{ item.price }}</p>
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div class="d-flex justify-content-between fw-semibold">
+      <span>Total Amount</span>
+      <span>₹{{ order.totalAmount }}</span>
+    </div>
+  </div>
+
+  <!-- Payment Details -->
+  <div class="section-card mt-3">
+    <h6 class="fw-semibold mb-2">Payment</h6>
+    <p class="mb-1">Method: <strong>{{ order.paymentMethod }}</strong></p>
+    <p class="mb-1">Order Date: <strong>{{ order.orderDate | date:'mediumDate' }}</strong></p>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="d-flex gap-2 mt-4">
+    <button class="btn btn-success" (click)="accept()" [disabled]="order.status!='New'">Accept</button>
+    <button class="btn btn-danger" (click)="reject()" [disabled]="order.status!='New'">Reject</button>
+    <button class="btn btn-primary" (click)="ship()" [disabled]="order.status!='Accepted'">Mark Shipped</button>
+  </div>
+
+</div>
