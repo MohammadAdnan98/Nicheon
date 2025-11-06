@@ -110,4 +110,16 @@ export class AddProductComponent {
       },
     });
   }
+
+  setPrimary(index: number) {
+  const img = this.previewImages.splice(index, 1)[0];
+  this.previewImages.unshift(img);
+}
+
+goBack() {
+  //this.router.navigate(['/seller-listings']);
+
+  this.router.navigate(['/product-listings']);
+}
+
 }

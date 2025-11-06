@@ -1,10 +1,13 @@
 <div class="seller-listings">
 
   <!-- Header -->
-  <div class="header d-flex justify-content-between align-items-center px-3 py-3 shadow-sm bg-white">
-    <h4 class="fw-semibold mb-0">My Product Catalog</h4>
-    <button class="btn btn-primary btn-sm" (click)="addProduct()">+ Add Product</button>
-  </div>
+  <!-- Header -->
+<div class="header d-flex align-items-center px-3 py-3 shadow-sm bg-white">
+  <i class="bi bi-arrow-left fs-5 me-3 back-btn" (click)="goBack()"></i>
+  <h4 class="fw-semibold mb-0 flex-grow-1">My Product Catalog</h4>
+  <button class="btn btn-primary btn-sm" (click)="addProduct()">+ Add Product</button>
+</div>
+
 
   <!-- Filters -->
   <div class="filters px-3 py-2 d-flex gap-2">

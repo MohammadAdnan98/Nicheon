@@ -13,6 +13,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   userRole: string = '';
+  loading = false;
+
 
   constructor(
     private fb: FormBuilder,
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
       this.loginForm.markAllAsTouched();
       return;
     }
+      this.loading = true;
 
     const credentials = {
       username: this.loginForm.value.username,
@@ -54,6 +57,9 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
 
         debugger;
+
+              this.loading = false;
+
 
         if (response?.user?.token) {
           localStorage.setItem('token', response.user.token);
@@ -71,6 +77,9 @@ export class LoginComponent implements OnInit {
           //   this.router.navigate(['/buyer/dashboard']);
           // }
         } else {
+
+                this.loading = false;
+
           this.snackBar.open(response?.message || 'Invalid login', 'Close', {
             duration: 3000,
             panelClass: ['snackbar-error'],
@@ -78,6 +87,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (err) => {
+        this.loading = false;
         this.spinner.hide();
         this.snackBar.open('Login failed. Please try again.', 'Close', {
           duration: 3000,

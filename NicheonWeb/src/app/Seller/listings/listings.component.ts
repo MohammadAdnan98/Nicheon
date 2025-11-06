@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ProductService } from 'src/app/Services/ProductService';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-listings',
@@ -17,7 +19,9 @@ export class ListingsComponent
   filterStatus = 'All';
   sortOption = 'Newest';
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(private productService: ProductService, private router: Router
+    , private location: Location
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -134,5 +138,13 @@ getDummyProducts() {
   {
     this.router.navigate(['/seller-add-product']);
   }
+
+  goBack() {
+  // if (window.history.length > 1) {
+  //   this.location.back();
+  // } else {
+    this.router.navigate(['/seller-dashboard']);
+  //}
+}
 
 }

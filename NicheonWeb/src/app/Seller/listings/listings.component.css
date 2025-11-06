@@ -35,3 +35,13 @@
   justify-content: space-between;
   font-size: 0.85rem;
 }
+.back-btn {
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: #f1f1f1;
+}
