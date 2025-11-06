@@ -1,52 +1,37 @@
-.my-listings-container {
-  font-family: 'Poppins', sans-serif;
-  background: #fffefb;
-  color: #333;
+.seller-listings {
+  background: #f9fafb;
   min-height: 100vh;
-  padding-bottom: 100px;
+  font-family: 'Poppins', sans-serif;
 }
 
-.top-bar {
-  background: #fff;
-  border-bottom: 1px solid #e0e0e0;
+.product-card {
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: white;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+.product-card:hover {
+  box-shadow: 0 5px 16px rgba(0,0,0,0.15);
+  transform: translateY(-3px);
 }
 
-.card {
+.image-box {
+  height: 160px;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  background: #fff;
-  transition: transform 0.2s ease;
-}
-.card:hover {
-  transform: scale(1.02);
-}
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  border-top: 1px solid #ccc;
+  overflow: hidden;
+  background: #f5f5f5;
   display: flex;
-  justify-content: space-around;
-  padding: 4px 0;
-  text-align: center;
-  font-size: 0.7rem;
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
-  z-index: 1000;
-}
-
-.bottom-nav div {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+}
+.image-box img {
+  max-height: 100%;
+  width: auto;
 }
 
-.bottom-nav i {
-  font-size: 1rem;
-  margin-bottom: 2px;
+.spec {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
 }

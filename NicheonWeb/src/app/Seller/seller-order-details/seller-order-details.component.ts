@@ -30,7 +30,7 @@ export class SellerOrderDetailsComponent implements OnInit {
 
       items: [
         {
-          productId: 8,
+          productId: 101,
           productName: "Gold Chain (18K)",
           metal: "Gold",
           karat: "18K",
@@ -42,7 +42,7 @@ export class SellerOrderDetailsComponent implements OnInit {
           images: ["assets/Image/goldchain.jpg"]
         },
         {
-          productId: 10,
+          productId: 102,
           productName: "Gold Biscuit (24K)",
           metal: "Gold",
           karat: "24K",
@@ -68,6 +68,7 @@ export class SellerOrderDetailsComponent implements OnInit {
   ship() { this.order.status = "Shipped"; }
 
   viewProduct(productId: number) {
-    this.router.navigate(['/product-detail', productId]);
+  debugger;
+   this.router.navigate(['/seller-product', productId]);
   }
 }

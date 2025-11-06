@@ -59,18 +59,30 @@
   </div>
 
   <!-- Top Products -->
-  <div class="section px-3 mt-4">
-    <h6 class="section-title">💎 Top Products</h6>
-    <div class="row g-3">
-      <div class="col-6 col-md-4" *ngFor="let product of products | slice:0:3">
-        <div class="card p-2 text-center product-card">
-          <img [src]="product.image" alt="{{ product.productName }}" class="product-img" />
-          <p class="fw-semibold mb-0">{{ product.productName }}</p>
-          <p class="small text-muted mb-1">₹{{ product.pricePerGram }}/g</p>
+<div class="section px-3 mt-4">
+  <h5 class="section-title fw-semibold mb-3">💎 Top Products</h5>
+
+  <div class="row g-3">
+    <div class="col-6 col-md-4" *ngFor="let product of products | slice:0:3">
+      <div class="top-product-card text-center" (click)="viewProduct(product.productId)">
+        
+        <div class="image-wrapper">
+          <img 
+            [src]="product.image || 'assets/Image/no-image.png'" 
+            alt="{{ product.productName }}" 
+          />
         </div>
+
+        <div class="product-info">
+          <p class="product-title">{{ product.productName }}</p>
+          <p class="product-price">₹{{ product.pricePerGram }}/g</p>
+        </div>
+
       </div>
     </div>
   </div>
+</div>
+
 
   <!-- Bottom Navigation -->
   <div class="bottom-nav d-flex">

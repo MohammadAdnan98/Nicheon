@@ -23,23 +23,67 @@ export class ListingsComponent
     this.loadProducts();
   }
 
-  loadProducts(): void {
-    this.loading = true;
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const businessId = user?.businessId || 1;
+  // loadProducts(): void {
+  //   this.loading = true;
+  //   const user = JSON.parse(localStorage.getItem('user') || '{}');
+  //   const businessId = user?.businessId || 1;
 
-    this.productService.getSellerProducts(businessId).subscribe({
-      next: (res) => {
-        this.products = res.data || res;
-        this.filteredProducts = [...this.products];
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('❌ Failed to fetch products', err);
-        this.loading = false;
-      },
-    });
-  }
+  //   this.productService.getSellerProducts(businessId).subscribe({
+  //     next: (res) => {
+  //       this.products = res.data || res;
+  //       this.filteredProducts = [...this.products];
+  //       this.loading = false;
+  //     },
+  //     error: (err) => {
+  //       console.error('❌ Failed to fetch products', err);
+  //       this.loading = false;
+  //     },
+  //   });
+  // }
+
+  loadProducts(): void {
+  this.loading = true;
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const businessId = user.businessId || 1;
+
+  this.productService.getSellerProducts(businessId).subscribe({
+    next: (res) => {
+      this.products = res?.data?.length ? res.data : this.getDummyProducts();
+      this.filteredProducts = [...this.products];
+      this.loading = false;
+    },
+    error: () => {
+      this.products = this.getDummyProducts();
+      this.filteredProducts = [...this.products];
+      this.loading = false;
+    }
+  });
+}
+
+getDummyProducts() {
+  return [
+    {
+      productId: 101,
+      productName: "22K Gold Chain",
+      karat: "22K",
+      weightGrams: 15,
+      pricePerGram: 6200,
+      stock: 10,
+      isActive: true,
+      primaryImage: "assets/Image/goldchain.jpg"
+    },
+    {
+      productId: 102,
+      productName: "18K Diamond Ring",
+      karat: "18K",
+      weightGrams: 5,
+      pricePerGram: 8200,
+      stock: 0,
+      isActive: true,
+      primaryImage: "assets/Image/diamondring.png"
+    }
+  ];
+}
 
   applyFilter(): void {
     if (this.filterStatus === 'All') {
@@ -81,8 +125,14 @@ export class ListingsComponent
     }
   }
 
-  viewProduct(product: any): void {
-    this.router.navigate(['/product-deatil'], { queryParams: { id: product.productId } });
+ viewProduct(product: any): void {
+  this.router.navigate(['/seller-product', product.productId]);
+}
+
+
+  addProduct()
+  {
+    this.router.navigate(['/seller-add-product']);
   }
 
 }

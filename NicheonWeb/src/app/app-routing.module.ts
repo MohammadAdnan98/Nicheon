@@ -20,6 +20,8 @@ import { AddProductComponent } from './Seller/add-product/add-product.component'
 import { SellerOrdersComponent } from './Seller/seller-orders/seller-orders.component';
 import { SellerOrderDetailsComponent } from './Seller/seller-order-details/seller-order-details.component';
 import { ProfilEditeComponent } from './shared/profil-edite/profil-edite.component';
+import { SellerProductDetailComponent } from './Seller/seller-product-detail/seller-product-detail.component';
+import { SellerEditProductComponent } from './Seller/seller-edit-product/seller-edit-product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -50,6 +52,9 @@ const routes: Routes = [
   { path: 'seller-orders', component: SellerOrdersComponent},
   { path: 'seller-order-details/:id', component: SellerOrderDetailsComponent },
   { path: 'seller-profile-Edite', component: ProfilEditeComponent },
+  { path: 'seller-product/:id', component: SellerProductDetailComponent },
+  { path: 'seller-edit-product/:id', component: SellerEditProductComponent }
+
 
 
 ];

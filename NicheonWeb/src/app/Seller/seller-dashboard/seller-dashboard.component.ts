@@ -42,8 +42,8 @@ export class SellerDashboardComponent implements OnInit {
 
   loadDemoData() {
     this.products = [
-      { productName: 'Gold Ring', pricePerGram: 5800, image: 'assets/Image/golddust.png', stock: 10 },
-      { productName: 'Silver Chain', pricePerGram: 90, image: 'assets/Image/rawgold.png', stock: 25 }
+      { productName: 'Gold Ring', pricePerGram: 5800, image: 'assets/Image/goldring.png', stock: 10, productId: 101 },
+      { productName: 'Silver Chain', pricePerGram: 90, image: 'assets/Image/silverchain.png', stock: 25, productId: 102 }
     ];
     this.loadDemoOrders();
   }
@@ -83,4 +83,10 @@ loadDemoSummary() {
   addProduct() {
     this.router.navigate(['/seller-add-product']);
   }
+
+  viewProduct(ProductId: any): void {
+    debugger;
+   this.router.navigate(['/seller-product', ProductId]);
+}
+
 }
