@@ -1,47 +1,47 @@
 <div class="product-detail" *ngIf="!loading; else loadingTpl">
-
-  <!-- Header / Breadcrumb / Back -->
-  <div class="header bg-white border-bottom py-2 px-3 d-flex align-items-center gap-2">
-    <button class="btn btn-light btn-sm" (click)="back()">
-      <i class="bi bi-arrow-left"></i> Back
-    </button>
-    <div class="crumb small text-muted">
-      <span class="link" (click)="back()">My Listings</span>
-      <span> / </span>
-      <span class="text-dark">{{ product?.productName }}</span>
+  <!-- 🧭 Header / Breadcrumb -->
+  <div class="header d-flex align-items-center justify-content-between px-3 py-3 bg-white shadow-sm">
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn back-btn" (click)="back()"><i class="bi bi-arrow-left"></i></button>
+      <div class="crumb small">
+        <span class="link" (click)="back()">My Listings</span>
+        <span> / </span>
+        <span class="text-dark">{{ product?.productName }}</span>
+      </div>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="container py-3">
-    <div class="row g-4">
+  <!-- 🌟 Main Product Content -->
+  <div class="container py-4">
+    <div class="row g-4 align-items-start">
 
-      <!-- Gallery -->
+      <!-- 📸 Gallery Section -->
       <div class="col-12 col-lg-6">
         <div class="gallery card p-3">
           <div class="main-image">
-            <img [src]="activeImage" alt="Product" />
+            <img [src]="activeImage" alt="Product Image" />
           </div>
-          <div class="thumbs mt-2">
+          <div class="thumbs">
             <img *ngFor="let img of gallery"
                  [src]="img.url"
                  [alt]="img.alt || 'Image'"
                  [class.active]="img.url === activeImage"
-                 (click)="selectImage(img)"/>
+                 (click)="selectImage(img)" />
           </div>
         </div>
       </div>
 
-      <!-- Summary / Actions -->
+      <!-- 📝 Product Summary -->
       <div class="col-12 col-lg-6">
-        <div class="summary card p-3">
-          <div class="d-flex align-items-start justify-content-between">
+        <div class="summary card p-4">
+          <div class="d-flex justify-content-between align-items-start">
             <div>
-              <h5 class="mb-1">{{ product?.productName }}</h5>
-              <div class="small text-muted">{{ product?.productCode }}</div>
+              <h4 class="fw-semibold">{{ product?.productName }}</h4>
+              <p class="small text-muted mb-2">{{ product?.productCode }}</p>
             </div>
             <div class="text-end">
-              <span class="badge" [ngClass]="product?.isActive ? 'bg-success' : 'bg-secondary'">
+              <span class="badge"
+                    [ngClass]="product?.isActive ? 'bg-success' : 'bg-secondary'">
                 {{ product?.isActive ? 'Active' : 'Inactive' }}
               </span>
               <div *ngIf="product?.isHallmarked" class="small text-success mt-1">
@@ -50,20 +50,20 @@
             </div>
           </div>
 
-          <!-- Price -->
-          <div class="price-row mt-3">
-            <div class="price">
+          <!-- 💰 Price Information -->
+          <div class="price-card mt-3">
+            <div class="price-item">
               <div class="label">Price / gram</div>
-              <div class="value">₹ {{ pricePerGram }}</div>
+              <div class="value text-gold">₹ {{ pricePerGram }}</div>
             </div>
-            <div class="price">
-              <div class="label">Indicative Total</div>
-              <div class="value">₹ {{ indicativeTotal }}</div>
-              <div class="muted small">({{ product?.weightGrams }} g)</div>
+            <div class="price-item">
+              <div class="label">Total Value</div>
+              <div class="value text-gold">₹ {{ indicativeTotal }}</div>
+              <div class="small text-muted">({{ product?.weightGrams }}g)</div>
             </div>
           </div>
 
-          <!-- Specs -->
+          <!-- 📋 Product Specifications -->
           <div class="spec-grid mt-3">
             <div class="spec" *ngFor="let s of specs">
               <div class="label">{{ s.label }}</div>
@@ -71,36 +71,36 @@
             </div>
           </div>
 
-          <!-- Actions -->
-          <div class="d-flex gap-2 mt-3">
-            <button class="btn btn-primary" (click)="editProduct()">Edit</button>
+          <!-- ⚙️ Actions -->
+          <div class="d-flex gap-2 mt-4">
+            <button class="btn btn-gold" (click)="editProduct()">Edit</button>
             <button class="btn btn-outline-danger" (click)="deleteProduct()">Delete</button>
             <button class="btn btn-outline-dark ms-auto" (click)="promote()">Promote</button>
           </div>
         </div>
       </div>
 
-      <!-- Description -->
+      <!-- 🪶 Description -->
       <div class="col-12">
-        <div class="card p-3">
-          <h6 class="mb-2">Description</h6>
-          <p class="mb-0 text-muted">{{ product?.description || product?.shortDescription }}</p>
+        <div class="card p-4">
+          <h6 class="fw-semibold mb-2">Product Description</h6>
+          <p class="text-muted mb-0">{{ product?.description || product?.shortDescription }}</p>
         </div>
       </div>
 
-      <!-- Meta / Links -->
+      <!-- 📊 Meta Information -->
       <div class="col-12">
-        <div class="card p-3 meta-grid">
+        <div class="card p-4 meta-grid">
           <div>
             <div class="label">Category</div>
             <div class="value">{{ product?.categoryName || 'Jewellery' }}</div>
           </div>
           <div>
-            <div class="label">Created</div>
+            <div class="label">Created On</div>
             <div class="value">{{ product?.createdAt | date:'medium' }}</div>
           </div>
           <div>
-            <div class="label">Updated</div>
+            <div class="label">Last Updated</div>
             <div class="value">{{ product?.updatedAt ? (product?.updatedAt | date:'medium') : '-' }}</div>
           </div>
           <div>
@@ -109,14 +109,14 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
+<!-- Loading Template -->
 <ng-template #loadingTpl>
   <div class="text-center py-5">
-    <div class="spinner-border text-primary"></div>
-    <p class="text-muted mt-2">Loading product...</p>
+    <div class="spinner-border text-gold"></div>
+    <p class="text-muted mt-2">Loading product details...</p>
   </div>
 </ng-template>

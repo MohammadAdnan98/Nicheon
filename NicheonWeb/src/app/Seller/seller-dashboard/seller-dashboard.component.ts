@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from 'src/app/Services/ProductService';
+import { DashboardService } from 'src/app/Services/DashboardService';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-seller-dashboard',
@@ -10,13 +11,16 @@ import { Router } from '@angular/router';
 export class SellerDashboardComponent implements OnInit {
   products: any[] = [];
   orders: any[] = [];
-  summaryCards: any[] = [];
   sellerName = '';
   businessName = '';
   verified = true;
   loading = true;
+  summary: any[] = [];
+  unreadNotifications = 0;
+  showNotifications = false;
+  unreadCount = 0;
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(private dashboardService: DashboardService, private router: Router) {}
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -24,69 +28,116 @@ export class SellerDashboardComponent implements OnInit {
     this.businessName = user?.businessName || 'Your Business';
     this.verified = user?.isVerified ?? true;
 
-    this.loadDashboard();
+    const businessId = user?.businessId || 1; // ✅ fix: correct property casing
+    this.loadDashboard(businessId);
   }
 
-  loadDashboard() {
-    this.productService.getSellerProducts(1).subscribe({
+  loadDashboard(businessId: number) {
+    this.loading = true;
+    this.dashboardService.getDashboard(businessId).subscribe({
       next: (res) => {
-        this.products = Array.isArray(res) ? res : res.data || [];
-        this.loadDemoOrders();
+        console.log('✅ Dashboard Data:', res);
+
+        // 🟢 Seller Info
+        if (res.sellerInfo) {
+          this.businessName = res.sellerInfo.businessName || this.businessName;
+          this.verified = res.sellerInfo.isVerified ?? this.verified;
+        }
+
+        // 🟢 Summary cards (fix key names to match API)
+        const s = res.summary ?? { newOrders: 0, acceptedOrders: 0, shippedOrders: 0, revenue: 0 };
+        this.summary = [
+          { label: 'New Orders', value: s.newOrders ?? 0 },
+          { label: 'Accepted', value: s.acceptedOrders ?? 0 },
+          { label: 'Shipped', value: s.shippedOrders ?? 0 },
+          { label: 'Revenue', value: '₹' + (s.revenue ?? 0) }
+        ];
+
+        // 🟢 Recent Orders
+        this.orders = (res.recentOrders || []).map(o => ({
+          buyer: o.buyerName,
+          product: o.itemsSummary || '',
+          quantity: o.quantity || '',
+          amount: o.totalAmount || 0,
+          status: o.status || 'New',
+          orderId: o.orderId
+        }));
+
+        // 🟢 Top Products
+        this.products = (res.topProducts || []).map(p => ({
+          productId: p.productId,
+          productName: p.productName,
+          pricePerGram: p.pricePerGram,
+          image: p.primaryImage?.startsWith('/')
+            ? `${environment.apiUrl}${p.primaryImage}` // if your backend returns /images/...
+            : (p.primaryImage || 'assets/Image/no-image.png')
+        }));
+
+        // 🟢 Notifications
+        this.unreadNotifications = res.unreadNotifications || 0;
+        this.unreadCount = this.unreadNotifications;
+
+        this.loading = false;
       },
       error: (err) => {
-        console.warn('API failed, using demo data');
-        this.loadDemoData();
+        console.error('❌ Dashboard API failed:', err);
+        this.setDemoData();
       }
     });
   }
 
-  loadDemoData() {
+  private setDemoData() {
     this.products = [
-      { productName: 'Gold Ring', pricePerGram: 5800, image: 'assets/Image/goldring.png', stock: 10, productId: 101 },
-      { productName: 'Silver Chain', pricePerGram: 90, image: 'assets/Image/silverchain.png', stock: 25, productId: 102 }
+      { productId: 101, productName: 'Gold Ring', pricePerGram: 5800, image: 'assets/Image/goldring.png' },
+      { productId: 102, productName: 'Silver Chain', pricePerGram: 90, image: 'assets/Image/silverchain.png' }
     ];
-    this.loadDemoOrders();
-  }
-
-  loadDemoOrders() {
     this.orders = [
-      { buyer: 'Raj Jewellers', product: 'Gold Ring', quantity: 2, amount: 12000, status: 'Pending' },
-      { buyer: 'Anand Jewellers', product: 'Silver Chain', quantity: 5, amount: 4500, status: 'Accepted' }
+      { buyer: 'Raj Jewellers', product: 'Gold Ring', quantity: 2, amount: 12000, status: 'Pending' }
     ];
-
-    // this.summaryCards = [
-    //   { label: 'Products', value: this.products.length },
-    //   { label: 'Orders', value: this.orders.length },
-    //   { label: 'Active Orders', value: this.orders.filter(o => o.status === 'Pending').length },
-    //   { label: 'Earnings', value: '₹45,200' }
-    // ];
-
+    this.summary = [
+      { label: 'New Orders', value: 0 },
+      { label: 'Accepted', value: 0 },
+      { label: 'Shipped', value: 0 },
+      { label: 'Revenue', value: '₹0' }
+    ];
     this.loading = false;
   }
-
-  summary = [
-  { label: "New Orders", value: 0 },
-  { label: "Accepted", value: 0 },
-  { label: "Shipped", value: 0 },
-  { label: "Revenue (Demo)", value: "₹0" }
-];
-
-loadDemoSummary() {
-  this.summary = [
-    { label: "New Orders", value: this.orders.filter(o => o.status === 'New').length },
-    { label: "Accepted", value: this.orders.filter(o => o.status === 'Accepted').length },
-    { label: "Shipped", value: this.orders.filter(o => o.status === 'Shipped').length },
-    { label: "Revenue (Demo)", value: "₹" + this.orders.reduce((sum, o) => sum + o.totalAmount, 0) }
-  ];
-}
 
   addProduct() {
     this.router.navigate(['/seller-add-product']);
   }
 
   viewProduct(ProductId: any): void {
-    debugger;
-   this.router.navigate(['/seller-product', ProductId]);
-}
+    this.router.navigate(['/seller-product', ProductId]);
+  }
 
+  notifications = [
+    {
+      icon: 'bi-bag-check text-success',
+      message: 'Your order #1023 has been accepted by Anand Jewellers.',
+      time: '2 hours ago',
+      read: false
+    },
+    {
+      icon: 'bi-box-seam text-warning',
+      message: 'New product "22K Gold Chain" was approved.',
+      time: 'Yesterday',
+      read: false
+    },
+    {
+      icon: 'bi-currency-rupee text-gold',
+      message: 'Payment received for order #1021.',
+      time: '2 days ago',
+      read: true
+    }
+  ];
+
+  toggleNotifications() {
+    this.showNotifications = !this.showNotifications;
+  }
+
+  markAllRead() {
+    this.notifications.forEach(n => n.read = true);
+    this.unreadCount = 0;
+  }
 }

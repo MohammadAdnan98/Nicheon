@@ -1,238 +1,134 @@
-<div class="registration-container container py-4">
-  <div class="card shadow-sm border-0">
-    <div class="card-body">
-      <h3 class="text-center mb-2">Register Your Business on Nicheon</h3>
-      <p class="text-center text-muted mb-4">
-        Join India’s Trusted Jewelry Business Network
+<div class="registration-wrapper">
+  <!-- Fixed Branding Panel -->
+  <div class="branding-panel d-none d-md-flex flex-column align-items-center text-center">
+    <img src="assets/Image/NicheonLogo.png" alt="Nicheon Logo" class="brand-logo mb-3" />
+    <h2 class="fw-semibold">Join Nicheon</h2>
+    <p class="brand-tagline">India’s Trusted Jewelry Business Network</p>
+    <div class="divider my-3"></div>
+    <ul class="benefits text-start">
+      <li>✅ Verified Business Network</li>
+      <li>💍 Showcase Products Professionally</li>
+      <li>📞 Connect with Buyers & Sellers</li>
+      <li>📈 Grow Your Jewelry Business Digitally</li>
+    </ul>
+  </div>
+
+  <!-- Scrollable Form Panel -->
+  <div class="form-panel">
+    <div class="registration-form-container shadow-lg">
+      <h3 class="text-center mb-2 fade-up">Create Your Business Account</h3>
+      <p class="text-center text-muted mb-4 small fade-up">
+        Start trading, connecting, and growing with trust
       </p>
 
-      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="scrollable-form">
         <!-- 👤 Personal Info -->
-        <h6 class="section-heading">👤 Personal Information</h6>
-        <div class="row">
-          <!-- Full Name -->
-          <div class="col-md-6 mb-3">
-            <label>Full Name</label>
-            <input
-              formControlName="fullName"
-              class="form-control"
-              placeholder="Enter your full name"
-            />
-            <div *ngIf="f['fullName'].touched && f['fullName'].invalid" class="error">
-              Full name is required.
+        <div class="fade-section">
+          <h6 class="section-heading">👤 Personal Information</h6>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label>Full Name</label>
+              <input class="form-control" formControlName="fullName" placeholder="Enter your full name" />
             </div>
-          </div>
-
-          <!-- Email -->
-          <div class="col-md-6 mb-3">
-            <label>Email ID</label>
-            <input
-              formControlName="email"
-              class="form-control"
-              placeholder="example@domain.com"
-            />
-            <div *ngIf="f['email'].touched && f['email'].errors" class="error">
-              <div *ngIf="f['email'].errors['required']">Email is required.</div>
-              <div *ngIf="f['email'].errors['email']">Invalid email format.</div>
+            <div class="col-md-6 mb-3">
+              <label>Email ID</label>
+              <input class="form-control" formControlName="email" placeholder="example@domain.com" />
             </div>
-          </div>
-
-          <!-- Mobile -->
-          <div class="col-md-6 mb-3">
-            <label>Mobile Number</label>
-            <input
-              formControlName="mobile"
-              class="form-control"
-              placeholder="10-digit mobile number"
-            />
-            <div *ngIf="f['mobile'].touched && f['mobile'].errors" class="error">
-              <div *ngIf="f['mobile'].errors['required']">Mobile number is required.</div>
-              <div *ngIf="f['mobile'].errors['pattern']">Enter a valid 10-digit number.</div>
+            <div class="col-md-6 mb-3">
+              <label>Mobile Number</label>
+              <input class="form-control" formControlName="mobile" placeholder="10-digit number" />
             </div>
-          </div>
-
-          <!-- Password -->
-          <div class="col-md-6 mb-3">
-            <label>Password</label>
-            <input
-              type="password"
-              formControlName="password"
-              class="form-control"
-              placeholder="8–16 characters"
-            />
-            <div *ngIf="f['password'].touched && f['password'].errors" class="error">
-              <div *ngIf="f['password'].errors['required']">Password is required.</div>
-              <div *ngIf="f['password'].errors['minlength']">Minimum 8 characters.</div>
-              <div *ngIf="f['password'].errors['maxlength']">Maximum 16 characters.</div>
+            <div class="col-md-6 mb-3">
+              <label>Password</label>
+              <input type="password" class="form-control" formControlName="password" placeholder="8–16 characters" />
             </div>
-          </div>
-
-          <!-- Confirm Password -->
-          <div class="col-md-6 mb-3">
-            <label>Confirm Password</label>
-            <input
-              type="password"
-              formControlName="confirmPassword"
-              class="form-control"
-              placeholder="Re-enter password"
-            />
-            <div
-              *ngIf="
-                registrationForm.hasError('passwordMismatch') &&
-                f['confirmPassword'].touched
-              "
-              class="error"
-            >
-              Passwords do not match.
+            <div class="col-md-6 mb-3">
+              <label>Confirm Password</label>
+              <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Re-enter password" />
             </div>
           </div>
         </div>
 
         <!-- 🏷️ Role -->
-        <h6 class="section-heading mt-4">👥 Role Selection</h6>
-        <div class="mb-3">
-          <label>Role</label>
-          <input formControlName="role" class="form-control" readonly />
+        <div class="fade-section">
+          <h6 class="section-heading mt-4">👥 Role Selection</h6>
+          <input formControlName="role" class="form-control mb-3" readonly />
           <small class="text-muted">Default: Seller</small>
         </div>
 
-        <!-- 🏭 Business Details -->
-        <h6 class="section-heading mt-4">🏭 Business Information</h6>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label>Business Name</label>
-            <input
-              formControlName="businessName"
-              class="form-control"
-              placeholder="Your Shop or Company Name"
-            />
-            <div
-              *ngIf="f['businessName'].touched && f['businessName'].invalid"
-              class="error"
-            >
-              Business name is required.
+        <!-- 🏭 Business Info -->
+        <div class="fade-section">
+          <h6 class="section-heading mt-4">🏭 Business Information</h6>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label>Business Name</label>
+              <input class="form-control" formControlName="businessName" placeholder="Your Shop or Company Name" />
             </div>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label>Business Type</label>
-            <select formControlName="businessType" class="form-select">
-              <option value="">Select Business Type</option>
-              <option value="Manufacturer">Manufacturer</option>
-              <option value="Wholesaler">Wholesaler</option>
-              <option value="Retailer">Retailer</option>
-              <option value="Trader">Trader</option>
-              <option value="Exporter">Exporter</option>
-              <option value="Importer">Importer</option>
-            </select>
-            <div
-              *ngIf="f['businessType'].touched && f['businessType'].invalid"
-              class="error"
-            >
-              Business type is required.
+            <div class="col-md-6 mb-3">
+              <label>Business Type</label>
+              <select class="form-select" formControlName="businessType">
+                <option value="">Select Type</option>
+                <option>Manufacturer</option>
+                <option>Wholesaler</option>
+                <option>Retailer</option>
+                <option>Trader</option>
+                <option>Exporter</option>
+                <option>Importer</option>
+              </select>
             </div>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label>GST Number</label>
-            <input
-              formControlName="gstNumber"
-              class="form-control"
-              placeholder="Enter GSTIN (optional)"
-            />
+            <div class="col-md-6 mb-3">
+              <label>GST Number (optional)</label>
+              <input class="form-control" formControlName="gstNumber" placeholder="Enter GSTIN" />
+            </div>
           </div>
         </div>
 
         <!-- 📍 Address -->
-        <h6 class="section-heading mt-4">📍 Address Information</h6>
-        <div class="row">
-          <div class="col-md-12 mb-3">
-            <label>Address</label>
-            <input
-              formControlName="address"
-              class="form-control"
-              placeholder="Full business address"
-            />
-            <div *ngIf="f['address'].touched && f['address'].invalid" class="error">
-              Address is required.
+        <div class="fade-section">
+          <h6 class="section-heading mt-4">📍 Address Information</h6>
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label>Address</label>
+              <input class="form-control" formControlName="address" placeholder="Full business address" />
             </div>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label>Landmark</label>
-            <input
-              formControlName="landmark"
-              class="form-control"
-              placeholder="Optional landmark"
-            />
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label>City</label>
-            <input
-              formControlName="city"
-              class="form-control"
-              placeholder="Enter city"
-            />
-            <div *ngIf="f['city'].touched && f['city'].invalid" class="error">
-              City is required.
+            <div class="col-md-6 mb-3">
+              <label>Landmark</label>
+              <input class="form-control" formControlName="landmark" placeholder="Optional landmark" />
             </div>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label>State</label>
-            <input
-              formControlName="state"
-              class="form-control"
-              placeholder="Enter state"
-            />
-            <div *ngIf="f['state'].touched && f['state'].invalid" class="error">
-              State is required.
+            <div class="col-md-6 mb-3">
+              <label>City</label>
+              <input class="form-control" formControlName="city" placeholder="City name" />
             </div>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label>Country</label>
-            <input formControlName="country" class="form-control" readonly />
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label>Pincode</label>
-            <input
-              formControlName="pincode"
-              class="form-control"
-              placeholder="Enter pincode"
-            />
-            <div *ngIf="f['pincode'].touched && f['pincode'].invalid" class="error">
-              <div *ngIf="f['pincode'].errors?.['required']">Pincode is required.</div>
-              <div *ngIf="f['pincode'].errors?.['minlength']">Minimum 5 digits.</div>
-              <div *ngIf="f['pincode'].errors?.['maxlength']">Maximum 10 digits.</div>
+            <div class="col-md-6 mb-3">
+              <label>State</label>
+              <input class="form-control" formControlName="state" placeholder="Enter state" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label>Country</label>
+              <input class="form-control" formControlName="country" readonly />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label>Pincode</label>
+              <input class="form-control" formControlName="pincode" placeholder="Enter pincode" />
             </div>
           </div>
         </div>
 
         <!-- ✅ Terms -->
-        <div class="form-check mb-3">
-          <input
-            type="checkbox"
-            formControlName="terms"
-            class="form-check-input"
-          />
-          <label class="form-check-label">
-            I agree to the Terms & Privacy Policy
-          </label>
-          <div *ngIf="f['terms'].touched && f['terms'].invalid" class="error">
-            You must agree before submitting.
-          </div>
+        <div class="form-check mb-4 mt-2 fade-section">
+          <input class="form-check-input" type="checkbox" formControlName="terms" />
+          <label class="form-check-label">I agree to the Terms & Privacy Policy</label>
         </div>
 
-        <button class="btn btn-primary w-100" type="submit">
-          Create Account
+        <!-- ✅ Submit -->
+        <button class="btn register-btn w-100 fade-section" type="submit" [disabled]="loading">
+          <span *ngIf="!loading">Create Account</span>
+          <div class="spinner" *ngIf="loading"></div>
         </button>
 
-        <p class="text-center mt-3 mb-0">
+        <p class="text-center mt-3 mb-0 fade-section">
           Already have an account?
-          <a routerLink="auth/login" class="text-link">Login here</a>
+          <a (click)="router.navigate(['/auth/login'])" class="login-link">Login here</a>
         </p>
       </form>
     </div>

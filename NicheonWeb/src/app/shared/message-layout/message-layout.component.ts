@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-message-layout',
@@ -7,6 +9,9 @@ import { Component } from '@angular/core';
 })
 export class MessageLayoutComponent {
  selectedChat: any = null;
+
+     constructor(private router: Router) {}
+ 
 
   chats = [
     {
@@ -38,6 +43,6 @@ export class MessageLayoutComponent {
     this.selectedChat = null;
   }
   goBack() {
-    this.back.emit();
+    this.router.navigate(['/seller-dashboard']);
   }
 }

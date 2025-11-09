@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.css']
-})
+}) 
 export class MessageComponent {
   @Input() chat: any;
   @Output() back = new EventEmitter<void>();

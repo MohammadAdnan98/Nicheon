@@ -1,64 +1,183 @@
-.registration-container {
+.registration-wrapper {
+  display: flex;
+  background: linear-gradient(120deg, #fffefb, #faf7f2);
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+/* LEFT FIXED PANEL */
+.branding-panel {
+  flex: 0.8;
+  background: #1b1b1b;
+  color: #fff;
+  padding: 60px 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 35%;
+  z-index: 2;
+}
+
+.brand-logo {
+  width: 120px;
+  margin-bottom: 15px;
+}
+
+.brand-tagline {
+  color: #d4af37;
+  font-weight: 500;
+}
+
+.divider {
+  height: 2px;
+  width: 70px;
+  background: #d4af37;
+  margin: 15px 0;
+}
+
+.benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.95rem;
+  color: #ddd;
+  line-height: 1.8;
+}
+
+/* RIGHT SCROLLABLE PANEL */
+.form-panel {
+  margin-left: 35%;
+  flex: 1;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 50px 25px 80px 25px;
+  display: flex;
+  justify-content: center;
+  scroll-behavior: smooth;
+}
+
+/* Main Form Box */
+.registration-form-container {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
   max-width: 700px;
-  margin: 0 auto;
-  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  animation: fadeUp 0.7s ease-in-out;
+  height: auto; /* ✅ FIX: allow content to expand naturally */
 }
 
-.card-body {
-  padding: 30px;
+/* Scrollbar */
+.form-panel::-webkit-scrollbar {
+  width: 8px;
+}
+.form-panel::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 6px;
 }
 
+/* Fade Section Animation */
+.fade-section {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Headings */
 .section-heading {
   color: #1b5e20;
   font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: 25px;
   margin-bottom: 10px;
 }
 
+/* Inputs */
 .form-control,
 .form-select {
   border-radius: 8px;
   border: 1px solid #ccc;
   padding: 10px;
   font-size: 0.95rem;
+  transition: 0.3s;
 }
-
 .form-control:focus,
 .form-select:focus {
   border-color: #d4af37;
-  box-shadow: none;
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
 }
 
-.btn-primary {
-  background-color: #1b5e20;
+/* Buttons */
+.register-btn {
+  background: linear-gradient(90deg, #1b5e20, #145214);
   border: none;
   padding: 12px;
-  font-weight: 600;
   border-radius: 10px;
-  margin-top: 10px;
-}
-
-.btn-primary:hover {
-  background-color: #154b16;
-}
-
-.error {
-  color: red;
-  font-size: 0.8rem;
-  margin-top: 3px;
-}
-
-.text-link {
-  color: #0d47a1;
+  color: #fff;
   font-weight: 600;
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+}
+.register-btn:hover {
+  background: linear-gradient(90deg, #16661d, #104911);
 }
 
-.snackbar-success {
-  background-color: #4CAF50;
-  color: white;
+/* Spinner */
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #ffffff70;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.snackbar-error {
-  background-color: #f44336;
-  color: white;
+/* Links */
+.login-link {
+  color: #1b5e20;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.login-link:hover {
+  text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE FIXES */
+@media (max-width: 992px) {
+  .branding-panel {
+    display: none;
+  }
+  .form-panel {
+    margin-left: 0;
+    padding: 30px 20px 60px 20px;
+  }
+  .registration-form-container {
+    padding: 25px;
+  }
 }

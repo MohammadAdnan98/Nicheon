@@ -4,16 +4,20 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
   constructor(private router: Router) {}
 
-  navigate(role: string) {
-    // Save role in localStorage (used later in registration form)
-    localStorage.setItem('selectedRole', role);
+  features = [
+    { icon: 'bi bi-patch-check-fill', label: 'Verified Businesses' },
+    { icon: 'bi bi-lightning-charge-fill', label: 'Instant Connections' },
+    { icon: 'bi bi-lock-fill', label: 'Secure & Transparent' },
+    { icon: 'bi bi-graph-up-arrow', label: 'Grow Your Business' },
+  ];
 
-    // Navigate to login or registration
+  navigate(role: string) {
+    localStorage.setItem('selectedRole', role);
     this.router.navigate(['/auth/login'], { queryParams: { role } });
   }
 }

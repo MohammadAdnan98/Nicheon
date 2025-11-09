@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
+import { HostListener } from '@angular/core';
+
 
 @Component({
   selector: 'app-forgotpassword',
@@ -33,8 +35,8 @@ export class ForgotpasswordComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     private snackBar: MatSnackBar,
-    private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -193,4 +195,19 @@ export class ForgotpasswordComponent implements OnInit, OnDestroy {
       }
     }, 1000);
   }
+
+  @HostListener('window:scroll', [])
+onScroll(): void {
+  const sections = document.querySelectorAll('.fade-section');
+  sections.forEach((section) => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 100) {
+      section.classList.add('visible');
+    }
+  });
+}
+
+goToLogin(): void {
+  this.router.navigate(['/auth/login']);
+}
 }

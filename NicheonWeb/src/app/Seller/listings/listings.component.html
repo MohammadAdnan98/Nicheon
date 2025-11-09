@@ -1,68 +1,72 @@
 <div class="seller-listings">
-
-  <!-- Header -->
-  <!-- Header -->
-<div class="header d-flex align-items-center px-3 py-3 shadow-sm bg-white">
-  <i class="bi bi-arrow-left fs-5 me-3 back-btn" (click)="goBack()"></i>
-  <h4 class="fw-semibold mb-0 flex-grow-1">My Product Catalog</h4>
-  <button class="btn btn-primary btn-sm" (click)="addProduct()">+ Add Product</button>
-</div>
-
-
-  <!-- Filters -->
-  <div class="filters px-3 py-2 d-flex gap-2">
-    <select class="form-select" [(ngModel)]="filterStatus" (change)="applyFilter()">
-      <option value="All">All</option>
-      <option value="Active">Active</option>
-      <option value="OutOfStock">Out of Stock</option>
-      <option value="Inactive">Inactive</option>
-    </select>
-
-    <select class="form-select" [(ngModel)]="sortOption" (change)="applySort()">
-      <option value="Newest">Newest</option>
-      <option value="PriceHigh">Price: High → Low</option>
-      <option value="PriceLow">Price: Low → High</option>
-    </select>
+  <!-- 🔝 Header -->
+  <div class="header d-flex align-items-center px-3 py-3 shadow-sm bg-white sticky-top">
+    <i class="bi bi-arrow-left fs-5 me-3 back-btn" (click)="goBack()"></i>
+    <h4 class="fw-semibold mb-0 flex-grow-1">My Product Catalog</h4>
+    <button class="btn btn-gold btn-sm" (click)="addProduct()">+ Add Product</button>
   </div>
 
-  <!-- Product Grid -->
-  <div class="container py-3">
+  <!-- 🌟 Filters -->
+  <div class="filters container-fluid py-3 bg-light">
+    <div class="row g-3">
+      <div class="col-6 col-md-3">
+        <select class="form-select shadow-sm" [(ngModel)]="filterStatus" (change)="applyFilter()">
+          <option value="All">All</option>
+          <option value="Active">Active</option>
+          <option value="OutOfStock">Out of Stock</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <select class="form-select shadow-sm" [(ngModel)]="sortOption" (change)="applySort()">
+          <option value="Newest">Newest</option>
+          <option value="PriceHigh">Price: High → Low</option>
+          <option value="PriceLow">Price: Low → High</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🛍 Product Grid -->
+  <div class="container py-4">
     <div class="row g-4">
       <div class="col-12 col-sm-6 col-lg-4" *ngFor="let p of filteredProducts">
-        <div class="product-card card p-2" (click)="viewProduct(p)">
+        <div class="product-card shadow-sm" (click)="viewProduct(p)">
           <div class="image-box">
-            <img [src]="p.primaryImage || 'assets/Image/no-image.png'" alt="{{p.productName}}">
+            <img [src]="p.primaryImage || 'assets/Image/no-image.png'" alt="{{ p.productName }}" />
           </div>
 
-          <h6 class="fw-bold mt-2 text-truncate">{{ p.productName }}</h6>
+          <div class="card-body p-2">
+            <h6 class="fw-semibold mt-2 text-truncate">{{ p.productName }}</h6>
 
-          <div class="spec text-muted small">
-            <div>💎 {{ p.karat || 'N/A' }}</div>
-            <div>⚖ {{ p.weightGrams }}g</div>
+            <div class="spec text-muted small mt-1">
+              <div>💎 {{ p.karat || 'N/A' }}</div>
+              <div>⚖ {{ p.weightGrams }}g</div>
+            </div>
+
+            <div class="price fw-semibold mt-2 text-gold">₹ {{ p.pricePerGram }}/g</div>
+
+            <div class="mt-2 small">
+              <span class="badge" [ngClass]="p.isActive ? 'bg-success' : 'bg-secondary'">
+                {{ p.isActive ? 'Active' : 'Inactive' }}
+              </span>
+              <span *ngIf="p.stock <= 0" class="badge bg-danger ms-1">Out of Stock</span>
+            </div>
+
+            <div class="actions d-flex justify-content-between mt-3">
+              <button class="btn btn-outline-gold btn-sm" (click)="editProduct(p); $event.stopPropagation()">Edit</button>
+              <button class="btn btn-outline-danger btn-sm" (click)="deleteProduct(p); $event.stopPropagation()">Delete</button>
+            </div>
           </div>
-
-          <div class="price fw-semibold mt-1">₹ {{ p.pricePerGram }}/g</div>
-
-          <div class="mt-1 small">
-            <span class="badge" [ngClass]="p.isActive ? 'bg-success' : 'bg-secondary'">
-              {{ p.isActive ? 'Active' : 'Inactive' }}
-            </span>
-            <span *ngIf="p.stock <= 0" class="badge bg-danger ms-1">Out of Stock</span>
-          </div>
-
-          <div class="actions d-flex justify-content-between mt-3">
-            <button class="btn btn-outline-primary btn-sm" (click)="editProduct(p); $event.stopPropagation()">Edit</button>
-            <button class="btn btn-outline-danger btn-sm" (click)="deleteProduct(p); $event.stopPropagation()">Delete</button>
-          </div>
-
         </div>
       </div>
     </div>
 
     <!-- No Products -->
     <div *ngIf="filteredProducts.length === 0" class="text-center text-muted py-5">
-      <i class="bi bi-box-seam fs-1"></i>
-      <p>No products found.</p>
+      <i class="bi bi-box-seam fs-1 text-gold"></i>
+      <p class="mt-2">No products found.</p>
     </div>
   </div>
 </div>

@@ -47,4 +47,8 @@ export class ProfileComponent implements OnInit {
     localStorage.removeItem('user');
     this.router.navigate(['/auth/login']);
   }
+
+  cancelEdit() {
+    this.router.navigate(['/seller-dashboard']);
+  }
 }

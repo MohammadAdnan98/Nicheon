@@ -1,0 +1,97 @@
+USE NicheonDB1;
+GO
+
+IF OBJECT_ID('dbo.proc_GetSellerDashboard', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.proc_GetSellerDashboard;
+GO
+
+CREATE PROCEDURE dbo.proc_GetSellerDashboard
+    @BusinessId INT
+AS
+/*
+exec  dbo.proc_GetSellerDashboard 2
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    ---------------------------------------------------------
+    -- 1) Seller / Business info
+    ---------------------------------------------------------
+    SELECT
+        b.BusinessId,
+        b.BusinessName,
+        b.BusinessType,
+        b.GSTNumber,
+        b.ContactPerson,
+        b.ContactPhone,
+        b.BusinessEmail,
+        b.Address,
+        b.City,
+        b.State,
+        b.Pincode,
+        b.IsVerified
+    FROM BusinessProfiles b
+    WHERE b.BusinessId = @BusinessId;
+
+    ---------------------------------------------------------
+    -- 2) Summary stats (New / Accepted / Shipped / Revenue)
+    ---------------------------------------------------------
+    SELECT
+        SUM(CASE WHEN o.Status = 'New' THEN 1 ELSE 0 END) AS NewOrders,
+        SUM(CASE WHEN o.Status = 'Accepted' THEN 1 ELSE 0 END) AS AcceptedOrders,
+        SUM(CASE WHEN o.Status = 'Shipped' THEN 1 ELSE 0 END) AS ShippedOrders,
+        ISNULL(SUM(o.TotalAmount), 0) AS Revenue
+    FROM OrdersInfo o
+    WHERE o.SellerBusinessId = @BusinessId
+      AND o.IsActive = 1;
+
+    ---------------------------------------------------------
+    -- 3) Recent orders (top 6, newest first) + item summary
+    ---------------------------------------------------------
+    SELECT TOP (6)
+        o.OrderId,
+        o.OrderNumber,
+        o.BuyerBusinessId,
+        bp.BusinessName AS BuyerName,
+        o.TotalAmount,
+        o.Status,
+        o.CreatedAt AS OrderDate,
+        (SELECT TOP (1) oi.ProductId FROM OrderItems oi WHERE oi.OrderId = o.OrderId FOR XML PATH('') ) AS SampleProductId,
+        (SELECT STRING_AGG(CONCAT(oi.Quantity, 'x ', p.ProductName), '; ')
+         FROM OrderItems oi
+         LEFT JOIN Products p ON p.ProductId = oi.ProductId
+         WHERE oi.OrderId = o.OrderId) AS ItemsSummary
+    FROM OrdersInfo o
+    LEFT JOIN BusinessProfiles bp ON bp.BusinessId = o.BuyerBusinessId
+    WHERE o.SellerBusinessId = @BusinessId
+      AND o.IsActive = 1
+    ORDER BY o.CreatedAt DESC;
+
+    ---------------------------------------------------------
+    -- 4) Top products for this seller (by stock sold or recent)
+    --    We will pick top 6 by Stock (or by sales if OrderItems / history exists)
+    ---------------------------------------------------------
+    SELECT TOP (6)
+        p.ProductId,
+        p.ProductCode,
+        p.ProductName,
+        p.PricePerGram,
+        p.MakingCharges,
+        p.Stock,
+        pi.ImageUrl AS PrimaryImage
+    FROM Products p
+    LEFT JOIN ProductImages pi ON pi.ProductId = p.ProductId AND pi.IsPrimary = 1
+    WHERE p.BusinessId = @BusinessId
+      AND p.IsActive = 1
+    ORDER BY p.Stock DESC, p.CreatedAt DESC;
+
+    ---------------------------------------------------------
+    -- 5) Unread notifications count for this business's users
+    ---------------------------------------------------------
+    SELECT
+        ISNULL(SUM(CASE WHEN n.IsRead = 0 THEN 1 ELSE 0 END), 0) AS UnreadNotifications
+    FROM Notifications n
+    WHERE n.BusinessId = @BusinessId;
+
+END
+GO

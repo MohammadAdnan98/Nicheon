@@ -8,7 +8,7 @@ type Spec = { label: string; value: string | number | null | undefined };
 @Component({
   selector: 'app-seller-product-detail',
   templateUrl: './seller-product-detail.component.html',
-  styleUrls: ['./seller-product-detail.component.css']
+  styleUrls: ['./seller-product-detail.component.css'],
 })
 export class SellerProductDetailComponent implements OnInit {
   loading = true;
@@ -18,7 +18,6 @@ export class SellerProductDetailComponent implements OnInit {
   gallery: Img[] = [];
   activeImage: string = 'assets/Image/no-image.png';
 
-  // computed cards
   specs: Spec[] = [];
   pricePerGram = 0;
   indicativeTotal = 0;
@@ -30,135 +29,118 @@ export class SellerProductDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // support both /seller-product/:id and ?id= pattern
-    this.route.paramMap.subscribe(p => {
-      const idParam = p.get('id');
-      if (idParam) this.productId = +idParam;
+    this.route.paramMap.subscribe((params) => {
+      const idParam = params.get('id');
+      this.productId = idParam ? +idParam : 0;
+      if (!this.productId) {
+        const qp = this.route.snapshot.queryParamMap.get('id');
+        this.productId = qp ? +qp : 0;
+      }
+      if (!this.productId) {
+        this.router.navigate(['/seller-listings']);
+        return;
+      }
+      this.loadProduct();
     });
-    if (!this.productId) {
-      const qp = this.route.snapshot.queryParamMap.get('id');
-      this.productId = qp ? +qp : 0;
-    }
-
-    if (!this.productId) {
-      // fallback if no id (navigate back to listings)
-      this.router.navigate(['/seller-listings']);
-      return;
-    }
-
-    this.loadProduct();
   }
 
   loadProduct(): void {
     this.loading = true;
-
     this.productService.getProductById(this.productId).subscribe({
       next: (res) => {
-        this.product = res?.data ?? res;
-        if (!this.product || !this.product.productId) {
-          // fallback to demo if API not ready/empty
-          this.product = this.getDemoProduct(this.productId);
-        }
-        this.hydrateUI(this.product);
+        this.product = res?.data ?? res ?? this.getDemoProduct(this.productId);
+        this.setupProduct(this.product);
         this.loading = false;
       },
       error: () => {
-        // fallback demo
         this.product = this.getDemoProduct(this.productId);
-        this.hydrateUI(this.product);
+        this.setupProduct(this.product);
         this.loading = false;
-      }
+      },
     });
   }
 
-  hydrateUI(p: any): void {
-    // gallery
-    const imgs = (p.images as any[] | undefined)?.map(i => ({ url: i.imageUrl || i.url, alt: i.altText })) ?? [];
-    if (p.primaryImage && !imgs.some(i => i.url === p.primaryImage)) {
+  setupProduct(p: any): void {
+    const imgs =
+      p.images?.map((i: any) => ({ url: i.imageUrl || i.url, alt: i.altText })) ??
+      [];
+    if (p.primaryImage && !imgs.some((i: { url: any; }) => i.url === p.primaryImage)) {
       imgs.unshift({ url: p.primaryImage, alt: 'Primary' });
     }
     this.gallery = imgs.length ? imgs : [{ url: 'assets/Image/no-image.png' }];
     this.activeImage = this.gallery[0].url;
 
-    // price
-    this.pricePerGram = Number(p.pricePerGram || 0);
-    const weight = Number(p.weightGrams || 0);
+    this.pricePerGram = +p.pricePerGram || 0;
+    const weight = +p.weightGrams || 0;
     this.indicativeTotal = Math.round(this.pricePerGram * weight);
 
-    // specs
     this.specs = [
-      { label: 'Product Code', value: p.productCode || '—' },
-      { label: 'Karat', value: p.karat || '—' },
-      { label: 'Weight', value: p.weightGrams ? `${p.weightGrams} g` : '—' },
-      { label: 'Colour', value: p.colour || '—' },
-      { label: 'Gender', value: p.gender || 'Unisex' },
+      { label: 'Product Code', value: p.productCode },
+      { label: 'Karat', value: p.karat },
+      { label: 'Weight', value: `${p.weightGrams} g` },
+      { label: 'Colour', value: p.colour },
+      { label: 'Gender', value: p.gender },
       { label: 'MOQ', value: p.moq ?? p.MOQ ?? 1 },
-      { label: 'Stock', value: p.stock ?? 0 },
+      { label: 'Stock', value: p.stock },
       { label: 'Hallmarked', value: p.isHallmarked ? 'Yes' : 'No' },
     ];
   }
 
-  selectImage(img: Img) {
+  selectImage(img: Img): void {
     this.activeImage = img.url;
   }
 
-  back() {
+  back(): void {
     this.router.navigate(['/product-listings']);
   }
 
-  editProduct() {
+  editProduct(): void {
     this.router.navigate(['/seller-edit-product', this.product.productId]);
   }
 
-  deleteProduct() {
-    if (!confirm(`Delete product "${this.product.productName}"?`)) return;
+  deleteProduct(): void {
+    if (!confirm(`Delete "${this.product.productName}"?`)) return;
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const businessId = user?.businessId || 1;
-
     this.productService.deleteProduct(this.product.productId, businessId).subscribe({
       next: () => {
-        alert('Product deleted.');
+        alert('Product deleted successfully.');
         this.router.navigate(['/seller-listings']);
       },
-      error: () => alert('Failed to delete.')
+      error: () => alert('Failed to delete product.'),
     });
   }
 
-  promote() {
-    alert('Promote feature coming soon.');
+  promote(): void {
+    alert('✨ Promote feature coming soon.');
   }
 
-  // DEMO fallback (if API empty)
+  // Fallback demo data if API not ready
   getDemoProduct(id: number) {
-    const demo = {
+    return {
       productId: id,
-      businessId: 1,
       productCode: 'NCN-22K-CHN-001',
       productName: '22K Gold Chain Classic',
-      shortDescription: 'Handcrafted 22K chain with premium finish.',
+      shortDescription: 'Handcrafted 22K gold chain with premium polish.',
       description:
-        'Finely handcrafted 22K gold chain. Perfect daily wear. BIS Hallmarked. Anti-tarnish polished. Limited stock.',
-      gender: 'Unisex',
-      colour: 'Yellow Gold',
+        'This BIS-hallmarked 22K gold chain is elegantly handcrafted for everyday luxury. Anti-tarnish finish, guaranteed purity.',
       karat: '22K',
+      colour: 'Yellow Gold',
+      gender: 'Unisex',
       weightGrams: 16.4,
       pricePerGram: 6290,
-      makingCharges: 2200,
-      MOQ: 1,
       stock: 8,
-      isHallmarked: true,
-      hallmarkNumber: 'BIS/HM/22K/IND/2025/00991',
+      MOQ: 1,
       isActive: true,
+      isHallmarked: true,
+      hallmarkNumber: 'BIS/HM/22K/2025/00991',
       createdAt: new Date().toISOString(),
       images: [
-        { imageUrl: 'assets/Image/goldchain.jpg', altText: 'Front' },
-        { imageUrl: 'assets/Image/gildbiscuit.jpg', altText: 'Clasp' },
-        { imageUrl: 'assets/Image/silverchain.png', altText: 'Worn' }
+        { imageUrl: 'assets/Image/goldchain.jpg', altText: 'Front View' },
+        { imageUrl: 'assets/Image/gildbiscuit.jpg', altText: 'Detail' },
+        { imageUrl: 'assets/Image/silverchain.png', altText: 'On Model' },
       ],
-      primaryImage: 'assets/Image/goldchain.jpg'
+      primaryImage: 'assets/Image/goldchain.jpg',
     };
-    return demo;
   }
-
-  
 }

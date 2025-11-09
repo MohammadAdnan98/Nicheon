@@ -1,130 +1,229 @@
-<div class="edit-page-container">
-
-  <!-- Header -->
-  <div class="header d-flex align-items-center px-3 py-3 shadow-sm bg-white">
-    <i class="bi bi-arrow-left fs-5 me-3 back-btn" (click)="goBack()"></i>
-    <h4 class="fw-semibold mb-0 flex-grow-1">Add New Product</h4>
+<div class="add-product-container" *ngIf="!loading; else loadingTpl">
+  <!-- 🌟 Header -->
+  <div
+    class="header d-flex align-items-center justify-content-between px-3 py-3 bg-white shadow-sm rounded"
+  >
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn back-btn" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <h4 class="mb-0 fw-semibold text-dark">Add New Product</h4>
+    </div>
   </div>
 
+  <!-- ✨ Main Form -->
   <form class="container py-4" (ngSubmit)="submitProduct()">
-    <div class="row g-4">
-
-      <!-- Image Upload + Preview -->
+    <div class="row g-4 align-items-start">
+      <!-- 📸 Image Upload Section -->
       <div class="col-lg-5">
-        <div class="main-image-wrapper">
-          <img
-            [src]="previewImages.length > 0 ? previewImages[0] : 'assets/Image/no-image.png'"
-            class="main-image"
-          />
-        </div>
-
-        <div class="thumbnail-row mt-3">
-          <div class="thumb" *ngFor="let img of previewImages; let i = index">
-            <img [src]="img" (click)="setPrimary(i)" [class.active]="i === 0" />
-            <button class="remove-btn" type="button" (click)="removeImage(i)">×</button>
+        <div class="image-upload-card card border-0 shadow-sm p-3">
+          <div class="main-image-box">
+            <img
+              [src]="previewImages.length ? previewImages[0] : 'assets/Image/no-image.png'"
+              class="main-image"
+              alt="Preview"
+            />
           </div>
 
-          <label class="thumb upload-thumb">
-            <input type="file" multiple accept="image/*" (change)="onImageUpload($event)" />
-            <span>+</span>
-          </label>
-        </div>
+          <div class="thumbs d-flex flex-wrap gap-2 mt-3">
+            <div
+              class="thumb-box"
+              *ngFor="let img of previewImages; let i = index"
+              [class.primary]="i === 0"
+            >
+              <img [src]="img" (click)="setPrimary(i)" />
+              <button
+                type="button"
+                class="remove-btn"
+                (click)="removeImage(i)"
+                title="Remove image"
+              >
+                ×
+              </button>
+            </div>
 
-        <p class="small text-muted mt-1">You can upload up to 6 images. First image is primary.</p>
+            <label class="thumb-add">
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                (change)="onImageUpload($event)"
+              />
+              <i class="bi bi-plus-lg"></i>
+            </label>
+          </div>
+
+          <p class="small text-muted mt-2 text-center">
+            Upload up to <b>6 images</b>. First image becomes your primary.
+          </p>
+        </div>
       </div>
 
-      <!-- Product Info -->
+      <!-- 🧾 Product Details Section -->
       <div class="col-lg-7">
-
-        <div class="mb-3">
-          <label class="form-label fw-semibold">Product Name *</label>
-          <input class="form-control" [(ngModel)]="product.productName" name="productName" required />
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-semibold">Category</label>
-            <select class="form-select" [(ngModel)]="product.categoryId" name="categoryId">
-              <option [value]="1">Necklace</option>
-              <option [value]="2">Ring</option>
-              <option [value]="3">Bracelet</option>
-              <option [value]="4">Earrings</option>
-            </select>
+        <div class="card border-0 shadow-sm p-4">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Product Name *</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="product.productName"
+              name="productName"
+              required
+            />
           </div>
 
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-semibold">Metal Type</label>
-            <select class="form-select" [(ngModel)]="product.metalId" name="metalId">
-              <option [value]="1">Gold</option>
-              <option [value]="2">Silver</option>
-              <option [value]="3">Platinum</option>
-            </select>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Category</label>
+              <select
+                class="form-select"
+                [(ngModel)]="product.categoryId"
+                name="categoryId"
+              >
+                <option [value]="1">Necklace</option>
+                <option [value]="2">Ring</option>
+                <option [value]="3">Bracelet</option>
+                <option [value]="4">Earrings</option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Metal Type</label>
+              <select
+                class="form-select"
+                [(ngModel)]="product.metalId"
+                name="metalId"
+              >
+                <option [value]="1">Gold</option>
+                <option [value]="2">Silver</option>
+                <option [value]="3">Platinum</option>
+              </select>
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-semibold">Karat</label>
-            <input class="form-control" [(ngModel)]="product.karat" name="karat" placeholder="e.g. 22K" />
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Karat</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="product.karat"
+                name="karat"
+                placeholder="e.g. 22K"
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Colour</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="product.colour"
+                name="colour"
+                placeholder="e.g. Yellow Gold"
+              />
+            </div>
           </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-semibold">Colour</label>
-            <input class="form-control" [(ngModel)]="product.colour" name="colour" placeholder="e.g. Yellow" />
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Weight (grams)</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="product.weightGrams"
+                name="weightGrams"
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Price per Gram (₹)</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="product.pricePerGram"
+                name="pricePerGram"
+              />
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-semibold">Weight (grams)</label>
-            <input type="number" class="form-control" [(ngModel)]="product.weightGrams" name="weightGrams" />
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Making Charges (₹)</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="product.makingCharges"
+              name="makingCharges"
+            />
           </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-semibold">Price per Gram (₹)</label>
-            <input type="number" class="form-control" [(ngModel)]="product.pricePerGram" name="pricePerGram" />
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Stock</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="product.stock"
+                name="stock"
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">MOQ</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="product.moq"
+                name="moq"
+              />
+            </div>
           </div>
-        </div>
 
-        <div class="mb-3">
-          <label class="form-label fw-semibold">Making Charges (₹)</label>
-          <input type="number" class="form-control" [(ngModel)]="product.makingCharges" name="makingCharges" />
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-semibold">Stock</label>
-            <input type="number" class="form-control" [(ngModel)]="product.stock" name="stock" />
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Description</label>
+            <textarea
+              class="form-control"
+              rows="3"
+              [(ngModel)]="product.description"
+              name="description"
+            ></textarea>
           </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-semibold">MOQ</label>
-            <input type="number" class="form-control" [(ngModel)]="product.moq" name="moq" />
+
+          <div class="form-check mb-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="hallmarkCheck"
+              [(ngModel)]="product.isHallmarked"
+              name="isHallmarked"
+            />
+            <label class="form-check-label" for="hallmarkCheck"
+              >✔ Hallmarked Product</label
+            >
           </div>
+
+          <div class="mb-3" *ngIf="product.isHallmarked">
+            <label class="form-label fw-semibold">Hallmark Number *</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="product.hallmarkNumber"
+              name="hallmarkNumber"
+              placeholder="Enter Hallmark Certificate Number"
+              required
+            />
+          </div>
+
+          <button class="btn btn-gold w-100 py-2 mt-3" [disabled]="loading">
+            {{ loading ? "Saving..." : "Add Product" }}
+          </button>
         </div>
-
-        <div class="mb-3">
-          <label class="form-label fw-semibold">Description</label>
-          <textarea class="form-control" rows="3" [(ngModel)]="product.description" name="description"></textarea>
-        </div>
-
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" [(ngModel)]="product.isHallmarked" name="isHallmarked" />
-          <label class="form-check-label">✔ Hallmarked Product</label>
-        </div>
-
-        <div class="mb-3" *ngIf="product.isHallmarked">
-          <label class="form-label fw-semibold">Hallmark Number *</label>
-          <input class="form-control" [(ngModel)]="product.hallmarkNumber" name="hallmarkNumber" />
-        </div>
-
-        <button class="btn btn-dark w-100 py-2 mt-3" [disabled]="loading">
-          {{ loading ? 'Saving...' : 'Add Product' }}
-        </button>
-
       </div>
     </div>
   </form>
 </div>
 
-<div *ngIf="loading" class="overlay">
-  <div class="spinner-border text-primary"></div>
-  <p class="mt-2 text-muted">Saving product...</p>
-</div>
+<!-- 🌀 Loader -->
+<ng-template #loadingTpl>
+  <div class="text-center py-5">
+    <div class="spinner-border text-gold"></div>
+    <p class="text-muted mt-2">Saving product...</p>
+  </div>
+</ng-template>

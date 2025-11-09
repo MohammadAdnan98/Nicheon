@@ -1,45 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
 .edit-profile-container {
-  max-width: 900px;
-  margin: auto;
-  font-family: 'Poppins', sans-serif;
-  background: #fff;
-  padding: 20px 30px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  max-width: 880px;
+  margin: 50px auto;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, #ffffff, #fffefb);
+  padding: 30px 40px;
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+.edit-profile-container:hover {
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.1);
 }
 
-.page-title {
-  text-align: center;
-  margin-bottom: 25px;
-  font-weight: 600;
+.page-header h4 {
+  font-size: 1.4rem;
+}
+.text-gold {
+  color: #d4af37;
 }
 
+/* ─── Profile Image ───────────────────────── */
+.profile-img-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
 .profile-img {
-  width: 110px;
-  height: 110px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ddd;
-  margin-bottom: 10px;
+  border: 3px solid #f3e2a9;
+}
+.upload-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 5px;
+  background: #d4af37;
+  color: #fff;
+  border-radius: 50%;
+  padding: 6px 7px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+.upload-overlay:hover {
+  background: #b8942a;
 }
 
-input[type="file"] {
-  display: block;
-  margin: auto;
-}
-
+/* ─── Labels & Inputs ───────────────────────── */
 label {
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
   margin-bottom: 4px;
 }
-
 .form-control {
-  border-radius: 8px;
-  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  transition: 0.25s;
+}
+.form-control:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
-button {
-  border-radius: 8px;
+/* ─── Section Heading ───────────────────────── */
+.section-heading {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+/* ─── Buttons ───────────────────────── */
+.btn-gold {
+  background-color: #d4af37;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+.btn-gold:hover {
+  background-color: #b8942a;
+  transform: translateY(-1px);
+}
+
+.btn-outline-dark {
+  border-radius: 10px;
   font-weight: 500;
-  padding: 8px 18px;
+  color: #333;
+  border: 1px solid #444;
+  transition: 0.3s;
+}
+.btn-outline-dark:hover {
+  background: #333;
+  color: #fff;
+}
+
+/* ─── Responsive ───────────────────────── */
+@media (max-width: 768px) {
+  .edit-profile-container {
+    padding: 20px;
+  }
+  .profile-img {
+    width: 100px;
+    height: 100px;
+  }
+}
+/* ─── Back Button ───────────────────────── */
+.back-btn-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.back-btn-wrapper .btn {
+  border-radius: 10px;
+  font-weight: 500;
+  transition: 0.3s;
+  padding: 6px 14px;
+}
+
+.back-btn-wrapper .btn:hover {
+  background: #1b1b1b;
+  color: #fff;
 }

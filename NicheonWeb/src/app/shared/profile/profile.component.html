@@ -1,62 +1,87 @@
-<div class="profile-wrapper">
+<div class="profile-container">
 
-  <!-- Profile Header -->
-  <div class="profile-header text-center">
-    <img [src]="user.profileImage" class="profile-photo" alt="Business Logo">
+  
 
-    <h3 class="mt-2 fw-semibold">{{ user.businessName }}</h3>
-    <p class="text-muted">{{ user.businessType }}</p>
+  <!-- 🌟 Header -->
+  <div class="profile-header text-center shadow-sm">
+    <!-- 🔙 Back Button -->
+  <div class="back-btn-wrapper mb-3">
+    <button class="btn btn-outline-dark btn-sm" (click)="cancelEdit()">
+      <i class="bi bi-arrow-left"></i> Back to Dashboard
+    </button>
+  </div>
+    <div class="image-wrap">
+      <img [src]="user.profileImage" class="profile-photo" alt="Business Logo" />
+    </div>
 
-    <button class="btn-outline-primary edit-btn" routerLink="/seller-profile-Edite">✏️ Edit Business Profile</button>
+    <h3 class="fw-semibold text-dark mt-2">{{ user.businessName }}</h3>
+    <p class="text-muted small mb-2">{{ user.businessType }}</p>
+
+    <button class="btn btn-outline-gold" routerLink="/seller-profile-Edite">
+      ✏️ Edit Business Profile
+    </button>
   </div>
 
-  <!-- Business Stats -->
-  <div class="stats-row">
-    <div class="stat-box">
-      <h4>24</h4><p>Active Products</p>
+  <!-- 📊 Stats -->
+  <div class="stats-section row g-3 text-center">
+    <div class="col-4">
+      <div class="stat-card">
+        <h4>24</h4>
+        <p>Active Products</p>
+      </div>
     </div>
-    <div class="stat-box">
-      <h4>18</h4><p>Total Orders</p>
+    <div class="col-4">
+      <div class="stat-card">
+        <h4>18</h4>
+        <p>Total Orders</p>
+      </div>
     </div>
-    <div class="stat-box">
-      <h4>52</h4><p>Buyer Interests</p>
+    <div class="col-4">
+      <div class="stat-card">
+        <h4>52</h4>
+        <p>Buyer Interests</p>
+      </div>
     </div>
   </div>
 
-  <!-- Business Info -->
-  <div class="card-section">
+  <!-- 🏭 Business Info -->
+  <div class="info-card">
     <h5>🏭 Business Information</h5>
-    <p><strong>Business Name:</strong> {{ user.businessName }}</p>
-    <p><strong>Business Type:</strong> {{ user.businessType }}</p>
-    <p><strong>GST Number:</strong> {{ user.gstNumber }}</p>
+    <ul>
+      <li><strong>Business Name:</strong> {{ user.businessName }}</li>
+      <li><strong>Business Type:</strong> {{ user.businessType }}</li>
+      <li><strong>GST Number:</strong> {{ user.gstNumber }}</li>
+    </ul>
   </div>
 
-  <!-- Owner Details -->
-  <div class="card-section">
+  <!-- 👤 Owner Details -->
+  <div class="info-card">
     <h5>👤 Owner Details</h5>
-    <p><strong>Name:</strong> {{ user.fullName }}</p>
-    <p><strong>Mobile:</strong> {{ user.mobile }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
+    <ul>
+      <li><strong>Name:</strong> {{ user.fullName }}</li>
+      <li><strong>Mobile:</strong> {{ user.mobile }}</li>
+      <li><strong>Email:</strong> {{ user.email }}</li>
+    </ul>
   </div>
 
-  <!-- Address -->
-  <div class="card-section">
+  <!-- 📍 Address -->
+  <div class="info-card">
     <h5>📍 Business Address</h5>
     <p>
-      {{ user.address }} {{ user.landmark }}<br>
-      {{ user.city }}, {{ user.state }} - {{ user.pincode }}<br>
+      {{ user.address }} {{ user.landmark }}<br />
+      {{ user.city }}, {{ user.state }} - {{ user.pincode }}<br />
       {{ user.country }}
     </p>
   </div>
 
-  <!-- Quick Actions -->
-  <div class="actions-grid">
+  <!-- ⚙️ Quick Actions -->
+  <div class="action-grid">
     <button (click)="goToListings()">📦 My Listings</button>
-    <button class="green" (click)="goToAddProduct()">➕ Add Product</button>
+    <button (click)="goToAddProduct()" class="gold">➕ Add Product</button>
     <button (click)="goToOrders()">📄 Orders</button>
     <button>💬 Messages</button>
   </div>
 
-  <button class="logout-btn" (click)="logout()">Logout</button>
-
+  <!-- 🚪 Logout -->
+  <button class="logout-btn mt-4" (click)="logout()">Logout</button>
 </div>

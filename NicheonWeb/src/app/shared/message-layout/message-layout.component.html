@@ -1,24 +1,33 @@
-<div class="chat-container">
-  <!-- Left: Chat List -->
+<div class="chat-layout">
+  <!-- Left Sidebar (Chat List) -->
   <div class="chat-sidebar" [class.hide-on-mobile]="selectedChat">
-  <div class="sidebar-header d-flex align-items-center mb-3">
-    <i class="bi bi-arrow-left me-2 back-icon" (click)="goBack()"></i>
-    <h3 class="sidebar-title m-0">Chats</h3>
-  </div>
-
-  <div *ngFor="let chat of chats" class="chat-item" (click)="selectChat(chat)">
-    <img class="chat-avatar" [src]="chat.image || 'https://via.placeholder.com/50'" alt="profile" />
-    <div class="chat-details">
-      <strong>{{ chat.name }}</strong>
-      <p>{{ chat.lastMessage }}</p>
+    <div class="sidebar-header d-flex align-items-center mb-3">
+      <i class="bi bi-arrow-left me-2 back-icon" (click)="goBack()"></i>
+      <h3 class="sidebar-title m-0">Chats</h3>
     </div>
-    <span class="chat-time">{{ chat.time }}</span>
+
+    <div *ngFor="let chat of chats" class="chat-item" (click)="selectChat(chat)">
+      <img
+        class="chat-avatar"
+        [src]="chat.image || 'assets/Image/profile-logo.jpg'"
+        alt="profile"
+      />
+      <div class="chat-details">
+        <strong>{{ chat.name }}</strong>
+        <p>{{ chat.lastMessage }}</p>
+      </div>
+      <span class="chat-time">{{ chat.time }}</span>
+    </div>
   </div>
-</div>
 
-
-  <!-- Right: Message Component -->
-  <div class="chat-thread" *ngIf="selectedChat">
+  <!-- Right Chat Window -->
+  <div class="chat-main" *ngIf="selectedChat">
     <app-message [chat]="selectedChat" (back)="clearChat()"></app-message>
+  </div>
+
+  <!-- Placeholder When No Chat Selected -->
+  <div class="chat-placeholder" *ngIf="!selectedChat">
+    <img src="assets/Image/chat-empty.png" alt="No chat" />
+    <h5 class="text-muted mt-3">Select a chat to start conversation</h5>
   </div>
 </div>

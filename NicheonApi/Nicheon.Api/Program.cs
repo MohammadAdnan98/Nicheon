@@ -72,6 +72,8 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IOtpService, OtpService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IDashboardService, DashboardRepository>();
+
 
 // ✅ JWT Authentication Configuration
 // ✅ JWT Authentication Configuration (FINAL FIX)

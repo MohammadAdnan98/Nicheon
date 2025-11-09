@@ -1,176 +1,130 @@
-<div class="orders-container" *ngIf="!loading; else loadingTemplate">
-  <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <div class="d-flex align-items-center gap-3">
-      <i
-        class="bi bi-arrow-left-circle fs-4 cursor-pointer"
-        (click)="goDashboard()"
-      ></i>
-      <h4 class="fw-semibold mb-0">Orders</h4>
+<div class="seller-orders-container" *ngIf="!loading; else loadingTpl">
+  <!-- 🌟 Header -->
+  <div class="header d-flex justify-content-between align-items-center px-3 py-3 bg-white shadow-sm">
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn back-btn" (click)="goDashboard()"><i class="bi bi-arrow-left"></i></button>
+      <h4 class="fw-semibold mb-0">📦 Orders Management</h4>
     </div>
 
-    <div class="d-flex gap-2 flex-grow-1 justify-content-end">
+    <button class="btn btn-outline-dark btn-sm" (click)="refresh()">
+      <i class="bi bi-arrow-clockwise"></i> Refresh
+    </button>
+  </div>
+
+  <!-- 📊 Summary Cards -->
+  <div class="stats-row container mt-3">
+    <div class="row g-3">
+      <div class="col-6 col-md-3" *ngFor="let s of [
+        { label: 'New Orders', value: stats.newOrders },
+        { label: 'Accepted', value: stats.accepted },
+        { label: 'Shipped', value: stats.shipped },
+        { label: 'Revenue', value: '₹' + stats.revenue.toLocaleString() }
+      ]">
+        <div class="stat-card shadow-sm">
+          <h5>{{ s.value }}</h5>
+          <p>{{ s.label }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔍 Filters -->
+  <div class="filters d-flex flex-wrap align-items-center justify-content-between px-3 py-2 bg-light rounded mt-3 shadow-sm">
+    <div class="d-flex gap-2 flex-wrap">
       <input
         type="text"
-        class="form-control search-large"
-        placeholder="Search by buyer, product, or order #"
+        placeholder="Search by buyer or order #"
         [(ngModel)]="searchText"
         (input)="applyFilter()"
+        class="form-control form-control-sm search-box"
       />
 
-      <select
-        class="form-select w-auto"
-        [(ngModel)]="filterStatus"
-        (change)="applyFilter()"
-      >
+      <select class="form-select form-select-sm" [(ngModel)]="filterStatus" (change)="applyFilter()">
         <option value="">All Status</option>
         <option value="New">New</option>
         <option value="Accepted">Accepted</option>
         <option value="Shipped">Shipped</option>
+        <option value="Rejected">Rejected</option>
       </select>
+    </div>
 
-      <button class="btn btn-outline-secondary" (click)="refresh()">
-        Refresh
+    <div class="d-flex gap-2 mt-2 mt-md-0">
+      <button class="btn btn-outline-success btn-sm" (click)="bulkAccept()" [disabled]="!selectedOrders.length">
+        ✅ Accept
+      </button>
+      <button class="btn btn-outline-primary btn-sm" (click)="bulkShip()" [disabled]="!selectedOrders.length">
+        🚚 Ship
+      </button>
+      <button class="btn btn-outline-danger btn-sm" (click)="bulkReject()" [disabled]="!selectedOrders.length">
+        ❌ Reject
       </button>
     </div>
   </div>
 
-  <!-- Summary Stats -->
-  <div class="stats-row mb-3">
-    <div class="stat-card">
-      <div class="stat-value">{{ stats.newOrders }}</div>
-      <div class="stat-label">New Orders</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">{{ stats.accepted }}</div>
-      <div class="stat-label">Accepted</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">{{ stats.shipped }}</div>
-      <div class="stat-label">Shipped</div>
-    </div>
-    <div class="stat-card revenue">
-      <div class="stat-value">₹{{ stats.revenue }}</div>
-      <div class="stat-label">Revenue (Demo)</div>
-    </div>
-  </div>
+  <!-- 📋 Orders Table -->
+  <div class="orders-table container mt-4">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th><input type="checkbox" (change)="toggleSelectAll($event)" /></th>
+            <th>Order #</th>
+            <th>Buyer</th>
+            <th>City</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
 
-  <!-- Bulk Actions -->
-  <div class="d-flex align-items-center mb-2">
-    <span class="text-muted me-3">{{ selectedOrders.length }} selected</span>
-
-    <button
-      class="btn btn-success btn-sm me-2"
-      (click)="bulkAccept()"
-      [disabled]="!selectedOrders.length"
-    >
-      Accept
-    </button>
-    <button
-      class="btn btn-danger btn-sm me-2"
-      (click)="bulkReject()"
-      [disabled]="!selectedOrders.length"
-    >
-      Reject
-    </button>
-    <button
-      class="btn btn-primary btn-sm"
-      (click)="bulkShip()"
-      [disabled]="!selectedOrders.length"
-    >
-      Mark Shipped
-    </button>
-  </div>
-
-  <!-- Orders Table -->
-  <div class="table-responsive">
-    <table class="table align-middle">
-      <thead class="table-light">
-        <tr>
-          <th><input type="checkbox" (change)="toggleSelectAll($event)" /></th>
-          <th>Order #</th>
-          <th>Buyer</th>
-          <th>Item</th>
-          <th>Qty</th>
-          <th>Total Value</th>
-          <th>Payment</th>
-          <th>Status</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let o of filteredOrders">
-          <td>
-            <input
-              type="checkbox"
-              [(ngModel)]="o.selected"
-              (change)="updateSelection()"
-            />
-          </td>
-          <td class="fw-semibold">#{{ o.orderNumber }}</td>
-          <td>
-            {{ o.buyerName }}<br /><span class="small text-muted">{{
-              o.city
-            }}</span>
-          </td>
-          <td>{{ o.items[0].name }}</td>
-          <td>{{ o.items[0].qty }}</td>
-          <td>₹{{ o.totalAmount }}</td>
-          <td>{{ o.paymentMethod }}</td>
-
-          <td>
-            <span
-              class="badge"
-              [ngClass]="{
+        <tbody>
+          <tr *ngFor="let o of filteredOrders" [class.highlight]="o.selected">
+            <td><input type="checkbox" [(ngModel)]="o.selected" (change)="updateSelection()" /></td>
+            <td class="fw-semibold">{{ o.orderNumber }}</td>
+            <td>{{ o.buyerName }}</td>
+            <td>{{ o.city }}</td>
+            <td>
+              <ul class="small mb-0">
+                <li *ngFor="let item of o.items">{{ item.name }} (x{{ item.qty }})</li>
+              </ul>
+            </td>
+            <td class="fw-semibold text-gold">₹{{ o.totalAmount | number }}</td>
+            <td>{{ o.paymentMethod }}</td>
+            <td>
+              <span class="badge" [ngClass]="{
                 'bg-warning text-dark': o.status === 'New',
-                'bg-primary': o.status === 'Accepted',
-                'bg-success': o.status === 'Shipped'
-              }"
-            >
-              {{ o.status }}
-            </span>
-          </td>
+                'bg-success': o.status === 'Accepted',
+                'bg-primary': o.status === 'Shipped',
+                'bg-danger': o.status === 'Rejected'
+              }">{{ o.status }}</span>
+            </td>
+            <td>{{ o.orderDate | date: 'mediumDate' }}</td>
+            <td class="text-center">
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-outline-success" (click)="accept(o)">✔</button>
+                <button class="btn btn-outline-primary" (click)="ship(o)">🚚</button>
+                <button class="btn btn-outline-danger" (click)="reject(o)">✖</button>
+                <button class="btn btn-outline-dark" (click)="viewDetails(o)"><i class="bi bi-eye"></i></button>
+              </div>
+            </td>
+          </tr>
 
-          <td>{{ o.orderDate | date }}</td>
-
-          <td>
-            <button
-              class="btn btn-outline-success btn-sm me-1"
-              (click)="accept(o)"
-              [disabled]="o.status != 'New'"
-            >
-              Accept
-            </button>
-            <button
-              class="btn btn-outline-danger btn-sm me-1"
-              (click)="reject(o)"
-              [disabled]="o.status != 'New'"
-            >
-              Reject
-            </button>
-            <button
-              class="btn btn-outline-primary btn-sm me-1"
-              (click)="ship(o)"
-              [disabled]="o.status != 'Accepted'"
-            >
-              Ship
-            </button>
-            <button class="btn btn-dark btn-sm" (click)="viewDetails(o)">
-              View
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          <tr *ngIf="filteredOrders.length === 0">
+            <td colspan="10" class="text-center text-muted py-4">No matching orders found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
-<!-- Loading Spinner -->
-<ng-template #loadingTemplate>
+<!-- Loader -->
+<ng-template #loadingTpl>
   <div class="text-center py-5">
-    <div class="spinner-border text-success"></div>
-    <p class="mt-2 text-muted">Loading orders...</p>
+    <div class="spinner-border text-gold"></div>
+    <p class="text-muted mt-2">Loading orders...</p>
   </div>
 </ng-template>

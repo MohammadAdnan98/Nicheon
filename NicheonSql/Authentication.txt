@@ -257,6 +257,7 @@ BEGIN
         u.Role,
         bp.BusinessName,
         bp.BusinessType,
+        bp.BusinessId,
         bp.GSTNumber,
         bp.City,
         bp.State,

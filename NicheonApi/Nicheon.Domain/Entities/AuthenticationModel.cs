@@ -83,6 +83,9 @@ namespace Nicheon.Domain.Entities
     {
         public int UserId { get; set; }
         public int LoginId { get; set; }
+
+        public int BusinessId { get; set; }
+
         public string Username { get; set; } = "";
         public string FullName { get; set; } = "";
         public string PrimaryEmail { get; set; } = "";
