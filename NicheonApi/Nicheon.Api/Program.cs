@@ -10,6 +10,7 @@ using System.Text;
 using Nicheon.Application.Shared;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.Extensions.FileProviders;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -73,6 +74,8 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IOtpService, OtpService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardRepository>();
+builder.Services.AddScoped<IFileRepository, FileRepository>();
+
 
 
 // ✅ JWT Authentication Configuration
@@ -136,6 +139,10 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// 🔧 Define your absolute upload path
+var uploadPath = @"C:\Nicheon\NicheonApi\Nicheon.Api\Uploads"; 
+// ✅ Ensure it exists (create if missing)
+if (!Directory.Exists(uploadPath)) { Directory.CreateDirectory(uploadPath); }
 
 var app = builder.Build();
 
@@ -150,6 +157,11 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nicheon API v1");
     });
 }
+
+app.UseStaticFiles(new StaticFileOptions { FileProvider = new PhysicalFileProvider(@"C:\Nicheon\NicheonApi\Nicheon.Api\Uploads"), RequestPath = "/Uploads" });
+
+// ✅ Serve static files from your Uploads folder
+app.UseStaticFiles(new StaticFileOptions { FileProvider = new PhysicalFileProvider(uploadPath), RequestPath = "/Uploads" });
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAngularApp");

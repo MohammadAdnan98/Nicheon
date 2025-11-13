@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Nicheon.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+43581555811e8df693a873efdeabc467b826b920")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f7749d49cbc81bf418c39e7904db27ec7dcfe46")]
 [assembly: System.Reflection.AssemblyProductAttribute("Nicheon.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Nicheon.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

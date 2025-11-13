@@ -96,6 +96,64 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Nicheon.Api.Controllers.FileController",
+    "Method": "DeleteProductImage",
+    "RelativePath": "api/File/DeleteProductImage/{imageId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "imageId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.FileController",
+    "Method": "GetProductImages",
+    "RelativePath": "api/File/GetProductImages/{productId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.FileController",
+    "Method": "UploadProductImages",
+    "RelativePath": "api/File/UploadProductImages/{businessId}/{productId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "files",
+        "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Nicheon.Api.Controllers.ProductController",
     "Method": "GetById",
     "RelativePath": "api/Product/{id}",

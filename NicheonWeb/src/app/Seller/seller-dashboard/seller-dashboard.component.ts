@@ -20,7 +20,7 @@ export class SellerDashboardComponent implements OnInit {
   showNotifications = false;
   unreadCount = 0;
 
-  constructor(private dashboardService: DashboardService, private router: Router) {}
+  constructor(private dashboardService: DashboardService, private router: Router) { }
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -64,14 +64,25 @@ export class SellerDashboardComponent implements OnInit {
         }));
 
         // 🟢 Top Products
-        this.products = (res.topProducts || []).map(p => ({
-          productId: p.productId,
-          productName: p.productName,
-          pricePerGram: p.pricePerGram,
-          image: p.primaryImage?.startsWith('/')
-            ? `${environment.apiUrl}${p.primaryImage}` // if your backend returns /images/...
-            : (p.primaryImage || 'assets/Image/no-image.png')
-        }));
+        this.products = (res.topProducts || []).map(p => {
+          let img = p.primaryImage || '';
+
+          // Remove duplicate slashes
+          img = img.replace(/\/{2,}/g, '/');
+
+          // Build full URL only once
+          const fullImageUrl = img.startsWith('/')
+            ? `${environment.imgUrl}${img}`
+            : `${environment.imgUrl}/${img}`;
+
+          return {
+            productId: p.productId,
+            productName: p.productName,
+            pricePerGram: p.pricePerGram,
+            image: fullImageUrl || 'assets/Image/no-image.png'
+          };
+        });
+
 
         // 🟢 Notifications
         this.unreadNotifications = res.unreadNotifications || 0;
