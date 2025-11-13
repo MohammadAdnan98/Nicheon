@@ -182,7 +182,7 @@
         },
         "runtime": {
           "Nicheon.Application.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -190,7 +190,7 @@
       "Nicheon.Domain/1.0.0": {
         "runtime": {
           "Nicheon.Domain.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -206,7 +206,7 @@
         },
         "runtime": {
           "Nicheon.Shared.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }

@@ -37,6 +37,7 @@ import { SellerOrderDetailsComponent } from './Seller/seller-order-details/selle
 import { ProfilEditeComponent } from './shared/profil-edite/profil-edite.component';
 import { SellerProductDetailComponent } from './Seller/seller-product-detail/seller-product-detail.component';
 import { SellerEditProductComponent } from './Seller/seller-edit-product/seller-edit-product.component';
+import { FileUploadComponent } from './shared/file-upload/file-upload/file-upload.component';
 
 
 
@@ -64,7 +65,8 @@ import { SellerEditProductComponent } from './Seller/seller-edit-product/seller-
     SellerOrderDetailsComponent,
     ProfilEditeComponent,
     SellerProductDetailComponent,
-    SellerEditProductComponent
+    SellerEditProductComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,

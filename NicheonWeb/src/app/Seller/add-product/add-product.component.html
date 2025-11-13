@@ -42,7 +42,7 @@
               </button>
             </div>
 
-            <label class="thumb-add">
+            <!-- <label class="thumb-add">
               <input
                 type="file"
                 multiple
@@ -50,7 +50,10 @@
                 (change)="onImageUpload($event)"
               />
               <i class="bi bi-plus-lg"></i>
-            </label>
+            </label> -->
+
+            <app-file-upload (filesChanged)="onFilesChanged($event)" [maxFiles]="6"></app-file-upload>
+
           </div>
 
           <p class="small text-muted mt-2 text-center">

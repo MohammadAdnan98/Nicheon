@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-seller-dashboard',
   templateUrl: './seller-dashboard.component.html',
-  styleUrls: ['./seller-dashboard.component.css']
+  styleUrls: ['./seller-dashboard.component.css'],
 })
 export class SellerDashboardComponent implements OnInit {
   products: any[] = [];
@@ -20,7 +20,10 @@ export class SellerDashboardComponent implements OnInit {
   showNotifications = false;
   unreadCount = 0;
 
-  constructor(private dashboardService: DashboardService, private router: Router) { }
+  constructor(
+    private dashboardService: DashboardService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -45,26 +48,31 @@ export class SellerDashboardComponent implements OnInit {
         }
 
         // 🟢 Summary cards (fix key names to match API)
-        const s = res.summary ?? { newOrders: 0, acceptedOrders: 0, shippedOrders: 0, revenue: 0 };
+        const s = res.summary ?? {
+          newOrders: 0,
+          acceptedOrders: 0,
+          shippedOrders: 0,
+          revenue: 0,
+        };
         this.summary = [
           { label: 'New Orders', value: s.newOrders ?? 0 },
           { label: 'Accepted', value: s.acceptedOrders ?? 0 },
           { label: 'Shipped', value: s.shippedOrders ?? 0 },
-          { label: 'Revenue', value: '₹' + (s.revenue ?? 0) }
+          { label: 'Revenue', value: '₹' + (s.revenue ?? 0) },
         ];
 
         // 🟢 Recent Orders
-        this.orders = (res.recentOrders || []).map(o => ({
+        this.orders = (res.recentOrders || []).map((o) => ({
           buyer: o.buyerName,
           product: o.itemsSummary || '',
           quantity: o.quantity || '',
           amount: o.totalAmount || 0,
           status: o.status || 'New',
-          orderId: o.orderId
+          orderId: o.orderId,
         }));
 
         // 🟢 Top Products
-        this.products = (res.topProducts || []).map(p => {
+        this.products = (res.topProducts || []).map((p) => {
           let img = p.primaryImage || '';
 
           // Remove duplicate slashes
@@ -74,15 +82,14 @@ export class SellerDashboardComponent implements OnInit {
           const fullImageUrl = img.startsWith('/')
             ? `${environment.imgUrl}${img}`
             : `${environment.imgUrl}/${img}`;
-
+          console.log('Full Image URL:', fullImageUrl);
           return {
             productId: p.productId,
             productName: p.productName,
             pricePerGram: p.pricePerGram,
-            image: fullImageUrl || 'assets/Image/no-image.png'
+            image: fullImageUrl || 'assets/Image/no-image.png',
           };
         });
-
 
         // 🟢 Notifications
         this.unreadNotifications = res.unreadNotifications || 0;
@@ -93,23 +100,39 @@ export class SellerDashboardComponent implements OnInit {
       error: (err) => {
         console.error('❌ Dashboard API failed:', err);
         this.setDemoData();
-      }
+      },
     });
   }
 
   private setDemoData() {
     this.products = [
-      { productId: 101, productName: 'Gold Ring', pricePerGram: 5800, image: 'assets/Image/goldring.png' },
-      { productId: 102, productName: 'Silver Chain', pricePerGram: 90, image: 'assets/Image/silverchain.png' }
+      {
+        productId: 101,
+        productName: 'Gold Ring',
+        pricePerGram: 5800,
+        image: 'assets/Image/goldring.png',
+      },
+      {
+        productId: 102,
+        productName: 'Silver Chain',
+        pricePerGram: 90,
+        image: 'assets/Image/silverchain.png',
+      },
     ];
     this.orders = [
-      { buyer: 'Raj Jewellers', product: 'Gold Ring', quantity: 2, amount: 12000, status: 'Pending' }
+      {
+        buyer: 'Raj Jewellers',
+        product: 'Gold Ring',
+        quantity: 2,
+        amount: 12000,
+        status: 'Pending',
+      },
     ];
     this.summary = [
       { label: 'New Orders', value: 0 },
       { label: 'Accepted', value: 0 },
       { label: 'Shipped', value: 0 },
-      { label: 'Revenue', value: '₹0' }
+      { label: 'Revenue', value: '₹0' },
     ];
     this.loading = false;
   }
@@ -127,20 +150,20 @@ export class SellerDashboardComponent implements OnInit {
       icon: 'bi-bag-check text-success',
       message: 'Your order #1023 has been accepted by Anand Jewellers.',
       time: '2 hours ago',
-      read: false
+      read: false,
     },
     {
       icon: 'bi-box-seam text-warning',
       message: 'New product "22K Gold Chain" was approved.',
       time: 'Yesterday',
-      read: false
+      read: false,
     },
     {
       icon: 'bi-currency-rupee text-gold',
       message: 'Payment received for order #1021.',
       time: '2 days ago',
-      read: true
-    }
+      read: true,
+    },
   ];
 
   toggleNotifications() {
@@ -148,7 +171,7 @@ export class SellerDashboardComponent implements OnInit {
   }
 
   markAllRead() {
-    this.notifications.forEach(n => n.read = true);
+    this.notifications.forEach((n) => (n.read = true));
     this.unreadCount = 0;
   }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from 'src/app/Services/ProductService';
+import { FileService } from 'src/app/Services/FileService';
 
 @Component({
   selector: 'app-add-product',
@@ -24,102 +25,94 @@ export class AddProductComponent {
     hallmarkNumber: '',
   };
 
+  selectedFiles: File[] = [];
   previewImages: string[] = [];
   loading = false;
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(
+    private productService: ProductService,
+    private fileService: FileService,
+    private router: Router
+  ) {}
 
-  // ✅ Fixed: Allow adding up to 6 images total, without replacing previous ones
-  onImageUpload(event: any): void {
-    const files: FileList = event.target.files;
-    if (!files || files.length === 0) return;
-
-    const availableSlots = 6 - this.previewImages.length;
-    if (availableSlots <= 0) {
-      alert('You can upload a maximum of 6 images.');
-      return;
-    }
-
-    const uploadCount = Math.min(files.length, availableSlots);
-    for (let i = 0; i < uploadCount; i++) {
-      const file = files[i];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.previewImages.push(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
+  // Back button
+  goBack() {  
+    this.router.navigate(['/seller-dashboard']);
   }
 
-  removeImage(index: number): void {
+  // When shared file uploader sends files
+  onFilesChanged(files: File[]) {
+    this.selectedFiles = files;
+
+    // Build preview
+    this.previewImages = [];
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => this.previewImages.push(e.target.result);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  setPrimary(index: number) {
+    const img = this.previewImages.splice(index, 1)[0];
+    this.previewImages.unshift(img);
+  }
+
+  removeImage(index: number) {
     this.previewImages.splice(index, 1);
+    this.selectedFiles.splice(index, 1);
   }
 
   submitProduct(): void {
-    if (!this.product.productName) {
-      alert('Please enter product name.');
-      return;
-    }
-    if (this.product.isHallmarked && !this.product.hallmarkNumber) {
-      alert('Please enter hallmark number.');
-      return;
-    }
-    if (this.previewImages.length < 1) {
-      alert('Please upload at least 1 image.');
-      return;
-    }
+    if (!this.product.productName) return alert('Please enter product name.');
+    if (this.product.isHallmarked && !this.product.hallmarkNumber) return alert('Enter hallmark number');
+    if (this.selectedFiles.length < 1) return alert('Upload at least 1 image');
+    if (this.selectedFiles.length > 6) return alert('Max 6 images allowed');
 
     this.loading = true;
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const businessId = user?.businessId || 1;
 
     const productData = {
-      businessId: businessId,
-      productCode: 'PROD-' + Date.now(),
-      ...this.product,
+      BusinessId: businessId,
+      ProductCode: 'PROD-' + Date.now(),
+      ProductName: this.product.productName,
+      ShortDescription: this.product.description,
+      Description: this.product.description,
+      CategoryId: this.product.categoryId,
+      MetalId: this.product.metalId,
+      Karat: this.product.karat,
+      Colour: this.product.colour,
+      WeightGrams: this.product.weightGrams,
+      PricePerGram: this.product.pricePerGram,
+      MakingCharges: this.product.makingCharges,
+      MOQ: this.product.moq,
+      Stock: this.product.stock,
+      IsHallmarked: this.product.isHallmarked
     };
 
+    // STEP 1 — CREATE PRODUCT
     this.productService.createProduct(productData).subscribe({
-      next: (res) => {
-        const newProductId = res.productId || res.id;
-        console.log('✅ Product Created:', res);
+      next: (res: any) => {
+        const productId = res.productId;
 
-        if (this.previewImages.length > 0 && newProductId) {
-          let sort = 1;
-          for (const img of this.previewImages) {
-            const imageData = {
-              productId: newProductId,
-              businessId: businessId,
-              imageUrl: img,
-              altText: `${this.product.productName} Image ${sort}`,
-              isPrimary: sort === 1,
-              sortOrder: sort++,
-            };
-            this.productService.addProductImage(imageData).subscribe();
+        const formData = new FormData();
+        this.selectedFiles.forEach(file => formData.append('files', file));
+
+        // STEP 2 — UPLOAD IMAGES
+        this.fileService.uploadProductImages(businessId, productId, formData).subscribe({
+          next: () => {
+            alert('Product added successfully');
+            this.router.navigate(['/seller-dashboard']);
+          },
+          error: () => {
+            alert('Product created but image upload failed');
           }
-        }
-
-        alert('✅ Product added successfully!');
-        this.loading = false;
-        this.router.navigate(['/seller-dashboard']);
+        });
       },
-      error: (err) => {
-        console.error('❌ Error:', err);
-        alert('Failed to add product.');
-        this.loading = false;
-      },
+      error: () => {
+        alert('Failed to create product');
+      }
     });
   }
-
-  setPrimary(index: number) {
-  const img = this.previewImages.splice(index, 1)[0];
-  this.previewImages.unshift(img);
-}
-
-goBack() {
-  //this.router.navigate(['/seller-listings']);
-
-  this.router.navigate(['/product-listings']);
-}
-
 }

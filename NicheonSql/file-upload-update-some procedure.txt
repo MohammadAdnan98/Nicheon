@@ -145,50 +145,40 @@ END
 
 GO
 
-Create PROCEDURE dbo.proc_InsertProductImage
+ALTER PROCEDURE dbo.sp_AddProductImage
     @ProductId INT,
-    @BusinessId INT=null,
+    @BusinessId INT,
     @ImageUrl NVARCHAR(1000),
-    @AltText NVARCHAR(250),
-    @IsPrimary BIT,
-    @SortOrder INT
+    @AltText NVARCHAR(500) = NULL,
+    @IsPrimary BIT = 0,
+    @SortOrder INT = 0,
+    @OutResult INT OUTPUT,     -- 1=OK, -1=error
+    @OutImageId INT OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON;
+    BEGIN TRY
+        IF @IsPrimary = 1
+        BEGIN
+            UPDATE dbo.ProductImages
+            SET IsPrimary = 0
+            WHERE ProductId = @ProductId AND IsActive = 1;
+        END
 
-    -- Reset primary image if new one is primary
-    IF @IsPrimary = 1
-        UPDATE ProductImages 
-        SET IsPrimary = 0 
-        WHERE ProductId = @ProductId AND IsActive = 1;
+        INSERT INTO dbo.ProductImages (ProductId, ImageUrl, AltText, IsPrimary, SortOrder, CreatedAt, IsActive)
+        VALUES (@ProductId, @ImageUrl, @AltText, @IsPrimary, @SortOrder, SYSUTCDATETIME(), 1);
 
-    INSERT INTO ProductImages 
-    (
-        ProductId,
-        ImageUrl,
-        AltText,
-        IsPrimary,
-        SortOrder,
-        IsActive,
-        CreatedAt
-    )
-    VALUES 
-    (
-        @ProductId,
-        @ImageUrl,
-        @AltText,
-        @IsPrimary,
-        @SortOrder,
-        1,
-        GETDATE()
-    );
-
-    SELECT SCOPE_IDENTITY() AS ImageId;
+        SET @OutImageId = CAST(SCOPE_IDENTITY() AS INT);
+        SET @OutResult = 1;
+    END TRY
+    BEGIN CATCH
+        SET @OutResult = -1;
+        SET @OutImageId = 0;
+    END CATCH
 END
-
 GO
 
-Create PROCEDURE dbo.proc_GetProductImages
+Alter PROCEDURE dbo.proc_GetProductImages
     @ProductId INT
 AS
 BEGIN
@@ -210,16 +200,22 @@ END
 
 GO
 
-Create PROCEDURE dbo.proc_DeleteProductImage
-    @ImageId INT
+-- soft delete
+ALter PROCEDURE dbo.sp_DeleteProductImage
+    @ImageId INT,
+    @OutResult INT OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON;
-
-    UPDATE ProductImages
-    SET IsActive = 0
-    WHERE ImageId = @ImageId;
+    BEGIN TRY
+        UPDATE dbo.ProductImages SET IsActive = 0 WHERE ImageId = @ImageId;
+        SET @OutResult = 1;
+    END TRY
+    BEGIN CATCH
+        SET @OutResult = -1;
+    END CATCH
 END
+GO
 
 GO
 

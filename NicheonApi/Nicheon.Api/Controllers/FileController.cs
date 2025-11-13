@@ -2,7 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Nicheon.Application.Interfaces;
 using System.IO;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace Nicheon.Api.Controllers
 {
@@ -20,75 +25,80 @@ namespace Nicheon.Api.Controllers
             _fileRepo = fileRepo;
         }
 
-        // ✅ Upload Product Images
+        // POST api/file/UploadProductImages/{businessId}/{productId}
         [HttpPost("UploadProductImages/{businessId:int}/{productId:int}")]
         public async Task<IActionResult> UploadProductImages(int businessId, int productId, [FromForm] List<IFormFile> files)
         {
-            if (files == null || files.Count == 0)
-                return BadRequest("No files uploaded.");
+            if (files == null || files.Count == 0) return BadRequest("No files uploaded.");
 
-            // Upload folder path
-            string rootPath = Path.Combine(_env.ContentRootPath, "Uploads", "ProductImages", $"Business_{businessId}", $"Product_{productId}");
-            if (!Directory.Exists(rootPath))
-                Directory.CreateDirectory(rootPath);
+            // ensure limit 1..6
+            if (files.Count > 6) return BadRequest("Maximum 6 images allowed.");
 
-            var uploadedList = new List<object>();
+            // folder path inside content root
+            var uploadRoot = Path.Combine(_env.ContentRootPath, "Uploads", "ProductImages", $"Business_{businessId}", $"Product_{productId}");
+            if (!Directory.Exists(uploadRoot)) Directory.CreateDirectory(uploadRoot);
+
+            var results = new List<object>();
             int sort = 1;
 
             foreach (var file in files)
             {
-                string fileExt = Path.GetExtension(file.FileName);
-                string uniqueName = $"{Guid.NewGuid():N}{fileExt}";
-                string fullPath = Path.Combine(rootPath, uniqueName);
+                if (file.Length == 0) continue;
 
-                // Save file
-                using (var stream = new FileStream(fullPath, FileMode.Create))
+                var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+                var allowed = new[] { ".jpg", ".jpeg", ".png", ".webp", ".gif" };
+                if (!allowed.Contains(ext)) continue;
+
+                var fileName = $"{Guid.NewGuid():N}{ext}";
+                var filePath = Path.Combine(uploadRoot, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
                     await file.CopyToAsync(stream);
+                }
 
-                string relativePath = $"/Uploads/ProductImages/Business_{businessId}/Product_{productId}/{uniqueName}";
+                // relative path stored in DB
+                var relativePath = $"/Uploads/ProductImages/Business_{businessId}/Product_{productId}/{fileName}";
 
-                // Save metadata in DB
-                int imageId = await _fileRepo.AddImageAsync(productId, businessId, relativePath, file.FileName, sort == 1, sort);
+                // save metadata in DB via repository
+                var (result, imageId) = await _fileRepo.AddImageAsync(productId, businessId, relativePath, file.FileName, sort == 1, sort);
 
-                uploadedList.Add(new
+                results.Add(new
                 {
                     ImageId = imageId,
-                    ImageUrl = $"{Request.Scheme}://{Request.Host}{relativePath}"
+                    ImageUrl = $"{Request.Scheme}://{Request.Host}{relativePath}",
+                    Result = result
                 });
 
                 sort++;
             }
 
-            return Ok(new { message = "Images uploaded successfully", images = uploadedList });
+            return Ok(new { message = "Uploaded", images = results });
         }
 
-        // ✅ Get Product Images
         [HttpGet("GetProductImages/{productId:int}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetProductImages(int productId)
         {
-            var result = await _fileRepo.GetProductImagesAsync(productId);
-            string host = $"{Request.Scheme}://{Request.Host}";
-
-            var formatted = result.Select(img => new
+            var images = await _fileRepo.GetProductImagesAsync(productId);
+            var host = $"{Request.Scheme}://{Request.Host}";
+            var formatted = images.Select(i => new
             {
-                img.ImageId,
-                img.ProductId,
-                img.BusinessId,
-                img.IsPrimary,
-                img.SortOrder,
-                ImageUrl = $"{host}{img.ImageUrl}"
+                i.ImageId,
+                i.ProductId,
+                i.BusinessId,
+                ImageUrl = $"{host}{i.ImageUrl}",
+                i.IsPrimary,
+                i.SortOrder
             });
-
             return Ok(formatted);
         }
 
-        // ✅ Delete Product Image
         [HttpDelete("DeleteProductImage/{imageId:int}")]
         public async Task<IActionResult> DeleteProductImage(int imageId)
         {
-            await _fileRepo.DeleteImageAsync(imageId);
-            return Ok(new { message = "Image deleted successfully" });
+            var res = await _fileRepo.DeleteImageAsync(imageId);
+            return res == 1 ? Ok(new { message = "Deleted" }) : BadRequest(new { message = "Delete failed" });
         }
     }
 }

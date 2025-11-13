@@ -146,27 +146,29 @@ if (!Directory.Exists(uploadPath)) { Directory.CreateDirectory(uploadPath); }
 
 var app = builder.Build();
 
-// ✅ Swagger should be enabled in Development
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        // 👇 DO NOT set RoutePrefix = string.Empty
-        // Keep Swagger at /swagger/index.html (so launchUrl "swagger" works)
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nicheon API v1");
-    });
+    app.UseSwaggerUI();
 }
 
-app.UseStaticFiles(new StaticFileOptions { FileProvider = new PhysicalFileProvider(@"C:\Nicheon\NicheonApi\Nicheon.Api\Uploads"), RequestPath = "/Uploads" });
-
-// ✅ Serve static files from your Uploads folder
-app.UseStaticFiles(new StaticFileOptions { FileProvider = new PhysicalFileProvider(uploadPath), RequestPath = "/Uploads" });
-
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();    // ⭐ MUST BE BEFORE AUTH and MVC
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Uploads")
+    ),
+    RequestPath = "/Uploads",
+    ServeUnknownFileTypes = true
+});
+
 app.UseCors("AllowAngularApp");
-app.UseAuthentication();  // 🔥 Must come before Authorization
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
 app.Run();
