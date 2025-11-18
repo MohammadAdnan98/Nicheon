@@ -1,32 +1,39 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 
-  getSellerOrders(): Observable<any[]> {
-    return of([
-      {
-        orderId: 'ORD-1024',
-        buyerName: 'Diamond Express Traders',
-        date: '2025-11-04',
-        status: 'Pending',
-        items: [
-          { name: '18k Gold Chain', image: 'assets/Image/gold-dust.jpg' },
-          { name: 'Gold Bangles', image: 'assets/Image/gold-scrap.jpg' }
-        ]
-      },
-      {
-        orderId: 'ORD-1025',
-        buyerName: 'Raj Jewels',
-        date: '2025-11-03',
-        status: 'Accepted',
-        items: [
-          { name: 'Silver Polishing Dust', image: 'assets/Image/silver-dust.jpg' }
-        ]
-      }
-    ]);
+  private apiUrl = `${environment.apiUrl}/SellerOrders`;
+
+  constructor(private http: HttpClient) {}
+
+  // 🔐 Auth Headers
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
+  // 📌 1. GET seller orders
+  getOrders(sellerBusinessId: number) {
+    return this.http.get(
+      `${this.apiUrl}/GetOrders/${sellerBusinessId}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  // 📌 2. POST update status (Accept / Ship / Reject)
+  updateStatus(orderId: number, status: string, notes?: string) {
+    return this.http.post(
+      `${this.apiUrl}/UpdateStatus`,
+      { orderId, status, notes },
+      { headers: this.getHeaders() }
+    );
   }
 }

@@ -326,6 +326,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Nicheon.Api.Controllers.SellerOrdersController",
+    "Method": "GetOrders",
+    "RelativePath": "api/SellerOrders/GetOrders/{sellerBusinessId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sellerBusinessId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.SellerOrdersController",
+    "Method": "UpdateStatus",
+    "RelativePath": "api/SellerOrders/UpdateStatus",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Nicheon.Application.DTOs.UpdateOrderStatusDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Nicheon.API.Controllers.UserTypeController",
     "Method": "GetAll",
     "RelativePath": "api/UserType",

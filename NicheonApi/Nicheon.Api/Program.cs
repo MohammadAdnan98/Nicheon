@@ -11,6 +11,7 @@ using Nicheon.Application.Shared;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.Extensions.FileProviders;
+using Nicheon.Api.Controllers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,6 +76,7 @@ builder.Services.AddScoped<IOtpService, OtpService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardRepository>();
 builder.Services.AddScoped<IFileRepository, FileRepository>();
+builder.Services.AddScoped<ISellerOrdersRepository, SellerOrdersRepository>();
 
 
 
