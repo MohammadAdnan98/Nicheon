@@ -1,5 +1,5 @@
 <div class="product-detail" *ngIf="!loading; else loadingTpl">
-  <!-- 🧭 Header / Breadcrumb -->
+  <!-- Header -->
   <div class="header d-flex align-items-center justify-content-between px-3 py-3 bg-white shadow-sm">
     <div class="d-flex align-items-center gap-2">
       <button class="btn back-btn" (click)="back()"><i class="bi bi-arrow-left"></i></button>
@@ -11,27 +11,47 @@
     </div>
   </div>
 
-  <!-- 🌟 Main Product Content -->
   <div class="container py-4">
     <div class="row g-4 align-items-start">
 
-      <!-- 📸 Gallery Section -->
+      <!-- 📸 IMAGE GALLERY -->
       <div class="col-12 col-lg-6">
         <div class="gallery card p-3">
-          <div class="main-image">
-            <img [src]="activeImage" alt="Product Image" />
+
+          <!-- MAIN IMAGE WITH AMAZON ZOOM -->
+          <div class="main-image"
+               #zoomContainer
+               (mousemove)="onZoom($event)"
+               (mouseenter)="enableZoom()"
+               (mouseleave)="disableZoom()"
+               (touchmove)="onZoom($event)"
+               (touchstart)="enableZoom()"
+               (touchend)="disableZoom()">
+
+            <img #mainImage [src]="activeImage" alt="Product Image" />
+
+            <!-- Lens -->
+            <div class="zoom-lens" *ngIf="zoomEnabled"></div>
           </div>
+
+          <!-- Zoom Result Window -->
+          <div class="zoom-result" *ngIf="zoomEnabled"
+               [style.backgroundImage]="'url(' + activeImage + ')'">
+          </div>
+
+          <!-- THUMBNAILS -->
           <div class="thumbs">
             <img *ngFor="let img of gallery"
                  [src]="img.url"
                  [alt]="img.alt || 'Image'"
                  [class.active]="img.url === activeImage"
-                 (click)="selectImage(img)" />
+                 (click)="selectImage(img)">
           </div>
+
         </div>
       </div>
 
-      <!-- 📝 Product Summary -->
+      <!-- PRODUCT SUMMARY -->
       <div class="col-12 col-lg-6">
         <div class="summary card p-4">
           <div class="d-flex justify-content-between align-items-start">
@@ -40,8 +60,7 @@
               <p class="small text-muted mb-2">{{ product?.productCode }}</p>
             </div>
             <div class="text-end">
-              <span class="badge"
-                    [ngClass]="product?.isActive ? 'bg-success' : 'bg-secondary'">
+              <span class="badge" [ngClass]="product?.isActive ? 'bg-success' : 'bg-secondary'">
                 {{ product?.isActive ? 'Active' : 'Inactive' }}
               </span>
               <div *ngIf="product?.isHallmarked" class="small text-success mt-1">
@@ -50,7 +69,6 @@
             </div>
           </div>
 
-          <!-- 💰 Price Information -->
           <div class="price-card mt-3">
             <div class="price-item">
               <div class="label">Price / gram</div>
@@ -63,7 +81,6 @@
             </div>
           </div>
 
-          <!-- 📋 Product Specifications -->
           <div class="spec-grid mt-3">
             <div class="spec" *ngFor="let s of specs">
               <div class="label">{{ s.label }}</div>
@@ -71,7 +88,6 @@
             </div>
           </div>
 
-          <!-- ⚙️ Actions -->
           <div class="d-flex gap-2 mt-4">
             <button class="btn btn-gold" (click)="editProduct()">Edit</button>
             <button class="btn btn-outline-danger" (click)="deleteProduct()">Delete</button>
@@ -80,7 +96,7 @@
         </div>
       </div>
 
-      <!-- 🪶 Description -->
+      <!-- DESCRIPTION -->
       <div class="col-12">
         <div class="card p-4">
           <h6 class="fw-semibold mb-2">Product Description</h6>
@@ -88,7 +104,7 @@
         </div>
       </div>
 
-      <!-- 📊 Meta Information -->
+      <!-- META -->
       <div class="col-12">
         <div class="card p-4 meta-grid">
           <div>
@@ -101,7 +117,7 @@
           </div>
           <div>
             <div class="label">Last Updated</div>
-            <div class="value">{{ product?.updatedAt ? (product?.updatedAt | date:'medium') : '-' }}</div>
+            <div class="value">{{ product?.updatedAt ? (product.updatedAt | date:'medium') : '-' }}</div>
           </div>
           <div>
             <div class="label">Hallmark No.</div>
@@ -109,11 +125,12 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
 
-<!-- Loading Template -->
+<!-- LOADING -->
 <ng-template #loadingTpl>
   <div class="text-center py-5">
     <div class="spinner-border text-gold"></div>

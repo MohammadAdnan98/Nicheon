@@ -7,10 +7,13 @@
   padding-bottom: 60px;
 }
 
-/* Top Bar */
+/* ===========================
+   TOP BAR
+=========================== */
 .top-bar {
   border-bottom: 1px solid #eee;
 }
+
 .back-btn {
   background: #f9f9f9;
   border: none;
@@ -18,26 +21,33 @@
   color: #444;
   transition: 0.3s;
 }
+
 .back-btn:hover {
   background: #d4af37;
-  color: #fff;
+  color: white;
 }
+
 .btn-gold {
   background: #d4af37;
-  color: #fff;
+  color: white;
   border: none;
   font-weight: 600;
   transition: 0.3s;
 }
+
 .btn-gold:hover {
   background: #b9962e;
 }
 
-/* Images */
+/* ===========================
+   IMAGE HERO
+=========================== */
 .image-hero {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
+
 .main-image {
   width: 92%;
   max-height: 360px;
@@ -45,11 +55,16 @@
   border-radius: 16px;
   background: #fff;
   border: 1px solid #eee;
+  padding: 6px;
 }
 
+/* ===========================
+   THUMBNAIL STRIP
+=========================== */
 .thumbs {
   align-items: center;
 }
+
 .thumb-box {
   position: relative;
   width: 82px;
@@ -58,78 +73,150 @@
   border-radius: 10px;
   overflow: hidden;
   background: #fff;
-  transition: all 0.25s ease;
   cursor: pointer;
+  transition: all 0.25s ease-in-out;
 }
+
 .thumb-box:hover {
-  transform: scale(1.05);
+  transform: scale(1.06);
   border-color: #d4af37;
 }
+
 .thumb-box.primary {
-  border-color: #1b5e20;
+  border-color: #1b5e20 !important;
 }
+
 .thumb {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .thumb-actions {
   position: absolute;
   right: 4px;
   top: 4px;
   display: flex;
+  flex-direction: column;
   gap: 6px;
 }
+
 .btn-icon {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid #ddd;
   border-radius: 6px;
-  padding: 2px 6px;
+  padding: 2px 5px;
   line-height: 1;
+  cursor: pointer;
+  transition: 0.2s;
 }
+
+.btn-icon:hover {
+  background: #fff3cd;
+  border-color: #d4af37;
+}
+
+/* Add Image Button */
+/* ADD IMAGE BOX (Fixed Perfect UI) */
 .thumb-add {
   width: 82px;
   height: 82px;
   border: 2px dashed #ccc;
   border-radius: 10px;
   color: #888;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Form */
+/* Hide default File Input */
+.thumb-add input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+/* Hover effect */
+.thumb-add:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+}
+
+/* Plus icon positioning */
+.thumb-add i {
+  pointer-events: none;
+  font-size: 24px;
+  z-index: 1;
+}
+
+
+/* ===========================
+   FORM STYLING
+=========================== */
 .form-card {
   background: #fff;
   border-radius: 16px;
 }
+
 .form-label {
   font-weight: 600;
-  color: #222;
+  color: #444;
 }
+
 .form-control,
 .form-select {
   border-radius: 10px;
   border: 1px solid #ccc;
   padding: 10px;
   font-size: 0.95rem;
-  transition: 0.3s;
+  transition: 0.3s ease;
 }
+
 .form-control:focus,
 .form-select:focus {
   border-color: #d4af37;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.18);
 }
 
-/* Spinner */
+/* ===========================
+   HALLMARK CHECKBOX
+=========================== */
+.form-check-input {
+  cursor: pointer;
+}
+
+.form-check-label {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* ===========================
+   SPINNER
+=========================== */
 .text-gold {
   color: #d4af37 !important;
 }
 
-/* Responsive */
+/* ===========================
+   RESPONSIVE
+=========================== */
 @media (max-width: 768px) {
   .main-image {
     width: 100%;
     max-height: 280px;
+  }
+
+  .thumb-box {
+    width: 72px;
+    height: 72px;
   }
 }

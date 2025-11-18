@@ -171,27 +171,6 @@
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.ProductController",
-    "Method": "Delete",
-    "RelativePath": "api/Product/{productId}/{businessId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "productId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "businessId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Nicheon.Api.Controllers.ProductController",
     "Method": "AddImage",
     "RelativePath": "api/Product/add-image",
     "HttpMethod": "POST",
@@ -270,6 +249,27 @@
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.ProductController",
+    "Method": "DeleteProduct",
+    "RelativePath": "api/Product/DeleteProduct/{productId}/{businessId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "businessId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.ProductController",
     "Method": "List",
     "RelativePath": "api/Product/list",
     "HttpMethod": "GET",
@@ -300,21 +300,26 @@
         "Name": "pageSize",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "metalId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.ProductController",
-    "Method": "Update",
-    "RelativePath": "api/Product/update",
+    "Method": "UpdateProduct",
+    "RelativePath": "api/Product/UpdateProduct",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "product",
-        "Type": "Nicheon.Domain.Entities.Product",
+        "Type": "Nicheon.Application.DTOs.ProductCreateDto",
         "IsRequired": true
       }
     ],

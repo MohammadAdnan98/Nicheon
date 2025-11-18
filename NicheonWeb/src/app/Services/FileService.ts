@@ -16,17 +16,27 @@ export class FileService {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
+    // Upload new images (1–6 files)
   uploadProductImages(businessId: number, productId: number, formData: FormData): Observable<any> {
-    const headers = this.getAuthHeaders(); // DO NOT set Content-Type, browser will set multipart boundary
-    return this.http.post(`${this.base}/UploadProductImages/${businessId}/${productId}`, formData, { headers });
+    debugger;
+    const headers = this.getAuthHeaders(); // browser sets multipart boundary automatically
+    return this.http.post(
+      `${this.base}/UploadProductImages/${businessId}/${productId}`,
+      formData,
+      { headers }
+    );
   }
 
+
+ // Load product images
   getProductImages(productId: number): Observable<any> {
     return this.http.get(`${this.base}/GetProductImages/${productId}`);
   }
 
+  // Delete a single image
   deleteImage(imageId: number): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.delete(`${this.base}/DeleteProductImage/${imageId}`, { headers });
+    return this.http.delete(`${this.base}/DeleteProductImage/${imageId}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 }

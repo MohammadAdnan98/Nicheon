@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nicheon.Application.DTOs;
 using Nicheon.Application.Interfaces;
+using Nicheon.Application.DTOs;
 using Nicheon.Domain.Entities;
 
 namespace Nicheon.Api.Controllers
@@ -18,26 +18,19 @@ namespace Nicheon.Api.Controllers
             _repository = repository;
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] ProductCreateDto dto)
+        [HttpGet("list")]
+        public async Task<IActionResult> List(
+            [FromQuery] int? businessId,
+            [FromQuery] int? categoryId,
+            [FromQuery] string? search,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 20,
+            [FromQuery] int? metalId = null)
         {
-            var id = await _repository.CreateAsync(dto);
-            if (id <= 0) return BadRequest("Failed to create product.");
-            return Ok(new { message = "Product created successfully", productId = id });
-        }
+            var result = await _repository.ListAsync(
+                businessId, categoryId, search, page, pageSize, metalId);
 
-        [HttpPut("update")]
-        public async Task<IActionResult> Update([FromBody] Product product)
-        {
-            var res = await _repository.UpdateAsync(product);
-            return res == 1 ? Ok("Product updated successfully.") : BadRequest("Update failed.");
-        }
-
-        [HttpDelete("{productId}/{businessId}")]
-        public async Task<IActionResult> Delete(int productId, int businessId)
-        {
-            var res = await _repository.DeleteAsync(productId, businessId);
-            return res == 1 ? Ok("Product deleted (soft delete).") : NotFound("Product not found.");
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -47,26 +40,68 @@ namespace Nicheon.Api.Controllers
             return product == null ? NotFound() : Ok(product);
         }
 
-        [HttpGet("list")]
-        public async Task<IActionResult> List([FromQuery] int? businessId, [FromQuery] int? categoryId,
-            [FromQuery] string? search, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        [HttpPost("create")]
+        public async Task<IActionResult> Create([FromBody] ProductCreateDto dto)
         {
-            var result = await _repository.ListAsync(businessId, categoryId, search, page, pageSize);
-            return Ok(result);
+            var id = await _repository.CreateAsync(dto);
+            if (id <= 0) return BadRequest("Failed to create product.");
+            return Ok(new { message = "Product created successfully", productId = id });
+        }
+
+        //[HttpPut("update")]
+        //public async Task<IActionResult> Update([FromBody] Product product)
+        //{
+        //    var result = await _repository.UpdateAsync(product);
+        //    return result == 1 ? Ok("Updated") : BadRequest("Failed");
+        //}
+
+
+        // UPDATE PRODUCT DETAILS ONLY
+        [HttpPut("UpdateProduct")]
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductCreateDto product)
+        {
+            var result = await _repository.UpdateAsync(product);
+            return result == 1
+                ? Ok(new { message = "Product updated" })
+                : BadRequest(new { message = "Update failed" });
+        }
+
+        //[HttpDelete("{productId}/{businessId}")]
+        //public async Task<IActionResult> DeleteProduct(int productId, int businessId)
+        //{
+        //    var res = await _repository.DeleteAsync(productId, businessId);
+        //    return res == 1 ? Ok("Deleted") : NotFound();
+        //}
+
+
+        // DELETE PRODUCT
+        [HttpDelete("DeleteProduct/{productId:int}/{businessId:int}")]
+        public async Task<IActionResult> DeleteProduct(int productId, int businessId)
+        {
+            var result = await _repository.DeleteAsync(productId, businessId);
+            return result == 1
+                ? Ok(new { message = "Product deleted" })
+                : BadRequest(new { message = "Delete failed" });
         }
 
         [HttpPost("add-image")]
-        public async Task<IActionResult> AddImage(int productId, int businessId, string imageUrl, string? altText, bool isPrimary, int sortOrder)
+        public async Task<IActionResult> AddImage(
+            int productId,
+            int businessId,
+            string imageUrl,
+            string? altText,
+            bool isPrimary,
+            int sortOrder)
         {
             var res = await _repository.AddImageAsync(productId, businessId, imageUrl, altText, isPrimary, sortOrder);
-            return res == 1 ? Ok("Image added.") : BadRequest("Failed to add image.");
+            return res == 1 ? Ok("Image Added") : BadRequest("Failed");
         }
 
         [HttpDelete("delete-image/{imageId}/{businessId}")]
         public async Task<IActionResult> DeleteImage(int imageId, int businessId)
         {
             var res = await _repository.DeleteImageAsync(imageId, businessId);
-            return res == 1 ? Ok("Image deleted (soft delete).") : NotFound("Image not found.");
+            return res == 1 ? Ok("Image Deleted") : NotFound();
         }
     }
 }

@@ -22,11 +22,12 @@ export class ProductService {
   }
 
   // 🧾 1️⃣ Get all products for the seller
-  getSellerProducts(businessId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/list?businessId=${businessId}`, {
-      headers: this.getHeaders()
-    });
-  }
+  getSellerProducts(businessId: number, page = 1, pageSize = 20): Observable<any> {
+  return this.http.get(`${this.apiUrl}/list?businessId=${businessId}&page=${page}&pageSize=${pageSize}`, {
+    headers: this.getHeaders()
+  });
+}
+
 
   // 🔍 2️⃣ Get product by ID
   getProductById(productId: number): Observable<any> {
@@ -42,21 +43,28 @@ export class ProductService {
     });
   }
 
-  // ✏️ 4️⃣ Update existing product
+  // ================================
+  //  UPDATE PRODUCT (NEW API ROUTE)
+  // ================================
   updateProduct(productData: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/update`, productData, {
+    return this.http.put(`${this.apiUrl}/UpdateProduct`, productData, {
       headers: this.getHeaders()
     });
   }
 
-  // 🗑️ 5️⃣ Delete product (soft delete)
+  // ================================
+  //  DELETE PRODUCT (NEW API ROUTE)
+  // ================================
   deleteProduct(productId: number, businessId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${productId}/${businessId}`, {
-      headers: this.getHeaders()
-    });
+    return this.http.delete(
+      `${this.apiUrl}/DeleteProduct/${productId}/${businessId}`,
+      { headers: this.getHeaders() }
+    );
   }
 
-  // 🖼️ 6️⃣ Add product image
+  // ================================
+  //  ADD IMAGE (if needed in future)
+  // ================================
   addProductImage(data: {
     productId: number;
     businessId: number;
@@ -70,10 +78,13 @@ export class ProductService {
     });
   }
 
-  // 🚫 7️⃣ Delete product image
+  // ================================
+  //  DELETE IMAGE (OLD API - NOT USED NOW)
+  // ================================
   deleteProductImage(imageId: number, businessId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/delete-image/${imageId}/${businessId}`, {
-      headers: this.getHeaders()
-    });
+    return this.http.delete(
+      `${this.apiUrl}/delete-image/${imageId}/${businessId}`,
+      { headers: this.getHeaders() }
+    );
   }
 }

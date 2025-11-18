@@ -8,6 +8,8 @@ namespace Nicheon.Application.DTOs
 {
     public class ProductCreateDto
     {
+
+        public int? ProductId { get; set; } 
         public int BusinessId { get; set; }
         public int? CategoryId { get; set; }
         public int? MetalId { get; set; }
