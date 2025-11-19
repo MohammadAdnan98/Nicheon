@@ -36,4 +36,13 @@ export class OrderService {
       { headers: this.getHeaders() }
     );
   }
+
+  getOrderDetails(orderId: number) {
+  return this.http.get(
+    `${this.apiUrl}/GetOrderDetailsById/${orderId}`,
+    { headers: this.getHeaders() }
+  );
+
+}
+
 }

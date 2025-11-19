@@ -327,6 +327,22 @@
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.SellerOrdersController",
+    "Method": "GetOrderDetails",
+    "RelativePath": "api/SellerOrders/GetOrderDetailsById/{orderId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.SellerOrdersController",
     "Method": "GetOrders",
     "RelativePath": "api/SellerOrders/GetOrders/{sellerBusinessId}",
     "HttpMethod": "GET",
@@ -352,6 +368,38 @@
       {
         "Name": "dto",
         "Type": "Nicheon.Application.DTOs.UpdateOrderStatusDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.SellerProfileController",
+    "Method": "GetByBusinessId",
+    "RelativePath": "api/SellerProfile/GetByBusinessId/{businessId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.SellerProfileController",
+    "Method": "UpdateProfile",
+    "RelativePath": "api/SellerProfile/UpdateProfile",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Nicheon.Application.DTOs.UpdateBusinessProfileDto",
         "IsRequired": true
       }
     ],

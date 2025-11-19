@@ -28,6 +28,13 @@ namespace Nicheon.Api.Controllers
             var result = await _repo.UpdateOrderStatusAsync(dto.OrderId, dto.Status, dto.Notes);
             return result == 1 ? Ok(new { message = "Updated" }) : BadRequest("Failed");
         }
+
+        [HttpGet("GetOrderDetailsById/{orderId:int}")]
+        public async Task<IActionResult> GetOrderDetails(int orderId)
+        {
+            var data = await _repo.GetOrderDetailsAsync(orderId);
+            return Ok(data);
+        }
     }
 
     

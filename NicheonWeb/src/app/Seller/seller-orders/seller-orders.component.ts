@@ -52,6 +52,7 @@ export class SellerOrdersComponent implements OnInit {
         this.filteredOrders = [...this.orders];
         this.updateStats();
         this.loading = false;
+        localStorage.setItem('Order', this.orders.length.toString());
       },
       error: (err) => {
         console.error("Error loading orders", err);
@@ -112,10 +113,13 @@ export class SellerOrdersComponent implements OnInit {
 
   viewDetails(order: any) {
     this.router.navigate(['/seller-order-details', order.orderNumber]);
+    localStorage.setItem('OrderId', order.orderId);
   }
 
   goDashboard() {
     this.router.navigate(['/seller-dashboard']);
+    
+
   }
 
 }

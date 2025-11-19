@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Nicheon.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e23ab14e4030af2a7ac0dab1e5b9a3a28211bdf3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2879f764921411d0ce3380e9f7ab942ef73ae93")]
 [assembly: System.Reflection.AssemblyProductAttribute("Nicheon.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Nicheon.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

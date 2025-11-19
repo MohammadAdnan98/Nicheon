@@ -610,6 +610,83 @@
         }
       }
     },
+    "/api/SellerOrders/GetOrderDetailsById/{orderId}": {
+      "get": {
+        "tags": [
+          "SellerOrders"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/SellerProfile/GetByBusinessId/{businessId}": {
+      "get": {
+        "tags": [
+          "SellerProfile"
+        ],
+        "parameters": [
+          {
+            "name": "businessId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/SellerProfile/UpdateProfile": {
+      "post": {
+        "tags": [
+          "SellerProfile"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBusinessProfileDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBusinessProfileDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBusinessProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/UserType": {
       "get": {
         "tags": [
@@ -962,6 +1039,68 @@
             "maxLength": 10,
             "minLength": 4,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateBusinessProfileDto": {
+        "type": "object",
+        "properties": {
+          "businessId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "businessName": {
+            "type": "string",
+            "nullable": true
+          },
+          "businessType": {
+            "type": "string",
+            "nullable": true
+          },
+          "gstNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "pan": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactPerson": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "businessEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "landmark": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "pincode": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

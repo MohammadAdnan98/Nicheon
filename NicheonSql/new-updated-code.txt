@@ -1,0 +1,232 @@
+CREATE PROCEDURE sp_GetSellerOrders
+    @SellerBusinessId INT
+AS
+/*
+exec sp_GetSellerOrders 2
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        O.OrderId,
+        O.OrderNumber,
+        O.BuyerBusinessId,
+        B.BusinessName AS BuyerName,
+        B.City AS BuyerCity,
+        O.OrderDate,
+        O.Status,
+        O.TotalAmount,
+        P.PaymentMethod,
+        (
+            SELECT 
+                I.OrderItemId,
+                I.ProductId,
+                P2.ProductName,
+                I.Quantity AS Qty,
+                I.UnitPrice,
+                I.MakingCharges
+            FROM OrderItems I
+            INNER JOIN Products P2 ON P2.ProductId = I.ProductId
+            WHERE I.OrderId = O.OrderId
+            FOR JSON PATH
+        ) AS ItemsJson
+    FROM OrdersInfo O
+    INNER JOIN BusinessProfiles B ON B.BusinessId = O.BuyerBusinessId
+    LEFT JOIN PaymentsDetails P ON P.OrderId = O.OrderId
+    WHERE O.SellerBusinessId = @SellerBusinessId
+      AND O.IsActive = 1
+    ORDER BY O.OrderDate DESC;
+END
+
+GO
+
+DECLARE @OrderId INT;
+
+INSERT INTO OrdersInfo 
+(
+    OrderNumber, BuyerBusinessId, SellerBusinessId, 
+    OrderDate, SubTotal, ShippingCharges, TaxAmount, TotalAmount, 
+    DeliveryAddress, ExpectedDeliveryDate, Status, Notes
+)
+VALUES
+(
+    'ORD-10001',
+    3,                    -- buyer business
+    2,                    -- seller business
+    GETDATE(),
+    12900.00,             -- subtotal
+    0,
+    0,
+    12900.00,             -- total
+    'Surat, Gujarat',
+    DATEADD(DAY, 5, GETDATE()),
+    'New',
+    NULL
+);
+
+SET @OrderId = SCOPE_IDENTITY();
+
+INSERT INTO OrderItems 
+(OrderId, ProductId, Quantity, UnitPrice, MakingCharges)
+VALUES
+(@OrderId, 6, 1, 6450 * 2, 400);
+
+INSERT INTO PaymentsDetails
+(OrderId, PaymentMethod, Amount, PaymentStatus)
+VALUES
+(@OrderId, 'NEFT', 12900, 'Pending');
+
+GO
+
+CREATE PROCEDURE sp_GetOrderDetails
+    @OrderId INT
+AS
+/*
+exec sp_GetOrderDetails 3
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    -- HEADER + BUYER + PAYMENT
+    SELECT
+        O.OrderId,
+        O.OrderNumber,
+        O.OrderDate,
+        O.Status,
+        O.TotalAmount,
+        O.BuyerBusinessId,
+        B.BusinessName AS BuyerName,
+        B.City,
+        B.State,
+        B.ContactPhone AS Phone,
+        PD.PaymentMethod,
+        P.PaymentStatus
+    FROM OrdersInfo O
+    INNER JOIN BusinessProfiles B ON B.BusinessId = O.BuyerBusinessId
+    LEFT JOIN PaymentsDetails PD ON PD.OrderId = O.OrderId
+    LEFT JOIN PaymentsDetails P ON P.OrderId = O.OrderId
+    WHERE O.OrderId = @OrderId;
+
+    -- ORDER ITEMS + PRODUCT DETAILS
+    SELECT
+        I.OrderItemId,
+        I.ProductId,
+        PR.ProductName,
+        PR.MetalId,
+        M.MetalName,
+        PR.Karat,
+        PR.Colour,
+        PR.WeightGrams,
+        I.Quantity AS Qty,
+        (I.UnitPrice + ISNULL(I.MakingCharges,0)) AS Price
+    FROM OrderItems I
+    INNER JOIN Products PR ON PR.ProductId = I.ProductId
+    LEFT JOIN MetalTypes M ON M.MetalId = PR.MetalId
+    WHERE I.OrderId = @OrderId;
+
+    -- PRODUCT IMAGES
+    SELECT
+        PI.ImageId,
+        PI.ProductId,
+        PI.ImageUrl,
+        PI.IsPrimary,
+        PI.SortOrder
+    FROM ProductImages PI
+    WHERE PI.ProductId IN (
+        SELECT ProductId FROM OrderItems WHERE OrderId = @OrderId
+    )
+    ORDER BY PI.SortOrder;
+END
+
+
+GO
+
+ALTER PROCEDURE sp_GetBusinessProfileById
+    @BusinessId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        bp.BusinessId,
+        bp.UserId,
+		us.FullName,
+        bp.BusinessName,
+        bp.BusinessType,
+        bp.GSTNumber,
+        bp.PAN,
+        bp.ContactPerson,
+        bp.ContactPhone,
+        bp.BusinessEmail,
+        bp.Address,
+        bp.Landmark,
+        bp.City,
+        bp.State,
+        bp.Country,
+        bp.Pincode,
+        bp.IsVerified,
+        bp.CreatedAt,
+        bp.UpdatedAt,
+        bp.IsActive
+    FROM BusinessProfiles bp
+	LEFT JOIN Users us on us.UserId=bp.UserId
+    WHERE BusinessId = @BusinessId;
+END
+
+select * from BusinessProfiles where BusinessId=2
+select * from Users where UserId=2
+
+update BusinessProfiles
+set
+ContactPerson ='9998887766',
+ContactPhone ='1239769087',
+BusinessEmail = 'BharatGemsJewels@bharatjewels.com',
+Address = '4th hauz building, Sarafa bazar, chandini chow',
+Landmark ='Jama Masjid' where BusinessId=2
+GO
+
+ALTER PROCEDURE sp_UpdateBusinessProfile
+    @BusinessId INT,
+    @BusinessName NVARCHAR(255),
+    @BusinessType NVARCHAR(50),
+    @GSTNumber NVARCHAR(32) = NULL,
+    @PAN NVARCHAR(20) = NULL,
+    @ContactPerson NVARCHAR(200) = NULL,
+    @ContactPhone NVARCHAR(20) = NULL,
+    @BusinessEmail NVARCHAR(255) = NULL,
+    @Address NVARCHAR(500) = NULL,
+    @Landmark NVARCHAR(250) = NULL,
+    @City NVARCHAR(100) = NULL,
+    @State NVARCHAR(100) = NULL,
+    @Country NVARCHAR(100) = NULL,
+    @Pincode NVARCHAR(20) = NULL,
+    @OutResult INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE BusinessProfiles
+    SET
+        BusinessName = @BusinessName,
+        BusinessType = @BusinessType,
+        GSTNumber = @GSTNumber,
+        PAN = @PAN,
+        ContactPerson = @ContactPerson,
+        ContactPhone = @ContactPhone,
+        BusinessEmail = @BusinessEmail,
+        Address = @Address,
+        Landmark = @Landmark,
+        City = @City,
+        State = @State,
+        Country = @Country,
+        Pincode = @Pincode,
+        UpdatedAt = GETDATE()
+    WHERE BusinessId = @BusinessId;
+
+    SET @OutResult = CASE WHEN @@ROWCOUNT > 0 THEN 1 ELSE 0 END;
+END
+
+
+
+GO
+

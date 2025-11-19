@@ -3,21 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\businessprofilerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.api\\controllers\\sellerprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\sellerprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.application\\dtos\\businessprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\sellerordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\ibusinessprofilerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.api\\controllers\\sellerorderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\sellerorderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.application\\dtos\\orderlistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\sellerordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\isellerordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\usertyperepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.application\\dtos\\orderlistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.application\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
@@ -34,9 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.api\\controllers\\filecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\filecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.api\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -227,76 +243,158 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SellerOrdersController.cs",
-              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\SellerOrdersController.cs",
-              "RelativeDocumentMoniker": "Controllers\\SellerOrdersController.cs",
-              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\SellerOrdersController.cs",
-              "RelativeToolTip": "Controllers\\SellerOrdersController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAnAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "BusinessProfileRepository.cs",
+              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
+              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAASwBIAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T19:07:52.475Z",
+              "WhenOpened": "2025-11-19T19:07:29.555Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "BusinessProfileDto.cs",
+              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
+              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAA/wDIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T19:06:03.543Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IBusinessProfileRepository.cs",
+              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IBusinessProfileRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IBusinessProfileRepository.cs",
+              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IBusinessProfileRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IBusinessProfileRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T19:06:49.317Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SellerProfileController.cs",
+              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\SellerProfileController.cs",
+              "RelativeDocumentMoniker": "Controllers\\SellerProfileController.cs",
+              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\SellerProfileController.cs",
+              "RelativeToolTip": "Controllers\\SellerProfileController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T19:08:27.729Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "SellerOrdersRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\SellerOrdersRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\SellerOrdersRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\SellerOrdersRepository.cs",
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\SellerOrdersRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAAASwFYAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-18T18:58:22.762Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "OrderListDto.cs",
-              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\OrderListDto.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\OrderListDto.cs",
-              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\OrderListDto.cs",
-              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\OrderListDto.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAmwCUAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T18:55:09.857Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAEkAAAAAAAAAAAAuwFAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAH4AAAAAAAAAAAAhwIgAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-16T05:50:06.664Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
+              "ViewState": "AgIAAJoAAAAAAAAAAAAuwKYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T18:43:03.848Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "OrderListDto.cs",
+              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\OrderListDto.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\OrderListDto.cs",
+              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\OrderListDto.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\OrderListDto.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAxwEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-18T18:55:09.857Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SellerOrdersController.cs",
+              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\SellerOrdersController.cs",
+              "RelativeDocumentMoniker": "Controllers\\SellerOrdersController.cs",
+              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\SellerOrdersController.cs",
+              "RelativeToolTip": "Controllers\\SellerOrdersController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAuwCQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-18T19:07:52.475Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "ISellerOrdersRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\ISellerOrdersRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\ISellerOrdersRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\ISellerOrdersRepository.cs",
               "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\ISellerOrdersRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-18T18:50:57.405Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
+              "Title": "UserTypeRepository.cs",
+              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
+              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T17:29:08.656Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "FileController.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\FileController.cs",
               "RelativeDocumentMoniker": "Controllers\\FileController.cs",
@@ -304,12 +402,11 @@
               "RelativeToolTip": "Controllers\\FileController.cs",
               "ViewState": "AgIAAJsAAAAAAAAAAAAuwK4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T12:22:14.782Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T12:22:14.782Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 14,
               "Title": "IFileRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IFileRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IFileRepository.cs",
@@ -317,12 +414,11 @@
               "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IFileRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T17:47:34.758Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-13T17:47:34.758Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 13,
               "Title": "FileRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\FileRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\FileRepository.cs",
@@ -330,12 +426,11 @@
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\FileRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAE4AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T17:48:00.831Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-13T17:48:00.831Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 12,
               "Title": "Product.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\Product.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Domain\\Entities\\Product.cs",
@@ -343,12 +438,11 @@
               "RelativeToolTip": "..\\Nicheon.Domain\\Entities\\Product.cs",
               "ViewState": "AgIAACMAAAAAAAAAAADwvy8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T19:25:53.431Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-30T19:25:53.431Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 11,
               "Title": "ProductDto.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\ProductDto.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\ProductDto.cs",
@@ -356,25 +450,11 @@
               "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\ProductDto.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAA/wCEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T19:44:53.9Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-30T19:44:53.9Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ProductRepository.cs",
-              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
-              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
-              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T18:43:03.848Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "DashboardRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\DashboardRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\DashboardRepository.cs",
@@ -386,7 +466,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 17,
               "Title": "IProductRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
@@ -398,7 +478,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 19,
               "Title": "DashboardDto.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\DashboardDto.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\DashboardDto.cs",
@@ -410,7 +490,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "ProductController.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
@@ -422,7 +502,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 20,
               "Title": "UserTypeController.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\UserTypeController.cs",
               "RelativeDocumentMoniker": "Controllers\\UserTypeController.cs",
@@ -434,7 +514,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 22,
               "Title": "ProductListItemDto.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\ProductListItemDto.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\ProductListItemDto.cs",
@@ -446,7 +526,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 21,
               "Title": "PagedResult.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\PagedResult.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\PagedResult.cs",
@@ -458,7 +538,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 24,
               "Title": "DashboardController.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\DashboardController.cs",
               "RelativeDocumentMoniker": "Controllers\\DashboardController.cs",
@@ -470,7 +550,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 47,
               "Title": "AuthenticationModel.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
@@ -482,7 +562,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 23,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -494,7 +574,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 46,
               "Title": "IFileRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IFileRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IFileRepository.cs",
@@ -506,7 +586,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 45,
               "Title": "FileRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\FileRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\FileRepository.cs",
@@ -518,7 +598,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 48,
               "Title": "DashboardRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\DashboardRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\DashboardRepository.cs",
@@ -530,7 +610,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 25,
               "Title": "AuthenticationController.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\AuthenticationController.cs",
               "RelativeDocumentMoniker": "Controllers\\AuthenticationController.cs",
@@ -542,7 +622,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 49,
               "Title": "AuthenticationRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
@@ -554,7 +634,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 50,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\appsettings.json",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Api\\appsettings.json",
@@ -566,7 +646,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 51,
               "Title": "IDashboardService.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IDashboardService.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IDashboardService.cs",
@@ -578,7 +658,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 52,
               "Title": "UserType.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\UserType.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Domain\\Entities\\UserType.cs",
@@ -590,7 +670,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 26,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "Properties\\launchSettings.json",
@@ -602,7 +682,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 53,
               "Title": "JwtTokenService.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Shared\\SharedRepositories\\JwtTokenService.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Shared\\SharedRepositories\\JwtTokenService.cs",
@@ -614,7 +694,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 54,
               "Title": "IJwtTokenService.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IJwtTokenService.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IJwtTokenService.cs",
@@ -626,7 +706,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 27,
               "Title": "Nicheon.Api.http",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Nicheon.Api.http",
               "RelativeDocumentMoniker": "Nicheon.Api.http",
@@ -638,7 +718,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 55,
               "Title": "IAuthentication.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
@@ -650,7 +730,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 56,
               "Title": "AuthenticationRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
@@ -661,7 +741,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 57,
               "Title": "AuthenticationModel.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
@@ -672,7 +752,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 58,
               "Title": "IJwtTokenService.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IJwtTokenService.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IJwtTokenService.cs",
@@ -683,7 +763,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 59,
               "Title": "JwtTokenService.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Shared\\SharedRepositories\\JwtTokenService.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Shared\\SharedRepositories\\JwtTokenService.cs",
@@ -694,7 +774,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 60,
               "Title": "EmailService.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Shared\\SharedRepositories\\EmailService.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Shared\\SharedRepositories\\EmailService.cs",
@@ -705,7 +785,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 61,
               "Title": "IAuthentication.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
@@ -716,7 +796,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 62,
               "Title": "IEmailService.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IEmailService.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IEmailService.cs",
@@ -727,7 +807,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 63,
               "Title": "IEmailService.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IEmailService.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IEmailService.cs",
@@ -739,7 +819,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 64,
               "Title": "EmailService.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Shared\\SharedRepositories\\EmailService.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Shared\\SharedRepositories\\EmailService.cs",
@@ -751,7 +831,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 65,
               "Title": "IAuthentication.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
@@ -763,7 +843,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 66,
               "Title": "UserType.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\UserType.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\UserType.cs",
@@ -774,7 +854,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 62,
+              "DocumentIndex": 67,
               "Title": "Product.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\Product.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Domain\\Entities\\Product.cs",
@@ -785,7 +865,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 68,
               "Title": "AuthenticationRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
@@ -797,7 +877,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 69,
               "Title": "IUserTypeRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
@@ -808,7 +888,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 70,
               "Title": "IProductRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
@@ -819,7 +899,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 66,
+              "DocumentIndex": 71,
               "Title": "OtpService.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
@@ -830,7 +910,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 67,
+              "DocumentIndex": 72,
               "Title": "ProductRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
@@ -841,7 +921,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 29,
               "Title": "AuthenticationRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
@@ -852,7 +932,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 28,
               "Title": "IOtpService.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Shared\\IOtpService.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Application\\Shared\\IOtpService.cs",
@@ -863,7 +943,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 30,
               "Title": "AuthenticationRepository.cs",
               "DocumentMoniker": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
               "ToolTip": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
@@ -872,7 +952,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 43,
               "Title": "ProductRepository.cs",
               "DocumentMoniker": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
               "ToolTip": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
@@ -881,7 +961,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 31,
               "Title": "ProductRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
@@ -892,7 +972,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 32,
               "Title": "OtpService.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Persistence\\SharedRepositories\\OtpService.cs",
@@ -903,7 +983,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 68,
+              "DocumentIndex": 73,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\appsettings.json",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Nicheon\\NicheonApi\\Nicheon.Api\\appsettings.json",
@@ -914,7 +994,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 44,
               "Title": "UserTypeRepository.cs",
               "DocumentMoniker": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
               "ToolTip": "D:\\Nicheon\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
@@ -923,7 +1003,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 33,
               "Title": "IAuthentication.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Application\\Interfaces\\IAuthentication.cs",
@@ -934,7 +1014,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 34,
               "Title": "AuthenticationModel.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Domain\\Entities\\AuthenticationModel.cs",
@@ -945,7 +1025,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 35,
               "Title": "IProductRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Application\\Interfaces\\IProductRepository.cs",
@@ -956,7 +1036,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 36,
               "Title": "Product.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\Product.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Domain\\Entities\\Product.cs",
@@ -967,7 +1047,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 37,
               "Title": "UserType.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Domain\\Entities\\UserType.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Domain\\Entities\\UserType.cs",
@@ -978,7 +1058,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 38,
               "Title": "UserTypeRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
@@ -989,7 +1069,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 39,
               "Title": "IUserTypeRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Application\\Interfaces\\IUserTypeRepository.cs",
@@ -1000,7 +1080,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 40,
               "Title": "Nicheon.Shared.csproj",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Nicheon.Shared.csproj",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Shared\\Nicheon.Shared.csproj",
@@ -1011,7 +1091,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 41,
               "Title": "Class1.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Tests\\Class1.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Tests\\Class1.cs",
@@ -1022,7 +1102,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 42,
               "Title": "Class1.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\Nicheon.Shared\\Class1.cs",
               "RelativeDocumentMoniker": "..\\..\\Nicheon.Shared\\Class1.cs",

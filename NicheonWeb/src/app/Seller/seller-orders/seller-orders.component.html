@@ -85,10 +85,10 @@
             <td><input type="checkbox" [(ngModel)]="o.selected" (change)="updateSelection()" /></td>
             <td class="fw-semibold">{{ o.orderNumber }}</td>
             <td>{{ o.buyerName }}</td>
-            <td>{{ o.city }}</td>
+            <td>{{ o.buyerCity }}</td>
             <td>
               <ul class="small mb-0">
-                <li *ngFor="let item of o.items">{{ item.name }} (x{{ item.qty }})</li>
+                <li *ngFor="let item of o.items">{{ item.productName }} (x{{ item.qty }})</li>
               </ul>
             </td>
             <td class="fw-semibold text-gold">₹{{ o.totalAmount | number }}</td>

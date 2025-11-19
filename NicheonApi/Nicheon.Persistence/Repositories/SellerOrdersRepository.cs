@@ -56,6 +56,38 @@ namespace Nicheon.Persistence.Repositories
 
             return p.Get<int>("@OutResult");
         }
+
+        public async Task<OrderDetailsDto> GetOrderDetailsAsync(int orderId)
+        {
+            using (var multi = await _db.QueryMultipleAsync(
+                "sp_GetOrderDetails",
+                new { OrderId = orderId },
+                commandType: CommandType.StoredProcedure))
+            {
+                var header = await multi.ReadFirstOrDefaultAsync<OrderDetailsDto>();
+                var items = await multi.ReadAsync<OrderProductDto>();
+                var images = await multi.ReadAsync<dynamic>();
+
+                // ⭐ FIXED — force dictionary value type to List<string>
+                var imgLookup = images
+                    .GroupBy(i => (int)i.ProductId)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Select(x => $"{x.ImageUrl}").ToList()
+                    );
+
+                foreach (var item in items)
+                {
+                    item.Images = imgLookup.ContainsKey(item.ProductId)
+                        ? imgLookup[item.ProductId]
+                        : new List<string>();
+                }
+
+                header.Items = items.ToList();
+                return header;
+
+            }
+        }
     }
 
 }

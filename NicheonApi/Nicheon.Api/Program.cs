@@ -77,6 +77,8 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardRepository>();
 builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<ISellerOrdersRepository, SellerOrdersRepository>();
+builder.Services.AddTransient<IBusinessProfileRepository, BusinessProfileRepository>();
+
 
 
 

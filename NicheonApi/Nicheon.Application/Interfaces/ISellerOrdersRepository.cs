@@ -11,6 +11,9 @@ namespace Nicheon.Application.Interfaces
     {
         Task<IEnumerable<OrderListDto>> GetSellerOrdersAsync(int sellerBusinessId);
         Task<int> UpdateOrderStatusAsync(int orderId, string status, string? notes);
+
+        Task<OrderDetailsDto> GetOrderDetailsAsync(int orderId);
+
     }
 
 }
