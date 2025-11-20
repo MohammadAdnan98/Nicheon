@@ -1,0 +1,251 @@
+-- ============================================
+-- 1) Utility: get next order number (simple)
+-- ============================================
+CREATE PROCEDURE dbo.sp_GetNextOrderNumber
+AS
+BEGIN
+    SET NOCOUNT ON;
+    -- simple: ORD + YYYYMMDD + incremental within day
+    DECLARE @prefix NVARCHAR(20) = 'ORD' + CONVERT(NVARCHAR(8), GETDATE(), 112) + '-';
+    DECLARE @max VARCHAR(50) = (SELECT MAX(OrderNumber) FROM OrdersInfo WHERE OrderNumber LIKE @prefix + '%');
+    IF @max IS NULL
+    BEGIN
+        SELECT @prefix + '0001' AS NextOrderNumber;
+        RETURN;
+    END
+    DECLARE @seq INT = CONVERT(INT, RIGHT(@max, 4)) + 1;
+    SELECT @prefix + RIGHT('0000' + CONVERT(VARCHAR(4), @seq), 4) AS NextOrderNumber;
+END
+GO
+
+-- ============================================
+-- 2) Place an order (inserts OrdersInfo + OrderItems + PaymentDetails) - transactional
+-- Caller must provide JSON for items or pass table-valued param (we'll use simple temp table pattern)
+-- ============================================
+CREATE PROCEDURE dbo.sp_CreateOrder
+    @BuyerBusinessId INT,
+    @SellerBusinessId INT,
+    @OrderNumber NVARCHAR(100),
+    @TotalAmount DECIMAL(18,2),
+    @PaymentMethod NVARCHAR(50),
+    @Notes NVARCHAR(500) = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        INSERT INTO OrdersInfo
+        (OrderNumber, BuyerBusinessId, SellerBusinessId, OrderDate, TotalAmount, Status, Notes, IsActive, CreatedAt)
+        VALUES
+        (@OrderNumber, @BuyerBusinessId, @SellerBusinessId, GETDATE(), @TotalAmount, 'Pending', @Notes, 1, GETDATE());
+
+        DECLARE @OrderId INT = SCOPE_IDENTITY();
+
+        -- Expect the caller to insert OrderItems in a follow-up procedure or use a TVP.
+        -- For safety, we return OrderId for the caller to use for inserting items.
+        SELECT @OrderId AS OrderId;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH
+END
+GO
+
+-- If you prefer a single proc that receives items as JSON (SQL Server 2016+), here's a JSON-based variant:
+CREATE PROCEDURE dbo.sp_CreateOrderWithItemsJson
+    @BuyerBusinessId INT,
+    @SellerBusinessId INT,
+    @OrderNumber NVARCHAR(100),
+    @TotalAmount DECIMAL(18,2),
+    @PaymentMethod NVARCHAR(50),
+    @ItemsJson NVARCHAR(MAX), -- JSON array: [{ "ProductId":1, "Quantity":2, "UnitPrice":100, "MakingCharges":10 }, ...]
+    @Notes NVARCHAR(500) = NULL,
+    @OutOrderId INT OUTPUT,
+    @OutResult INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        INSERT INTO OrdersInfo
+        (OrderNumber, BuyerBusinessId, SellerBusinessId, OrderDate, TotalAmount, Status, Notes, IsActive, CreatedAt)
+        VALUES
+        (@OrderNumber, @BuyerBusinessId, @SellerBusinessId, GETDATE(), @TotalAmount, 'Pending', @Notes, 1, GETDATE());
+
+        SET @OutOrderId = SCOPE_IDENTITY();
+
+        -- parse JSON items
+        IF (@ItemsJson IS NOT NULL AND LEN(@ItemsJson) > 0)
+        BEGIN
+            INSERT INTO OrderItems (OrderId, ProductId, Quantity, UnitPrice, MakingCharges, CreatedAt, IsActive)
+            SELECT
+                @OutOrderId,
+                JSON_VALUE(value, '$.ProductId'),
+                JSON_VALUE(value, '$.Quantity'),
+                JSON_VALUE(value, '$.UnitPrice'),
+                JSON_VALUE(value, '$.MakingCharges'),
+                GETDATE(),
+                1
+            FROM OPENJSON(@ItemsJson);
+        END
+
+        -- insert payment details record (pending or created)
+        INSERT INTO PaymentsDetails (OrderId, PaymentMethod, Amount, Status, CreatedAt)
+        VALUES (@OutOrderId, @PaymentMethod, @TotalAmount, 'Pending', GETDATE());
+
+        SET @OutResult = 1;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        SET @OutResult = -1;
+    END CATCH
+END
+GO
+
+-- ============================================
+-- 3) Get buyer orders (paged) with items aggregated
+-- ============================================
+CREATE PROCEDURE dbo.sp_GetBuyerOrders
+    @BuyerBusinessId INT,
+    @Page INT = 1,
+    @PageSize INT = 20,
+    @Status NVARCHAR(50) = NULL,
+    @Search NVARCHAR(200) = NULL  -- search by order number or seller name
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Offset INT = (@Page - 1) * @PageSize;
+
+    ;WITH OrdersCTE AS (
+        SELECT
+            O.OrderId,
+            O.OrderNumber,
+            O.SellerBusinessId,
+            S.BusinessName AS SellerName,
+            O.OrderDate,
+            O.Status,
+            ISNULL(O.TotalAmount,0) AS TotalAmount,
+            ISNULL(PD.PaymentMethod,'COD') AS PaymentMethod,
+            ROW_NUMBER() OVER (ORDER BY O.OrderDate DESC, O.OrderId DESC) AS RowNum
+        FROM OrdersInfo O
+        INNER JOIN BusinessProfiles S ON S.BusinessId = O.SellerBusinessId
+        LEFT JOIN PaymentsDetails PD ON PD.OrderId = O.OrderId
+        WHERE O.BuyerBusinessId = @BuyerBusinessId
+          AND O.IsActive = 1
+          AND (@Status IS NULL OR O.Status = @Status)
+          AND (@Search IS NULL OR (
+                O.OrderNumber LIKE '%' + @Search + '%'
+                OR S.BusinessName LIKE '%' + @Search + '%'
+            ))
+    )
+    , PagedOrders AS (
+        SELECT * FROM OrdersCTE
+        WHERE RowNum > @Offset AND RowNum <= (@Offset + @PageSize)
+    )
+
+    SELECT
+        po.OrderId,
+        po.OrderNumber,
+        po.SellerBusinessId,
+        po.SellerName,
+        po.OrderDate,
+        po.Status,
+        po.TotalAmount,
+        po.PaymentMethod,
+        oi.OrderItemId,
+        oi.ProductId,
+        p.ProductName,
+        oi.Quantity AS Qty,
+        oi.UnitPrice,
+        oi.MakingCharges
+    FROM PagedOrders po
+    LEFT JOIN OrderItems oi ON oi.OrderId = po.OrderId AND oi.IsActive = 1
+    LEFT JOIN Products p ON p.ProductId = oi.ProductId
+    ORDER BY po.OrderDate DESC, po.OrderId DESC, oi.OrderItemId;
+
+    -- return total count for paging
+    SELECT COUNT(1) AS TotalRecords
+    FROM OrdersInfo O
+    INNER JOIN BusinessProfiles S ON S.BusinessId = O.SellerBusinessId
+    WHERE O.BuyerBusinessId = @BuyerBusinessId
+      AND O.IsActive = 1
+      AND (@Status IS NULL OR O.Status = @Status)
+      AND (@Search IS NULL OR (O.OrderNumber LIKE '%' + @Search + '%' OR S.BusinessName LIKE '%' + @Search + '%'));
+END
+GO
+
+-- ============================================
+-- 4) Get single order details by ID (with items)
+-- ============================================
+CREATE PROCEDURE dbo.sp_GetOrderById
+    @OrderId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT * FROM OrdersInfo WHERE OrderId = @OrderId;
+
+    SELECT oi.OrderItemId, oi.ProductId, p.ProductName, oi.Quantity, oi.UnitPrice, oi.MakingCharges
+    FROM OrderItems oi
+    LEFT JOIN Products p ON p.ProductId = oi.ProductId
+    WHERE oi.OrderId = @OrderId AND oi.IsActive = 1;
+
+    SELECT * FROM PaymentsDetails WHERE OrderId = @OrderId;
+END
+GO
+
+-- ============================================
+-- 5) Buyer cancel order (soft cancel) - allowed only if order in certain states
+-- ============================================
+CREATE PROCEDURE dbo.sp_BuyerCancelOrder
+    @OrderId INT,
+    @BuyerBusinessId INT,
+    @Notes NVARCHAR(500) = NULL,
+    @OutResult INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    IF NOT EXISTS (SELECT 1 FROM OrdersInfo WHERE OrderId = @OrderId AND BuyerBusinessId = @BuyerBusinessId AND IsActive = 1)
+    BEGIN
+        SET @OutResult = -1; RETURN;
+    END
+
+    DECLARE @status NVARCHAR(50) = (SELECT Status FROM OrdersInfo WHERE OrderId = @OrderId);
+
+    -- allow cancel only for Pending or Accepted (business rule)
+    IF @status NOT IN ('Pending', 'Accepted')
+    BEGIN
+        SET @OutResult = -2; RETURN;
+    END
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        UPDATE OrdersInfo
+        SET Status = 'CancelledByBuyer',
+            Notes = ISNULL(Notes, '') + COALESCE(@Notes, ''),
+            UpdatedAt = GETDATE(),
+            StatusUpdateDate = GETDATE()
+        WHERE OrderId = @OrderId;
+
+        INSERT INTO OrderTracking (OrderId, Status, Message, CreatedAt)
+        VALUES (@OrderId, 'CancelledByBuyer', ISNULL(@Notes,'Buyer cancelled'), GETDATE());
+
+        SET @OutResult = 1;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        SET @OutResult = -9;
+    END CATCH
+END
+GO

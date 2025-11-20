@@ -1,0 +1,545 @@
+Nice — I’ll turn the high-level buyer UX into a **professional, production-ready React Native project spec** you can hand to your RN developer. This includes:
+
+* full screen list and detailed UI/UX for each screen,
+* component breakdowns + props and responsibilities,
+* exact API contracts (requests & responses) to match your existing backend,
+* data flow, caching & offline strategy,
+* navigation structure, state management, and recommended libraries,
+* testing, CI/CD, analytics, and performance/security notes,
+* a developer handover checklist and prioritized MVP roadmap.
+
+I’ll also point the RN developer to your DB/table reference file you uploaded: `/mnt/data/Table.txt`.
+
+---
+
+# Quick summary / goal
+
+Build a buyer app (phase-1 MVP) that mirrors the core buyer experience of large B2B sites (Alibaba / Amazon Business) for ordering jewellery/products from sellers:
+
+Key flows:
+
+1. Browse / Search products
+2. Product detail & price calculation
+3. Cart + checkout (single seller or multi-seller grouping)
+4. Order placement & confirmation
+5. Order tracking / My Orders
+6. Messaging & seller contact (optional early)
+7. Profile, addresses, payment methods (light)
+
+Phase-1 must be stable, fast, offline-tolerant, and easy to extend.
+
+---
+
+# Recommended tech stack & libraries (shortlist)
+
+* React Native (latest stable)
+* TypeScript (strict)
+* Expo (if you want faster dev) or bare RN if native modules required (for full production, bare RN with fastlane recommended)
+* Navigation: `@react-navigation/native` (stack + bottom tabs)
+* Data fetching & cache: **React Query** (`@tanstack/react-query`) — automatically caches, retries, and syncs
+* Global state: small Context + React Query; avoid heavy Redux unless needed
+* HTTP client: `axios` (with interceptors for auth refresh)
+* Storage: `@react-native-async-storage/async-storage` for auth tokens; `react-native-mmkv` or `expo-secure-store` for secure token storage
+* Offline queue: `react-query` + local persistence (persistQueryClient) + small "outbox" queue in SQLite or Realm for queued orders
+* Images: `react-native-fast-image` for caching (or `expo-image` in Expo)
+* Forms: `react-hook-form` + `yup` validation
+* Push notifications: Firebase Cloud Messaging (FCM) or Expo Push
+* Real-time updates: optional SignalR or WebSocket (later)
+* Analytics: Firebase Analytics, Sentry (errors), and custom event library
+* CI/CD: GitHub Actions + Fastlane (iOS/Android), TestFlight / Play Console
+* Testing: jest, react-native-testing-library, Detox (E2E)
+
+---
+
+# App architecture & folder structure (suggested)
+
+```
+/src
+  /api                 // axios instances + endpoints
+  /components          // small reusable UI components (Button, Badge, ImageCarousel)
+  /screens             // full screens per route
+  /features
+    /catalog
+      /components
+      CatalogScreen.tsx
+      ProductDetailScreen.tsx
+    /cart
+      CartScreen.tsx
+    /orders
+      OrdersListScreen.tsx
+      OrderDetailScreen.tsx
+  /hooks               // custom hooks (useAuth, useCart, useNetwork)
+  /navigation
+    AppNavigator.tsx
+    BuyerTabs.tsx
+  /contexts            // AuthContext, ThemeContext
+  /services            // OrderService, ProductService, PushService
+  /utils
+  /assets
+  App.tsx
+```
+
+---
+
+# Global app flows & decisions
+
+**Authentication**
+
+* JWT-based authentication returned by server on login.
+* Store token securely (MMKV / SecureStore).
+* Axios interceptor injects token and refreshes if required.
+
+**Authorization**
+
+* Protect routes with AuthContext.
+* Use role checks if buyer vs seller accounts are in same app.
+
+**Network & caching**
+
+* React Query is the single source of truth for network data.
+* Typical caching: product lists (stale-while-revalidate), product detail (cache + revalidate when going back), orders (short TTL).
+* Persist queries to local storage to provide instant app restore.
+
+**Offline / queued orders**
+
+* Keep an "outbox" — if create order fails due to no network, enqueue order payload locally (SQLite or AsyncStorage) and retry via a background sync when network returns.
+* Show clear UI: “Order queued — will place when online”.
+
+**Image uploads**
+
+* Use FileService endpoints you already have (`/File/UploadProductImages/...`).
+* Upload files via FormData and show progress UI.
+
+**Error handling**
+
+* Normalized server error structure: `{ success: bool, message: string, errors?: {...} }`
+* Show inline errors on forms; show snackbars for top-level messages.
+
+---
+
+# Navigation structure
+
+Top-level: `BuyerTabs` (BottomTabNavigator)
+
+* Home / Catalog (Stack)
+
+  * CatalogScreen (with filters & search)
+  * ProductDetailScreen
+* Cart (Stack)
+
+  * CartScreen
+  * CheckoutScreen
+  * CheckoutSuccessScreen
+* Orders (Stack)
+
+  * OrdersListScreen
+  * OrderDetailScreen
+* Account (Stack)
+
+  * ProfileScreen
+  * AddressesScreen
+  * PaymentMethods (future)
+* (Optional) Messages/Support
+
+Each `Stack` navigator contains screens. Use deep linking for product & order share.
+
+---
+
+# Screens — full detail (component specs, API calls, UX)
+
+Below each screen: purpose, components, API calls, validation, edge cases, analytics.
+
+---
+
+## 1) CatalogScreen (Product list + search + filters)
+
+**Purpose:** Browsing & searching products.
+
+**UI:**
+
+* Top search bar with debounce (300ms) + category filter dropdown + metal type filter + sort.
+* Product grid with cards: image, name, price per gram, weight, seller name, stock badge, MOQ.
+* Infinite scroll / pagination (React Query's `fetchNextPage`).
+
+**Components used:** `SearchBar`, `ProductCard`, `FilterChips`, `InfiniteList`, `EmptyState`.
+
+**API calls:**
+
+* GET `/api/Product/list?businessId=<sellerId?>&categoryId=&metalId=&search=...&page=&pageSize=20`
+
+  * Response: paged items (use the `sp_ListProducts` result shape you already have).
+* If supporting multi-seller: grouping possible.
+
+**Behavior:**
+
+* Tap product card → `ProductDetailScreen`.
+* Search should update query param to enable deep-linking.
+* Track events: `view_product_list`, `search_query`.
+
+**Edge cases:**
+
+* No network → render cached results if available + show online/offline indicator.
+
+---
+
+## 2) ProductDetailScreen
+
+**Purpose:** Show product gallery, description, price calc, add to cart or request quote.
+
+**UI:**
+
+* Image carousel (tap to enlarge / zoom).
+* Product title, short description, seller badge (tap → seller details).
+* Price block:
+
+  * Price per gram
+  * Weight (editable if product supports variable weight) — for jewelry some products might be per-piece.
+  * Making charges
+  * Calculated total: `pricePerGram * weight + makingCharges`
+* Quantity selector (min = MOQ)
+* `Add to Cart` button + `Buy Now` (skip cart & go to checkout)
+* Attributes: Karat, Color, Stock, Hallmark flag, SKU.
+* `Contact Seller` button (call or message)
+
+**Components used:** `ImageCarousel`, `PriceCalculator`, `QtySelector`, `AttributeList`, `ActionFooter`.
+
+**API calls:**
+
+* GET `/api/Product/{productId}` → returns full product details + images.
+
+**Edge cases:**
+
+* If product is out of stock -> disable Add to Cart and show `Notify Me` (optional).
+* If product has variants or custom weights, show modal for variant selection.
+
+**Analytics:**
+
+* `view_product`, `add_to_cart` events with productId, price, sellerId.
+
+---
+
+## 3) CartScreen
+
+**Purpose:** Manage basket of items prior to checkout. Group by seller.
+
+**UI:**
+
+* Items grouped by seller card (seller header with name & contact).
+* Each line: thumbnail, product name, attributes, qty editor, unit price, making charges, line total, remove button.
+* Summary: subtotal(s) per seller, shipping (if any), taxes, grand total.
+* Promo code field (future).
+* Checkout button (disabled if cart empty).
+
+**Components used:** `CartItem`, `SellerGroup`, `SummaryCard`.
+
+**Local state:**
+
+* Cart stored locally in `CartContext` and persisted to AsyncStorage (so cart persists across sessions).
+* Provide sync option to validate item availability/price before checkout (call validate endpoint).
+
+**API calls:**
+
+* POST `/api/Cart/validate` (optional) — return changed prices or stock problems.
+
+**Behavior:**
+
+* Edit qty updates local cart.
+* Remove item removes it.
+* Tap Checkout → `CheckoutScreen`.
+
+**Edge cases:**
+
+* If price or stock changed during checkout validation, show a friendly modal listing differences and allow user to accept new price or cancel.
+
+---
+
+## 4) CheckoutScreen
+
+**Purpose:** Place order; choose address, payment method, confirm.
+
+**UI:**
+
+* Shipping/pickup selection (use saved addresses).
+* Payment method selection (COD, bank transfer, UPI, card — for MOPs you support).
+* Order summary: grouped by seller.
+* Place order button (shows loader & disabled while processing).
+
+**Sequence:**
+
+1. Validate cart: check stock, prices.
+2. If valid, build `CreateOrderDto` and call `POST /api/BuyerOrders/Create`.
+
+**API contract (create)**
+POST `/api/BuyerOrders/Create`
+
+```json
+{
+  "buyerBusinessId": 123,
+  "sellerBusinessId": 456,
+  "totalAmount": 12500.50,
+  "paymentMethod": "COD",
+  "notes": "Urgent delivery",
+  "items": [
+    { "productId": 101, "quantity": 2, "unitPrice": 6200, "makingCharges": 150 }
+  ]
+}
+```
+
+Response:
+
+```json
+{ "message": "Order created", "orderId": 1001 }
+```
+
+**If network offline:** enqueue order in outbox and show success screen `Queued — will place when online`. Show a pending indicator in orders list.
+
+**UX/validation**
+
+* Required fields: payment method, address.
+* Show final price breakdown.
+* On success navigate to `CheckoutSuccessScreen`.
+
+---
+
+## 5) CheckoutSuccessScreen / Confirmation
+
+**UI:**
+
+* Big confirmation with order number, summary, expected next steps.
+* CTA: `View Order` or `Back to Catalog`
+* Option: `Share order` / `Download invoice (PDF)`
+
+**Analytics:** `order_placed` event.
+
+---
+
+## 6) OrdersListScreen (My Orders)
+
+**Purpose:** List buyer’s orders with filters & search.
+
+**UI:**
+
+* Search box (order # or seller name).
+* Filters: All, Pending, Accepted, Shipped, Delivered, Cancelled.
+* List items: order number, date, seller, total, status badge, quick actions (View, Track, Invoice).
+* Pagination / infinite scroll.
+
+**API:**
+GET `/api/BuyerOrders/List/{buyerBusinessId}?page=1&pageSize=20&status=Pending&search=xxx`
+
+* Response: paged result containing orders and items (derived from DB proc `sp_GetBuyerOrders`).
+
+**Behavior:**
+
+* Clicking an order → `OrderDetailScreen`.
+* If order status indicates action (e.g., pending cancel allowed), show `Cancel` button.
+
+---
+
+## 7) OrderDetailScreen
+
+**UI:**
+
+* Order header: Order number, status, placed date, expected delivery (if available).
+* Status timeline (Pending → Accepted → Shipped → Delivered).
+* Items list with images and quantities.
+* Payment details & invoice download.
+* Seller contact (call / message).
+* Actions: `Cancel` (if allowed), `Request Return` (later).
+
+**API:**
+GET `/api/BuyerOrders/{orderId}` returning order details, items, payments.
+
+**Cancel flow:**
+POST `/api/BuyerOrders/Cancel`
+Payload:
+
+```json
+{ "orderId": 1001, "buyerBusinessId": 123, "notes": "Order placed by mistake" }
+```
+
+Response: `{ "message": "Cancelled" }`
+
+**UX:**
+
+* Show optimistic UI when cancelling, but confirm with server result.
+
+---
+
+## 8) Profile / Addresses / PaymentMethods
+
+* Basic CRUD for addresses (used in checkout).
+* Payment methods stored server side or via tokenized gateway.
+
+---
+
+# API Contracts — full list (buyer-focused)
+
+1. GET `/api/Product/list` — search & filters (already implemented)
+2. GET `/api/Product/{id}` — product detail
+3. POST `/api/BuyerOrders/Create` — create order (JSON includes items)
+4. GET `/api/BuyerOrders/List/{buyerBusinessId}` — list orders (with query params: page,pageSize,status,search)
+5. GET `/api/BuyerOrders/{orderId}` — order details
+6. POST `/api/BuyerOrders/Cancel` — buyer cancel
+7. POST `/api/File/UploadProductImages/{businessId}/{productId}` — image upload (used by sellers; buyers might use only for returns/reports later)
+8. Authentication endpoints: `/api/Auth/Login`, `/api/Auth/Refresh`, `/api/Auth/Logout`
+
+Use consistent response wrapper:
+
+```json
+{ "success": true, "message": "", "data": {...} }
+```
+
+---
+
+# Data flow diagrams (textual)
+
+**Place Order (happy path)**:
+
+1. User taps Place Order -> frontend validates cart locally.
+2. Frontend calls `POST /api/BuyerOrders/Create`.
+3. Server: runs `sp_CreateOrderWithItemsJson` -> inserts OrdersInfo, OrderItems, PaymentsDetails.
+4. Server returns `orderId` -> frontend navigates to confirmation & calls analytics.
+5. Backend triggers notification to seller & buyer (push/email).
+
+**Order tracking**:
+
+* Server updates status via seller dashboard -> `sp_UpdateOrderStatus` and triggers push notification + order tracking entry.
+* Mobile receives push, updates local cache via React Query's invalidation on a background fetch (or websocket update).
+
+---
+
+# State management & caching (implementation guidance)
+
+* Use `React Query` for server state:
+
+  * `useQuery(['product', id], fetchProduct)`
+  * `useInfiniteQuery('products', fetchProducts)`
+  * `useMutation` for create order — on success invalidate `['orders', buyerId]`.
+* Persist React Query cache to local storage (persistQueryClient) for instant load.
+* Use a small `CartContext` for cart operations, persisted to AsyncStorage.
+* Outbox for offline orders:
+
+  * Simple queue: array of pending orders stored in SQLite or AsyncStorage.
+  * Background task (NetInfo listener) attempts to flush queue when online.
+
+---
+
+# Offline & sync specifics
+
+* Detect connectivity via `@react-native-community/netinfo`.
+* If offline and user presses Place Order:
+
+  * Validate cart locally.
+  * Save order payload to outbox with `status: queued`.
+  * Show success modal: "Order queued. We'll place it when you're back online."
+  * Show queued badge in Orders list.
+* When network returns:
+
+  * Background job iterates outbox and calls create API. On success remove entry & show local notification.
+
+---
+
+# UI component specs (reusable)
+
+* `ProductCard` props: `{ id, title, images, pricePerGram, weight, stock, karat, onPress }`
+* `ImageCarousel` props: `{ images, onPressImage }`
+* `QtySelector` props: `{ value, min, max, onChange }`
+* `SellerHeader` props: `{ sellerId, sellerName, onContact }`
+* `StatusBadge` props: `{ status }` (colors map)
+
+---
+
+# Error handling & validation (UX rules)
+
+* Use `react-hook-form` + `yup` for forms: address, checkout notes.
+* For async errors show toasts (via `react-native-toast-message`).
+* For price/stock mismatch during checkout, show a non-blocking modal listing changes: allow Accept (update cart automatically) or Cancel.
+
+---
+
+# Push notifications & real-time
+
+* Use FCM with a server job to send notifications when order status changes.
+* On app open & push receipt, call `queryClient.invalidateQueries(['orders', buyerId])` to refresh list.
+
+---
+
+# Security & privacy
+
+* Use HTTPS only.
+* Securely store tokens (MMKV/secure store).
+* Validate all inputs server-side.
+* Rate-limit sensitive endpoints.
+
+---
+
+# Testing strategy
+
+* Unit tests for hooks and services (Jest).
+* Component tests with `@testing-library/react-native`.
+* E2E tests (Detox or Appium) for purchase flow and offline/online switch.
+* Manual QA checklist: network drop during checkout, image upload error, duplicate order prevention.
+
+---
+
+# CI / CD
+
+* GitHub Actions pipeline:
+
+  * Lint (ESLint + Prettier)
+  * Typecheck (TS)
+  * Unit tests (Jest)
+  * Build artifacts for iOS and Android
+* Mobile app distribution:
+
+  * Android: Play Console track (internal → alpha → beta → prod)
+  * iOS: TestFlight via Fastlane
+
+---
+
+# Analytics & monitoring
+
+* Event tracking: `view_product`, `add_to_cart`, `checkout_initiated`, `order_placed`, `order_cancelled`
+* Use Sentry for error tracking
+* Use Firebase Analytics for funnels & retention
+
+---
+
+# Deliverables for your RN developer (pack to hand off)
+
+1. This spec document (they have it).
+2. API swagger / Postman collection for buyer endpoints.
+3. Auth tokens / test user accounts & sample data.
+4. Design assets: icons, fonts, color tokens (Poppins).
+5. Example server responses (mock JSON) for dev to stub UI.
+6. Acceptance tests / test cases for major flows.
+
+I converted your DB & server work already into usable APIs in prior messages (BuyerOrders controller, SQL procs such as `sp_CreateOrderWithItemsJson`, `sp_GetBuyerOrders`, `sp_GetOrderById`, `sp_BuyerCancelOrder`). The RN dev will use those endpoints.
+
+---
+
+# Example implementation checklist (MVP, prioritized)
+
+1. Basic Catalog list + Product detail + Add to cart (P0)
+2. Cart UI + local cart persistence (P0)
+3. Checkout screen + create order API integration (P0, with offline queue)
+4. Orders list & order detail (P0)
+5. Push notifications on order status change (P1)
+6. Address & payment methods (P1)
+7. Messaging seller (P2)
+
+---
+
+# Reference files
+
+* Your uploaded DB/table reference file: `/mnt/data/Table.txt` — share it with the RN developer for schema details.
+
+---
+
+If you like, next I can:
+
+* Produce a **task-by-task sprint plan** with story-level breakdowns for the RN developer (2-week sprints, acceptance criteria, mock responses), or
+* Produce a **starter React Native repo skeleton** (TypeScript + React Query + Navigation + screens scaffold with mocked data) the developer can clone and continue.
+
+Which do you prefer?

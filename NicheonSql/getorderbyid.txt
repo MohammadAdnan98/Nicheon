@@ -1,0 +1,32 @@
+Create PROCEDURE sp_GetBusinessProfileById
+    @BusinessId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        bp.BusinessId,
+        bp.UserId,
+        us.FullName,                    -- ⭐ Added from Users table
+        bp.BusinessName,
+        bp.BusinessType,
+        bp.GSTNumber,
+        bp.PAN,
+        bp.ContactPerson,
+        bp.ContactPhone,
+        bp.BusinessEmail,
+        bp.Address,
+        bp.Landmark,
+        bp.City,
+        bp.State,
+        bp.Country,
+        bp.Pincode,
+        bp.IsVerified,
+        bp.CreatedAt,
+        bp.UpdatedAt,
+        bp.IsActive
+    FROM BusinessProfiles bp
+    LEFT JOIN Users us ON us.UserId = bp.UserId
+    WHERE bp.BusinessId = @BusinessId;
+END
+

@@ -1,0 +1,326 @@
+public class CreateOrderDto
+{
+    public int BuyerBusinessId { get; set; }
+    public int SellerBusinessId { get; set; }
+    public decimal TotalAmount { get; set; }
+    public string PaymentMethod { get; set; } = "COD";
+    public string? Notes { get; set; }
+    public IEnumerable<CreateOrderItemDto> Items { get; set; } = new List<CreateOrderItemDto>();
+}
+
+public class CreateOrderItemDto
+{
+    public int ProductId { get; set; }
+    public int Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+    public decimal? MakingCharges { get; set; }
+}
+
+public class BuyerOrderListDto
+{
+    public int OrderId { get; set; }
+    public string OrderNumber { get; set; } = string.Empty;
+    public int SellerBusinessId { get; set; }
+    public string SellerName { get; set; } = string.Empty;
+    public DateTime OrderDate { get; set; }
+    public string Status { get; set; } = string.Empty;
+    public decimal TotalAmount { get; set; }
+    public string PaymentMethod { get; set; } = string.Empty;
+    public IEnumerable<OrderItemDto> Items { get; set; } = new List<OrderItemDto>();
+}
+
+
+public interface IBuyerOrdersRepository
+{
+    Task<int> CreateOrderAsync(CreateOrderDto dto);            // returns new OrderId (or -1)
+    Task<PagedResult<BuyerOrderListDto>> GetBuyerOrdersAsync(int buyerBusinessId, int page = 1, int pageSize = 20, string? status = null, string? search = null);
+    Task<OrderDetailsDto?> GetOrderByIdAsync(int orderId);
+    Task<int> CancelOrderAsync(int orderId, int buyerBusinessId, string? notes);
+}
+
+
+
+using Dapper;
+using Nicheon.Application.DTOs;
+using System.Data;
+
+public class BuyerOrdersRepository : IBuyerOrdersRepository
+{
+    private readonly IDbConnection _db;
+
+    public BuyerOrdersRepository(IDbConnection db)
+    {
+        _db = db;
+    }
+
+    public async Task<int> CreateOrderAsync(CreateOrderDto dto)
+    {
+        // Use JSON proc
+        var itemsJson = Newtonsoft.Json.JsonConvert.SerializeObject(dto.Items);
+
+        var p = new DynamicParameters();
+        p.Add("@BuyerBusinessId", dto.BuyerBusinessId);
+        p.Add("@SellerBusinessId", dto.SellerBusinessId);
+        p.Add("@OrderNumber", dbType: DbType.String, value: null, size: 100);
+        // we can call helper to get next order number
+        var next = await _db.QueryFirstOrDefaultAsync<string>("dbo.sp_GetNextOrderNumber", commandType: CommandType.StoredProcedure);
+
+        p.Add("@OrderNumber", next);
+        p.Add("@TotalAmount", dto.TotalAmount);
+        p.Add("@PaymentMethod", dto.PaymentMethod);
+        p.Add("@ItemsJson", itemsJson);
+        p.Add("@Notes", dto.Notes);
+        p.Add("@OutOrderId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+        p.Add("@OutResult", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+        await _db.ExecuteAsync("dbo.sp_CreateOrderWithItemsJson", p, commandType: CommandType.StoredProcedure);
+        var res = p.Get<int>("@OutResult");
+        var orderId = p.Get<int>("@OutOrderId");
+        return res == 1 ? orderId : -1;
+    }
+
+    public async Task<PagedResult<BuyerOrderListDto>> GetBuyerOrdersAsync(int buyerBusinessId, int page = 1, int pageSize = 20, string? status = null, string? search = null)
+    {
+        var p = new DynamicParameters();
+        p.Add("@BuyerBusinessId", buyerBusinessId);
+        p.Add("@Page", page);
+        p.Add("@PageSize", pageSize);
+        p.Add("@Status", status);
+        p.Add("@Search", search);
+
+        using var multi = await _db.QueryMultipleAsync("dbo.sp_GetBuyerOrders", p, commandType: CommandType.StoredProcedure);
+
+        var rows = (await multi.ReadAsync()).ToList();
+        var total = (await multi.ReadFirstOrDefaultAsync<int?>()) ?? 0;
+
+        var orders = rows.GroupBy(r => new {
+            r.OrderId, r.OrderNumber, r.SellerBusinessId, r.SellerName, r.OrderDate, r.Status, r.TotalAmount, r.PaymentMethod
+        })
+        .Select(g => new BuyerOrderListDto {
+            OrderId = g.Key.OrderId,
+            OrderNumber = g.Key.OrderNumber,
+            SellerBusinessId = g.Key.SellerBusinessId,
+            SellerName = g.Key.SellerName,
+            OrderDate = g.Key.OrderDate,
+            Status = g.Key.Status,
+            TotalAmount = g.Key.TotalAmount,
+            PaymentMethod = g.Key.PaymentMethod,
+            Items = g.Where(i => i.OrderItemId != null).Select(i => new OrderItemDto {
+                OrderItemId = i.OrderItemId,
+                ProductId = i.ProductId,
+                ProductName = i.ProductName,
+                Qty = i.Qty,
+                UnitPrice = i.UnitPrice,
+                MakingCharges = i.MakingCharges
+            }).ToList()
+        }).ToList();
+
+        return new PagedResult<BuyerOrderListDto> {
+            Items = orders,
+            TotalRecords = total,
+            Page = page,
+            PageSize = pageSize
+        };
+    }
+
+    public async Task<OrderDetailsDto?> GetOrderByIdAsync(int orderId)
+    {
+        using var multi = await _db.QueryMultipleAsync("dbo.sp_GetOrderById", new { OrderId = orderId }, commandType: CommandType.StoredProcedure);
+        var order = await multi.ReadFirstOrDefaultAsync();
+        if (order == null) return null;
+
+        var items = (await multi.ReadAsync()).Select(i => new OrderItemDto {
+            OrderItemId = i.OrderItemId,
+            ProductId = i.ProductId,
+            ProductName = i.ProductName,
+            Qty = i.Quantity,
+            UnitPrice = i.UnitPrice,
+            MakingCharges = i.MakingCharges
+        }).ToList();
+
+        var payment = (await multi.ReadAsync()).FirstOrDefault();
+
+        // map to DTO
+        return new OrderDetailsDto {
+            OrderId = order.OrderId,
+            OrderNumber = order.OrderNumber,
+            BuyerBusinessId = order.BuyerBusinessId,
+            SellerBusinessId = order.SellerBusinessId,
+            Status = order.Status,
+            TotalAmount = order.TotalAmount,
+            OrderDate = order.OrderDate,
+            Items = items,
+            Payment = payment != null ? new PaymentDto {
+                PaymentMethod = payment.PaymentMethod,
+                Amount = payment.Amount,
+                Status = payment.Status
+            } : null
+        };
+    }
+
+    public async Task<int> CancelOrderAsync(int orderId, int buyerBusinessId, string? notes)
+    {
+        var p = new DynamicParameters();
+        p.Add("@OrderId", orderId);
+        p.Add("@BuyerBusinessId", buyerBusinessId);
+        p.Add("@Notes", notes);
+        p.Add("@OutResult", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+        await _db.ExecuteAsync("dbo.sp_BuyerCancelOrder", p, commandType: CommandType.StoredProcedure);
+
+        return p.Get<int>("@OutResult");
+    }
+}
+
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Nicheon.Application.DTOs;
+using Nicheon.Application.Interfaces;
+
+[ApiController]
+[Route("api/[controller]")]
+[Authorize]
+public class BuyerOrdersController : ControllerBase
+{
+    private readonly IBuyerOrdersRepository _repo;
+
+    public BuyerOrdersController(IBuyerOrdersRepository repo)
+    {
+        _repo = repo;
+    }
+
+    // POST api/BuyerOrders/Create
+    [HttpPost("Create")]
+    public async Task<IActionResult> Create([FromBody] CreateOrderDto dto)
+    {
+        if (dto == null || dto.Items == null || !dto.Items.Any()) return BadRequest("Invalid order");
+
+        var newId = await _repo.CreateOrderAsync(dto);
+        if (newId <= 0) return BadRequest(new { message = "Failed to create order" });
+
+        return Ok(new { message = "Order created", orderId = newId });
+    }
+
+    // GET api/BuyerOrders/List/{buyerBusinessId}
+    [HttpGet("List/{buyerBusinessId:int}")]
+    public async Task<IActionResult> List(int buyerBusinessId, [FromQuery] int page = 1, [FromQuery] int pageSize = 20, [FromQuery] string? status = null, [FromQuery] string? search = null)
+    {
+        var result = await _repo.GetBuyerOrdersAsync(buyerBusinessId, page, pageSize, status, search);
+        return Ok(result);
+    }
+
+    // GET api/BuyerOrders/{orderId}
+    [HttpGet("{orderId:int}")]
+    public async Task<IActionResult> Get(int orderId)
+    {
+        var res = await _repo.GetOrderByIdAsync(orderId);
+        return res == null ? NotFound() : Ok(res);
+    }
+
+    // POST api/BuyerOrders/Cancel
+    [HttpPost("Cancel")]
+    public async Task<IActionResult> Cancel([FromBody] CancelOrderDto dto)
+    {
+        if (dto == null || dto.OrderId <= 0 || dto.BuyerBusinessId <= 0) return BadRequest();
+        var r = await _repo.CancelOrderAsync(dto.OrderId, dto.BuyerBusinessId, dto.Notes);
+        return r == 1 ? Ok(new { message = "Cancelled" }) : BadRequest(new { message = "Cancel failed" });
+    }
+}
+
+public class CancelOrderDto
+{
+    public int OrderId { get; set; }
+    public int BuyerBusinessId { get; set; }
+    public string? Notes { get; set; }
+}
+
+
+and now floe of buyer side ok go head
+
+
+React Native — recommended screens & data flow (first-phase MVP)
+
+Goal: a polished, performant buyer experience similar to Alibaba/Amazon for order placement & tracking.
+
+Screens (flow)
+
+Catalog / Product List
+
+Standard product grid/list (in your RN app or web). Each product shows image, price, seller name, MOQ, stock.
+
+Product Detail
+
+Show images (carousel), price calculation (price per gram * weight + making charges), add quantity, select options, “Request Quote” or "Add to Cart".
+
+Cart / Checkout
+
+Cart shows line items, per-line editing, seller grouping (if you support multi-seller checkout). Checkout screen collects shipping/pickup info, selects payment method, shows fees, and a final “Place Order” button.
+
+Order Confirmation
+
+After success, shows order number & next steps.
+
+My Orders (Buyer Orders List)
+
+List with filters (All, Pending, Accepted, Shipped, Cancelled). Server-side search by order number or seller name. Swipe actions: view details, cancel if allowed.
+
+Order Detail
+
+Show items, tracking history, payment info, seller contact. Allow “Message Seller” or “Request Return” when applicable.
+
+Notifications
+
+Push notifications for status change (Accepted / Shipped / Delivered).
+
+Data flow / networking best practices
+
+API calls:
+
+POST /api/BuyerOrders/Create — create order with JSON items.
+
+GET /api/BuyerOrders/List/{buyerId} — list orders (server-side paging + filtering).
+
+GET /api/BuyerOrders/{orderId} — order details.
+
+POST /api/BuyerOrders/Cancel — cancel.
+
+Optimistic UI:
+
+On order create, show immediate "Placing order..." UI and disable button; on success show confirmation; on failure show error and allow retry.
+
+Background sync / retry:
+
+If network fails during create, persist pending order in local sqlite/realm and retry when network resumes.
+
+Caching:
+
+Cache product detail and seller info for fast rendering. Use short TTL (e.g., 1–5 minutes) for order list caching.
+
+Pagination & infinite-scroll:
+
+Use server paging with page and pageSize. For UX, implement infinite scroll with debounce and a "Load more" fallback.
+
+Search & filters:
+
+Always call server with search and status params; local filtering only for instant UI but rely on server for correctness.
+
+Push notifications & real-time:
+
+Use push notifications for final status changes. Optionally integrate a websocket (SignalR) for real-time updates in the app.
+
+Error handling:
+
+Use consistent error format { message: string, code?: string }. Retry idempotently when safe.
+
+Example RN component responsibilities
+
+OrderService (RN): Handles HTTP calls + refresh tokens. Wraps endpoints above.
+
+OrderListScreen: loads pages, shows filters & search. Debounces search input (300ms).
+
+OrderDetailScreen: fetch and show detail, allow cancel if allowed.
+
+CheckoutScreen: builds CreateOrderDto and calls OrderService.createOrder(dto)
+
+
