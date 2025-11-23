@@ -1,10 +1,12 @@
 <div class="registration-wrapper">
-  <!-- Fixed Branding Panel -->
+
+  <!-- LEFT PANEL (Desktop Only) -->
   <div class="branding-panel d-none d-md-flex flex-column align-items-center text-center">
-    <img src="assets/Image/NicheonLogo.png" alt="Nicheon Logo" class="brand-logo mb-3" />
+    <img src="assets/Image/logo3.png" alt="Nicheon Logo" class="brand-logo mb-3" />
     <h2 class="fw-semibold">Join Nicheon</h2>
     <p class="brand-tagline">India’s Trusted Jewelry Business Network</p>
     <div class="divider my-3"></div>
+
     <ul class="benefits text-start">
       <li>✅ Verified Business Network</li>
       <li>💍 Showcase Products Professionally</li>
@@ -13,124 +15,123 @@
     </ul>
   </div>
 
-  <!-- Scrollable Form Panel -->
+  <!-- RIGHT PANEL -->
   <div class="form-panel">
+
     <div class="registration-form-container shadow-lg">
-      <h3 class="text-center mb-2 fade-up">Create Your Business Account</h3>
-      <p class="text-center text-muted mb-4 small fade-up">
+
+      <h3 class="text-center mb-2">Create Your Business Account</h3>
+      <p class="text-center text-muted small mb-4">
         Start trading, connecting, and growing with trust
       </p>
 
-      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="scrollable-form">
-        <!-- 👤 Personal Info -->
-        <div class="fade-section">
-          <h6 class="section-heading">👤 Personal Information</h6>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label>Full Name</label>
-              <input class="form-control" formControlName="fullName" placeholder="Enter your full name" />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>Email ID</label>
-              <input class="form-control" formControlName="email" placeholder="example@domain.com" />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>Mobile Number</label>
-              <input class="form-control" formControlName="mobile" placeholder="10-digit number" />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>Password</label>
-              <input type="password" class="form-control" formControlName="password" placeholder="8–16 characters" />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>Confirm Password</label>
-              <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Re-enter password" />
-            </div>
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+
+        <!-- Personal Info -->
+        <h6 class="section-heading">👤 Personal Information</h6>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Full Name</label>
+            <input class="form-control" formControlName="fullName" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Email ID</label>
+            <input class="form-control" formControlName="email" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Mobile Number</label>
+            <input class="form-control" formControlName="mobile" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Password</label>
+            <input type="password" class="form-control" formControlName="password" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Confirm Password</label>
+            <input type="password" class="form-control" formControlName="confirmPassword" />
           </div>
         </div>
 
-        <!-- 🏷️ Role -->
-        <div class="fade-section">
-          <h6 class="section-heading mt-4">👥 Role Selection</h6>
-          <input formControlName="role" class="form-control mb-3" readonly />
-          <small class="text-muted">Default: Seller</small>
-        </div>
+        <!-- Role -->
+        <h6 class="section-heading mt-4">👥 Role Selection</h6>
+        <input class="form-control mb-3" formControlName="role" readonly />
 
-        <!-- 🏭 Business Info -->
-        <div class="fade-section">
-          <h6 class="section-heading mt-4">🏭 Business Information</h6>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label>Business Name</label>
-              <input class="form-control" formControlName="businessName" placeholder="Your Shop or Company Name" />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>Business Type</label>
-              <select class="form-select" formControlName="businessType">
-                <option value="">Select Type</option>
-                <option>Manufacturer</option>
-                <option>Wholesaler</option>
-                <option>Retailer</option>
-                <option>Trader</option>
-                <option>Exporter</option>
-                <option>Importer</option>
-              </select>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>GST Number (optional)</label>
-              <input class="form-control" formControlName="gstNumber" placeholder="Enter GSTIN" />
-            </div>
+        <!-- Business Info -->
+        <h6 class="section-heading mt-4">🏭 Business Information</h6>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Business Name</label>
+            <input class="form-control" formControlName="businessName" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Business Type</label>
+            <select class="form-select" formControlName="businessType">
+              <option value="">Select Type</option>
+              <option>Manufacturer</option>
+              <option>Wholesaler</option>
+              <option>Retailer</option>
+              <option>Trader</option>
+              <option>Exporter</option>
+              <option>Importer</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>GST Number (optional)</label>
+            <input class="form-control" formControlName="gstNumber" />
           </div>
         </div>
 
-        <!-- 📍 Address -->
-        <div class="fade-section">
-          <h6 class="section-heading mt-4">📍 Address Information</h6>
-          <div class="row">
-            <div class="col-md-12 mb-3">
-              <label>Address</label>
-              <input class="form-control" formControlName="address" placeholder="Full business address" />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>Landmark</label>
-              <input class="form-control" formControlName="landmark" placeholder="Optional landmark" />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>City</label>
-              <input class="form-control" formControlName="city" placeholder="City name" />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>State</label>
-              <input class="form-control" formControlName="state" placeholder="Enter state" />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>Country</label>
-              <input class="form-control" formControlName="country" readonly />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label>Pincode</label>
-              <input class="form-control" formControlName="pincode" placeholder="Enter pincode" />
-            </div>
+        <!-- Address -->
+        <h6 class="section-heading mt-4">📍 Address Information</h6>
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <label>Address</label>
+            <input class="form-control" formControlName="address" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Landmark</label>
+            <input class="form-control" formControlName="landmark" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>City</label>
+            <input class="form-control" formControlName="city" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>State</label>
+            <input class="form-control" formControlName="state" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Country</label>
+            <input class="form-control" formControlName="country" readonly />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Pincode</label>
+            <input class="form-control" formControlName="pincode" />
           </div>
         </div>
 
-        <!-- ✅ Terms -->
-        <div class="form-check mb-4 mt-2 fade-section">
+        <!-- Terms -->
+        <div class="form-check my-3">
           <input class="form-check-input" type="checkbox" formControlName="terms" />
-          <label class="form-check-label">I agree to the Terms & Privacy Policy</label>
+          <label>I agree to the Terms & Privacy Policy</label>
         </div>
 
-        <!-- ✅ Submit -->
-        <button class="btn register-btn w-100 fade-section" type="submit" [disabled]="loading">
+        <!-- Submit -->
+        <button type="submit" class="register-btn w-100" [disabled]="loading">
           <span *ngIf="!loading">Create Account</span>
           <div class="spinner" *ngIf="loading"></div>
         </button>
 
-        <p class="text-center mt-3 mb-0 fade-section">
+        <!-- Login Link -->
+        <p class="text-center mt-3">
           Already have an account?
-          <a (click)="router.navigate(['/auth/login'])" class="login-link">Login here</a>
+          <a class="login-link" (click)="router.navigate(['/auth/login'])">Login here</a>
         </p>
+
       </form>
+
     </div>
+
   </div>
+
 </div>

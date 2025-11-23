@@ -1,7 +1,7 @@
 <div class="home-container">
   <!-- 🌟 Hero Section -->
   <section class="hero d-flex flex-column align-items-center text-center">
-    <img src="assets/Image/NicheonLogo.png" class="logo" alt="Nicheon Logo" />
+    <img src="assets/Image/logo3.png" class="logo" alt="Nicheon Logo" />
     <h1 class="fw-bold mt-3 fade-in">
       Connect. Trade. Grow — with <span class="highlight">Nicheon</span>
     </h1>
@@ -84,3 +84,30 @@
     </button>
   </section>
 </div>
+
+<!-- BUYER APP POPUP -->
+<div class="buyer-app-modal" *ngIf="showBuyerPopup">
+  <div class="buyer-app-content">
+
+    <h2 class="title">Buyer App</h2>
+    <p class="subtitle">Scan the QR code to download the app</p>
+
+    <img src="assets/Image/barcode_buyer.png" class="qr-image" />
+
+    <p class="coming-text">COMING SOON ON</p>
+
+    <div class="store-buttons">
+      <button class="store-btn disabled">
+        <img src="assets/Image/app.png" /> Play Store
+      </button>
+
+      <button class="store-btn disabled">
+        <img src="assets/Image/app-stored-img1.png" /> App Store
+      </button>
+    </div>
+
+    <button class="close-btn" (click)="closeBuyerApp()">Close</button>
+
+  </div>
+</div>
+

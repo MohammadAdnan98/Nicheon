@@ -3,21 +3,21 @@
   "WorkspaceRootPath": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\businessprofilerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\sellerordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.application\\dtos\\businessprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\businessprofilerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.api\\controllers\\sellerprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\sellerprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.application\\dtos\\businessprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\sellerordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\users\\adnan\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\ibusinessprofilerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
@@ -243,7 +243,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -251,28 +251,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "BusinessProfileRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAUwCcAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-19T19:07:29.555Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BusinessProfileDto.cs",
-              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
-              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
-              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAA/wDIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T19:06:03.543Z",
               "EditorCaption": ""
             },
             {
@@ -285,8 +272,7 @@
               "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IBusinessProfileRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T19:06:49.317Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T19:06:49.317Z"
             },
             {
               "$type": "Document",
@@ -303,13 +289,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "SellerOrdersRepository.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\SellerOrdersRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\SellerOrdersRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\SellerOrdersRepository.cs",
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\SellerOrdersRepository.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAASwFYAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAwEMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-18T18:58:22.762Z",
               "EditorCaption": ""
@@ -317,6 +303,18 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "BusinessProfileDto.cs",
+              "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
+              "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\BusinessProfileDto.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAA/wDIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T19:06:03.543Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Api\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -324,8 +322,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAH4AAAAAAAAAAAAhwIgAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T05:50:06.664Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-16T05:50:06.664Z"
             },
             {
               "$type": "Document",
@@ -337,8 +334,7 @@
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\ProductRepository.cs",
               "ViewState": "AgIAAJoAAAAAAAAAAAAuwKYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T18:43:03.848Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T18:43:03.848Z"
             },
             {
               "$type": "Document",
@@ -350,8 +346,7 @@
               "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\OrderListDto.cs",
               "ViewState": "AgIAADgAAAAAAAAAAAAxwEIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T18:55:09.857Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-18T18:55:09.857Z"
             },
             {
               "$type": "Document",
@@ -363,8 +358,7 @@
               "RelativeToolTip": "Controllers\\SellerOrdersController.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAuwCQAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T19:07:52.475Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-18T19:07:52.475Z"
             },
             {
               "$type": "Document",
@@ -376,8 +370,7 @@
               "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\ISellerOrdersRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T18:50:57.405Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-18T18:50:57.405Z"
             },
             {
               "$type": "Document",
@@ -389,8 +382,7 @@
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\UserTypeRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T17:29:08.656Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T17:29:08.656Z"
             },
             {
               "$type": "Document",

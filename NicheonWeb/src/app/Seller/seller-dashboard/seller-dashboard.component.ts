@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DashboardService } from 'src/app/Services/DashboardService';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { OrderService } from 'src/app/Services/OrderService';
 
 @Component({
   selector: 'app-seller-dashboard',
@@ -19,9 +20,13 @@ export class SellerDashboardComponent implements OnInit {
   unreadNotifications = 0;
   showNotifications = false;
   unreadCount = 0;
+  businessId: any;
+  toastMessage: string = "";
+
 
   constructor(
     private dashboardService: DashboardService,
+    private orderService: OrderService,
     private router: Router
   ) {}
 
@@ -31,8 +36,8 @@ export class SellerDashboardComponent implements OnInit {
     this.businessName = user?.businessName || 'Your Business';
     this.verified = user?.isVerified ?? true;
 
-    const businessId = user?.businessId || 1; // ✅ fix: correct property casing
-    this.loadDashboard(businessId);
+    this.businessId = user?.businessId || 1; // ✅ fix: correct property casing
+    this.loadDashboard(this.businessId);
   }
 
   loadDashboard(businessId: number) {
@@ -174,4 +179,46 @@ export class SellerDashboardComponent implements OnInit {
     this.notifications.forEach((n) => (n.read = true));
     this.unreadCount = 0;
   }
+
+  viewDetails(order: any) {
+    debugger;
+  // Save OrderId for backup
+  localStorage.setItem('OrderId', order.orderId.toString());
+
+  // Navigate using OrderId (NOT OrderNumber)
+  this.router.navigate(['/seller-order-details', order.orderId]);
+}
+
+// 🔥 Update Order Status API Call
+// 🔥 Update Order Status API Call
+updateOrderStatus(order: any, newStatus: string) {
+  this.orderService.updateStatus(order.orderId, newStatus).subscribe({
+    next: () => {
+debugger;
+      // Update UI instantly
+      order.status = newStatus;
+
+      // Reload counts/statistics
+      //this.loadDashboard(this.businessId);
+
+      // ⭐ Show success message
+      this.showToast(`Order ${newStatus} successfully!`);
+    },
+    error: (err: any) => console.error("Update failed", err)
+  });
+}
+
+showToast(message: string) {
+  this.toastMessage = message;
+  setTimeout(() => {
+    this.toastMessage = "";
+  }, 3000);   // hide after 3 seconds
+}
+
+
+accept(o: any) { this.updateOrderStatus(o, "Accepted"); }
+reject(o: any) { this.updateOrderStatus(o, "Rejected"); }
+ship(o: any) { this.updateOrderStatus(o, "Shipped"); }
+
+
 }

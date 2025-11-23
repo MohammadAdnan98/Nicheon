@@ -27,22 +27,45 @@ namespace Nicheon.Persistence.Repositories
                 commandType: CommandType.StoredProcedure
             );
 
-            // Parse Items JSON → DTO
-            var orders = result.Select(row => new OrderListDto
-            {
-                OrderId = row.OrderId,
-                OrderNumber = row.OrderNumber,
-                BuyerName = row.BuyerName,
-                BuyerCity = row.BuyerCity,
-                Status = row.Status,
-                PaymentMethod = row.PaymentMethod,
-                TotalAmount = row.TotalAmount,
-                OrderDate = row.OrderDate,
-                Items = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OrderItemDto>>(row.ItemsJson)
-            });
+            // GROUP BY ORDER
+            var orders = result
+                .GroupBy(row => new
+                {
+                    row.OrderId,
+                    row.OrderNumber,
+                    row.BuyerName,
+                    row.BuyerCity,
+                    row.Status,
+                    row.PaymentMethod,
+                    row.TotalAmount,
+                    row.OrderDate
+                })
+                .Select(g => new OrderListDto
+                {
+                    OrderId = g.Key.OrderId,
+                    OrderNumber = g.Key.OrderNumber,
+                    BuyerName = g.Key.BuyerName,
+                    BuyerCity = g.Key.BuyerCity,
+                    Status = g.Key.Status,
+                    PaymentMethod = g.Key.PaymentMethod,
+                    TotalAmount = g.Key.TotalAmount,
+                    OrderDate = g.Key.OrderDate,
+
+                    Items = g.Select(x => new OrderItemDto
+                    {
+                        OrderItemId = x.OrderItemId,
+                        ProductId = x.ProductId,
+                        ProductName = x.ProductName,
+                        Qty = x.Qty,
+                        UnitPrice = x.UnitPrice,
+                        MakingCharges = x.MakingCharges
+                    }).ToList()
+                })
+                .ToList();
 
             return orders;
         }
+
 
         public async Task<int> UpdateOrderStatusAsync(int orderId, string status, string? notes)
         {

@@ -38,7 +38,7 @@ import { ProfilEditeComponent } from './shared/profil-edite/profil-edite.compone
 import { SellerProductDetailComponent } from './Seller/seller-product-detail/seller-product-detail.component';
 import { SellerEditProductComponent } from './Seller/seller-edit-product/seller-edit-product.component';
 import { FileUploadComponent } from './shared/file-upload/file-upload/file-upload.component';
-
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -66,7 +66,8 @@ import { FileUploadComponent } from './shared/file-upload/file-upload/file-uploa
     ProfilEditeComponent,
     SellerProductDetailComponent,
     SellerEditProductComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
