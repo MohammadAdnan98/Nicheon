@@ -43,7 +43,7 @@
           <div class="thumbs">
             <img *ngFor="let img of gallery"
                  [src]="img.url"
-                 [alt]="img.alt || 'Image'"
+                 [alt]="img.alt || 'assets/Image/NoImageUploaded.png'"
                  [class.active]="img.url === activeImage"
                  (click)="selectImage(img)">
           </div>

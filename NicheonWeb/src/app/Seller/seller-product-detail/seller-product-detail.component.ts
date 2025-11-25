@@ -59,7 +59,7 @@ export class SellerProductDetailComponent implements OnInit {
     });
 
     if (this.gallery.length === 0)
-      this.gallery = [{ url: 'assets/Image/no-image.png' }];
+      this.gallery = [{ url: 'assets/Image/NoImageUploaded.png' }];
 
     this.activeImage = this.gallery[0].url;
 

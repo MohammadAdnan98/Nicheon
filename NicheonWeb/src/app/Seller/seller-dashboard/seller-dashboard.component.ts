@@ -1,3 +1,4 @@
+// seller-dashboard.component.ts (updated)
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from 'src/app/Services/DashboardService';
 import { Router } from '@angular/router';
@@ -21,8 +22,10 @@ export class SellerDashboardComponent implements OnInit {
   showNotifications = false;
   unreadCount = 0;
   businessId: any;
-  toastMessage: string = "";
 
+  // Toast fields
+  toastMessage: string = "";
+  toastType: 'success' | 'error' | '' = '';
 
   constructor(
     private dashboardService: DashboardService,
@@ -83,11 +86,11 @@ export class SellerDashboardComponent implements OnInit {
           // Remove duplicate slashes
           img = img.replace(/\/{2,}/g, '/');
 
-          // Build full URL only once
-          const fullImageUrl = img.startsWith('/')
-            ? `${environment.imgUrl}${img}`
-            : `${environment.imgUrl}/${img}`;
-          console.log('Full Image URL:', fullImageUrl);
+          // Build full URL only once (safe)
+          const fullImageUrl = img
+            ? (img.startsWith('/') ? `${environment.imgUrl}${img}` : `${environment.imgUrl}/${img}`)
+            : 'assets/Image/no-image.png';
+
           return {
             productId: p.productId,
             productName: p.productName,
@@ -181,44 +184,53 @@ export class SellerDashboardComponent implements OnInit {
   }
 
   viewDetails(order: any) {
-    debugger;
-  // Save OrderId for backup
-  localStorage.setItem('OrderId', order.orderId.toString());
+    // Save OrderId for backup
+    localStorage.setItem('OrderId', order.orderId?.toString() || '');
+    // Navigate using OrderId
+    this.router.navigate(['/seller-order-details', order.orderId]);
+  }
 
-  // Navigate using OrderId (NOT OrderNumber)
-  this.router.navigate(['/seller-order-details', order.orderId]);
-}
+  // 🔥 Update Order Status API Call with confirmation + toast
+  updateOrderStatus(order: any, newStatus: string) {
+    const confirmMsg =
+      newStatus === "Accepted"
+        ? "Are you sure you want to ACCEPT this order?"
+        : "Are you sure you want to REJECT this order?";
 
-// 🔥 Update Order Status API Call
-// 🔥 Update Order Status API Call
-updateOrderStatus(order: any, newStatus: string) {
-  this.orderService.updateStatus(order.orderId, newStatus).subscribe({
-    next: () => {
-debugger;
-      // Update UI instantly
-      order.status = newStatus;
+    if (!confirm(confirmMsg)) return;
 
-      // Reload counts/statistics
-      //this.loadDashboard(this.businessId);
+    this.orderService.updateStatus(order.orderId, newStatus).subscribe({
+      next: () => {
+        // Update UI instantly
+        order.status = newStatus;
 
-      // ⭐ Show success message
-      this.showToast(`Order ${newStatus} successfully!`);
-    },
-    error: (err: any) => console.error("Update failed", err)
-  });
-}
+        // Show success toast (top-right)
+        const label = newStatus === 'Accepted' ? 'Accepted' : 'Rejected';
+        this.showToast(`Order ${label} successfully!`, 'success');
 
-showToast(message: string) {
-  this.toastMessage = message;
-  setTimeout(() => {
-    this.toastMessage = "";
-  }, 3000);   // hide after 3 seconds
-}
+        // Optionally reload counts
+        // this.loadDashboard(this.businessId);
+      },
+      error: (err) => {
+        console.error("Update failed", err);
+        this.showToast('Failed to update order status', 'error');
+      }
+    });
+  }
 
+  showToast(message: string, type: 'success' | 'error' = 'success') {
+    this.toastMessage = message;
+    this.toastType = type;
 
-accept(o: any) { this.updateOrderStatus(o, "Accepted"); }
-reject(o: any) { this.updateOrderStatus(o, "Rejected"); }
-ship(o: any) { this.updateOrderStatus(o, "Shipped"); }
+    // auto-hide after 3 seconds
+    setTimeout(() => {
+      this.toastMessage = "";
+      this.toastType = "";
+    }, 3000);
+  }
 
+  accept(o: any) { this.updateOrderStatus(o, "Accepted"); }
+  reject(o: any) { this.updateOrderStatus(o, "Rejected"); }
+  ship(o: any) { this.updateOrderStatus(o, "Shipped"); }
 
 }

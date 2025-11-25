@@ -1,4 +1,15 @@
+<!-- seller-dashboard.component.html (updated) -->
 <div class="dashboard-container" *ngIf="!loading; else loadingTemplate">
+
+  <!-- Toast (top-right) -->
+  <div *ngIf="toastMessage" class="custom-toast" [ngClass]="{'success': toastType === 'success', 'error': toastType === 'error'}" role="status" aria-live="polite">
+    <i class="bi" [ngClass]="toastType === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill'"></i>
+    <div class="toast-content">
+      <div class="toast-title" *ngIf="toastType === 'success'">Success</div>
+      <div class="toast-title" *ngIf="toastType === 'error'">Error</div>
+      <div class="toast-text">{{ toastMessage }}</div>
+    </div>
+  </div>
 
   <!-- 🔝 Top Bar -->
   <div class="top-bar d-flex justify-content-between align-items-center px-3 py-2 shadow-sm position-relative">
@@ -68,67 +79,84 @@
   </div>
 
   <!-- 🧾 Recent Orders -->
-  <div class="section container mt-5">
-    <h5 class="section-title mb-3">🧾 Recent Orders</h5>
+<div class="section container mt-5">
+  <h5 class="section-title mb-3">🧾 Recent Orders</h5>
 
-    <div *ngIf="orders.length === 0" class="text-muted small text-center py-3">
-      No new orders yet.
-    </div>
+  <!-- Empty State -->
+  <div *ngIf="orders.length === 0" class="text-muted small text-center py-3">
+    No orders yet. <br />
+    New orders will appear here.
+  </div>
 
-    <div *ngFor="let order of orders" class="order-card card p-3 mb-3 shadow-sm">
+  <!-- Order List -->
+  <div *ngFor="let order of orders" class="order-card card p-3 mb-3 shadow-sm">
 
-  <div class="d-flex justify-content-between align-items-center"
-       style="cursor: pointer;"
-       (click)="viewDetails(order)">
+    <div class="d-flex justify-content-between align-items-center"
+         style="cursor: pointer;"
+         (click)="viewDetails(order)">
 
-    <div>
-      <h6 class="fw-semibold mb-1">{{ order.buyer }}</h6>
-      <p class="small mb-1">{{ order.product }} (x{{ order.quantity }})</p>
-      <p class="small text-muted">₹{{ order.amount }}</p>
-    </div>
-
-    <div class="text-end">
-      <span class="badge"
-        [ngClass]="order.status === 'Pending' ? 'bg-warning text-dark' : 'bg-success'">
-        {{ order.status }}
-      </span>
-
-      <div class="mt-2">
-        <button class="btn btn-outline-success btn-sm me-1"
-                (click)="accept(order); $event.stopPropagation();">
-          Accept
-        </button>
-
-        <button class="btn btn-outline-danger btn-sm"
-                (click)="reject(order); $event.stopPropagation();">
-          Reject
-        </button>
+      <div>
+        <h6 class="fw-semibold mb-1">{{ order.buyer }}</h6>
+        <p class="small mb-1">{{ order.product }} (x{{ order.quantity }})</p>
+        <p class="small text-muted">₹{{ order.amount }}</p>
       </div>
-    </div>
 
+      <div class="text-end">
+        <span class="badge"
+          [ngClass]="order.status === 'Pending' ? 'bg-warning text-dark' : 'bg-success'">
+          {{ order.status }}
+        </span>
+
+        <div class="mt-2">
+          <button class="btn btn-outline-success btn-sm me-1"
+                  (click)="accept(order); $event.stopPropagation();">
+            Accept
+          </button>
+
+          <button class="btn btn-outline-danger btn-sm"
+                  (click)="reject(order); $event.stopPropagation();">
+            Reject
+          </button>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
 
+
+<!-- 💎 Top Products -->
+<div class="section container mt-5">
+  <h5 class="section-title mb-3">💎 Top Products</h5>
+
+  <!-- Empty State for No Products -->
+  <div *ngIf="products.length === 0" class="text-muted small text-center py-3">
+    You haven’t added any products yet. <br />
+    Add your first product to start selling.
   </div>
 
-  <!-- 💎 Top Products -->
-  <div class="section container mt-5">
-    <h5 class="section-title mb-3">💎 Top Products</h5>
+  <!-- Product Grid -->
+  <div class="row g-4" *ngIf="products.length > 0">
+    <div class="col-6 col-md-4" *ngFor="let product of products | slice:0:3">
 
-    <div class="row g-4">
-      <div class="col-6 col-md-4" *ngFor="let product of products | slice:0:3">
-        <div class="top-product-card text-center shadow-sm" (click)="viewProduct(product.productId)">
-          <div class="image-wrapper">
-            <img [src]="product.image || 'assets/Image/no-image.png'" alt="{{ product.productName }}" />
-          </div>
-          <div class="product-info">
-            <p class="product-title">{{ product.productName }}</p>
-            <p class="product-price">₹{{ product.pricePerGram }}/g</p>
-          </div>
+      <div class="top-product-card text-center shadow-sm"
+           (click)="viewProduct(product.productId)">
+
+        <div class="image-wrapper">
+          <img [src]="product.image || 'assets/Image/no-image.png'"
+               alt="{{ product.productName }}" />
         </div>
+
+        <div class="product-info">
+          <p class="product-title">{{ product.productName }}</p>
+          <p class="product-price">₹{{ product.pricePerGram }}/g</p>
+        </div>
+
       </div>
     </div>
   </div>
+</div>
+
 
   <!-- 🔻 Bottom Navigation -->
   <div class="bottom-nav d-flex">
