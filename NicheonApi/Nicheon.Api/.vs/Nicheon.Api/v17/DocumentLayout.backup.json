@@ -257,7 +257,7 @@
               "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
               "ToolTip": "C:\\Users\\adnan\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\BusinessProfileRepository.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAIA3wBQAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAawBMAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-19T19:07:29.555Z",
               "EditorCaption": ""
@@ -284,8 +284,7 @@
               "RelativeToolTip": "Controllers\\SellerProfileController.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAhwBoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T19:08:27.729Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T19:08:27.729Z"
             },
             {
               "$type": "Document",
@@ -297,8 +296,7 @@
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\SellerOrdersRepository.cs",
               "ViewState": "AgIAADAAAAAAAAAAAAAAwEMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T18:58:22.762Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-18T18:58:22.762Z"
             },
             {
               "$type": "Document",

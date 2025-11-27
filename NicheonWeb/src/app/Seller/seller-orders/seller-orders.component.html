@@ -1,8 +1,38 @@
 <div class="seller-orders-container" *ngIf="!loading; else loadingTpl">
+  <!-- Toast (top-right) -->
+  <div
+    *ngIf="toastMessage"
+    class="custom-toast"
+    [ngClass]="{
+      success: toastType === 'success',
+      error: toastType === 'error'
+    }"
+  >
+    <i
+      class="bi"
+      [ngClass]="
+        toastType === 'success'
+          ? 'bi-check-circle-fill'
+          : 'bi-exclamation-circle-fill'
+      "
+    ></i>
+
+    <div class="toast-content">
+      <div class="toast-title">
+        {{ toastType === "success" ? "Success" : "Error" }}
+      </div>
+      <div class="toast-text">{{ toastMessage }}</div>
+    </div>
+  </div>
+
   <!-- 🌟 Header -->
-  <div class="header d-flex justify-content-between align-items-center px-3 py-3 bg-white shadow-sm">
+  <div
+    class="header d-flex justify-content-between align-items-center px-3 py-3 bg-white shadow-sm"
+  >
     <div class="d-flex align-items-center gap-2">
-      <button class="btn back-btn" (click)="goDashboard()"><i class="bi bi-arrow-left"></i></button>
+      <button class="btn back-btn" (click)="goDashboard()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
       <h4 class="fw-semibold mb-0">📦 Orders Management</h4>
     </div>
 
@@ -14,12 +44,17 @@
   <!-- 📊 Summary Cards -->
   <div class="stats-row container mt-3">
     <div class="row g-3">
-      <div class="col-6 col-md-3" *ngFor="let s of [
-        { label: 'New Orders', value: stats.newOrders },
-        { label: 'Accepted', value: stats.accepted },
-        { label: 'Shipped', value: stats.shipped },
-        { label: 'Revenue', value: '₹' + stats.revenue.toLocaleString() }
-      ]">
+      <div
+        class="col-6 col-md-3"
+        *ngFor="
+          let s of [
+            { label: 'New Orders', value: stats.newOrders },
+            { label: 'Accepted', value: stats.accepted },
+            { label: 'Shipped', value: stats.shipped },
+            { label: 'Revenue', value: '₹' + stats.revenue.toLocaleString() }
+          ]
+        "
+      >
         <div class="stat-card shadow-sm">
           <h5>{{ s.value }}</h5>
           <p>{{ s.label }}</p>
@@ -29,7 +64,9 @@
   </div>
 
   <!-- 🔍 Filters -->
-  <div class="filters d-flex flex-wrap align-items-center justify-content-between px-3 py-2 bg-light rounded mt-3 shadow-sm">
+  <div
+    class="filters d-flex flex-wrap align-items-center justify-content-between px-3 py-2 bg-light rounded mt-3 shadow-sm"
+  >
     <div class="d-flex gap-2 flex-wrap">
       <input
         type="text"
@@ -39,7 +76,11 @@
         class="form-control form-control-sm search-box"
       />
 
-      <select class="form-select form-select-sm" [(ngModel)]="filterStatus" (change)="applyFilter()">
+      <select
+        class="form-select form-select-sm"
+        [(ngModel)]="filterStatus"
+        (change)="applyFilter()"
+      >
         <option value="">All Status</option>
         <option value="New">New</option>
         <option value="Accepted">Accepted</option>
@@ -49,13 +90,25 @@
     </div>
 
     <div class="d-flex gap-2 mt-2 mt-md-0">
-      <button class="btn btn-outline-success btn-sm" (click)="bulkAccept()" [disabled]="!selectedOrders.length">
+      <button
+        class="btn btn-outline-success btn-sm"
+        (click)="bulkAccept()"
+        [disabled]="!selectedOrders.length"
+      >
         ✅ Accept
       </button>
-      <button class="btn btn-outline-primary btn-sm" (click)="bulkShip()" [disabled]="!selectedOrders.length">
+      <button
+        class="btn btn-outline-primary btn-sm"
+        (click)="bulkShip()"
+        [disabled]="!selectedOrders.length"
+      >
         🚚 Ship
       </button>
-      <button class="btn btn-outline-danger btn-sm" (click)="bulkReject()" [disabled]="!selectedOrders.length">
+      <button
+        class="btn btn-outline-danger btn-sm"
+        (click)="bulkReject()"
+        [disabled]="!selectedOrders.length"
+      >
         ❌ Reject
       </button>
     </div>
@@ -67,7 +120,9 @@
       <table class="table table-hover align-middle">
         <thead class="table-light">
           <tr>
-            <th><input type="checkbox" (change)="toggleSelectAll($event)" /></th>
+            <th>
+              <input type="checkbox" (change)="toggleSelectAll($event)" />
+            </th>
             <th>Order #</th>
             <th>Buyer</th>
             <th>City</th>
@@ -82,38 +137,60 @@
 
         <tbody>
           <tr *ngFor="let o of filteredOrders" [class.highlight]="o.selected">
-            <td><input type="checkbox" [(ngModel)]="o.selected" (change)="updateSelection()" /></td>
+            <td>
+              <input
+                type="checkbox"
+                [(ngModel)]="o.selected"
+                (change)="updateSelection()"
+              />
+            </td>
             <td class="fw-semibold">{{ o.orderNumber }}</td>
             <td>{{ o.buyerName }}</td>
             <td>{{ o.buyerCity }}</td>
             <td>
               <ul class="small mb-0">
-                <li *ngFor="let item of o.items">{{ item.productName }} (x{{ item.qty }})</li>
+                <li *ngFor="let item of o.items">
+                  {{ item.productName }} (x{{ item.qty }})
+                </li>
               </ul>
             </td>
             <td class="fw-semibold text-gold">₹{{ o.totalAmount | number }}</td>
             <td>{{ o.paymentMethod }}</td>
             <td>
-              <span class="badge" [ngClass]="{
-                'bg-warning text-dark': o.status === 'New',
-                'bg-success': o.status === 'Accepted',
-                'bg-primary': o.status === 'Shipped',
-                'bg-danger': o.status === 'Rejected'
-              }">{{ o.status }}</span>
+              <span
+                class="badge"
+                [ngClass]="{
+                  'bg-warning text-dark': o.status === 'New',
+                  'bg-success': o.status === 'Accepted',
+                  'bg-primary': o.status === 'Shipped',
+                  'bg-danger': o.status === 'Rejected'
+                }"
+                >{{ o.status }}</span
+              >
             </td>
-            <td>{{ o.orderDate | date: 'mediumDate' }}</td>
+            <td>{{ o.orderDate | date : "mediumDate" }}</td>
             <td class="text-center">
               <div class="btn-group btn-group-sm">
-                <button class="btn btn-outline-success" (click)="accept(o)">✔</button>
-                <button class="btn btn-outline-primary" (click)="ship(o)">🚚</button>
-                <button class="btn btn-outline-danger" (click)="reject(o)">✖</button>
-                <button class="btn btn-outline-dark" (click)="viewDetails(o)"><i class="bi bi-eye"></i></button>
+                <button class="btn btn-outline-success" (click)="accept(o)">
+                  ✔
+                </button>
+                <button class="btn btn-outline-primary" (click)="ship(o)">
+                  🚚
+                </button>
+                <button class="btn btn-outline-danger" (click)="reject(o)">
+                  ✖
+                </button>
+                <button class="btn btn-outline-dark" (click)="viewDetails(o)">
+                  <i class="bi bi-eye"></i>
+                </button>
               </div>
             </td>
           </tr>
 
           <tr *ngIf="filteredOrders.length === 0">
-            <td colspan="10" class="text-center text-muted py-4">No matching orders found.</td>
+            <td colspan="10" class="text-center text-muted py-4">
+              No matching orders found.
+            </td>
           </tr>
         </tbody>
       </table>

@@ -18,6 +18,10 @@ export class ListingsComponent {
   filterStatus = 'All';
   sortOption = 'Newest';
 
+  // For toast
+  toastMessage: string = "";
+  toastType: 'success' | 'error' = 'success';
+
   constructor(
     private productService: ProductService,
     private router: Router,
@@ -25,6 +29,25 @@ export class ListingsComponent {
   ) {}
 
   ngOnInit(): void {
+
+    // 🔥 CHECK IF ADD PRODUCT SENT A TOAST MESSAGE
+  const msg = localStorage.getItem("toastMessage");
+  const type = localStorage.getItem("toastType");
+
+  if (msg) {
+    this.toastMessage = msg;
+    this.toastType = type as any;
+
+    // Remove so it doesn't reappear on refresh
+    localStorage.removeItem("toastMessage");
+    localStorage.removeItem("toastType");
+
+    // Auto-hide after 3 sec
+    setTimeout(() => {
+      this.toastMessage = "";
+    }, 3000);
+  }
+
     this.loadProducts();
   }
 
@@ -95,19 +118,35 @@ export class ListingsComponent {
     this.router.navigate(['/seller-edit-product', product.productId]);
   }
 
-  deleteProduct(product: any): void {
-    if (confirm(`Delete product "${product.productName}"?`)) {
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const businessId = user.businessId || 1;
+ // --------------------------
+  // 🔥 TOAST FUNCTION
+  // --------------------------
+  showToast(message: string, type: 'success' | 'error' = 'success') {
+    this.toastMessage = message;
+    this.toastType = type;
 
-      this.productService.deleteProduct(product.productId, businessId).subscribe({
-        next: () => {
-          alert('🗑 Product deleted.');
-          this.loadProducts();
-        },
-        error: () => alert('Failed to delete product.')
-      });
-    }
+    setTimeout(() => (this.toastMessage = ""), 3000);
+  }
+
+  // --------------------------
+  // 🔥 CONFIRM DELETE + TOAST
+  // --------------------------
+  async deleteProduct(product: any): Promise<void> {
+    const ok = confirm(`Are you sure you want to DELETE "${product.productName}"?`);
+    if (!ok) return;
+
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const businessId = user.businessId || 1;
+
+    this.productService.deleteProduct(product.productId, businessId).subscribe({
+      next: () => {
+        this.showToast("Product deleted successfully!", "success");
+        this.loadProducts();
+      },
+      error: () => {
+        this.showToast("Failed to delete product.", "error");
+      }
+    });
   }
 
   viewProduct(product: any): void {

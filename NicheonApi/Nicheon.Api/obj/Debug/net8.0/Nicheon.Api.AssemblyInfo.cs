@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Nicheon.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+489268ac519f31de053c3050e73b78aaad9c5b92")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+15434296937b7eaa8fbeabcb379cf9d380a72846")]
 [assembly: System.Reflection.AssemblyProductAttribute("Nicheon.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Nicheon.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

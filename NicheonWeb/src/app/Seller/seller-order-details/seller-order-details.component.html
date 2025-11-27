@@ -1,9 +1,38 @@
 <div class="order-details-container" *ngIf="order">
+  <!-- 🌟 Toast Notification (same as dashboard) -->
+  <div
+    *ngIf="toastMessage"
+    class="custom-toast"
+    [ngClass]="{
+      success: toastType === 'success',
+      error: toastType === 'error'
+    }"
+  >
+    <i
+      class="bi"
+      [ngClass]="
+        toastType === 'success'
+          ? 'bi-check-circle-fill'
+          : 'bi-exclamation-circle-fill'
+      "
+    ></i>
+
+    <div class="toast-content">
+      <div class="toast-title">
+        {{ toastType === "success" ? "Success" : "Error" }}
+      </div>
+      <div class="toast-text">{{ toastMessage }}</div>
+    </div>
+  </div>
 
   <!-- 🌟 Header -->
-  <div class="header d-flex align-items-center justify-content-between py-3 px-3 bg-white shadow-sm rounded">
+  <div
+    class="header d-flex align-items-center justify-content-between py-3 px-3 bg-white shadow-sm rounded"
+  >
     <div class="d-flex align-items-center gap-2">
-      <button class="btn back-btn" (click)="goBack()"><i class="bi bi-arrow-left"></i></button>
+      <button class="btn back-btn" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
       <h4 class="mb-0 fw-semibold">Order #{{ order.orderNumber }}</h4>
     </div>
     <span class="status-badge" [ngClass]="statusColor(order.status)">
@@ -22,33 +51,59 @@
         <p class="small text-muted">📞 {{ order.phone }}</p>
       </div>
       <div class="col-md-6 text-md-end mt-2 mt-md-0">
-        <p class="small">Payment: <strong>{{ order.paymentMethod }}</strong></p>
-        <p class="small">Order Date: <strong>{{ order.orderDate | date: 'mediumDate' }}</strong></p>
-        <p class="fw-semibold text-gold fs-5">₹{{ order.totalAmount | number }}</p>
+        <p class="small">
+          Payment: <strong>{{ order.paymentMethod }}</strong>
+        </p>
+        <p class="small">
+          Order Date:
+          <strong>{{ order.orderDate | date : "mediumDate" }}</strong>
+        </p>
+        <p class="fw-semibold text-gold fs-5">
+          ₹{{ order.totalAmount | number }}
+        </p>
       </div>
     </div>
   </div>
 
   <!-- 💍 Products -->
   <div class="section-card mt-3">
-    <h6 class="fw-semibold text-gold mb-3">Products ({{ order.items.length }})</h6>
+    <h6 class="fw-semibold text-gold mb-3">
+      Products ({{ order.items.length }})
+    </h6>
 
     <div class="product-card" *ngFor="let item of order.items">
       <div class="row g-3 align-items-center">
         <div class="col-3 col-md-2">
-          <img [src]="item.images[0]" class="product-img" (click)="viewProduct(item.productId)" />
+          <img
+            [src]="item.images[0]"
+            class="product-img"
+            (click)="viewProduct(item.productId)"
+          />
         </div>
 
         <div class="col-6 col-md-7">
-          <h6 class="fw-semibold mb-1 product-link" (click)="viewProduct(item.productId)">
+          <h6
+            class="fw-semibold mb-1 product-link"
+            (click)="viewProduct(item.productId)"
+          >
             {{ item.productName }}
           </h6>
           <div class="small text-muted">
-            <span>Metal: <strong>{{ item.metalName }}</strong> | </span>
-            <span>Karat: <strong>{{ item.karat }}</strong> | </span>
-            <span>Weight: <strong>{{ item.weightGrams }}g</strong></span><br />
-            <span>Colour: <strong>{{ item.colour || 'N/A' }}</strong> | </span>
-            <span>Size: <strong>{{ item.size || 'N/A' }}</strong></span>
+            <span
+              >Metal: <strong>{{ item.metalName }}</strong> |
+            </span>
+            <span
+              >Karat: <strong>{{ item.karat }}</strong> |
+            </span>
+            <span
+              >Weight: <strong>{{ item.weightGrams }}g</strong></span
+            ><br />
+            <span
+              >Colour: <strong>{{ item.colour || "N/A" }}</strong> |
+            </span>
+            <span
+              >Size: <strong>{{ item.size || "N/A" }}</strong></span
+            >
           </div>
         </div>
 
@@ -59,7 +114,9 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-between fw-semibold border-top pt-3 mt-2">
+    <div
+      class="d-flex justify-content-between fw-semibold border-top pt-3 mt-2"
+    >
       <span>Total Amount</span>
       <span class="text-gold">₹{{ order.totalAmount | number }}</span>
     </div>
@@ -67,9 +124,26 @@
 
   <!-- 🚚 Actions -->
   <div class="action-bar d-flex gap-2 justify-content-center mt-4 flex-wrap">
-    <button class="btn btn-gold" (click)="accept()" [disabled]="order.status!='Pending'">✅ Accept</button>
-    <button class="btn btn-outline-danger" (click)="reject()" [disabled]="order.status!='Pending'">❌ Reject</button>
-    <button class="btn btn-outline-dark" (click)="ship()" [disabled]="order.status!='Accepted'">🚚 Mark Shipped</button>
+    <button
+      class="btn btn-gold"
+      (click)="accept()"
+      [disabled]="order.status != 'Pending'"
+    >
+      ✅ Accept
+    </button>
+    <button
+      class="btn btn-outline-danger"
+      (click)="reject()"
+      [disabled]="order.status != 'Pending'"
+    >
+      ❌ Reject
+    </button>
+    <button
+      class="btn btn-outline-dark"
+      (click)="ship()"
+      [disabled]="order.status != 'Accepted'"
+    >
+      🚚 Mark Shipped
+    </button>
   </div>
-
 </div>

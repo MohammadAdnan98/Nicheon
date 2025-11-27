@@ -22,7 +22,8 @@ export class SellerOrdersComponent implements OnInit {
 
   searchText = "";
   filterStatus = "";
-
+  toastMessage: string = "";
+  toastType: 'success' | 'error' = 'success';
   stats = {
     newOrders: 0,
     accepted: 0,
@@ -86,40 +87,89 @@ export class SellerOrdersComponent implements OnInit {
     this.updateSelection();
   }
 
-  // 🔥 UPDATE ORDER STATUS VIA API
-  updateOrderStatus(order: any, newStatus: string) {
-    this.orderService.updateStatus(order.orderId, newStatus).subscribe({
-      next: () => {
-        order.status = newStatus;
-        this.updateStats();
-        this.applyFilter();
-      },
-      error: (err) => console.error("Update failed", err)
-    });
-  }
+  updateOrderStatus(order: any, newStatus: string, successMsg: string) {
+  this.orderService.updateStatus(order.orderId, newStatus).subscribe({
+    next: () => {
+      order.status = newStatus;
+      this.updateStats();
+      this.applyFilter();
 
-  accept(o: any) { this.updateOrderStatus(o, "Accepted"); }
-  reject(o: any) { this.updateOrderStatus(o, "Rejected"); }
-  ship(o: any) { this.updateOrderStatus(o, "Shipped"); }
+      // Show dashboard-style toast
+      this.showToast(successMsg, 'success');
+    },
+    error: () => {
+      this.showToast("Failed to update order status!", "error");
+    }
+  });
+}
 
-  bulkAccept() { this.selectedOrders.forEach(o => this.accept(o)); }
-  bulkReject() { this.selectedOrders.forEach(o => this.reject(o)); }
-  bulkShip() { this.selectedOrders.forEach(o => this.ship(o)); }
+// -------------------- TOAST (same as dashboard) --------------------
+showToast(message: string, type: 'success' | 'error') {
+  this.toastMessage = message;
+  this.toastType = type;
 
-  refresh() {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    this.loadOrders(user.businessId);
-  }
+  setTimeout(() => {
+    this.toastMessage = "";
+  }, 3000);
+}
 
-  viewDetails(order: any) {
-    this.router.navigate(['/seller-order-details', order.orderNumber]);
-    localStorage.setItem('OrderId', order.orderId);
-  }
+// -------------------- CONFIRM POPUP --------------------
+confirmAction(msg: string): Promise<boolean> {
+  return new Promise(resolve => resolve(confirm(msg)));
+}
 
-  goDashboard() {
-    this.router.navigate(['/seller-dashboard']);
-    
+// -------------------- ACTIONS --------------------
+async accept(order: any) {
+  if (!(await this.confirmAction("Accept this order?"))) return;
+  this.updateOrderStatus(order, "Accepted", "Order Accepted successfully!");
+}
 
-  }
+async reject(order: any) {
+  if (!(await this.confirmAction("Reject this order?"))) return;
+  this.updateOrderStatus(order, "Rejected", "Order Rejected successfully!");
+}
+
+async ship(order: any) {
+  if (!(await this.confirmAction("Ship this order?"))) return;
+  this.updateOrderStatus(order, "Shipped", "Order marked as Shipped!");
+}
+
+// -------------------- BULK ACTIONS --------------------
+async bulkAccept() {
+  if (!(await this.confirmAction("Accept ALL selected orders?"))) return;
+  this.selectedOrders.forEach(o =>
+    this.updateOrderStatus(o, "Accepted", "Order Accepted successfully!")
+  );
+}
+
+async bulkReject() {
+  if (!(await this.confirmAction("Reject ALL selected orders?"))) return;
+  this.selectedOrders.forEach(o =>
+    this.updateOrderStatus(o, "Rejected", "Order Rejected successfully!")
+  );
+}
+
+async bulkShip() {
+  if (!(await this.confirmAction("Ship ALL selected orders?"))) return;
+  this.selectedOrders.forEach(o =>
+    this.updateOrderStatus(o, "Shipped", "Order marked as Shipped!")
+  );
+}
+
+// -------------------- OTHER FUNCTIONS --------------------
+refresh() {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  this.loadOrders(user.businessId);
+}
+
+viewDetails(order: any) {
+  this.router.navigate(['/seller-order-details', order.orderNumber]);
+  localStorage.setItem('OrderId', order.orderId);
+}
+
+goDashboard() {
+  this.router.navigate(['/seller-dashboard']);
+}
+
 
 }

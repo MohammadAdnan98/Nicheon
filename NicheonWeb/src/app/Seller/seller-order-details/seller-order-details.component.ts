@@ -13,6 +13,10 @@ export class SellerOrderDetailsComponent implements OnInit {
   order: any = null;
   orderId!: number;
 
+  // Toast
+  toastMessage: string = "";
+  toastType: 'success' | 'error' = 'success';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -20,12 +24,11 @@ export class SellerOrderDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-   this.orderId = Number(localStorage.getItem('OrderId') || 0);
-  
+    this.orderId = Number(localStorage.getItem('OrderId') || 0);
     this.loadOrderDetails();
   }
 
-  // ⭐ Load Order Details from API
+  // ⭐ Load Order Details
   loadOrderDetails() {
     this.orderService.getOrderDetails(this.orderId).subscribe({
       next: (res: any) => {
@@ -46,27 +49,62 @@ export class SellerOrderDetailsComponent implements OnInit {
     });
   }
 
+  // ⭐ Confirm Popup
+  confirm(msg: string): Promise<boolean> {
+    return new Promise(resolve => {
+      if (window.confirm(msg)) resolve(true);
+      else resolve(false);
+    });
+  }
+
+  // ⭐ TOAST (same style as dashboard)
+  showToast(message: string, type: 'success' | 'error' = 'success') {
+    this.toastMessage = message;
+    this.toastType = type;
+
+    setTimeout(() => {
+      this.toastMessage = "";
+      this.toastType = "success";
+    }, 3000);
+  }
+
   // ⭐ Update Order Status
-  updateStatus(newStatus: string) {
+  async updateStatus(newStatus: string, toastMsg: string) {
+    const confirmMsg =
+      newStatus === "Accepted"
+        ? "Are you sure you want to ACCEPT this order?"
+        : newStatus === "Rejected"
+          ? "Are you sure you want to REJECT this order?"
+          : "Mark this order as SHIPPED?";
+
+    const ok = await this.confirm(confirmMsg);
+    if (!ok) return;
+
     this.orderService.updateStatus(this.order.orderId, newStatus).subscribe({
       next: () => {
         this.order.status = newStatus;
+        this.showToast(toastMsg, 'success');
       },
-      error: (err) => console.error("Status update failed", err)
+      error: (err) => {
+        console.error("Status update failed", err);
+        this.showToast("Failed to update order status!", 'error');
+      }
     });
   }
 
   // ⭐ Action Buttons
-  accept() { this.updateStatus("Accepted"); }
-  reject() { this.updateStatus("Rejected"); }
-  ship()   { this.updateStatus("Shipped"); }
+  accept() { this.updateStatus("Accepted", "Order Accepted successfully!"); }
+  reject() { this.updateStatus("Rejected", "Order Rejected successfully!"); }
+  ship()   { this.updateStatus("Shipped", "Order marked as Shipped!"); }
 
-  // ⭐ UI Helper
   statusColor(status: string) {
-    return status === "Pending" ? 'bg-new'
-         : status === "Accepted" ? 'bg-accepted'
-         : status === "Shipped" ? 'bg-shipped'
-         : 'bg-rejected';
+    return status === "Pending"
+      ? 'bg-new'
+      : status === "Accepted"
+      ? 'bg-accepted'
+      : status === "Shipped"
+      ? 'bg-shipped'
+      : 'bg-rejected';
   }
 
   viewProduct(productId: number) {

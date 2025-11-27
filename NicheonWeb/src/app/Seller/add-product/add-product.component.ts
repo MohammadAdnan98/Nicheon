@@ -29,6 +29,9 @@ export class AddProductComponent {
   previewImages: string[] = [];
   loading = false;
 
+  toastMessage = '';
+  toastType: 'success' | 'error' | '' = '';
+
   constructor(
     private productService: ProductService,
     private fileService: FileService,
@@ -36,7 +39,7 @@ export class AddProductComponent {
   ) {}
 
   // Back button
-  goBack() {  
+  goBack() {
     this.router.navigate(['/seller-dashboard']);
   }
 
@@ -46,7 +49,7 @@ export class AddProductComponent {
 
     // Build preview
     this.previewImages = [];
-    files.forEach(file => {
+    files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = (e: any) => this.previewImages.push(e.target.result);
       reader.readAsDataURL(file);
@@ -63,13 +66,75 @@ export class AddProductComponent {
     this.selectedFiles.splice(index, 1);
   }
 
+  // submitProduct(): void {
+  //   if (!this.product.productName) return alert('Please enter product name.');
+  //   if (this.product.isHallmarked && !this.product.hallmarkNumber) return alert('Enter hallmark number');
+  //   if (this.selectedFiles.length < 1) return alert('Upload at least 1 image');
+  //   if (this.selectedFiles.length > 6) return alert('Max 6 images allowed');
+
+  //   this.loading = true;
+  //   const user = JSON.parse(localStorage.getItem('user') || '{}');
+  //   const businessId = user?.businessId || 1;
+
+  //   const productData = {
+  //     BusinessId: businessId,
+  //     ProductCode: 'PROD-' + Date.now(),
+  //     ProductName: this.product.productName,
+  //     ShortDescription: this.product.description,
+  //     Description: this.product.description,
+  //     CategoryId: this.product.categoryId,
+  //     MetalId: this.product.metalId,
+  //     Karat: this.product.karat,
+  //     Colour: this.product.colour,
+  //     WeightGrams: this.product.weightGrams,
+  //     PricePerGram: this.product.pricePerGram,
+  //     MakingCharges: this.product.makingCharges,
+  //     MOQ: this.product.moq,
+  //     Stock: this.product.stock,
+  //     IsHallmarked: this.product.isHallmarked
+  //   };
+
+  //   // STEP 1 — CREATE PRODUCT
+  //   this.productService.createProduct(productData).subscribe({
+  //     next: (res: any) => {
+  //       const productId = res.productId;
+
+  //       const formData = new FormData();
+  //       this.selectedFiles.forEach(file => formData.append('files', file));
+
+  //       // STEP 2 — UPLOAD IMAGES
+  //       this.fileService.uploadProductImages(businessId, productId, formData).subscribe({
+  //         next: () => {
+  //           alert('Product added successfully');
+  //           this.router.navigate(['/seller-dashboard']);
+  //         },
+  //         error: () => {
+  //           alert('Product created but image upload failed');
+  //         }
+  //       });
+  //     },
+  //     error: () => {
+  //       alert('Failed to create product');
+  //     }
+  //   });
+  // }
+
+  // ---------------- ADD PRODUCT ----------------
   submitProduct(): void {
-    if (!this.product.productName) return alert('Please enter product name.');
-    if (this.product.isHallmarked && !this.product.hallmarkNumber) return alert('Enter hallmark number');
-    if (this.selectedFiles.length < 1) return alert('Upload at least 1 image');
-    if (this.selectedFiles.length > 6) return alert('Max 6 images allowed');
+    if (!this.product.productName)
+      return this.showToast('Please enter product name', 'error');
+
+    if (this.product.isHallmarked && !this.product.hallmarkNumber)
+      return this.showToast('Enter hallmark number', 'error');
+
+    if (this.selectedFiles.length < 1)
+      return this.showToast('Upload at least 1 image', 'error');
+
+    if (this.selectedFiles.length > 6)
+      return this.showToast('Max 6 images allowed', 'error');
 
     this.loading = true;
+
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const businessId = user?.businessId || 1;
 
@@ -88,31 +153,52 @@ export class AddProductComponent {
       MakingCharges: this.product.makingCharges,
       MOQ: this.product.moq,
       Stock: this.product.stock,
-      IsHallmarked: this.product.isHallmarked
+      IsHallmarked: this.product.isHallmarked,
     };
-
-    // STEP 1 — CREATE PRODUCT
+    debugger;
     this.productService.createProduct(productData).subscribe({
       next: (res: any) => {
         const productId = res.productId;
-
         const formData = new FormData();
-        this.selectedFiles.forEach(file => formData.append('files', file));
+        this.selectedFiles.forEach((file) => formData.append('files', file));
 
-        // STEP 2 — UPLOAD IMAGES
-        this.fileService.uploadProductImages(businessId, productId, formData).subscribe({
-          next: () => {
-            alert('Product added successfully');
-            this.router.navigate(['/seller-dashboard']);
-          },
-          error: () => {
-            alert('Product created but image upload failed');
-          }
-        });
+        this.fileService
+          .uploadProductImages(businessId, productId, formData)
+          .subscribe({
+            next: () => {
+              this.showToast('Product added successfully!', 'success');
+
+              setTimeout(() => {
+                localStorage.setItem(
+                  'toastMessage',
+                  'Product added successfully!'
+                );
+                localStorage.setItem('toastType', 'success');
+
+                this.router.navigate(['/product-listings']);
+              }, 1500);
+            },
+            error: () => {
+              this.showToast(
+                'Product created but image upload failed',
+                'error'
+              );
+            },
+          });
       },
       error: () => {
-        alert('Failed to create product');
-      }
+        this.showToast('Failed to create product', 'error');
+      },
     });
+  }
+
+  showToast(message: string, type: 'success' | 'error' = 'success') {
+    this.toastMessage = message;
+    this.toastType = type;
+
+    setTimeout(() => {
+      this.toastMessage = '';
+      this.toastType = '';
+    }, 3000);
   }
 }

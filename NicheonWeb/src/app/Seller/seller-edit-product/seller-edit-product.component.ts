@@ -16,6 +16,9 @@ export class SellerEditProductComponent implements OnInit {
   loading = true;
   saving = false;
 
+  toastMessage = "";
+  toastType: 'success' | 'error' | '' = '';
+
   // ================================
   // PRODUCT MODEL
   // ================================
@@ -79,7 +82,7 @@ export class SellerEditProductComponent implements OnInit {
         this.loading = false;
       },
       error: () => {
-        alert('Failed to load product');
+        this.showToast('Failed to load product.', 'error');
         this.loading = false;
       }
     });
@@ -168,91 +171,92 @@ export class SellerEditProductComponent implements OnInit {
   // SAVE PRODUCT
   // ================================
  
-  async submitProduct() {
-  if (!this.product.productName) return alert('Enter product name');
+   async submitProduct() {
+    if (!this.product.productName)
+      return this.showToast('Enter product name', 'error');
 
-  this.saving = true;
+    this.saving = true;
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const businessId = user.businessId || 1;
 
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const businessId = user.businessId || 1;
+    const payload = {
+      productId: this.product.productId,
+      businessId,
+      productName: this.product.productName,
+      categoryId: this.product.categoryId,
+      metalId: this.product.metalId,
+      karat: this.product.karat,
+      colour: this.product.colour,
+      weightGrams: this.product.weightGrams,
+      pricePerGram: this.product.pricePerGram,
+      makingCharges: this.product.makingCharges,
+      MOQ: this.product.moq,
+      stock: this.product.stock,
+      description: this.product.description,
+      isHallmarked: this.product.isHallmarked
+    };
 
-  // 🟢 BUILD CLEAN PAYLOAD (NO IMAGES ARRAY)
-  const payload = {
-    productId: this.product.productId,
-    businessId,
-    productName: this.product.productName,
-    categoryId: this.product.categoryId,
-    metalId: this.product.metalId,
-    karat: this.product.karat,
-    colour: this.product.colour,
-    weightGrams: this.product.weightGrams,
-    pricePerGram: this.product.pricePerGram,
-    makingCharges: this.product.makingCharges,
-    MOQ: this.product.moq,
-    stock: this.product.stock,
-    description: this.product.description,
-    isHallmarked: this.product.isHallmarked
-  };
+    this.productService.updateProduct(payload).subscribe({
+      next: async () => {
+        for (const imgId of this.removedImageIds) {
+          await firstValueFrom(this.fileService.deleteImage(imgId));
+        }
 
-  this.productService.updateProduct(payload).subscribe({
-    next: async () => {
-      // 🗑 Delete removed images
-      for (let imgId of this.removedImageIds) {
-        await firstValueFrom(this.fileService.deleteImage(imgId));
+        if (this.imageFiles.length > 0) {
+          const formData = new FormData();
+          this.imageFiles.forEach(f => formData.append('files', f));
+          await firstValueFrom(
+            this.fileService.uploadProductImages(businessId, this.product.productId, formData)
+          );
+        }
+
+        this.saving = false;
+        this.showToast('Product updated successfully!', 'success');
+
+       setTimeout(() => this.router.navigate(['/seller-product',this.product.productId]), 1200);
+      //  this.router.navigate(['/seller-product', this.product.productId]);
+      },
+      error: () => {
+        this.saving = false;
+        this.showToast('Update failed.', 'error');
       }
-
-      // 📤 Upload NEW images
-      if (this.imageFiles.length > 0) {
-        const formData = new FormData();
-        this.imageFiles.forEach(f => formData.append('files', f));
-
-        await firstValueFrom(
-          this.fileService.uploadProductImages(
-            businessId,
-            this.product.productId,
-            formData
-          )
-        );
-      }
-
-      this.saving = false;
-      alert('Product updated successfully.');
-      this.router.navigate(['/seller-product'], {
-        queryParams: { id: this.product.productId }
-      });
-    },
-    error: () => {
-      this.saving = false;
-      alert('Update failed.');
-    }
-  });
-}
+    });
+  }
 
 
-  // ================================
-  // DELETE PRODUCT
-  // ================================
-  confirmDelete() {
-    if (!confirm('Delete this product?')) return;
+
+  // -------------------------------------------------------------------
+  // ❌ DELETE PRODUCT — Confirm + Toast (same as listings component)
+  // -------------------------------------------------------------------
+  async confirmDelete() {
+    const ok = confirm('Are you sure you want to DELETE this product?');
+    if (!ok) return;
 
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const businessId = user.businessId || 1;
 
-    // this.productService.deleteProduct(this.product.productId, businessId).subscribe({
-    //   next: () => {
-    //     alert('Product deleted');
-    //     this.router.navigate(['/seller-listings']);
-    //   },
-    //   error: () => alert('Deletion failed')
-    // });
-
     this.productService.deleteProduct(this.product.productId, businessId).subscribe({
-        next: () => {
-          alert('🗑 Product deleted.');
-          this.router.navigate(['/product-listings']);
-        },
-        error: () => alert('Failed to delete product.')
-      });
+      next: () => {
+        this.showToast('Product deleted successfully!', 'success');
+        setTimeout(() => this.router.navigate(['/product-listings']), 1200);
+      },
+      error: () => {
+        this.showToast('Failed to delete product', 'error');
+      }
+    });
+  }
+
+  // -------------------------------------------------------------------
+  // TOAST FUNCTION
+  // -------------------------------------------------------------------
+  showToast(message: string, type: 'success' | 'error' = 'success') {
+    this.toastMessage = message;
+    this.toastType = type;
+
+    setTimeout(() => {
+      this.toastMessage = '';
+      this.toastType = '';
+    }, 3000);
   }
 
   goBack() {
