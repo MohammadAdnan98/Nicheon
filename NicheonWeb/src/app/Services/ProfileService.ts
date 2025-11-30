@@ -20,12 +20,14 @@ export class ProfileService {
     return this.http.get(`${this.apiUrl}/GetByBusinessId/${businessId}`, { headers: this.getHeaders() });
   }
 
-  updateProfile(payload: any) {
-  return this.http.post(
-    `${this.apiUrl}/UpdateProfile`,
-    payload,
-    { headers: this.getHeaders() }
-  );
+  updateProfile(formData: FormData) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+        // ❌ Do NOT set Content-Type here
+    });
+    return this.http.post(`${this.apiUrl}/UpdateProfile`, formData, { headers });
 }
+
 
 }

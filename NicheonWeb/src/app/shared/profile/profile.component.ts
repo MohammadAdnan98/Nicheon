@@ -76,7 +76,7 @@ export class ProfileComponent implements OnInit {
           state: res.state,
           country: res.country,
           pincode: res.pincode,
-          profileImage: 'assets/Image/profile-logo.jpg'
+          profileImage: `${environment.imgUrl}${res.profileLogo}` || 'assets/Image/profile-logo.jpg'
         };
 
         this.applyDefaults();
@@ -90,10 +90,10 @@ export class ProfileComponent implements OnInit {
   }
 
   // ⭐ NAVIGATIONS
-  goToListings() { this.router.navigate(['/seller-listings']); }
+  goToListings() { this.router.navigate(['/product-listings']); } 
   goToAddProduct() { this.router.navigate(['/seller-add-product']); }
   goToOrders() { this.router.navigate(['/seller-orders']); }
-
+  goToMessages() { this.router.navigate(['/seller-messages-list']); }
   cancelEdit() { this.router.navigate(['/seller-dashboard']); }
 
   logout() {

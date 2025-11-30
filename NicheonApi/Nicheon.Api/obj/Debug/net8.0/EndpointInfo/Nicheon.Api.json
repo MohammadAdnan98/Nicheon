@@ -184,6 +184,59 @@
         }
       }
     },
+    "/api/File/UploadBusinessLogo/{businessId}": {
+      "post": {
+        "tags": [
+          "File"
+        ],
+        "parameters": [
+          {
+            "name": "businessId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "logoFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "files": {
+                  "style": "form"
+                },
+                "logoFile": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/File/UploadProductImages/{businessId}/{productId}": {
       "post": {
         "tags": [
@@ -663,19 +716,105 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateBusinessProfileDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBusinessProfileDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBusinessProfileDto"
+                "type": "object",
+                "properties": {
+                  "BusinessId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "BusinessName": {
+                    "type": "string"
+                  },
+                  "BusinessType": {
+                    "type": "string"
+                  },
+                  "GSTNumber": {
+                    "type": "string"
+                  },
+                  "PAN": {
+                    "type": "string"
+                  },
+                  "fullName": {
+                    "type": "string"
+                  },
+                  "ContactPhone": {
+                    "type": "string"
+                  },
+                  "BusinessEmail": {
+                    "type": "string"
+                  },
+                  "Address": {
+                    "type": "string"
+                  },
+                  "Landmark": {
+                    "type": "string"
+                  },
+                  "City": {
+                    "type": "string"
+                  },
+                  "State": {
+                    "type": "string"
+                  },
+                  "Country": {
+                    "type": "string"
+                  },
+                  "Pincode": {
+                    "type": "string"
+                  },
+                  "LogoFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "BusinessId": {
+                  "style": "form"
+                },
+                "BusinessName": {
+                  "style": "form"
+                },
+                "BusinessType": {
+                  "style": "form"
+                },
+                "GSTNumber": {
+                  "style": "form"
+                },
+                "PAN": {
+                  "style": "form"
+                },
+                "fullName": {
+                  "style": "form"
+                },
+                "ContactPhone": {
+                  "style": "form"
+                },
+                "BusinessEmail": {
+                  "style": "form"
+                },
+                "Address": {
+                  "style": "form"
+                },
+                "Landmark": {
+                  "style": "form"
+                },
+                "City": {
+                  "style": "form"
+                },
+                "State": {
+                  "style": "form"
+                },
+                "Country": {
+                  "style": "form"
+                },
+                "Pincode": {
+                  "style": "form"
+                },
+                "LogoFile": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -1039,68 +1178,6 @@
             "maxLength": 10,
             "minLength": 4,
             "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateBusinessProfileDto": {
-        "type": "object",
-        "properties": {
-          "businessId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "businessName": {
-            "type": "string",
-            "nullable": true
-          },
-          "businessType": {
-            "type": "string",
-            "nullable": true
-          },
-          "gstNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "pan": {
-            "type": "string",
-            "nullable": true
-          },
-          "contactPerson": {
-            "type": "string",
-            "nullable": true
-          },
-          "contactPhone": {
-            "type": "string",
-            "nullable": true
-          },
-          "businessEmail": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "landmark": {
-            "type": "string",
-            "nullable": true
-          },
-          "city": {
-            "type": "string",
-            "nullable": true
-          },
-          "state": {
-            "type": "string",
-            "nullable": true
-          },
-          "country": {
-            "type": "string",
-            "nullable": true
-          },
-          "pincode": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false

@@ -34,6 +34,20 @@ namespace Nicheon.Persistence.Repositories
         //    return (result, imageId);
         //}   
 
+        public async Task<(int Result, int ImageId)> UploadBusinessLogo(int businessId, string imageUrl)
+        {
+            var p = new DynamicParameters();
+
+            p.Add("@BusinessId", businessId);
+            p.Add("@ImageUrl", imageUrl);
+
+            p.Add("@OutResult", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("@OutImageId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            await _db.ExecuteAsync("Proc_UpdateBusinessLogo", p, commandType: CommandType.StoredProcedure);
+
+            return (p.Get<int>("@OutResult"), p.Get<int>("@OutImageId"));
+        }
 
         public async Task<(int Result, int ImageId)> AddImageAsync(int productId, int businessId, string imageUrl, string altText, bool isPrimary, int sortOrder)
         {

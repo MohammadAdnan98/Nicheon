@@ -35,7 +35,7 @@ namespace Nicheon.Persistence.Repositories
             p.Add("@BusinessType", dto.BusinessType);
             p.Add("@GSTNumber", dto.GSTNumber);
             p.Add("@PAN", dto.PAN);
-            p.Add("@ContactPerson", dto.ContactPerson);
+            p.Add("@fullName", dto.fullName);
             p.Add("@ContactPhone", dto.ContactPhone);
             p.Add("@BusinessEmail", dto.BusinessEmail);
             p.Add("@Address", dto.Address);

@@ -129,6 +129,32 @@
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.FileController",
+    "Method": "UploadBusinessLogo",
+    "RelativePath": "api/File/UploadBusinessLogo/{businessId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "files",
+        "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "logoFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.FileController",
     "Method": "UploadProductImages",
     "RelativePath": "api/File/UploadProductImages/{businessId}/{productId}",
     "HttpMethod": "POST",
@@ -398,9 +424,79 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "Nicheon.Application.DTOs.UpdateBusinessProfileDto",
-        "IsRequired": true
+        "Name": "BusinessId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "BusinessName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "BusinessType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "GSTNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PAN",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fullName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ContactPhone",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "BusinessEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Address",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Landmark",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "City",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "State",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Country",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Pincode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "LogoFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

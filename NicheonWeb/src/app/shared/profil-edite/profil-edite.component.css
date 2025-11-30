@@ -129,3 +129,35 @@ label {
   background: #1b1b1b;
   color: #fff;
 }
+
+/* ⭐ Toast Notification */
+.toast-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 14px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #fff;
+  animation: fadeSlide 0.4s ease-out;
+}
+
+.toast-message.success {
+  background-color: #28a745;
+}
+
+.toast-message.error {
+  background-color: #dc3545;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

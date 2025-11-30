@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProfileService } from 'src/app/Services/ProfileService';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profil-edite',
@@ -12,8 +13,14 @@ export class ProfilEditeComponent implements OnInit {
 
   editForm!: FormGroup;
   loading = false;
-  userData: any = {};   // user data loaded from API or localStorage
+  userData: any = {};
   businessId = 0;
+  selectedLogoFile: File | null = null;
+
+  // ⭐ Toast
+  toastMessage = "";
+  toastType: 'success' | 'error' = 'success';
+  showToastBox = false;
 
   constructor(
     private fb: FormBuilder,
@@ -36,7 +43,18 @@ export class ProfilEditeComponent implements OnInit {
     }
   }
 
-  // ⭐ Load profile from API
+  // ⭐ Toast Method
+  showToast(message: string, type: 'success' | 'error') {
+    this.toastMessage = message;
+    this.toastType = type;
+    this.showToastBox = true;
+
+    setTimeout(() => {
+      this.showToastBox = false;
+    }, 3000);
+  }
+
+  // ⭐ Load API Profile
   loadProfile(businessId: number) {
     this.profileService.getProfile(businessId).subscribe({
       next: (res: any) => {
@@ -55,33 +73,29 @@ export class ProfilEditeComponent implements OnInit {
           state: res.state,
           country: res.country,
           pincode: res.pincode,
-          profileImage: 'assets/Image/profile-logo.jpg' // static for now
+          profileImage: `${environment.imgUrl}${res.profileLogo}` || 'assets/Image/profile-logo.jpg'
         };
-
         this.initForm();
       },
-      error: (err) => {
-        console.error("Error loading profile:", err);
+      error: () => {
         this.loadFromLocal();
         this.initForm();
       }
     });
   }
 
-  // ⭐ Fallback: Load from local storage if no API profile found
   loadFromLocal() {
     const stored = localStorage.getItem('user');
     if (stored) {
       this.userData = JSON.parse(stored);
-      this.userData.profileImage = this.userData.profileImage || 'assets/Image/profile-logo.jpg';
     }
   }
 
-  // ⭐ Initialize Reactive Form
+  // ⭐ Initialize Form
   initForm(): void {
     this.editForm = this.fb.group({
       fullName: [this.userData.fullName, Validators.required],
-      primaryEmail: [this.userData.primaryEmail, [Validators.required, Validators.email]],
+      primaryEmail: [this.userData.primaryEmail, Validators.required],
       primaryPhone: [this.userData.primaryPhone, Validators.required],
       businessName: [this.userData.businessName, Validators.required],
       businessType: [this.userData.businessType, Validators.required],
@@ -97,10 +111,12 @@ export class ProfilEditeComponent implements OnInit {
     });
   }
 
-  // ⭐ Image Upload → Base64 Preview
+  // ⭐ File Select (Preview + Store File)
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
+      this.selectedLogoFile = file;
+
       const reader = new FileReader();
       reader.onload = () => {
         this.editForm.patchValue({ profileImage: reader.result });
@@ -109,7 +125,7 @@ export class ProfilEditeComponent implements OnInit {
     }
   }
 
-  // ⭐ Save Profile (Call Real API)
+  // ⭐ Save Profile With Toasts
   saveProfile(): void {
     if (this.editForm.invalid) {
       this.editForm.markAllAsTouched();
@@ -118,37 +134,44 @@ export class ProfilEditeComponent implements OnInit {
 
     this.loading = true;
 
-    const formData = this.editForm.value;
+    const formValues = this.editForm.value;
 
-    const payload = {
-      businessId: this.userData.businessId,
-      businessName: formData.businessName,
-      businessType: formData.businessType,
-      gstNumber: formData.gstNumber,
-      pan: formData.pan,
-      contactPerson: formData.fullName,
-      contactPhone: formData.primaryPhone,
-      businessEmail: formData.primaryEmail,
-      address: formData.address,
-      landmark: formData.landmark,
-      city: formData.city,
-      state: formData.state,
-      country: formData.country,
-      pincode: formData.pincode
-    };
+    const formData = new FormData();
 
-    this.profileService.updateProfile(payload).subscribe({
+    formData.append("businessId", this.businessId.toString());
+    formData.append("businessName", formValues.businessName);
+    formData.append("businessType", formValues.businessType);
+    formData.append("gstNumber", formValues.gstNumber || "");
+    formData.append("pan", formValues.pan || "");
+    formData.append("fullName", formValues.fullName);
+    formData.append("contactPhone", formValues.primaryPhone);
+    formData.append("businessEmail", formValues.primaryEmail);
+    formData.append("address", formValues.address);
+    formData.append("landmark", formValues.landmark);
+    formData.append("city", formValues.city);
+    formData.append("state", formValues.state);
+    formData.append("country", formValues.country);
+    formData.append("pincode", formValues.pincode);
+
+    if (this.selectedLogoFile) {
+      formData.append("logoFile", this.selectedLogoFile);
+    }
+
+    this.profileService.updateProfile(formData).subscribe({
       next: () => {
-        alert('Profile updated successfully!');
         this.loading = false;
 
-        // Refresh profile page after saving
-        this.router.navigate(['/seller-profile']);
+        this.showToast("Profile updated successfully!", "success");
+
+        setTimeout(() => {
+         this.router.navigate(['/seller-profile']);
+        }, 1500);
       },
       error: (error) => {
-        console.error('Failed to update profile', error);
+        console.error("Error updating profile", error);
         this.loading = false;
-        alert('Failed to update profile.');
+
+        this.showToast("Failed to update profile!", "error");
       }
     });
   }

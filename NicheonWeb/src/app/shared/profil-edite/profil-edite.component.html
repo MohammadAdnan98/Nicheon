@@ -1,5 +1,13 @@
 <div class="edit-profile-container shadow-lg">
 
+  <!-- 🚀 Toast Notification -->
+<div 
+  class="toast-message" 
+  [ngClass]="toastType" 
+  *ngIf="showToastBox">
+  {{ toastMessage }}
+</div>
+
   <!-- 🔙 Back Button -->
   <div class="back-btn-wrapper mb-3">
     <button class="btn btn-outline-dark btn-sm" (click)="cancelEdit()">

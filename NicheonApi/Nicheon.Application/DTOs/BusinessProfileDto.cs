@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,7 @@ namespace Nicheon.Application.DTOs
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public bool IsActive { get; set; }
+        public string? ProfileLogo { get; set; }
     }
 
     public class UpdateBusinessProfileDto
@@ -38,7 +40,7 @@ namespace Nicheon.Application.DTOs
         public string BusinessType { get; set; } = "";
         public string? GSTNumber { get; set; }
         public string? PAN { get; set; }
-        public string? ContactPerson { get; set; }
+        public string? fullName { get; set; }
         public string? ContactPhone { get; set; }
         public string? BusinessEmail { get; set; }
         public string? Address { get; set; }
@@ -47,7 +49,9 @@ namespace Nicheon.Application.DTOs
         public string? State { get; set; }
         public string? Country { get; set; }
         public string? Pincode { get; set; }
-    }
 
+        public IFormFile? LogoFile { get; set; }
+
+    }
 }
 

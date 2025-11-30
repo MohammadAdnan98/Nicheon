@@ -77,6 +77,68 @@ namespace Nicheon.Api.Controllers
         //}   
 
 
+        [HttpPost("UploadBusinessLogo/{businessId:int}")]
+        //[Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadBusinessLogo(
+        int businessId,
+        [FromForm] List<IFormFile> files,
+        IFormFile? logoFile)
+        {
+            // Validate: Must upload exactly 1 file
+            if (files == null || files.Count == 0)
+                return BadRequest("No file uploaded.");
+
+            if (files.Count > 1)
+                return BadRequest("Only one logo file allowed.");
+
+            var file = files[0]; // Get the single file
+
+            var allowed = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+            var ext = Path.GetExtension(file.FileName).ToLower();
+
+            if (!allowed.Contains(ext))
+                return BadRequest("Only JPG, JPEG, PNG, WEBP allowed.");
+
+            // Create folder
+            var folder = Path.Combine(
+                _env.ContentRootPath,
+                "Uploads",
+                "BusinessLogo",
+                $"Business_{businessId}"
+            );
+
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            // Create unique filename
+            var fileName = $"logo_{Guid.NewGuid():N}{ext}";
+            var fullPath = Path.Combine(folder, fileName);
+
+            // Save file
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var relativePath = $"/Uploads/BusinessLogo/Business_{businessId}/{fileName}";
+
+            // Save in database
+            var (result, imageId) = await _fileRepo.UploadBusinessLogo(businessId, relativePath);
+
+            if (result == 1)
+            {
+                return Ok(new
+                {
+                    message = "Logo uploaded successfully",
+                    logoUrl = $"{Request.Scheme}://{Request.Host}{relativePath}"
+                });
+            }
+
+            return BadRequest("Failed to update logo.");
+        }
+
+
+
 
         [HttpPost("UploadProductImages/{businessId:int}/{productId:int}")]
         public async Task<IActionResult> UploadProductImages(int businessId, int productId, [FromForm] List<IFormFile> files)

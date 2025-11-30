@@ -166,3 +166,54 @@
   color: #fff;
 }
 
+/* ─── Action Buttons Section ───────────────────── */
+.action-section .action-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+  transition: 0.3s ease;
+}
+
+/* Green Buttons */
+.action-section .green {
+  background: #145a1d; 
+}
+.action-section .green:hover {
+  background: #0f4b17;
+}
+
+/* Yellow Button */
+.action-section .yellow {
+  background: #d4af37;
+  color: white;
+}
+.action-section .yellow:hover {
+  background: #b99225;
+}
+
+/* Logout Full Button */
+.logout-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  background: #dc3545;
+  color: #fff;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+.logout-btn:hover {
+  background: #b02a37;
+}
+
+/* Mobile Fix: full width buttons stack on small screens */
+@media (max-width: 768px) {
+  .action-section .col-6 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}

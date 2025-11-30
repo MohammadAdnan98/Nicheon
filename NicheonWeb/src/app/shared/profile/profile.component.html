@@ -75,13 +75,37 @@
   </div>
 
   <!-- ⚙️ Quick Actions -->
-  <div class="action-grid">
-    <button (click)="goToListings()">📦 My Listings</button>
-    <button (click)="goToAddProduct()" class="gold">➕ Add Product</button>
-    <button (click)="goToOrders()">📄 Orders</button>
-    <button>💬 Messages</button>
+<div class="action-section">
+
+  <div class="row g-3">
+    <div class="col-6">
+      <button class="action-btn green" (click)="goToListings()">
+        📦 My Listings
+      </button>
+    </div>
+
+    <div class="col-6">
+      <button class="action-btn yellow" (click)="goToAddProduct()">
+        ➕ Add Product
+      </button>
+    </div>
+
+    <div class="col-6">
+      <button class="action-btn green" (click)="goToOrders()">
+        📄 Orders
+      </button>
+    </div>
+
+    <div class="col-6">
+      <button class="action-btn green " (click)="goToMessages()">
+        💬 Messages
+      </button>
+    </div>
   </div>
 
   <!-- 🚪 Logout -->
   <button class="logout-btn mt-4" (click)="logout()">Logout</button>
+
+</div>
+
 </div>

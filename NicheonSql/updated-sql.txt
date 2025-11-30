@@ -1,450 +1,108 @@
-ALTER PROCEDURE dbo.proc_GetSellerDashboard    
-    @BusinessId INT    
+ALTER PROCEDURE sp_UpdateBusinessProfile    
+    @BusinessId INT,    
+    @BusinessName NVARCHAR(255),    
+    @BusinessType NVARCHAR(50),    
+    @GSTNumber NVARCHAR(32) = NULL,    
+    @PAN NVARCHAR(20) = NULL,    
+    @FullName NVARCHAR(200) = NULL,    
+    @ContactPhone NVARCHAR(20) = NULL,    
+    @BusinessEmail NVARCHAR(255) = NULL,    
+    @Address NVARCHAR(500) = NULL,    
+    @Landmark NVARCHAR(250) = NULL,    
+    @City NVARCHAR(100) = NULL,    
+    @State NVARCHAR(100) = NULL,    
+    @Country NVARCHAR(100) = NULL,    
+    @Pincode NVARCHAR(20) = NULL,    
+    @OutResult INT OUTPUT    
 AS    
-/*    
-exec dbo.proc_GetSellerDashboard 2    
-*/    
 BEGIN    
     SET NOCOUNT ON;    
-    
-    ---------------------------------------------------------    
-    -- 1) Seller / Business info    
-    ---------------------------------------------------------    
-    SELECT    
-        b.BusinessId,    
-        b.BusinessName,    
-        b.BusinessType,    
-        b.GSTNumber,    
-        b.ContactPerson,    
-        b.ContactPhone,    
-        b.BusinessEmail,    
-        b.Address,    
-        b.City,    
-        b.State,    
-        b.Pincode,    
-        b.IsVerified    
-    FROM BusinessProfiles b    
-    WHERE b.BusinessId = @BusinessId;    
-    
-    ---------------------------------------------------------    
-    -- 2) Summary stats (New / Accepted / Shipped / Revenue)    
-    ---------------------------------------------------------    
-    SELECT    
-        SUM(CASE WHEN o.Status = 'New' THEN 1 ELSE 0 END) AS NewOrders,    
-        SUM(CASE WHEN o.Status = 'Accepted' THEN 1 ELSE 0 END) AS AcceptedOrders,    
-        SUM(CASE WHEN o.Status = 'Shipped' THEN 1 ELSE 0 END) AS ShippedOrders,    
-        ISNULL(SUM(o.TotalAmount), 0) AS Revenue    
-    FROM OrdersInfo o    
-    WHERE o.SellerBusinessId = @BusinessId    
-      AND o.IsActive = 1;    
-    
-    ---------------------------------------------------------    
-    -- 3) Recent orders (top 6, newest first) + item summary    
-    ---------------------------------------------------------    
-    SELECT TOP (6)    
-        o.OrderId,    
-        o.OrderNumber,    
-        o.BuyerBusinessId,    
-        bp.BusinessName AS BuyerName,    
-        o.TotalAmount,    
-        o.Status,    
-        o.CreatedAt AS OrderDate,    
-        (SELECT TOP (1) oi.ProductId FROM OrderItems oi WHERE oi.OrderId = o.OrderId FOR XML PATH('')) AS SampleProductId,    
-        STUFF((    
-            SELECT '; ' + CAST(oi.Quantity AS VARCHAR(10)) + 'x ' + p.ProductName    
-            FROM OrderItems oi    
-            LEFT JOIN Products p ON p.ProductId = oi.ProductId    
-            WHERE oi.OrderId = o.OrderId    
-            FOR XML PATH(''), TYPE    
-        ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS ItemsSummary    
-    FROM OrdersInfo o    
-    LEFT JOIN BusinessProfiles bp ON bp.BusinessId = o.BuyerBusinessId    
-    WHERE o.SellerBusinessId = @BusinessId    
-      AND o.IsActive = 1    
-    ORDER BY o.CreatedAt DESC;    
-    
-    ---------------------------------------------------------    
-    -- 4) Top products for this seller (by stock or recent)    
-    ---------------------------------------------------------    
-    SELECT TOP (6)    
-        p.ProductId,    
-        p.ProductCode,    
-        p.ProductName,    
-        p.PricePerGram,    
-        p.MakingCharges,    
-        p.Stock,    
-        --pi.ImageUrl AS PrimaryImage,    
-        pi.ImageUrl AS PrimaryImage    
-    FROM Products p    
-    LEFT JOIN ProductImages pi ON pi.ProductId = p.ProductId AND pi.IsPrimary = 1 AND pi.IsActive=1
-    WHERE p.BusinessId = @BusinessId    
-      AND p.IsActive = 1    
-    ORDER BY p.Stock DESC, p.CreatedAt DESC;    
-    
-    ---------------------------------------------------------    
-    -- 5) Unread notifications count    
-    ---------------------------------------------------------    
-    SELECT    
-        ISNULL(SUM(CASE WHEN n.IsRead = 0 THEN 1 ELSE 0 END), 0) AS UnreadNotifications    
-    FROM Notifications n    
-    WHERE n.BusinessId = @BusinessId;    
-END    
-  
-  Go
-ALTER PROCEDURE sp_ListProducts  
-    @BusinessId INT = NULL,  
-    @CategoryId INT = NULL,  
-    @MetalId INT = NULL,  
-    @Search NVARCHAR(200) = NULL,  
-    @Page INT = 1,  
-    @PageSize INT = 20  
-AS  
-BEGIN  
-    SET NOCOUNT ON;
 
-    DECLARE @Offset INT = (@Page - 1) * @PageSize;
+    DECLARE @UserId INT;
 
-    SELECT
-        P.ProductId,
-        P.BusinessId,
-        P.CategoryId,
-        P.MetalId,
-        P.JewelleryTypeId,
-        P.SubTypeId,
-        P.StyleId,
+    -- ▶️ Get the UserId of this business
+    SELECT @UserId = UserId 
+    FROM BusinessProfiles 
+    WHERE BusinessId = @BusinessId;
 
-        P.ProductCode,
-        P.ProductName,
-        P.ShortDescription,
-        P.Description,
-        P.Gender,
-        P.Colour,
-        P.Karat,
-        P.WeightGrams,
-        P.PricePerGram,
-        P.MakingCharges,
-        P.MOQ,
-        P.Stock,
-        P.IsHallmarked,
-        P.IsActive,
-        P.CreatedAt,
-        P.UpdatedAt,
+    -----------------------------------------
+    -- 1️⃣ Update BusinessProfiles Table
+    -----------------------------------------
+    UPDATE BusinessProfiles
+    SET    
+        BusinessName   = @BusinessName,    
+        BusinessType   = @BusinessType,    
+        GSTNumber      = @GSTNumber,    
+        PAN            = @PAN,    
+        ContactPhone   = @ContactPhone,    
+        BusinessEmail  = @BusinessEmail,    
+        Address        = @Address,    
+        Landmark       = @Landmark,    
+        City           = @City,    
+        State          = @State,    
+        Country        = @Country,    
+        Pincode        = @Pincode,    
+        UpdatedAt      = GETDATE()
+    WHERE BusinessId = @BusinessId;
 
-        -- Primary image
-        (SELECT TOP 1 ImageUrl 
-         FROM ProductImages 
-         WHERE ProductId = P.ProductId 
-           AND IsActive = 1
-         ORDER BY IsPrimary DESC, SortOrder ASC) AS ThumbnailUrl,
+    -----------------------------------------
+    -- 2️⃣ Update Users Table (FullName only)
+    -----------------------------------------
+    IF @UserId IS NOT NULL
+    BEGIN
+        UPDATE Users
+        SET 
+            FullName   = @FullName,
+            PrimaryEmail = @BusinessEmail,
+            PrimaryPhone = @ContactPhone,
+            UpdatedAt = GETDATE()
+        WHERE UserId = @UserId;
+    END
 
-        COUNT(*) OVER() AS TotalRecords
-    FROM Products P
-    WHERE (@BusinessId IS NULL OR P.BusinessId = @BusinessId)
-      AND (@CategoryId IS NULL OR P.CategoryId = @CategoryId)
-      AND (@MetalId IS NULL OR P.MetalId = @MetalId)
-      AND (@Search IS NULL OR P.ProductName LIKE '%' + @Search + '%' 
-                      OR P.Description LIKE '%' + @Search + '%')
-     AND  P.IsActive=1
-    ORDER BY P.CreatedAt DESC
-    OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
-END
-GO
-ALter PROCEDURE sp_UpdateProduct  
-    @ProductId INT,  
-    @BusinessId INT,  
-    @CategoryId INT = NULL,  
-    @MetalId INT = NULL,  
-    @JewelleryTypeId INT = NULL,  
-    @SubTypeId INT = NULL,  
-    @StyleId INT = NULL,  
-    @ProductName NVARCHAR(300),  
-    @ShortDescription NVARCHAR(500) = NULL,  
-    @Description NVARCHAR(MAX) = NULL,  
-    @Gender NVARCHAR(20) = NULL,  
-    @Colour NVARCHAR(50) = NULL,  
-    @Karat NVARCHAR(20) = NULL,  
-    @WeightGrams DECIMAL(10,3) = NULL,  
-    @PricePerGram DECIMAL(18,2) = NULL,  
-    @MakingCharges DECIMAL(18,2) = NULL,  
-    @MOQ INT = 1,  
-    @Stock INT = 0,  
-    @IsHallmarked BIT = 0,  
-    @Result INT OUTPUT  
-AS  
-BEGIN  
-    SET NOCOUNT ON;  
-    SET XACT_ABORT ON;  
-  
-    IF NOT EXISTS (SELECT 1 FROM Products WHERE ProductId = @ProductId AND BusinessId = @BusinessId AND IsActive = 1)  
-    BEGIN  
-        SET @Result = -1; RETURN;  
-    END  
-  
-    BEGIN TRANSACTION;  
-    BEGIN TRY  
-        UPDATE Products  
-        SET CategoryId = @CategoryId,  
-            MetalId = @MetalId,  
-            JewelleryTypeId = @JewelleryTypeId,  
-            SubTypeId = @SubTypeId,  
-            StyleId = @StyleId,  
-            ProductName = @ProductName,  
-            ShortDescription = @ShortDescription,  
-            Description = @Description,  
-            Gender = @Gender,  
-            Colour = @Colour,  
-            Karat = @Karat,  
-            WeightGrams = @WeightGrams,  
-            PricePerGram = @PricePerGram,  
-            MakingCharges = @MakingCharges,  
-            MOQ = @MOQ,  
-            Stock = @Stock,  
-            IsHallmarked = @IsHallmarked,  
-            UpdatedAt = GETDATE()  
-        WHERE ProductId = @ProductId AND BusinessId = @BusinessId;  
-  
-        SET @Result = 1;  
-        COMMIT TRANSACTION;  
-    END TRY  
-    BEGIN CATCH  
-        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;  
-        SET @Result = -9;  
-    END CATCH  
-END
-go
-  
-CREATE PROCEDURE dbo.sp_AddProductImage  
-    @ProductId INT,  
-    @BusinessId INT,  
-    @ImageUrl NVARCHAR(1000),  
-    @AltText NVARCHAR(500) = NULL,  
-    @IsPrimary BIT = 0,  
-    @SortOrder INT = 0,  
-    @OutResult INT OUTPUT,     -- 1=OK, -1=error  
-    @OutImageId INT OUTPUT  
-AS  
-BEGIN  
-    SET NOCOUNT ON;  
-    BEGIN TRY  
-        IF @IsPrimary = 1  
-        BEGIN  
-            UPDATE dbo.ProductImages  
-            SET IsPrimary = 0  
-            WHERE ProductId = @ProductId AND IsActive = 1;  
-        END  
-  
-        INSERT INTO dbo.ProductImages (ProductId, ImageUrl, AltText, IsPrimary, SortOrder, CreatedAt, IsActive)  
-        VALUES (@ProductId, @ImageUrl, @AltText, @IsPrimary, @SortOrder, SYSUTCDATETIME(), 1);  
-  
-        SET @OutImageId = CAST(SCOPE_IDENTITY() AS INT);  
-        SET @OutResult = 1;  
-    END TRY  
-    BEGIN CATCH  
-        SET @OutResult = -1;  
-        SET @OutImageId = 0;  
-    END CATCH  
-END  
-
-go
-
-CREATE PROCEDURE dbo.sp_DeleteProductImage  
-    @ImageId INT,  
-    @OutResult INT OUTPUT  
-AS  
-BEGIN  
-    SET NOCOUNT ON;  
-    BEGIN TRY  
-        UPDATE dbo.ProductImages SET IsActive = 0 WHERE ImageId = @ImageId;  
-        SET @OutResult = 1;  
-    END TRY  
-    BEGIN CATCH  
-        SET @OutResult = -1;  
-    END CATCH  
-END  
-go
-  
-CREATE PROCEDURE sp_DeleteProduct  
-    @ProductId INT,  
-    @BusinessId INT,  
-    @Result INT OUTPUT  
-AS  
-BEGIN  
-    SET NOCOUNT ON;  
-    SET XACT_ABORT ON;  
-  
-    IF NOT EXISTS (SELECT 1 FROM Products WHERE ProductId = @ProductId AND BusinessId = @BusinessId AND IsActive = 1)  
-    BEGIN  
-        SET @Result = -1; RETURN;  
-    END  
-  
-    BEGIN TRANSACTION;  
-    BEGIN TRY  
-        UPDATE Products  
-        SET IsActive = 0, UpdatedAt = GETDATE()  
-        WHERE ProductId = @ProductId AND BusinessId = @BusinessId;  
-  
-        SET @Result = 1;  
-        COMMIT TRANSACTION;  
-    END TRY  
-    BEGIN CATCH  
-        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;  
-        SET @Result = -9;  
-    END CATCH  
-END  
-go
-ALTER PROCEDURE dbo.proc_GetSellerDashboard    
-    @BusinessId INT    
-AS    
-/*    
-exec dbo.proc_GetSellerDashboard 2    
-*/    
-BEGIN    
-    SET NOCOUNT ON;    
-    
-    ---------------------------------------------------------    
-    -- 1) Seller / Business info    
-    ---------------------------------------------------------    
-    SELECT    
-        b.BusinessId,    
-        b.BusinessName,    
-        b.BusinessType,    
-        b.GSTNumber,    
-        b.ContactPerson,    
-        b.ContactPhone,    
-        b.BusinessEmail,    
-        b.Address,    
-        b.City,    
-        b.State,    
-        b.Pincode,    
-        b.IsVerified    
-    FROM BusinessProfiles b    
-    WHERE b.BusinessId = @BusinessId;    
-    
-    ---------------------------------------------------------    
-    -- 2) Summary stats (New / Accepted / Shipped / Revenue)    
-    ---------------------------------------------------------    
-    SELECT    
-        SUM(CASE WHEN o.Status = 'New' THEN 1 ELSE 0 END) AS NewOrders,    
-        SUM(CASE WHEN o.Status = 'Accepted' THEN 1 ELSE 0 END) AS AcceptedOrders,    
-        SUM(CASE WHEN o.Status = 'Shipped' THEN 1 ELSE 0 END) AS ShippedOrders,    
-        ISNULL(SUM(o.TotalAmount), 0) AS Revenue    
-    FROM OrdersInfo o    
-    WHERE o.SellerBusinessId = @BusinessId    
-      AND o.IsActive = 1;    
-    
-    ---------------------------------------------------------    
-    -- 3) Recent orders (top 6, newest first) + item summary    
-    ---------------------------------------------------------    
-    SELECT TOP (6)    
-        o.OrderId,    
-        o.OrderNumber,    
-        o.BuyerBusinessId,    
-        bp.BusinessName AS BuyerName,    
-        o.TotalAmount,    
-        o.Status,    
-        o.CreatedAt AS OrderDate,    
-        (SELECT TOP (1) oi.ProductId FROM OrderItems oi WHERE oi.OrderId = o.OrderId FOR XML PATH('')) AS SampleProductId,    
-        STUFF((    
-            SELECT '; ' + CAST(oi.Quantity AS VARCHAR(10)) + 'x ' + p.ProductName    
-            FROM OrderItems oi    
-            LEFT JOIN Products p ON p.ProductId = oi.ProductId    
-            WHERE oi.OrderId = o.OrderId    
-            FOR XML PATH(''), TYPE    
-        ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS ItemsSummary    
-    FROM OrdersInfo o    
-    LEFT JOIN BusinessProfiles bp ON bp.BusinessId = o.BuyerBusinessId    
-    WHERE o.SellerBusinessId = @BusinessId    
-      AND o.IsActive = 1    
-    ORDER BY o.CreatedAt DESC;    
-    
-    ---------------------------------------------------------    
-    -- 4) Top products for this seller (by stock or recent)    
-    ---------------------------------------------------------    
-    SELECT TOP (6)    
-        p.ProductId,    
-        p.ProductCode,    
-        p.ProductName,    
-        p.PricePerGram,    
-        p.MakingCharges,    
-        p.Stock,    
-        --pi.ImageUrl AS PrimaryImage,    
-        pi.ImageUrl AS PrimaryImage    
-    FROM Products p    
-    LEFT JOIN ProductImages pi ON pi.ProductId = p.ProductId AND pi.IsPrimary = 1 AND pi.IsActive=1
-    WHERE p.BusinessId = @BusinessId    
-      AND p.IsActive = 1    
-    ORDER BY p.Stock DESC, p.CreatedAt DESC;    
-    
-    ---------------------------------------------------------    
-    -- 5) Unread notifications count    
-    ---------------------------------------------------------    
-    SELECT    
-        ISNULL(SUM(CASE WHEN n.IsRead = 0 THEN 1 ELSE 0 END), 0) AS UnreadNotifications    
-    FROM Notifications n    
-    WHERE n.BusinessId = @BusinessId;    
-END    
-  
-  GO
-ALTER TABLE OrdersInfo
-ADD StatusUpdateDate DATETIME NULL;
-
-GO
-
-Alter PROCEDURE sp_UpdateOrderStatus
-    @OrderId INT,
-    @Status NVARCHAR(50),
-    @Notes NVARCHAR(500) = NULL,
-    @OutResult INT OUTPUT
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    UPDATE OrdersInfo
-    SET 
-        Status = @Status,
-        Notes = @Notes,
-        StatusUpdateDate = GETDATE()
-    WHERE OrderId = @OrderId;
-
+    -- Return status result
     SET @OutResult = 1;
 END
-GO
-CREATE PROCEDURE sp_GetSellerOrders
-    @SellerBusinessId INT
-AS
-/*
-exec sp_GetSellerOrders 2
-*/
-BEGIN
-    SET NOCOUNT ON;
 
-    SELECT 
-        O.OrderId,
-        O.OrderNumber,
-        O.BuyerBusinessId,
-        B.BusinessName AS BuyerName,
-        B.City AS BuyerCity,
-        O.OrderDate,
-        O.Status,
-        O.TotalAmount,
-        P.PaymentMethod,
-        (
-            SELECT 
-                I.OrderItemId,
-                I.ProductId,
-                P2.ProductName,
-                I.Quantity AS Qty,
-                I.UnitPrice,
-                I.MakingCharges
-            FROM OrderItems I
-            INNER JOIN Products P2 ON P2.ProductId = I.ProductId
-            WHERE I.OrderId = O.OrderId
-            FOR JSON PATH
-        ) AS ItemsJson
-    FROM OrdersInfo O
-    INNER JOIN BusinessProfiles B ON B.BusinessId = O.BuyerBusinessId
-    LEFT JOIN PaymentsDetails P ON P.OrderId = O.OrderId
-    WHERE O.SellerBusinessId = @SellerBusinessId
-      AND O.IsActive = 1
-    ORDER BY O.OrderDate DESC;
+GO
+
+ALTER TABLE BusinessProfiles
+ADD ProfileLogo NVARCHAR(1000);
+
+GO
+
+ALTER PROCEDURE sp_GetBusinessProfileById  
+    @BusinessId INT  
+AS  
+/*
+exec sp_GetBusinessProfileById 1
+*/
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    SELECT  
+        bp.BusinessId,  
+        bp.UserId,  
+        us.FullName,  
+        bp.BusinessName,  
+        bp.BusinessType,  
+        bp.GSTNumber,  
+        bp.PAN,  
+        bp.ContactPerson,  
+        bp.ContactPhone,  
+        bp.BusinessEmail,  
+        bp.Address,  
+        bp.Landmark,  
+        bp.City,  
+        bp.State,  
+        bp.Country,  
+        bp.Pincode,  
+        bp.IsVerified,  
+        bp.CreatedAt,  
+        bp.UpdatedAt,  
+        bp.IsActive,
+		bp.ProfileLogo
+    FROM BusinessProfiles bp  
+ LEFT JOIN Users us on us.UserId=bp.UserId  
+    WHERE BusinessId = @BusinessId;  
 END
+
