@@ -80,6 +80,67 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Nicheon.Api.Controllers.Buyer.BuyerHomeController",
+    "Method": "Search",
+    "RelativePath": "api/BuyerHome",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "q",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "metalIds",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "styleIds",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "karats",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "minPrice",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "maxPrice",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "isHallmarked",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "sort",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Nicheon.Api.Controllers.DashboardController",
     "Method": "GetDashboard",
     "RelativePath": "api/Dashboard/{businessId}",

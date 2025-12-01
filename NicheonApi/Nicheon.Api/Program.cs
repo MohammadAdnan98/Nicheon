@@ -78,6 +78,8 @@ builder.Services.AddScoped<IDashboardService, DashboardRepository>();
 builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<ISellerOrdersRepository, SellerOrdersRepository>();
 builder.Services.AddTransient<IBusinessProfileRepository, BusinessProfileRepository>();
+builder.Services.AddScoped<IBuyerHomeRepository, BuyerHomeRepository>();
+
 
 
 
