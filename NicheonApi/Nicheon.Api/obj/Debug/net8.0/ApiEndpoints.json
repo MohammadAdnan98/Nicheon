@@ -81,8 +81,82 @@
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.Buyer.BuyerHomeController",
+    "Method": "Banners",
+    "RelativePath": "api/BuyerHome/banners",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.Buyer.BuyerHomeController",
+    "Method": "Home",
+    "RelativePath": "api/BuyerHome/home",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.Buyer.BuyerHomeController",
+    "Method": "LogView",
+    "RelativePath": "api/BuyerHome/log-view/{productId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.Buyer.BuyerHomeController",
+    "Method": "Recommendations",
+    "RelativePath": "api/BuyerHome/recommendations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.Buyer.BuyerHomeController",
+    "Method": "RecordSearch",
+    "RelativePath": "api/BuyerHome/record-search",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchTerm",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.Buyer.BuyerHomeController",
     "Method": "Search",
-    "RelativePath": "api/BuyerHome",
+    "RelativePath": "api/BuyerHome/search",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -134,6 +208,69 @@
       },
       {
         "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.Buyer.BuyerHomeController",
+    "Method": "TopCategories",
+    "RelativePath": "api/BuyerHome/top-categories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "days",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.Buyer.BuyerHomeController",
+    "Method": "TopSearches",
+    "RelativePath": "api/BuyerHome/top-searches",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "days",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Nicheon.Api.Controllers.Buyer.BuyerHomeController",
+    "Method": "Trending",
+    "RelativePath": "api/BuyerHome/trending",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "days",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
         "Type": "System.Int32",
         "IsRequired": false
       }

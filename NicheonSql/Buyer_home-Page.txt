@@ -1,0 +1,585 @@
+Create PROCEDURE dbo.sp_BuyerHome_GetProducts
+    @Search NVARCHAR(400) = NULL,
+    @MetalIds NVARCHAR(400) = NULL,
+    @CategoryIds NVARCHAR(400) = NULL,
+    @Karat NVARCHAR(50) = NULL,
+    @MinPrice DECIMAL(18,2) = NULL,
+    @MaxPrice DECIMAL(18,2) = NULL,
+    @SortBy NVARCHAR(50) = 'relevance',
+    @Page INT = 1,
+    @PageSize INT = 20
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Offset INT = (@Page - 1) * @PageSize;
+
+    /* Convert CSV → Table values */
+    DECLARE @MetalTable TABLE (Id INT);
+    DECLARE @CategoryTable TABLE (Id INT);
+
+    IF ISNULL(@MetalIds,'') <> ''
+    BEGIN
+        INSERT INTO @MetalTable
+        SELECT TRY_CAST(value AS INT)
+        FROM STRING_SPLIT(@MetalIds, ',')
+        WHERE TRY_CAST(value AS INT) IS NOT NULL;
+    END
+
+    IF ISNULL(@CategoryIds,'') <> ''
+    BEGIN
+        INSERT INTO @CategoryTable
+        SELECT TRY_CAST(value AS INT)
+        FROM STRING_SPLIT(@CategoryIds, ',')
+        WHERE TRY_CAST(value AS INT) IS NOT NULL;
+    END
+
+    /* Filtered CTE */
+    ;WITH Filtered AS
+    (
+        SELECT 
+            P.ProductId,
+            P.ProductName,
+            P.ShortDescription,
+            P.PricePerGram,
+            P.MakingCharges,
+            P.WeightGrams,
+            P.Karat,
+            P.IsHallmarked,
+            P.BusinessId,
+            B.BusinessName,
+
+            (SELECT TOP 1 ImageUrl 
+             FROM ProductImages PI 
+             WHERE PI.ProductId = P.ProductId AND PI.IsActive = 1 
+             ORDER BY PI.IsPrimary DESC, PI.SortOrder ASC) AS ImageUrl,
+
+            CASE 
+                WHEN @Search IS NOT NULL AND @Search <> '' 
+                     AND (P.ProductName LIKE '%'+@Search+'%' 
+                       OR P.ShortDescription LIKE '%'+@Search+'%' 
+                       OR P.Description LIKE '%'+@Search+'%')
+                THEN 1 ELSE 0 END AS IsMatchedName,
+
+            COUNT(*) OVER() AS TotalCount
+        FROM dbo.Products P
+        INNER JOIN dbo.BusinessProfiles B ON P.BusinessId = B.BusinessId
+        WHERE P.IsActive = 1
+          AND (NOT EXISTS (SELECT 1 FROM @MetalTable) OR P.MetalId IN (SELECT Id FROM @MetalTable))
+          AND (NOT EXISTS (SELECT 1 FROM @CategoryTable) OR P.CategoryId IN (SELECT Id FROM @CategoryTable))
+          AND (@Karat IS NULL OR P.Karat = @Karat)
+          AND (@MinPrice IS NULL OR P.PricePerGram >= @MinPrice)
+          AND (@MaxPrice IS NULL OR P.PricePerGram <= @MaxPrice)
+          AND (@Search IS NULL OR P.ProductName LIKE '%'+@Search+'%' 
+              OR P.ShortDescription LIKE '%'+@Search+'%' 
+              OR P.Description LIKE '%'+@Search+'%')
+    )
+    SELECT *
+    FROM Filtered
+    ORDER BY
+        CASE WHEN @SortBy='relevance' THEN IsMatchedName END DESC,
+        CASE WHEN @SortBy='price_asc' THEN PricePerGram END ASC,
+        CASE WHEN @SortBy='price_desc' THEN PricePerGram END DESC,
+        CASE WHEN @SortBy='newest' THEN ProductId END DESC,
+        CASE WHEN @SortBy='stock_desc' THEN ProductId END DESC,
+        ProductId DESC
+    OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+END
+GO
+
+Create PROCEDURE dbo.sp_BuyerHome_GetHomeMetadata
+    @UserId INT = NULL
+AS
+/*
+Exec sp_BuyerHome_GetHomeMetadata
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    ----------------------------
+    -- 1) Metals
+    ----------------------------
+    SELECT 
+        MetalId, 
+        MetalName
+    FROM dbo.MetalTypes
+    WHERE IsActive = 1
+    ORDER BY MetalName;
+
+    ----------------------------
+    -- 2) Categories
+    ----------------------------
+    SELECT 
+        CategoryId,
+        CategoryName
+    FROM dbo.Categories
+    WHERE IsActive = 1 
+      AND ParentCategoryId IS NULL
+    ORDER BY CategoryName;
+
+    ----------------------------
+    -- 3) Top Sellers (Top 8)
+    ----------------------------
+    SELECT TOP 8
+        B.BusinessId,
+        B.BusinessName,
+        COUNT(P.ProductId) AS ProductCount
+    FROM dbo.BusinessProfiles B
+    LEFT JOIN dbo.Products P 
+           ON P.BusinessId = B.BusinessId 
+          AND P.IsActive = 1
+    WHERE B.IsActive = 1
+    GROUP BY B.BusinessId, B.BusinessName
+    ORDER BY ProductCount DESC;
+
+    ----------------------------
+    -- 4) Featured Products (Top 8 newest)
+    ----------------------------
+    SELECT TOP 8
+        P.ProductId,
+        P.ProductName,
+        P.PricePerGram,
+        (SELECT TOP 1 ImageUrl 
+         FROM ProductImages PI 
+         WHERE PI.ProductId = P.ProductId 
+           AND PI.IsActive = 1
+         ORDER BY PI.IsPrimary DESC, PI.SortOrder ASC
+        ) AS ThumbnailUrl,
+        B.BusinessName
+    FROM dbo.Products P
+    INNER JOIN dbo.BusinessProfiles B 
+        ON P.BusinessId = B.BusinessId
+    WHERE P.IsActive = 1
+    ORDER BY P.CreatedAt DESC;
+
+    ----------------------------
+    -- 5) Recently Viewed Products (Top 10)
+    ----------------------------
+    IF @UserId IS NOT NULL
+    BEGIN
+        SELECT TOP 10
+            P.ProductId,
+            P.ProductName,
+            P.ShortDescription,
+            P.PricePerGram,
+            (SELECT TOP 1 ImageUrl 
+             FROM ProductImages PI 
+             WHERE PI.ProductId = P.ProductId 
+               AND PI.IsActive = 1
+             ORDER BY PI.IsPrimary DESC, PI.SortOrder ASC
+            ) AS ThumbnailUrl,
+            B.BusinessName,
+            RV.ViewedAt
+        FROM dbo.UserRecentlyViewedProducts RV
+        INNER JOIN dbo.Products P ON RV.ProductId = P.ProductId
+        INNER JOIN dbo.BusinessProfiles B ON P.BusinessId = B.BusinessId
+        WHERE P.IsActive = 1 
+          AND RV.UserId = @UserId
+        ORDER BY RV.ViewedAt DESC;
+    END
+    ELSE
+    BEGIN
+        SELECT TOP 0 1 AS EmptyList WHERE 1 = 0;
+    END
+END
+GO
+CREATE TABLE dbo.UserRecentlyViewedProducts (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,
+    ProductId INT NOT NULL,
+    ViewedAt DATETIME NOT NULL DEFAULT GETDATE(),
+
+    CONSTRAINT FK_UserRecentlyViewedProducts_User
+        FOREIGN KEY (UserId) REFERENCES dbo.Users(UserId),
+
+    CONSTRAINT FK_UserRecentlyViewedProducts_Product
+        FOREIGN KEY (ProductId) REFERENCES dbo.Products(ProductId)
+);
+
+-- Optimized index
+CREATE NONCLUSTERED INDEX IX_UserRecentlyViewedProducts_User
+ON dbo.UserRecentlyViewedProducts (UserId, ViewedAt DESC);
+
+GO
+
+CREATE PROCEDURE dbo.sp_UserRecentlyViewed_Insert
+    @UserId INT,
+    @ProductId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- 1) Insert new view
+    INSERT INTO dbo.UserRecentlyViewedProducts (UserId, ProductId)
+    VALUES (@UserId, @ProductId);
+
+    -- 2) Auto cleanup: Keep only last 50 viewed items per user
+    ;WITH cte AS (
+        SELECT Id,
+               ROW_NUMBER() OVER (ORDER BY ViewedAt DESC) AS rn
+        FROM dbo.UserRecentlyViewedProducts
+        WHERE UserId = @UserId
+    )
+    DELETE FROM cte WHERE rn > 50;
+END
+GO
+-- 1.1 Product view log (used for trending & recommendations)
+CREATE TABLE dbo.ProductViewLogs (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NULL,
+    ProductId INT NOT NULL,
+    ViewedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+CREATE NONCLUSTERED INDEX IX_ProductViewLogs_Product_ViewedAt ON dbo.ProductViewLogs(ProductId, ViewedAt DESC);
+CREATE NONCLUSTERED INDEX IX_ProductViewLogs_User_ViewedAt ON dbo.ProductViewLogs(UserId, ViewedAt DESC);
+CREATE PROCEDURE dbo.sp_GetActiveBanners
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT BannerId, Title, ImageUrl, TargetUrl, SortOrder
+    FROM dbo.HomeBanners
+    WHERE IsActive = 1
+      AND (StartAt IS NULL OR StartAt <= GETDATE())
+      AND (EndAt IS NULL OR EndAt >= GETDATE())
+    ORDER BY SortOrder ASC, CreatedAt DESC;
+END
+-- 1.2 Search terms log (records user searches)
+CREATE TABLE dbo.SearchTermLogs (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NULL,
+    SearchTerm NVARCHAR(400) NOT NULL,
+    SearchedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+CREATE NONCLUSTERED INDEX IX_SearchTermLogs_SearchedAt ON dbo.SearchTermLogs(SearchedAt DESC);
+CREATE NONCLUSTERED INDEX IX_SearchTermLogs_SearchTerm ON dbo.SearchTermLogs(SearchTerm);
+
+-- 1.3 Banners table (admin-managed homepage banners)
+CREATE TABLE dbo.HomeBanners (
+    BannerId INT IDENTITY(1,1) PRIMARY KEY,
+    Title NVARCHAR(200) NULL,
+    ImageUrl NVARCHAR(1000) NOT NULL,
+    TargetUrl NVARCHAR(1000) NULL,
+    SortOrder INT NOT NULL DEFAULT 0,
+    IsActive BIT NOT NULL DEFAULT 1,
+    StartAt DATETIME NULL,
+    EndAt DATETIME NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+CREATE NONCLUSTERED INDEX IX_HomeBanners_IsActive_Sort ON dbo.HomeBanners(IsActive, SortOrder);
+
+-- 1.4 Optional: ProductRecommendationSeeds (cache signals by user or global) - lightweight
+CREATE TABLE dbo.ProductRecommendationSeeds (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NULL, -- null for global
+    ProductId INT NOT NULL,
+    Score FLOAT NOT NULL DEFAULT 1,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+CREATE NONCLUSTERED INDEX IX_RecommendationSeeds_User ON dbo.ProductRecommendationSeeds(UserId, CreatedAt DESC);
+GO
+-- 1.1 Product view log (used for trending & recommendations)
+CREATE TABLE dbo.ProductViewLogs (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NULL,
+    ProductId INT NOT NULL,
+    ViewedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+CREATE NONCLUSTERED INDEX IX_ProductViewLogs_Product_ViewedAt ON dbo.ProductViewLogs(ProductId, ViewedAt DESC);
+CREATE NONCLUSTERED INDEX IX_ProductViewLogs_User_ViewedAt ON dbo.ProductViewLogs(UserId, ViewedAt DESC);
+
+-- 1.2 Search terms log (records user searches)
+CREATE TABLE dbo.SearchTermLogs (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NULL,
+    SearchTerm NVARCHAR(400) NOT NULL,
+    SearchedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+CREATE NONCLUSTERED INDEX IX_SearchTermLogs_SearchedAt ON dbo.SearchTermLogs(SearchedAt DESC);
+CREATE NONCLUSTERED INDEX IX_SearchTermLogs_SearchTerm ON dbo.SearchTermLogs(SearchTerm);
+
+-- 1.3 Banners table (admin-managed homepage banners)
+CREATE TABLE dbo.HomeBanners (
+    BannerId INT IDENTITY(1,1) PRIMARY KEY,
+    Title NVARCHAR(200) NULL,
+    ImageUrl NVARCHAR(1000) NOT NULL,
+    TargetUrl NVARCHAR(1000) NULL,
+    SortOrder INT NOT NULL DEFAULT 0,
+    IsActive BIT NOT NULL DEFAULT 1,
+    StartAt DATETIME NULL,
+    EndAt DATETIME NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+CREATE NONCLUSTERED INDEX IX_HomeBanners_IsActive_Sort ON dbo.HomeBanners(IsActive, SortOrder);
+
+-- 1.4 Optional: ProductRecommendationSeeds (cache signals by user or global) - lightweight
+CREATE TABLE dbo.ProductRecommendationSeeds (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NULL, -- null for global
+    ProductId INT NOT NULL,
+    Score FLOAT NOT NULL DEFAULT 1,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+CREATE NONCLUSTERED INDEX IX_RecommendationSeeds_User ON dbo.ProductRecommendationSeeds(UserId, CreatedAt DESC);
+
+
+GO
+--call when product page opened
+CREATE PROCEDURE dbo.sp_LogProductView
+    @UserId INT = NULL,
+    @ProductId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO dbo.ProductViewLogs (UserId, ProductId) VALUES (@UserId, @ProductId);
+
+    -- optional: also insert to UserRecentlyViewedProducts (existing proc)
+    BEGIN TRY
+        EXEC dbo.sp_UserRecentlyViewed_Insert @UserId = @UserId, @ProductId = @ProductId;
+    END TRY
+    BEGIN CATCH
+        -- ignore if UserId is null or other error
+    END CATCH
+END
+
+GO
+--uses view logs; optionally uses Orders if you have OrderItems table
+CREATE PROCEDURE dbo.sp_GetTrendingProducts
+    @Days INT = 14,
+    @Limit INT = 12
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Since DATETIME = DATEADD(DAY, -@Days, GETDATE());
+
+    -- Trending by number of views in last @Days
+    SELECT TOP (@Limit)
+        P.ProductId,
+        P.ProductName,
+        P.PricePerGram,
+        (SELECT TOP 1 ImageUrl FROM ProductImages PI WHERE PI.ProductId = P.ProductId AND PI.IsActive = 1 ORDER BY PI.IsPrimary DESC, PI.SortOrder) AS ThumbnailUrl,
+        COUNT(V.Id) AS ViewCount
+    FROM dbo.Products P
+    INNER JOIN dbo.ProductViewLogs V ON V.ProductId = P.ProductId AND V.ViewedAt >= @Since
+    WHERE P.IsActive = 1
+    GROUP BY P.ProductId, P.ProductName, P.PricePerGram
+    ORDER BY ViewCount DESC, MAX(V.ViewedAt) DESC;
+END
+
+GO
+
+CREATE PROCEDURE dbo.sp_GetRecommendations
+    @UserId INT = NULL,
+    @Limit INT = 12
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    ------------------------------------------------------------------------------------
+    -- 1) IF USER EXISTS → RECOMMEND BASED ON USER’S CATEGORY & METAL VIEW HISTORY
+    ------------------------------------------------------------------------------------
+    IF @UserId IS NOT NULL
+    BEGIN
+        -- Top interest categories & metals for user
+        ;WITH UserTop AS (
+            SELECT TOP 3 
+                P.CategoryId, 
+                P.MetalId,
+                COUNT(*) AS Cnt
+            FROM dbo.ProductViewLogs V
+            INNER JOIN dbo.Products P ON P.ProductId = V.ProductId
+            WHERE V.UserId = @UserId
+            GROUP BY P.CategoryId, P.MetalId
+            ORDER BY Cnt DESC
+        ),
+        Ranked AS (
+            SELECT 
+                P.ProductId,
+                P.ProductName,
+                P.PricePerGram,
+                (SELECT TOP 1 ImageUrl 
+                 FROM ProductImages PI 
+                 WHERE PI.ProductId = P.ProductId 
+                   AND PI.IsActive = 1 
+                 ORDER BY PI.IsPrimary DESC, PI.SortOrder ASC) AS ThumbnailUrl,
+                ROW_NUMBER() OVER (ORDER BY P.CreatedAt DESC) AS rn
+            FROM dbo.Products P
+            WHERE P.IsActive = 1
+              AND (
+                    P.CategoryId IN (SELECT CategoryId FROM UserTop WHERE CategoryId IS NOT NULL)
+                 OR P.MetalId IN (SELECT MetalId FROM UserTop WHERE MetalId IS NOT NULL)
+              )
+        )
+        SELECT TOP (@Limit)
+            ProductId, ProductName, PricePerGram, ThumbnailUrl
+        FROM Ranked
+        WHERE rn <= @Limit;
+
+        -- COUNT results
+        DECLARE @UserCount INT = (SELECT COUNT(*) FROM Ranked);
+
+        -- FALLBACK: If fewer than @Limit → return popular globally
+        IF @UserCount < @Limit
+        BEGIN
+            DECLARE @Need INT = @Limit - @UserCount;
+
+            SELECT TOP (@Need)
+                P.ProductId, 
+                P.ProductName, 
+                P.PricePerGram,
+                (SELECT TOP 1 ImageUrl 
+                 FROM ProductImages PI 
+                 WHERE PI.ProductId = P.ProductId 
+                   AND PI.IsActive = 1 
+                 ORDER BY PI.IsPrimary DESC, PI.SortOrder ASC) AS ThumbnailUrl
+            FROM dbo.Products P
+            INNER JOIN dbo.ProductViewLogs V ON V.ProductId = P.ProductId
+            WHERE P.IsActive = 1
+            GROUP BY P.ProductId, P.ProductName, P.PricePerGram
+            ORDER BY COUNT(*) DESC;
+        END
+
+        RETURN;
+    END
+
+
+    ------------------------------------------------------------------------------------
+    -- 2) NO USER → RETURN GLOBAL POPULAR PRODUCTS
+    ------------------------------------------------------------------------------------
+    SELECT TOP (@Limit)
+        P.ProductId, 
+        P.ProductName, 
+        P.PricePerGram,
+        (SELECT TOP 1 ImageUrl 
+         FROM ProductImages PI 
+         WHERE PI.ProductId = P.ProductId 
+           AND PI.IsActive = 1 
+         ORDER BY PI.IsPrimary DESC, PI.SortOrder ASC) AS ThumbnailUrl
+    FROM dbo.Products P
+    INNER JOIN dbo.ProductViewLogs V ON V.ProductId = P.ProductId
+    WHERE P.IsActive = 1
+    GROUP BY P.ProductId, P.ProductName, P.PricePerGram
+    ORDER BY COUNT(*) DESC;
+END
+GO
+
+
+GO
+--Recommendation engine (simple rule-based)
+
+--This is a rule-based hybrid approach (fast, no ML required for Phase-1). It mixes:
+
+--Items similar by category/metal the user viewed recently
+
+--Popular items overall (fallback)
+--Return limited list.
+
+CREATE PROCEDURE dbo.sp_GetTopCategories
+    @UserId INT = NULL,
+    @Limit INT = 8,
+    @Days INT = 30
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @Since DATETIME = DATEADD(DAY, -@Days, GETDATE());
+
+    -- If userId provided: mix categories user viewed + global top
+    IF @UserId IS NOT NULL
+    BEGIN
+        SELECT TOP (@Limit) C.CategoryId, C.CategoryName, COUNT(V.Id) AS ViewCount
+        FROM dbo.ProductViewLogs V
+        INNER JOIN dbo.Products P ON P.ProductId = V.ProductId
+        INNER JOIN dbo.Categories C ON C.CategoryId = P.CategoryId
+        WHERE V.UserId = @UserId AND V.ViewedAt >= @Since
+        GROUP BY C.CategoryId, C.CategoryName
+        ORDER BY ViewCount DESC;
+    END
+    ELSE
+    BEGIN
+        SELECT TOP (@Limit) C.CategoryId, C.CategoryName, COUNT(V.Id) AS ViewCount
+        FROM dbo.ProductViewLogs V
+        INNER JOIN dbo.Products P ON P.ProductId = V.ProductId
+        INNER JOIN dbo.Categories C ON C.CategoryId = P.CategoryId
+        WHERE V.ViewedAt >= @Since
+        GROUP BY C.CategoryId, C.CategoryName
+        ORDER BY ViewCount DESC;
+    END
+END
+
+
+GO
+
+--Top categories (global; and user-preference variant)
+
+CREATE PROCEDURE dbo.sp_GetTopCategories
+    @UserId INT = NULL,
+    @Limit INT = 8,
+    @Days INT = 30
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @Since DATETIME = DATEADD(DAY, -@Days, GETDATE());
+
+    -- If userId provided: mix categories user viewed + global top
+    IF @UserId IS NOT NULL
+    BEGIN
+        SELECT TOP (@Limit) C.CategoryId, C.CategoryName, COUNT(V.Id) AS ViewCount
+        FROM dbo.ProductViewLogs V
+        INNER JOIN dbo.Products P ON P.ProductId = V.ProductId
+        INNER JOIN dbo.Categories C ON C.CategoryId = P.CategoryId
+        WHERE V.UserId = @UserId AND V.ViewedAt >= @Since
+        GROUP BY C.CategoryId, C.CategoryName
+        ORDER BY ViewCount DESC;
+    END
+    ELSE
+    BEGIN
+        SELECT TOP (@Limit) C.CategoryId, C.CategoryName, COUNT(V.Id) AS ViewCount
+        FROM dbo.ProductViewLogs V
+        INNER JOIN dbo.Products P ON P.ProductId = V.ProductId
+        INNER JOIN dbo.Categories C ON C.CategoryId = P.CategoryId
+        WHERE V.ViewedAt >= @Since
+        GROUP BY C.CategoryId, C.CategoryName
+        ORDER BY ViewCount DESC;
+    END
+END
+
+GO
+
+--Record search term (call from search endpoint)
+
+CREATE PROCEDURE dbo.sp_RecordSearchTerm
+    @UserId INT = NULL,
+    @SearchTerm NVARCHAR(400)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    IF ISNULL(@SearchTerm,'') = '' RETURN;
+    INSERT INTO dbo.SearchTermLogs (UserId, SearchTerm) VALUES (@UserId, @SearchTerm);
+END
+
+GO
+
+CREATE PROCEDURE dbo.sp_GetTopSearches
+    @Days INT = 30,
+    @Limit INT = 10
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @Since DATETIME = DATEADD(DAY, -@Days, GETDATE());
+
+    SELECT TOP (@Limit) SearchTerm, COUNT(*) AS Hits
+    FROM dbo.SearchTermLogs
+    WHERE SearchedAt >= @Since
+    GROUP BY SearchTerm
+    ORDER BY Hits DESC;
+END
+
+GO
+
+
+GO
+
+
+
+

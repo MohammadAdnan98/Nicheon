@@ -23,6 +23,19 @@ namespace Nicheon.Application.Interfaces
                 int page,
                 int pageSize
             );
-       
+
+
+        Task<HomeMetadataDto> GetHomeMetadataAsync(int userId);
+
+        Task<IEnumerable<TrendingDto>> GetTrendingProductsAsync(int days = 14, int limit = 12);
+        Task<IEnumerable<RecommendationDto>> GetRecommendationsAsync(int? userId, int limit = 12);
+        Task<IEnumerable<TopCategoryDto>> GetTopCategoriesAsync(int? userId, int limit = 8, int days = 30);
+        Task RecordSearchTermAsync(int? userId, string searchTerm);
+        Task<IEnumerable<TopSearchDto>> GetTopSearchesAsync(int days = 30, int limit = 10);
+        Task<IEnumerable<BannerDto>> GetActiveBannersAsync();
+        Task LogProductViewAsync(int? userId, int productId);
+
+
+
     }
 }
