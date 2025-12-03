@@ -1,0 +1,73 @@
+CREATE TABLE UserRoleMaster
+(
+    RoleId INT IDENTITY(1,1) PRIMARY KEY,
+    RoleName NVARCHAR(30) NOT NULL,
+    UserRoleId INT NULL,       -- optional (you can remove if not needed)
+    IsActive BIT NOT NULL DEFAULT 1
+);
+
+
+INSERT INTO UserRoleMaster (RoleName, UserRoleId, IsActive)
+VALUES
+('Seller', 1, 1),
+('Buyer', 2, 1),
+('Admin', 3, 1);
+
+GO
+
+CREATE TABLE RoleTypeMaster
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    RoleTypeName NVARCHAR(30) NOT NULL,
+    RoleTypeId INT NULL,       -- optional (you can remove if not needed)
+    IsActive BIT NOT NULL DEFAULT 1
+);
+
+
+INSERT INTO RoleTypeMaster (RoleTypeName, RoleTypeId, IsActive)
+VALUES
+('Manufacturer', 1, 1),
+('Wholesaler', 2, 1),
+('Retailer', 3, 1),
+('Trader', 4, 1),
+('Exporter', 5, 1),
+('Importer', 6, 1);
+
+GO
+
+ALTER TABLE dbo.Users
+ADD RoleId int; 
+
+GO
+
+ALTER TABLE dbo.BusinessProfiles
+ADD RoleTypeId int; 
+
+GO
+
+select * from UserRoleMaster
+
+select * from RoleTypeMaster
+
+
+
+
+select * from BusinessProfiles
+
+select * from Users
+
+GO
+
+update Users
+set
+--RoleId =2
+where Role in ('Wholesaler')
+
+GO
+
+update BusinessProfiles
+set
+RoleTypeId =3
+where BusinessType in ('Retailer')
+
+
