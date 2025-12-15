@@ -62,13 +62,9 @@ namespace Nicheon.Api.Controllers.Buyer
         }
 
         [HttpPost("log-view/{productId}")]
-        public async Task<IActionResult> LogView(int productId)
+        public async Task<IActionResult> LogView(int productId, int userId)
         {
-            int? userId = null;
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                userId = int.Parse(User.FindFirst("UserId")!.Value);
-            }
+            
             await _repo.LogProductViewAsync(userId, productId);
             return Ok(new { success = true });
         }
@@ -81,33 +77,23 @@ namespace Nicheon.Api.Controllers.Buyer
         }
 
         [HttpGet("recommendations")]
-        public async Task<IActionResult> Recommendations([FromQuery] int limit = 12)
+        public async Task<IActionResult> Recommendations([FromQuery] int userId, [FromQuery] int limit = 12)
         {
-            int? userId = null;
-            if (User.Identity?.IsAuthenticated == true)
-                userId = int.Parse(User.FindFirst("UserId")!.Value);
-
             var data = await _repo.GetRecommendationsAsync(userId, limit);
             return Ok(new { success = true, data });
         }
 
         [HttpGet("top-categories")]
-        public async Task<IActionResult> TopCategories([FromQuery] int limit = 8, [FromQuery] int days = 30)
+        public async Task<IActionResult> TopCategories([FromQuery] int userId, [FromQuery] int limit = 8, [FromQuery] int days = 30)
         {
-            int? userId = null;
-            if (User.Identity?.IsAuthenticated == true)
-                userId = int.Parse(User.FindFirst("UserId")!.Value);
-
             var data = await _repo.GetTopCategoriesAsync(userId, limit, days);
             return Ok(new { success = true, data });
         }
 
         [HttpPost("record-search")]
-        public async Task<IActionResult> RecordSearch([FromBody] string searchTerm)
+        public async Task<IActionResult> RecordSearch([FromBody] string searchTerm, int userId)
         {
-            int? userId = null;
-            if (User.Identity?.IsAuthenticated == true)
-                userId = int.Parse(User.FindFirst("UserId")!.Value);
+           
 
             await _repo.RecordSearchTermAsync(userId, searchTerm);
             return Ok(new { success = true });

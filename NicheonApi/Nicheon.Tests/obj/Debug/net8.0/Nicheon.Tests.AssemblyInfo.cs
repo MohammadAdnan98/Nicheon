@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Nicheon.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3aaf76dd2dbff67bb328df171f1c1864b588fce8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e736e3a125e59a6905cc776658bd8a1f6737ac32")]
 [assembly: System.Reflection.AssemblyProductAttribute("Nicheon.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Nicheon.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
