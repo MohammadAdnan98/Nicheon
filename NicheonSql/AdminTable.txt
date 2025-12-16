@@ -1,0 +1,107 @@
+CREATE TABLE ProductModerationLogs (
+    ModerationId INT IDENTITY(1,1) PRIMARY KEY,
+    ProductId INT NOT NULL,
+    AdminUserId INT NOT NULL,
+    Action NVARCHAR(50) NOT NULL,      -- Approved | Rejected | Deactivated
+    Reason NVARCHAR(1000) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_PML_Product FOREIGN KEY (ProductId) REFERENCES Products(ProductId),
+    CONSTRAINT FK_PML_Admin FOREIGN KEY (AdminUserId) REFERENCES Users(UserId)
+);
+
+GO
+
+
+CREATE PROCEDURE sp_Admin_GetProducts
+    @Status NVARCHAR(20) = NULL   -- Pending | Approved | Rejected
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        p.ProductId,
+        p.ProductCode,
+        p.ProductName,
+        p.PricePerGram,
+        p.MakingCharges,
+        p.Stock,
+        p.IsActive,
+        p.CreatedAt,
+
+        b.BusinessId,
+        b.BusinessName,
+
+        c.CategoryName
+    FROM Products p
+    INNER JOIN BusinessProfiles b ON p.BusinessId = b.BusinessId
+    LEFT JOIN Categories c ON p.CategoryId = c.CategoryId
+    WHERE
+        @Status IS NULL
+        OR (@Status = 'Pending' AND p.IsActive = 0)
+        OR (@Status = 'Approved' AND p.IsActive = 1)
+    ORDER BY p.CreatedAt DESC;
+END
+
+GO
+
+CREATE PROCEDURE sp_Admin_ApproveProduct
+    @ProductId INT,
+    @AdminUserId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Products
+    SET IsActive = 1
+    WHERE ProductId = @ProductId;
+
+    INSERT INTO ProductModerationLogs
+    (ProductId, AdminUserId, Action)
+    VALUES
+    (@ProductId, @AdminUserId, 'Approved');
+END
+
+GO
+
+CREATE PROCEDURE sp_Admin_ToggleProductStatus
+    @ProductId INT,
+    @IsActive BIT,
+    @AdminUserId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Products
+    SET IsActive = @IsActive
+    WHERE ProductId = @ProductId;
+
+    INSERT INTO ProductModerationLogs
+    (ProductId, AdminUserId, Action)
+    VALUES
+    (
+        @ProductId,
+        @AdminUserId,
+        CASE WHEN @IsActive = 1 THEN 'Activated' ELSE 'Deactivated' END
+    );
+END
+
+GO
+
+CREATE PROCEDURE sp_Admin_RejectProduct
+    @ProductId INT,
+    @AdminUserId INT,
+    @Reason NVARCHAR(1000)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Products
+    SET IsActive = 0
+    WHERE ProductId = @ProductId;
+
+    INSERT INTO ProductModerationLogs
+    (ProductId, AdminUserId, Action, Reason)
+    VALUES
+    (@ProductId, @AdminUserId, 'Rejected', @Reason);
+END
+GO

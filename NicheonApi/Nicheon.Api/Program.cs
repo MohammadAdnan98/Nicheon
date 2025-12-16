@@ -79,6 +79,13 @@ builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<ISellerOrdersRepository, SellerOrdersRepository>();
 builder.Services.AddTransient<IBusinessProfileRepository, BusinessProfileRepository>();
 builder.Services.AddScoped<IBuyerHomeRepository, BuyerHomeRepository>();
+builder.Services.AddScoped<IAdminDashboardRepository, AdminDashboardRepository>();
+builder.Services.AddScoped<IAdminSellerRepository, AdminSellerRepository>();
+builder.Services.AddScoped<IAdminProductRepository, AdminProductRepository>();
+builder.Services.AddScoped<IAdminOrderRepository, AdminOrderRepository>();
+builder.Services.AddScoped<IAdminBuyerRepository, AdminBuyerRepository>();
+
+
 
 
 
