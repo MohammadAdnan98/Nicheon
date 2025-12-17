@@ -1,0 +1,134 @@
+ALTER PROCEDURE sp_Admin_GetBuyers
+    @AccountStatus int = NULL,
+	@ProfileStatus int = NULL 
+AS
+
+/*
+SELECT * from Users
+exec sp_Admin_GetBuyers 2,1
+*/
+BEGIN
+    SET NOCOUNT ON;
+    SELECT
+        u.UserId,
+        u.FullName,
+        u.PrimaryEmail,
+        u.PrimaryPhone,
+        u.IsActive,
+        u.CreatedAt
+    FROM Users u
+    WHERE u.RoleId = 2
+    AND u.IsActive= 1
+	AND u.IsVerified =1
+	AND u.ProfileStatusId = @ProfileStatus
+	AND  u.AccountStatusId = @AccountStatus
+    ORDER BY u.CreatedAt DESC;
+END
+
+
+
+GO
+
+ALTER PROCEDURE sp_Admin_ToggleBuyerStatus
+    @UserId INT,
+    @AccountStatusId INT,
+    @AdminUserId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @StatusName NVARCHAR(50);
+
+    -- Get status name
+    SELECT @StatusName = StatusName
+    FROM AccountStatusMaster
+    WHERE AccountStatusId = @AccountStatusId;
+
+    -- Update buyer status
+    UPDATE Users
+    SET
+        AccountStatusId = @AccountStatusId,
+        IsActive = CASE 
+                        WHEN @StatusName = 'Active' THEN 1 
+                        ELSE 0 
+                   END
+    WHERE UserId = @UserId
+      AND RoleId = 2; -- Buyer
+
+    -- Audit log
+    INSERT INTO AdminAuditLogs
+    (
+        AdminUserId,
+        Action,
+        Entity,
+        EntityId,
+        NewData
+    )
+    VALUES
+    (
+        @AdminUserId,
+        CONCAT('Buyer Status Changed To ', @StatusName),
+        'User',
+        @UserId,
+        CONCAT('AccountStatus = ', @StatusName)
+    );
+END;
+GO
+
+
+GO
+
+CREATE TABLE AccountStatusMaster
+(
+    AccountStatusId INT IDENTITY(1,1) PRIMARY KEY,
+    StatusName NVARCHAR(50) NOT NULL,   -- Active, Suspended, Blocked, Deleted
+    IsActive BIT NOT NULL DEFAULT 1
+);
+GO
+
+INSERT INTO AccountStatusMaster (StatusName)
+VALUES
+('Active'),
+('Suspended'),
+('Blocked'),
+('Deleted');
+GO
+
+ALTER TABLE Users
+ADD AccountStatusId INT NOT NULL DEFAULT 1;
+GO
+
+ALTER TABLE Users
+ADD CONSTRAINT FK_Users_AccountStatus
+FOREIGN KEY (AccountStatusId)
+REFERENCES AccountStatusMaster(AccountStatusId);
+GO
+
+CREATE TABLE ProfileStatusMaster
+(
+    ProfileStatusId INT IDENTITY(1,1) PRIMARY KEY,
+    StatusName NVARCHAR(50) NOT NULL,  -- Pending, Approved, Rejected
+    IsActive BIT NOT NULL DEFAULT 1
+);
+GO
+
+INSERT INTO ProfileStatusMaster (StatusName)
+VALUES
+('Pending'),
+('Approved'),
+('Rejected');
+GO
+
+ALTER TABLE Users
+ADD ProfileStatusId INT NOT NULL DEFAULT 1;
+GO
+
+ALTER TABLE Users
+ADD CONSTRAINT FK_Users_ProfileStatus
+FOREIGN KEY (ProfileStatusId)
+REFERENCES ProfileStatusMaster(ProfileStatusId);
+GO
+
+
+select * from UserRoleMaster
+

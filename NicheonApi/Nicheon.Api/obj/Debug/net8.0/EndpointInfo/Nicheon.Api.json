@@ -13,10 +13,19 @@
         ],
         "parameters": [
           {
-            "name": "status",
+            "name": "accountStatus",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "profileStatus",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -43,10 +52,11 @@
             }
           },
           {
-            "name": "isActive",
+            "name": "accountStatusId",
             "in": "query",
             "schema": {
-              "type": "boolean"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],

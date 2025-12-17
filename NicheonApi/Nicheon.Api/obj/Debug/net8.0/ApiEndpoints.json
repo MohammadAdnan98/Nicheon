@@ -8,8 +8,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "status",
-        "Type": "System.String",
+        "Name": "accountStatus",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "profileStatus",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
     ],
@@ -29,8 +34,8 @@
         "IsRequired": true
       },
       {
-        "Name": "isActive",
-        "Type": "System.Boolean",
+        "Name": "accountStatusId",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
