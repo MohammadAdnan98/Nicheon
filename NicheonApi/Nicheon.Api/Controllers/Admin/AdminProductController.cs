@@ -25,26 +25,23 @@ namespace Nicheon.Api.Controllers.Admin
             }
 
             [HttpPost("{productId}/approve")]
-            public async Task<IActionResult> Approve(int productId)
+            public async Task<IActionResult> Approve(int productId, int adminId)
             {
-                int adminId = int.Parse(User.FindFirst("sub")!.Value);
                 await _repo.ApproveProductAsync(productId, adminId);
                 return Ok(new { success = true, message = "Product approved." });
             }
 
             [HttpPost("{productId}/reject")]
-            public async Task<IActionResult> Reject(int productId, [FromBody] string reason)
+            public async Task<IActionResult> Reject(int productId, [FromBody] string reason, int adminId)
             {
-                int adminId = int.Parse(User.FindFirst("sub")!.Value);
                 await _repo.RejectProductAsync(productId, adminId, reason);
                 return Ok(new { success = true, message = "Product rejected." });
             }
 
             [HttpPost("{productId}/status")]
-            public async Task<IActionResult> ToggleStatus(int productId, [FromQuery] bool isActive)
+            public async Task<IActionResult> ToggleStatus(int productId, int statusId, int adminId)
             {
-                int adminId = int.Parse(User.FindFirst("sub")!.Value);
-                await _repo.ToggleProductStatusAsync(productId, isActive, adminId);
+                await _repo.ToggleProductStatusAsync(productId, statusId, adminId);
                 return Ok(new { success = true, message = "Product status updated." });
             }
         }

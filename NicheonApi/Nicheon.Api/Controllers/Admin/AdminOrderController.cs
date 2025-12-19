@@ -34,9 +34,9 @@ namespace Nicheon.Api.Controllers.Admin
             }
 
             [HttpPost("{orderId}/status")]
-            public async Task<IActionResult> UpdateStatus(int orderId, [FromQuery] string status)
+            public async Task<IActionResult> UpdateStatus(int orderId, int adminId, [FromQuery] string status)
             {
-                int adminId = int.Parse(User.FindFirst("sub")!.Value);
+                
                 await _repo.UpdateOrderStatusAsync(orderId, status, adminId);
                 return Ok(new { success = true, message = "Order status updated." });
             }
@@ -44,10 +44,11 @@ namespace Nicheon.Api.Controllers.Admin
             [HttpPost("{orderId}/shipment")]
             public async Task<IActionResult> UpdateShipment(
                 int orderId,
+                int adminId,
                 [FromQuery] string status,
                 [FromQuery] string? trackingNo)
             {
-                int adminId = int.Parse(User.FindFirst("sub")!.Value);
+     
                 await _repo.UpdateShipmentAsync(orderId, status, trackingNo, adminId);
                 return Ok(new { success = true, message = "Shipment updated." });
             }

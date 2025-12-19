@@ -43,13 +43,19 @@ namespace Nicheon.Persistence.Repositories
                 commandType: CommandType.StoredProcedure);
         }
 
-        public async Task ToggleProductStatusAsync(int productId, bool isActive, int adminUserId)
+        public async Task ToggleProductStatusAsync(int productId, int statusId, int adminUserId)
         {
             await _db.ExecuteAsync(
                 "sp_Admin_ToggleProductStatus",
-                new { ProductId = productId, IsActive = isActive, AdminUserId = adminUserId },
+                new
+                {
+                    ProductId = productId,
+                    StatusId = statusId,
+                    AdminUserId = adminUserId
+                },
                 commandType: CommandType.StoredProcedure);
         }
+
     }
 
 }

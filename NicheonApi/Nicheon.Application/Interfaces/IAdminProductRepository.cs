@@ -12,7 +12,7 @@ namespace Nicheon.Application.Interfaces
         Task<IEnumerable<AdminProductDto>> GetProductsAsync(string? status);
         Task ApproveProductAsync(int productId, int adminUserId);
         Task RejectProductAsync(int productId, int adminUserId, string reason);
-        Task ToggleProductStatusAsync(int productId, bool isActive, int adminUserId);
+        Task ToggleProductStatusAsync(int productId, int statusId, int adminUserId);
     }
 
 }

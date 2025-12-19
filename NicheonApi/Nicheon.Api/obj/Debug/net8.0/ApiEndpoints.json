@@ -107,6 +107,11 @@
         "IsRequired": true
       },
       {
+        "Name": "adminId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "status",
         "Type": "System.String",
         "IsRequired": false
@@ -131,6 +136,11 @@
         "Name": "orderId",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "adminId",
+        "Type": "System.Int32",
+        "IsRequired": false
       },
       {
         "Name": "status",
@@ -168,6 +178,11 @@
         "Name": "productId",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "adminId",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -189,6 +204,11 @@
         "Name": "reason",
         "Type": "System.String",
         "IsRequired": true
+      },
+      {
+        "Name": "adminId",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -207,8 +227,13 @@
         "IsRequired": true
       },
       {
-        "Name": "isActive",
-        "Type": "System.Boolean",
+        "Name": "statusId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "adminId",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],

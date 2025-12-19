@@ -132,3 +132,500 @@ GO
 
 select * from UserRoleMaster
 
+GO
+
+CREATE TABLE AdminRoleMaster (
+    AdminRoleId INT IDENTITY(1,1) PRIMARY KEY,
+    AdminRoleName NVARCHAR(50) NOT NULL,   -- SuperAdmin, Moderator, Finance, Support
+    IsActive BIT NOT NULL DEFAULT 1,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE())
+);
+
+GO
+
+INSERT INTO AdminRoleMaster (AdminRoleName)
+VALUES
+('SuperAdmin'),
+('Admin'),
+('ProductModerator'),
+('OrderManager'),
+('Finance'),
+('Support');
+
+GO
+
+CREATE TABLE AdminUserRoles (
+    AdminUserRoleId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,
+    AdminRoleId INT NOT NULL,
+    AssignedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    IsActive BIT NOT NULL DEFAULT 1,
+    CONSTRAINT FK_AdminUserRole_User FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    CONSTRAINT FK_AdminUserRole_Role FOREIGN KEY (AdminRoleId) REFERENCES AdminRoleMaster(AdminRoleId)
+);
+
+GO
+
+CREATE TABLE AdminPermissionMaster (
+    PermissionId INT IDENTITY(1,1) PRIMARY KEY,
+    PermissionKey NVARCHAR(100) NOT NULL UNIQUE,
+    Description NVARCHAR(300) NULL,
+    IsActive BIT DEFAULT 1
+);
+
+GO
+
+INSERT INTO AdminPermissionMaster (PermissionKey, Description)
+VALUES
+('VIEW_DASHBOARD','Access admin dashboard'),
+('MANAGE_SELLERS','Approve / suspend sellers'),
+('MANAGE_PRODUCTS','Approve / reject products'),
+('MANAGE_ORDERS','View & update orders'),
+('MANAGE_PAYMENTS','View payments & settlements'),
+('MANAGE_CATEGORIES','Manage category masters'),
+('VIEW_REPORTS','Access reports'),
+('MANAGE_ADMINS','Create / manage admin users');
+
+GO
+
+CREATE TABLE AdminRolePermissions (
+    RolePermissionId INT IDENTITY(1,1) PRIMARY KEY,
+    AdminRoleId INT NOT NULL,
+    PermissionId INT NOT NULL,
+    IsActive BIT DEFAULT 1,
+    CONSTRAINT FK_ARP_Role FOREIGN KEY (AdminRoleId) REFERENCES AdminRoleMaster(AdminRoleId),
+    CONSTRAINT FK_ARP_Permission FOREIGN KEY (PermissionId) REFERENCES AdminPermissionMaster(PermissionId)
+);
+
+GO
+
+-- SuperAdmin gets everything
+INSERT INTO AdminRolePermissions (AdminRoleId, PermissionId)
+SELECT 1, PermissionId FROM AdminPermissionMaster;
+
+GO
+
+CREATE TABLE AdminAuditLogs (
+    AuditId INT IDENTITY(1,1) PRIMARY KEY,
+    AdminUserId INT NOT NULL,
+    Action NVARCHAR(200) NOT NULL,
+    Entity NVARCHAR(100) NOT NULL,
+    EntityId INT NULL,
+    OldData NVARCHAR(MAX) NULL,
+    NewData NVARCHAR(MAX) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT FK_AdminAudit_User FOREIGN KEY (AdminUserId) REFERENCES Users(UserId)
+);
+
+GO
+
+CREATE TABLE AdminDashboardStats (
+    StatDate DATE PRIMARY KEY,
+    TotalSellers INT,
+    ActiveSellers INT,
+    TotalBuyers INT,
+    PendingProducts INT,
+    OrdersToday INT,
+    RevenueToday DECIMAL(18,2),
+    CreatedAt DATETIME2 DEFAULT GETDATE()
+);
+
+GO
+
+CREATE PROCEDURE sp_AdminDashboardStats
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        (SELECT COUNT(*) FROM Users WHERE Role = 'Seller') AS TotalSellers,
+        (SELECT COUNT(*) FROM Users WHERE Role = 'Seller' AND IsVerified = 0) AS PendingSellers,
+        (SELECT COUNT(*) FROM Users WHERE Role = 'Buyer') AS TotalBuyers,
+        (SELECT COUNT(*) FROM Products WHERE IsActive = 0) AS PendingProducts,
+        (SELECT COUNT(*) FROM OrdersInfo) AS TotalOrders,
+        (SELECT COUNT(*) FROM OrdersInfo WHERE CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE)) AS OrdersToday,
+        (SELECT ISNULL(SUM(TotalAmount),0)
+         FROM OrdersInfo
+         WHERE CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE)) AS RevenueToday;
+END
+GO
+CREATE PROCEDURE sp_Admin_GetSellers
+    @Status NVARCHAR(20) = NULL  -- 'Pending' | 'Approved' | 'Suspended'
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        u.UserId,
+        u.FullName,
+        u.PrimaryEmail,
+        u.PrimaryPhone,
+        u.IsVerified,
+        u.IsActive,
+        b.BusinessId,
+        b.BusinessName,
+        b.BusinessType,
+        b.GSTNumber,
+        b.City,
+        b.State,
+        b.CreatedAt
+    FROM Users u
+    INNER JOIN BusinessProfiles b ON u.UserId = b.UserId
+    WHERE u.Role = 'Seller'
+      AND (
+            @Status IS NULL
+         OR (@Status = 'Pending' AND u.IsVerified = 0)
+         OR (@Status = 'Approved' AND u.IsVerified = 1 AND u.IsActive = 1)
+         OR (@Status = 'Suspended' AND u.IsActive = 0)
+      )
+    ORDER BY b.CreatedAt DESC;
+END
+
+GO
+
+CREATE PROCEDURE sp_Admin_ApproveSeller
+    @UserId INT,
+    @AdminUserId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Users
+    SET IsVerified = 1
+    WHERE UserId = @UserId AND Role = 'Seller';
+
+    INSERT INTO AdminAuditLogs
+    (
+        AdminUserId,
+        Action,
+        Entity,
+        EntityId,
+        NewData
+    )
+    VALUES
+    (
+        @AdminUserId,
+        'Approve Seller',
+        'User',
+        @UserId,
+        'IsVerified = 1'
+    );
+END
+
+GO
+
+CREATE PROCEDURE sp_Admin_ToggleSellerStatus
+    @UserId INT,
+    @IsActive BIT,
+    @AdminUserId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Users
+    SET IsActive = @IsActive
+    WHERE UserId = @UserId AND Role = 'Seller';
+
+    INSERT INTO AdminAuditLogs
+    (
+        AdminUserId,
+        Action,
+        Entity,
+        EntityId,
+        NewData
+    )
+    VALUES
+    (
+        @AdminUserId,
+        CASE WHEN @IsActive = 1 THEN 'Activate Seller' ELSE 'Suspend Seller' END,
+        'User',
+        @UserId,
+        CONCAT('IsActive = ', @IsActive)
+    );
+END
+
+GO
+
+
+CREATE TABLE ProductModerationLogs (
+    ModerationId INT IDENTITY(1,1) PRIMARY KEY,
+    ProductId INT NOT NULL,
+    AdminUserId INT NOT NULL,
+    Action NVARCHAR(50) NOT NULL,      -- Approved | Rejected | Deactivated
+    Reason NVARCHAR(1000) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_PML_Product FOREIGN KEY (ProductId) REFERENCES Products(ProductId),
+    CONSTRAINT FK_PML_Admin FOREIGN KEY (AdminUserId) REFERENCES Users(UserId)
+);
+
+GO
+
+select * from Products
+
+ALTER PROCEDURE sp_Admin_GetProducts
+    @Status INT = NULL   -- NULL = All
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        p.ProductId,
+        p.ProductCode,
+        p.ProductName,
+        p.PricePerGram,
+        p.MakingCharges,
+        p.Stock,
+        p.IsActive,
+        p.ProductStatusId,
+        ps.ProductStatus,
+        p.CreatedAt,
+
+        b.BusinessId,
+        b.BusinessName,
+        c.CategoryName
+    FROM Products p
+    INNER JOIN BusinessProfiles b ON p.BusinessId = b.BusinessId
+    LEFT JOIN Categories c ON p.CategoryId = c.CategoryId
+    LEFT JOIN ProductStatusMaster ps ON p.ProductStatusId = ps.ProductStatusId
+    WHERE
+        (@Status IS NULL OR p.ProductStatusId = @Status)
+    ORDER BY p.CreatedAt DESC;
+END;
+GO
+
+
+GO
+
+Alter PROCEDURE sp_Admin_ApproveProduct
+    @ProductId INT,
+    @AdminUserId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Products
+    SET 
+	IsActive = 1 ,
+	ProductStatusId =3
+    WHERE ProductId = @ProductId;
+
+    INSERT INTO ProductModerationLogs
+    (ProductId, AdminUserId, Action)
+    VALUES
+    (@ProductId, @AdminUserId, 'Approved');
+END
+
+GO
+
+ALTER PROCEDURE sp_Admin_ToggleProductStatus
+    @ProductId INT,
+    @StatusId BIT,
+    @AdminUserId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+	DECLARE @Status NVARCHAR(50)
+
+	SELECT @Status = ProductStatus from ProductStatusMaster where ProductStatusId = @StatusId;
+
+    UPDATE Products
+    SET ProductStatusId =  @StatusId
+    WHERE ProductId = @ProductId;
+
+    INSERT INTO ProductModerationLogs
+    (ProductId, AdminUserId, Action)
+    VALUES
+    (
+        @ProductId,
+        @AdminUserId,
+        @Status
+    );
+END
+
+GO
+
+ALTER PROCEDURE sp_Admin_RejectProduct
+    @ProductId INT,
+    @AdminUserId INT,
+    @Reason NVARCHAR(1000)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Products
+    SET IsActive = 1,
+	ProductStatusId =4
+    WHERE ProductId = @ProductId;
+
+    INSERT INTO ProductModerationLogs
+    (ProductId, AdminUserId, Action, Reason)
+    VALUES
+    (@ProductId, @AdminUserId, 'Rejected', @Reason);
+END
+GO
+
+CREATE TABLE ProductStatusMaster
+(
+    ProductStatusId INT IDENTITY(1,1) PRIMARY KEY,
+    ProductStatus NVARCHAR(50) NOT NULL,
+    IsActive BIT NOT NULL DEFAULT 1
+);
+
+select * from ProductStatusMaster
+
+INSERT INTO ProductStatusMaster (ProductStatus, IsActive)
+VALUES
+('Draft', 1),
+('Pending Approval', 1),
+('Approved', 1),
+('Rejected', 1),
+('Out of Stock', 1),
+('Inactive', 1),
+('Archived', 1);
+
+
+ALTER TABLE Products
+ADD ProductStatusId INT NULL;
+
+ALTER TABLE Products
+ADD CONSTRAINT FK_Products_ProductStatus
+FOREIGN KEY (ProductStatusId)
+REFERENCES ProductStatusMaster(ProductStatusId);
+
+
+GO
+
+UPDATE Products
+SET ProductStatusId = 
+(
+    SELECT ProductStatusId 
+    FROM ProductStatusMaster 
+    WHERE ProductStatus = 'Approved'
+);
+
+GO
+
+CREATE PROCEDURE sp_Admin_GetOrders
+    @Status NVARCHAR(50) = NULL,
+    @FromDate DATE = NULL,
+    @ToDate DATE = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        o.OrderId,
+        o.OrderNumber,
+        o.OrderDate,
+        o.Status,
+        o.TotalAmount,
+
+        buyer.BusinessName AS BuyerName,
+        seller.BusinessName AS SellerName
+    FROM OrdersInfo o
+    INNER JOIN BusinessProfiles buyer ON o.BuyerBusinessId = buyer.BusinessId
+    INNER JOIN BusinessProfiles seller ON o.SellerBusinessId = seller.BusinessId
+    WHERE
+        (@Status IS NULL OR o.Status = @Status)
+        AND (@FromDate IS NULL OR CAST(o.OrderDate AS DATE) >= @FromDate)
+        AND (@ToDate IS NULL OR CAST(o.OrderDate AS DATE) <= @ToDate)
+    ORDER BY o.OrderDate DESC;
+END
+GO
+
+CREATE PROCEDURE sp_Admin_GetOrderDetails
+    @OrderId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Order Header
+    SELECT
+        o.*,
+        buyer.BusinessName AS BuyerName,
+        seller.BusinessName AS SellerName
+    FROM OrdersInfo o
+    INNER JOIN BusinessProfiles buyer ON o.BuyerBusinessId = buyer.BusinessId
+    INNER JOIN BusinessProfiles seller ON o.SellerBusinessId = seller.BusinessId
+    WHERE o.OrderId = @OrderId;
+
+    -- Order Items
+    SELECT
+        oi.OrderItemId,
+        p.ProductName,
+        oi.Quantity,
+        oi.UnitPrice,
+        oi.MakingCharges,
+        oi.LineTotal
+    FROM OrderItems oi
+    INNER JOIN Products p ON oi.ProductId = p.ProductId
+    WHERE oi.OrderId = @OrderId;
+
+    -- Payment
+    SELECT *
+    FROM PaymentsDetails
+    WHERE OrderId = @OrderId;
+
+    -- Shipment
+    SELECT *
+    FROM ShipmentDetails
+    WHERE OrderId = @OrderId;
+
+    -- Tracking
+    SELECT *
+    FROM OrderTracking
+    WHERE OrderId = @OrderId
+    ORDER BY CreatedAt;
+END
+GO
+
+CREATE PROCEDURE sp_Admin_UpdateOrderStatus
+    @OrderId INT,
+    @Status NVARCHAR(50),
+    @AdminUserId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE OrdersInfo
+    SET Status = @Status
+    WHERE OrderId = @OrderId;
+
+    INSERT INTO OrderTracking
+    (OrderId, Status, Message)
+    VALUES
+    (@OrderId, @Status, 'Updated by Admin');
+
+    INSERT INTO AdminAuditLogs
+    (AdminUserId, Action, Entity, EntityId, NewData)
+    VALUES
+    (@AdminUserId, 'Update Order Status', 'Order', @OrderId, @Status);
+END
+GO
+
+CREATE PROCEDURE sp_Admin_UpdateShipment
+    @OrderId INT,
+    @Status NVARCHAR(100),
+    @TrackingNumber NVARCHAR(200) = NULL,
+    @AdminUserId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE ShipmentDetails
+    SET
+        Status = @Status,
+        TrackingNumber = ISNULL(@TrackingNumber, TrackingNumber)
+    WHERE OrderId = @OrderId;
+	  
+    INSERT INTO OrderTracking
+    (OrderId, Status, Message)
+    VALUES
+    (@OrderId, @Status, 'Shipment updated by Admin');
+
+    INSERT INTO AdminAuditLogs
+    (AdminUserId, Action, Entity, EntityId, NewData)
+    VALUES
+    (@AdminUserId, 'Update Shipment', 'Order', @OrderId, @Status);
+END
+GO
