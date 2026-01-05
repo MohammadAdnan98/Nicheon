@@ -1,0 +1,41 @@
+<div class="dashboard-wrapper">
+
+  <div class="dashboard-header">
+    <h2>Admin Dashboard</h2>
+  </div>
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <div class="icon gold">📈</div>
+      <div class="value">{{ stats?.totalSellers || 0 }}</div>
+      <div class="label">Total Sellers</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon gold">👥</div>
+      <div class="value">{{ stats?.totalBuyers || 0 }}</div>
+      <div class="label">Total Buyers</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon gold">⏳</div>
+      <div class="value">{{ stats?.pendingProducts || 0 }}</div>
+      <div class="label">Pending Products</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon gold">📦</div>
+      <div class="value">{{ stats?.ordersToday || 0 }}</div>
+      <div class="label">Orders Today</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon gold">₹</div>
+      <div class="value">₹{{ stats?.revenueToday || 0 }}</div>
+      <div class="label">Revenue</div>
+    </div>
+
+  </div>
+
+</div>

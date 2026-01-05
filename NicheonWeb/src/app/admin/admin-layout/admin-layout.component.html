@@ -1,0 +1,28 @@
+<div class="admin-wrapper">
+
+  <aside class="sidebar">
+    <h2 class="logo">Nicheon Admin</h2>
+
+    <nav>
+      <a routerLink="/admin/dashboard" routerLinkActive="active">
+        Dashboard
+      </a>
+      <a> Sellers </a>
+      <a> Buyers </a>
+      <a> Products </a>
+      <a> Orders </a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <span>Admin Panel</span>
+      <button class="logout">Logout</button>
+    </header>
+
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+
+</div>

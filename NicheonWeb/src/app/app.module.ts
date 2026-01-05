@@ -39,6 +39,11 @@ import { SellerProductDetailComponent } from './Seller/seller-product-detail/sel
 import { SellerEditProductComponent } from './Seller/seller-edit-product/seller-edit-product.component';
 import { FileUploadComponent } from './shared/file-upload/file-upload/file-upload.component';
 import { HomeComponent } from './home/home.component';
+import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { AdminRoutingModule } from './admin/admin-routing.module';
 
 
 @NgModule({
@@ -68,7 +73,7 @@ import { HomeComponent } from './home/home.component';
     SellerEditProductComponent,
     FileUploadComponent,
     HomeComponent
-  ],
+   ],
   imports: [
     BrowserModule,
     // ✅ Only keep this
@@ -83,7 +88,11 @@ import { HomeComponent } from './home/home.component';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    RouterModule,
+    AppRoutingModule,
+    CommonModule,
+    AdminRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

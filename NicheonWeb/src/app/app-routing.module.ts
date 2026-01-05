@@ -24,6 +24,12 @@ import { SellerProductDetailComponent } from './Seller/seller-product-detail/sel
 import { SellerEditProductComponent } from './Seller/seller-edit-product/seller-edit-product.component';
 
 const routes: Routes = [
+   {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then(m => m.AdminModule)
+  },
+
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
 
@@ -54,6 +60,7 @@ const routes: Routes = [
   { path: 'seller-profile-Edite', component: ProfilEditeComponent },
   { path: 'seller-product/:id', component: SellerProductDetailComponent },
   { path: 'seller-edit-product/:id', component: SellerEditProductComponent }
+  
 
 
 
