@@ -1,0 +1,74 @@
+.page {
+  padding: 24px;
+}
+
+.page h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.sub {
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  padding: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  text-align: left;
+  font-size: 13px;
+  color: #64748b;
+  padding-bottom: 12px;
+}
+
+tbody td {
+  padding: 14px 0;
+  border-top: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.actions button {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.approve {
+  background: #16a34a;
+  color: #fff;
+  margin-right: 8px;
+}
+
+.suspend {
+  background: #dc2626;
+  color: #fff;
+}

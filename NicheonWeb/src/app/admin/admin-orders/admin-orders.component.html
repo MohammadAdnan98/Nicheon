@@ -1,0 +1,71 @@
+<div class="page-header">
+  <h2>Orders</h2>
+
+  <select class="filter"
+          [(ngModel)]="statusFilter"
+          (change)="loadOrders()">
+    <option [ngValue]="null">All Orders</option>
+    <option value="New">New</option>
+    <option value="Processing">Processing</option>
+    <option value="Shipped">Shipped</option>
+    <option value="Delivered">Delivered</option>
+    <option value="Cancelled">Cancelled</option>
+  </select>
+</div>
+
+<div class="card-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Order #</th>
+        <th>Buyer</th>
+        <th>Seller</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th width="160">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let o of orders">
+        <td>
+          <strong>{{ o.orderNumber }}</strong>
+        </td>
+
+        <td>{{ o.buyerName }}</td>
+        <td>{{ o.sellerName }}</td>
+
+        <td>{{ o.orderDate | date:'mediumDate' }}</td>
+
+        <td class="amount">
+          ₹{{ o.totalAmount | number }}
+        </td>
+
+        <td>
+          <span class="badge"
+                [ngClass]="{
+                  'new': o.status === 'New',
+                  'processing': o.status === 'Processing',
+                  'shipped': o.status === 'Shipped',
+                  'delivered': o.status === 'Delivered',
+                  'cancelled': o.status === 'Cancelled'
+                }">
+            {{ o.status }}
+          </span>
+        </td>
+
+        <td>
+          <select class="status-action"
+                  (change)="updateStatus(o.orderId, $event)">
+            <option value="">Change Status</option>
+            <option value="Processing">Processing</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

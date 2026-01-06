@@ -1,0 +1,93 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.page-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.filter {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  min-width: 160px;
+}
+
+.card-table {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #fafafa;
+}
+
+th {
+  text-align: left;
+  padding: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+}
+
+td {
+  padding: 14px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+.amount {
+  font-weight: 600;
+}
+
+/* Status Badges */
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.new {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.processing {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.shipped {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.delivered {
+  background: #e6f4ea;
+  color: #137333;
+}
+
+.cancelled {
+  background: #fdecea;
+  color: #a50e0e;
+}
+
+/* Status Action */
+.status-action {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 13px;
+}

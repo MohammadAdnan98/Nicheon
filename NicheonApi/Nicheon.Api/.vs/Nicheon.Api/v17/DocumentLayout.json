@@ -3,13 +3,42 @@
   "WorkspaceRootPath": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\admindashboardrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\iadmindashboardrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\controllers\\admin\\admindashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\admin\\admindashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\dtos\\admindashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\dtos\\adminproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\adminorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\adminproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\dtos\\adminbuyerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\adminbuyerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\adminsellerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\adminproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\dtos\\adminsellerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\controllers\\admin\\adminsellercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\admin\\adminsellercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\iadminproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
@@ -23,17 +52,7 @@
       "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\admin\\adminordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\adminorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC3DC680-A9C5-4B62-902B-7E1CE57414DC}|..\\Nicheon.Persistence\\Nicheon.Persistence.csproj|c:\\nicheon\\nicheonapi\\nicheon.persistence\\repositories\\admindashboardrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\iadminorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\controllers\\admin\\admindashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\admin\\admindashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\controllers\\admin\\adminbuyercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -43,13 +62,6 @@
       "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\iadminbuyerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\dtos\\adminbuyerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\controllers\\admin\\adminsellercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:controllers\\admin\\adminsellercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -57,19 +69,7 @@
       "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\dtos\\adminorderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\dtos\\adminproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\iadminsellerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\dtos\\adminsellerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\dtos\\admindashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{835CBC14-DCD6-491C-A376-446EF14F491D}|..\\Nicheon.Application\\Nicheon.Application.csproj|c:\\nicheon\\nicheonapi\\nicheon.application\\interfaces\\iadmindashboardrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{16D58FC2-29E4-468F-9A1A-24595E8A937C}|Nicheon.Api.csproj|c:\\nicheon\\nicheonapi\\nicheon.api\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -340,7 +340,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -349,6 +349,162 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "AdminProductDto.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminProductDto.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\AdminProductDto.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminProductDto.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\AdminProductDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T07:24:48.241Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdminDashboardController.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminDashboardController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\AdminDashboardController.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminDashboardController.cs",
+              "RelativeToolTip": "Controllers\\Admin\\AdminDashboardController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAgwBMAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T06:07:34.795Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AdminDashboardRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminDashboardRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AdminDashboardRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminDashboardRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AdminDashboardRepository.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAiwBUAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T06:04:54.406Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AdminDashboardDto.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminDashboardDto.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\AdminDashboardDto.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminDashboardDto.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\AdminDashboardDto.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAywAgAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T05:59:58.392Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IAdminDashboardRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAdminDashboardRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IAdminDashboardRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAdminDashboardRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IAdminDashboardRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T06:09:11.276Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AdminOrderRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminOrderRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AdminOrderRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminOrderRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AdminOrderRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABMAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T07:45:55.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AdminProductRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminProductRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AdminProductRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminProductRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AdminProductRepository.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAwwBUAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T07:25:52.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AdminBuyerDto.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminBuyerDto.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\AdminBuyerDto.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminBuyerDto.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\AdminBuyerDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T08:02:32.702Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AdminBuyerRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminBuyerRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AdminBuyerRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminBuyerRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AdminBuyerRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABIAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T08:06:06.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AdminSellerRepository.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminSellerRepository.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AdminSellerRepository.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminSellerRepository.cs",
+              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AdminSellerRepository.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABcAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T06:20:50.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AdminSellerDto.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminSellerDto.cs",
+              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\AdminSellerDto.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminSellerDto.cs",
+              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\AdminSellerDto.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA1wAgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T06:19:46.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AdminSellerController.cs",
+              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminSellerController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\AdminSellerController.cs",
+              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminSellerController.cs",
+              "RelativeToolTip": "Controllers\\Admin\\AdminSellerController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T06:21:58.124Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "AdminProductController.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminProductController.cs",
               "RelativeDocumentMoniker": "Controllers\\Admin\\AdminProductController.cs",
@@ -360,19 +516,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AdminProductRepository.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminProductRepository.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AdminProductRepository.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminProductRepository.cs",
-              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AdminProductRepository.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAuwDQAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T07:25:52.98Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 12,
               "Title": "IAdminProductRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAdminProductRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IAdminProductRepository.cs",
@@ -384,44 +528,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AdminSellerRepository.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminSellerRepository.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AdminSellerRepository.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminSellerRepository.cs",
-              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AdminSellerRepository.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAQwBgAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T06:20:50.405Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AdminBuyerRepository.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminBuyerRepository.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AdminBuyerRepository.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminBuyerRepository.cs",
-              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AdminBuyerRepository.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAxwBMAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T08:06:06.65Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "AdminDashboardRepository.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminDashboardRepository.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AdminDashboardRepository.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminDashboardRepository.cs",
-              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AdminDashboardRepository.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA5wBoAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T06:04:54.406Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 14,
               "Title": "AdminOrderController.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminOrderController.cs",
               "RelativeDocumentMoniker": "Controllers\\Admin\\AdminOrderController.cs",
@@ -433,19 +540,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AdminOrderRepository.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminOrderRepository.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Persistence\\Repositories\\AdminOrderRepository.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Persistence\\Repositories\\AdminOrderRepository.cs",
-              "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AdminOrderRepository.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAgwDwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T07:45:55.89Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "IAdminOrderRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAdminOrderRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IAdminOrderRepository.cs",
@@ -457,19 +552,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AdminDashboardController.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminDashboardController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\AdminDashboardController.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminDashboardController.cs",
-              "RelativeToolTip": "Controllers\\Admin\\AdminDashboardController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAuwBUAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T06:07:34.795Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 17,
               "Title": "IAdminBuyerRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAdminBuyerRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IAdminBuyerRepository.cs",
@@ -481,7 +564,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 16,
               "Title": "AdminBuyerController.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminBuyerController.cs",
               "RelativeDocumentMoniker": "Controllers\\Admin\\AdminBuyerController.cs",
@@ -493,31 +576,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "AdminSellerController.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminSellerController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\AdminSellerController.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Controllers\\Admin\\AdminSellerController.cs",
-              "RelativeToolTip": "Controllers\\Admin\\AdminSellerController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T06:21:58.124Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "AdminBuyerDto.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminBuyerDto.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\AdminBuyerDto.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminBuyerDto.cs",
-              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\AdminBuyerDto.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T08:02:32.702Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 18,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Api\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -529,7 +588,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "AdminOrderDto.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminOrderDto.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\AdminOrderDto.cs",
@@ -541,19 +600,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "AdminProductDto.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminProductDto.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\AdminProductDto.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminProductDto.cs",
-              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\AdminProductDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAwAgAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T07:24:48.241Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "IAdminSellerRepository.cs",
               "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAdminSellerRepository.cs",
               "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IAdminSellerRepository.cs",
@@ -562,42 +609,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-16T06:20:18.636Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "AdminSellerDto.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminSellerDto.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\AdminSellerDto.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminSellerDto.cs",
-              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\AdminSellerDto.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAA7wBgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T06:19:46.48Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "IAdminDashboardRepository.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAdminDashboardRepository.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Application\\Interfaces\\IAdminDashboardRepository.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\Interfaces\\IAdminDashboardRepository.cs",
-              "RelativeToolTip": "..\\Nicheon.Application\\Interfaces\\IAdminDashboardRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T06:09:11.276Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "AdminDashboardDto.cs",
-              "DocumentMoniker": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminDashboardDto.cs",
-              "RelativeDocumentMoniker": "..\\Nicheon.Application\\DTOs\\AdminDashboardDto.cs",
-              "ToolTip": "C:\\Nicheon\\NicheonApi\\Nicheon.Application\\DTOs\\AdminDashboardDto.cs",
-              "RelativeToolTip": "..\\Nicheon.Application\\DTOs\\AdminDashboardDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T05:59:58.392Z"
             },
             {
               "$type": "Document",
@@ -657,7 +668,8 @@
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
               "ViewState": "AgIAADwAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T05:50:06.667Z"
+              "WhenOpened": "2025-10-16T05:50:06.667Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -871,7 +883,8 @@
               "RelativeToolTip": "Controllers\\FileController.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAYwFMAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T12:22:14.782Z"
+              "WhenOpened": "2025-11-12T12:22:14.782Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

@@ -19,11 +19,21 @@ namespace Nicheon.Persistence.Repositories
             _db = db;
         }
 
-        public async Task<AdminDashboardDto> GetDashboardStatsAsync()
+        public async Task<AdminDashboardResponseDto> GetDashboardStatsAsync()
         {
-            return await _db.QueryFirstAsync<AdminDashboardDto>(
+            using var multi = await _db.QueryMultipleAsync(
                 "sp_AdminDashboardStats",
-                commandType: CommandType.StoredProcedure);
+                commandType: CommandType.StoredProcedure
+            );
+
+            var stats = await multi.ReadSingleAsync<AdminDashboardDto>();
+            var recentOrders = (await multi.ReadAsync<AdminRecentOrderDto>()).ToList();
+
+            return new AdminDashboardResponseDto
+            {
+                Stats = stats,
+                RecentOrders = recentOrders
+            };
         }
     }
 

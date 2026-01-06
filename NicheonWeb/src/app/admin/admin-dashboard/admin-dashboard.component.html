@@ -1,41 +1,79 @@
-<div class="dashboard-wrapper">
+<div class="dashboard-container">
 
-  <div class="dashboard-header">
-    <h2>Admin Dashboard</h2>
+  <!-- KPI CARDS -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="icon">🏬</div>
+      <div>
+        <p>Total Sellers</p>
+        <h3>{{ stats?.totalSellers }}</h3>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon">👤</div>
+      <div>
+        <p>Total Buyers</p>
+        <h3>{{ stats?.totalBuyers }}</h3>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon">⏳</div>
+      <div>
+        <p>Pending Products</p>
+        <h3>{{ stats?.pendingProducts }}</h3>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon">📦</div>
+      <div>
+        <p>Orders Today</p>
+        <h3>{{ stats?.ordersToday }}</h3>
+      </div>
+    </div>
+
+    <div class="stat-card revenue">
+      <div class="icon">₹</div>
+      <div>
+        <p>Revenue Today</p>
+        <h3>₹{{ stats?.revenueToday | number }}</h3>
+      </div>
+    </div>
   </div>
 
-  <div class="stats-grid">
+  <!-- RECENT ORDERS -->
+  <div class="section">
+    <h2>Recent Orders</h2>
 
-    <div class="stat-card">
-      <div class="icon gold">📈</div>
-      <div class="value">{{ stats?.totalSellers || 0 }}</div>
-      <div class="label">Total Sellers</div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Order #</th>
+            <th>Buyer</th>
+            <th>Seller</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th class="right">Amount</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let o of recentOrders">
+            <td>{{ o.orderNumber }}</td>
+            <td>{{ o.buyerName }}</td>
+            <td>{{ o.sellerName }}</td>
+            <td>{{ o.orderDate | date:'mediumDate' }}</td>
+            <td>
+              <span class="status shipped">{{ o.status }}</span>
+            </td>
+            <td class="right">₹{{ o.totalAmount | number }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
-    <div class="stat-card">
-      <div class="icon gold">👥</div>
-      <div class="value">{{ stats?.totalBuyers || 0 }}</div>
-      <div class="label">Total Buyers</div>
-    </div>
-
-    <div class="stat-card">
-      <div class="icon gold">⏳</div>
-      <div class="value">{{ stats?.pendingProducts || 0 }}</div>
-      <div class="label">Pending Products</div>
-    </div>
-
-    <div class="stat-card">
-      <div class="icon gold">📦</div>
-      <div class="value">{{ stats?.ordersToday || 0 }}</div>
-      <div class="label">Orders Today</div>
-    </div>
-
-    <div class="stat-card">
-      <div class="icon gold">₹</div>
-      <div class="value">₹{{ stats?.revenueToday || 0 }}</div>
-      <div class="label">Revenue</div>
-    </div>
-
   </div>
 
 </div>

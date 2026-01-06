@@ -1,0 +1,64 @@
+<div class="page-header">
+  <h2>Products</h2>
+
+  <select class="filter"
+          [(ngModel)]="statusFilter"
+          (change)="loadProducts()">
+    <option [ngValue]="null">All</option>
+    <option [ngValue]="1">Pending</option>
+    <option [ngValue]="2">Approved</option>
+    <option [ngValue]="3">Rejected</option>
+  </select>
+</div>
+
+<div class="card-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Seller</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th width="180">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of products">
+        <td>
+          <strong>{{ p.productName }}</strong><br>
+          <span class="muted">{{ p.productCode }}</span>
+        </td>
+
+        <td>{{ p.businessName }}</td>
+
+        <td>₹{{ p.pricePerGram | number }}</td>
+
+        <td>
+          <span class="badge"
+                [ngClass]="{
+                  'pending': p.productStatus === 'Pending',
+                  'approved': p.productStatus === 'Approved',
+                  'rejected': p.productStatus === 'Rejected'
+                }">
+            {{ p.productStatus }}
+          </span>
+        </td>
+
+        <td>
+          <button *ngIf="p.productStatus === 'Pending'"
+                  class="btn success"
+                  (click)="approve(p.productId)">
+            Approve
+          </button>
+
+          <button *ngIf="p.productStatus === 'Pending'"
+                  class="btn danger"
+                  (click)="reject(p.productId)">
+            Reject
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

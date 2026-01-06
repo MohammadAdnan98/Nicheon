@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { AdminDashboardService } from 'src/app/Services/admin/AdminDashboardService';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -8,14 +8,19 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AdminDashboardComponent implements OnInit {
 
-  stats: any = {};
+  stats: any;
+  recentOrders: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private dashboardService: AdminDashboardService) {}
 
   ngOnInit(): void {
-    this.http.get<any>('/api/admin/dashboard')
-      .subscribe(res => {
-        this.stats = res?.data || {};
-      });
+    this.loadDashboard();
+  }
+
+  loadDashboard() {
+    this.dashboardService.getDashboard().subscribe(res => {
+       this.stats = res.data.stats;   
+      this.recentOrders = res.data.recentOrders || [];
+    });
   }
 }

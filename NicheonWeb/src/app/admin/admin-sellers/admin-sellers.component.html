@@ -1,0 +1,44 @@
+<div class="page">
+  <h2>Sellers</h2>
+  <p class="sub">Manage seller accounts & verification</p>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Business</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Joined</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let s of sellers">
+          <td>{{ s.name }}</td>
+          <td>{{ s.email }}</td>
+          <td>{{ s.phone }}</td>
+
+          <td>
+            <span class="badge"
+              [ngClass]="{
+                approved: s.status === 'Approved',
+                pending: s.status === 'Pending'
+              }">
+              {{ s.status }}
+            </span>
+          </td>
+
+          <td>{{ s.joinedOn }}</td>
+
+          <td class="actions">
+            <button class="approve">Approve</button>
+            <button class="suspend">Suspend</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Nicheon.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+403cb800db3c797c6d26c150c7dc2fe6892081c3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a0e163ebb98c01460c82d693d25704425e93bbb")]
 [assembly: System.Reflection.AssemblyProductAttribute("Nicheon.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Nicheon.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

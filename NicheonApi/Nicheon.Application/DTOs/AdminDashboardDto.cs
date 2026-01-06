@@ -17,4 +17,23 @@ namespace Nicheon.Application.DTOs
         public decimal RevenueToday { get; set; }
     }
 
+    public class AdminRecentOrderDto
+    {
+        public int OrderId { get; set; }
+        public string OrderNumber { get; set; } = "";
+        public DateTime OrderDate { get; set; }
+        public string Status { get; set; } = "";
+        public decimal TotalAmount { get; set; }
+        public string BuyerName { get; set; } = "";
+        public string SellerName { get; set; } = "";
+    }
+
+    public class AdminDashboardResponseDto
+    {
+        public AdminDashboardDto Stats { get; set; } = new();
+        public IEnumerable<AdminRecentOrderDto> RecentOrders { get; set; }
+            = new List<AdminRecentOrderDto>();
+    }
+
+   
 }

@@ -1,0 +1,45 @@
+ALTER PROCEDURE sp_AdminDashboardStats
+AS
+/*
+exec sp_AdminDashboardStats
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    /* =======================
+       DASHBOARD STATS
+    ======================== */
+    SELECT
+        (SELECT COUNT(*) FROM Users WHERE RoleId = 3) AS TotalSellers,     -- Seller
+        (SELECT COUNT(*) FROM Users WHERE RoleId = 3 AND IsVerified = 0) AS PendingSellers,
+        (SELECT COUNT(*) FROM Users WHERE RoleId = 2) AS TotalBuyers,      -- Buyer
+        (SELECT COUNT(*) FROM Products WHERE ProductStatusId = 2) AS PendingProducts,
+        (SELECT COUNT(*) FROM OrdersInfo) AS TotalOrders,
+        (SELECT COUNT(*) 
+            FROM OrdersInfo 
+            WHERE CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE)
+        ) AS OrdersToday,
+        (SELECT ISNULL(SUM(TotalAmount), 0)
+            FROM OrdersInfo
+            WHERE CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE)
+        ) AS RevenueToday;
+
+    /* =======================
+       RECENT ORDERS (TOP 10)
+    ======================== */
+    SELECT TOP 10
+        o.OrderId,
+        o.OrderNumber,
+        o.OrderDate,
+        o.Status,
+        o.TotalAmount,
+        buyer.BusinessName AS BuyerName,
+        seller.BusinessName AS SellerName
+    FROM OrdersInfo o
+    INNER JOIN BusinessProfiles buyer 
+        ON o.BuyerBusinessId = buyer.BusinessId
+    INNER JOIN BusinessProfiles seller 
+        ON o.SellerBusinessId = seller.BusinessId
+    ORDER BY o.OrderDate DESC;
+END;
+GO

@@ -1,0 +1,61 @@
+<div class="admin-page">
+
+  <div class="page-header">
+    <h2>Buyers</h2>
+
+    <select class="filter-select"
+            [(ngModel)]="statusFilter"
+            (change)="loadBuyers()">
+
+      <option [ngValue]="null">All Status</option>
+      <option [ngValue]="1">Approved</option>
+      <option [ngValue]="2">Pending</option>
+      <option [ngValue]="3">Suspended</option>
+      <option [ngValue]="4">Blocked</option>
+    </select>
+  </div>
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let b of buyers">
+          <td>{{ b.fullName }}</td>
+          <td>{{ b.email }}</td>
+          <td>{{ b.phone }}</td>
+
+          <td>
+            <span class="status"
+                  [class.approved]="b.accountStatus === 'Approved'"
+                  [class.pending]="b.accountStatus === 'Pending'"
+                  [class.blocked]="b.accountStatus === 'Blocked'">
+              {{ b.accountStatus }}
+            </span>
+          </td>
+
+          <td>
+            <button class="btn approve"
+                    (click)="changeStatus(b.userId, 1)">
+              Approve
+            </button>
+
+            <button class="btn suspend"
+                    (click)="changeStatus(b.userId, 3)">
+              Suspend
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -9,6 +9,6 @@ namespace Nicheon.Application.Interfaces
 {
     public interface IAdminDashboardRepository
     {
-        Task<AdminDashboardDto> GetDashboardStatsAsync();
+        Task<AdminDashboardResponseDto> GetDashboardStatsAsync();
     }
 }

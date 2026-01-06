@@ -1,28 +1,59 @@
-<div class="admin-wrapper">
+<div class="admin-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
 
-  <aside class="sidebar">
-    <h2 class="logo">Nicheon Admin</h2>
+        <div class="brand">
+            <div class="brand-logo">
+                <img src="assets/Image/NicheonLogo_2.png" alt="Nicheon" />
+            </div>
+            <div class="brand-text">Nicheon Admin</div>
+        </div>
 
-    <nav>
-      <a routerLink="/admin/dashboard" routerLinkActive="active">
-        Dashboard
-      </a>
-      <a> Sellers </a>
-      <a> Buyers </a>
-      <a> Products </a>
-      <a> Orders </a>
-    </nav>
-  </aside>
 
-  <main class="main">
-    <header class="topbar">
-      <span>Admin Panel</span>
-      <button class="logout">Logout</button>
-    </header>
+        <nav>
+            <a routerLink="/admin/dashboard" routerLinkActive="active">
+                <i class="bi bi-speedometer2"></i>
+                Dashboard
+            </a>
 
-    <section class="content">
-      <router-outlet></router-outlet>
-    </section>
-  </main>
+            <a routerLink="/admin/sellers" routerLinkActive="active">
+                <i class="bi bi-shop"></i>
+                Sellers
+            </a>
 
+            <a routerLink="/admin/buyers" routerLinkActive="active">
+                <i class="bi bi-people"></i>
+                Buyers
+            </a>
+
+            <a routerLink="/admin/products" routerLinkActive="active">
+                <i class="bi bi-box-seam"></i>
+                Products
+            </a>
+
+            <a routerLink="/admin/orders" routerLinkActive="active">
+                <i class="bi bi-bag-check"></i>
+                Orders
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="title">Admin Panel</div>
+
+            <div class="actions">
+                <i class="bi bi-bell"></i>
+                <i class="bi bi-chat-dots"></i>
+                <button class="logout">Logout</button>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <main class="content">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
 </div>

@@ -1,0 +1,89 @@
+.page {
+  padding: 28px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.page-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.filter {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f9fafb;
+}
+
+th, td {
+  padding: 16px 18px;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  font-weight: 600;
+  color: #555;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.approved {
+  background: #e6f7ec;
+  color: #1e8e3e;
+}
+
+.badge.pending {
+  background: #fff4e5;
+  color: #d48806;
+}
+
+.badge.blocked {
+  background: #fdecea;
+  color: #c62828;
+}
+
+.actions button {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  margin-right: 6px;
+}
+
+.actions .approve {
+  background: #1e8e3e;
+  color: #fff;
+}
+
+.actions .block {
+  background: #c62828;
+  color: #fff;
+}
