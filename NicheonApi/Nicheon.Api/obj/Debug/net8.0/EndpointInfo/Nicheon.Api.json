@@ -373,7 +373,8 @@
             "name": "status",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -394,6 +395,14 @@
             "name": "userId",
             "in": "path",
             "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "adminId",
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -423,10 +432,19 @@
             }
           },
           {
-            "name": "isActive",
+            "name": "statusId",
             "in": "query",
             "schema": {
-              "type": "boolean"
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "adminId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],

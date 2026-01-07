@@ -9,8 +9,8 @@ namespace Nicheon.Application.Interfaces
 {
     public interface IAdminSellerRepository
     {
-        Task<IEnumerable<AdminSellerDto>> GetSellersAsync(string? status);
+        Task<IEnumerable<AdminSellerDto>> GetSellersAsync(int? status);
         Task ApproveSellerAsync(int userId, int adminUserId);
-        Task ToggleSellerStatusAsync(int userId, bool isActive, int adminUserId);
+        Task ToggleSellerStatusAsync(int userId, int StatusId, int adminUserId);
     }
 }

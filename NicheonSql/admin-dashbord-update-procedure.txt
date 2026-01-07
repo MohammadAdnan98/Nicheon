@@ -1,45 +1,108 @@
-ALTER PROCEDURE sp_AdminDashboardStats
+ALTER PROCEDURE sp_Admin_GetSellers  
+    @Status int 
 AS
 /*
-exec sp_AdminDashboardStats
+exec sp_Admin_GetSellers 1
 */
-BEGIN
-    SET NOCOUNT ON;
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    SELECT  
+        u.UserId,  
+        u.FullName,  
+        u.PrimaryEmail,  
+        u.PrimaryPhone,  
+        u.IsVerified,  
+        u.IsActive,  
+        b.BusinessId,  
+        b.BusinessName,  
+        b.BusinessType,  
+        b.GSTNumber,  
+        b.City,  
+        b.State,  
+		ps.StatusName as Status,
+        b.CreatedAt  
+    FROM Users u  
+    INNER JOIN BusinessProfiles b ON u.UserId = b.UserId  
+	lEFT JOIN ProfileStatusMaster ps ON ps.ProfileStatusId =u.ProfileStatusId
+    WHERE u.RoleId = 1 
+	AND
+	u.ProfileStatusId = @Status AND u.IsActive = 1
+    ORDER BY b.CreatedAt DESC;  
+END  
+  
 
-    /* =======================
-       DASHBOARD STATS
-    ======================== */
-    SELECT
-        (SELECT COUNT(*) FROM Users WHERE RoleId = 3) AS TotalSellers,     -- Seller
-        (SELECT COUNT(*) FROM Users WHERE RoleId = 3 AND IsVerified = 0) AS PendingSellers,
-        (SELECT COUNT(*) FROM Users WHERE RoleId = 2) AS TotalBuyers,      -- Buyer
-        (SELECT COUNT(*) FROM Products WHERE ProductStatusId = 2) AS PendingProducts,
-        (SELECT COUNT(*) FROM OrdersInfo) AS TotalOrders,
-        (SELECT COUNT(*) 
-            FROM OrdersInfo 
-            WHERE CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE)
-        ) AS OrdersToday,
-        (SELECT ISNULL(SUM(TotalAmount), 0)
-            FROM OrdersInfo
-            WHERE CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE)
-        ) AS RevenueToday;
+  GO
 
-    /* =======================
-       RECENT ORDERS (TOP 10)
-    ======================== */
-    SELECT TOP 10
-        o.OrderId,
-        o.OrderNumber,
-        o.OrderDate,
-        o.Status,
-        o.TotalAmount,
-        buyer.BusinessName AS BuyerName,
-        seller.BusinessName AS SellerName
-    FROM OrdersInfo o
-    INNER JOIN BusinessProfiles buyer 
-        ON o.BuyerBusinessId = buyer.BusinessId
-    INNER JOIN BusinessProfiles seller 
-        ON o.SellerBusinessId = seller.BusinessId
-    ORDER BY o.OrderDate DESC;
-END;
-GO
+    
+Alter PROCEDURE sp_Admin_ApproveSeller  
+    @UserId INT,  
+    @AdminUserId INT  
+AS  
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    UPDATE Users  
+    SET ProfileStatusId = 1  
+    WHERE UserId = @UserId AND RoleId =1;  
+
+
+  
+    INSERT INTO AdminAuditLogs  
+    (  
+        AdminUserId,  
+        Action,  
+        Entity,  
+        EntityId,  
+        NewData  
+    )  
+    VALUES  
+    (  
+        @AdminUserId,  
+        'Approve',  
+        'Seller',  
+        @UserId,  
+        'Approve'  
+    );  
+END  
+  
+
+  GO
+
+  
+ALTER PROCEDURE sp_Admin_ToggleSellerStatus  
+    @UserId INT,  
+    @StatusId INT,  
+    @AdminUserId INT  
+AS  
+BEGIN  
+    SET NOCOUNT ON; 
+	
+	DECLARE @StatusName Nvarchar(50)
+  
+    UPDATE Users  
+    SET ProfileStatusId = @StatusId  
+    WHERE UserId = @UserId AND RoleId =1; 
+
+	select @StatusName = StatusName
+	from ProfileStatusMaster
+	where ProfileStatusId = @StatusId
+  
+    INSERT INTO AdminAuditLogs  
+    (  
+        AdminUserId,  
+        Action,  
+        Entity,  
+        EntityId,  
+        NewData  
+    )  
+    VALUES  
+    (  
+        @AdminUserId,  
+        @StatusName,
+        'Seller',  
+        @UserId,  
+        @StatusName  
+    );  
+END  
+  

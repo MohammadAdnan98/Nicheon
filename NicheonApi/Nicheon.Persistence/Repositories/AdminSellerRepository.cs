@@ -19,7 +19,7 @@ namespace Nicheon.Persistence.Repositories
             _db = db;
         }
 
-        public async Task<IEnumerable<AdminSellerDto>> GetSellersAsync(string? status)
+        public async Task<IEnumerable<AdminSellerDto>> GetSellersAsync(int? status)
         {
             return await _db.QueryAsync<AdminSellerDto>(
                 "sp_Admin_GetSellers",
@@ -35,11 +35,11 @@ namespace Nicheon.Persistence.Repositories
                 commandType: CommandType.StoredProcedure);
         }
 
-        public async Task ToggleSellerStatusAsync(int userId, bool isActive, int adminUserId)
+        public async Task ToggleSellerStatusAsync(int userId, int StatusId, int adminUserId)
         {
             await _db.ExecuteAsync(
                 "sp_Admin_ToggleSellerStatus",
-                new { UserId = userId, IsActive = isActive, AdminUserId = adminUserId },
+                new { UserId = userId, StatusId = StatusId, AdminUserId = adminUserId },
                 commandType: CommandType.StoredProcedure);
         }
     }

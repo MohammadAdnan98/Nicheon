@@ -16,28 +16,35 @@ namespace Nicheon.Api.Controllers.Admin
             _repo = repo;
         }
 
+        // GET api/admin/sellers?status=2
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string? status)
+        public async Task<IActionResult> Get([FromQuery] int status)
         {
             var data = await _repo.GetSellersAsync(status);
             return Ok(new { success = true, data });
         }
 
+        // POST api/admin/sellers/{userId}/approve?adminId=1
         [HttpPost("{userId}/approve")]
-        public async Task<IActionResult> Approve(int userId)
+        public async Task<IActionResult> Approve(
+            int userId,
+            [FromQuery] int adminId
+        )
         {
-            int adminId = int.Parse(User.FindFirst("sub")!.Value);
             await _repo.ApproveSellerAsync(userId, adminId);
-            return Ok(new { success = true, message = "Seller approved." });
+            return Ok(new { success = true });
         }
 
+        // POST api/admin/sellers/{userId}/status?statusId=3&adminId=1
         [HttpPost("{userId}/status")]
-        public async Task<IActionResult> ToggleStatus(int userId, [FromQuery] bool isActive)
+        public async Task<IActionResult> ChangeStatus(
+            int userId,
+            [FromQuery] int statusId,
+            [FromQuery] int adminId
+        )
         {
-            int adminId = int.Parse(User.FindFirst("sub")!.Value);
-            await _repo.ToggleSellerStatusAsync(userId, isActive, adminId);
-            return Ok(new { success = true, message = "Seller status updated." });
+            await _repo.ToggleSellerStatusAsync(userId, statusId, adminId);
+            return Ok(new { success = true });
         }
     }
-
 }

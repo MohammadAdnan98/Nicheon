@@ -249,7 +249,7 @@
     "Parameters": [
       {
         "Name": "status",
-        "Type": "System.String",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -267,13 +267,18 @@
         "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "adminId",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.Admin.AdminSellerController",
-    "Method": "ToggleStatus",
+    "Method": "ChangeStatus",
     "RelativePath": "api/admin/sellers/{userId}/status",
     "HttpMethod": "POST",
     "IsController": true,
@@ -285,8 +290,13 @@
         "IsRequired": true
       },
       {
-        "Name": "isActive",
-        "Type": "System.Boolean",
+        "Name": "statusId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "adminId",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],

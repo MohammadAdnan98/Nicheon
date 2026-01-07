@@ -20,6 +20,7 @@ namespace Nicheon.Application.DTOs
         public string? GSTNumber { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
+        public string? Status { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 
