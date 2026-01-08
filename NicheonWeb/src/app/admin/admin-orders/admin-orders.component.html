@@ -1,19 +1,19 @@
 <div class="page-header">
-  <h2>Orders</h2>
+  <div>
+    <h2>Orders</h2>
+    <p>Manage all platform orders</p>
+  </div>
 
-  <select class="filter"
-          [(ngModel)]="statusFilter"
-          (change)="loadOrders()">
-    <option [ngValue]="null">All Orders</option>
-    <option value="New">New</option>
-    <option value="Processing">Processing</option>
-    <option value="Shipped">Shipped</option>
-    <option value="Delivered">Delivered</option>
-    <option value="Cancelled">Cancelled</option>
-  </select>
+  <div class="filter">
+    <label>Status</label>
+    <select [(ngModel)]="status" (change)="loadOrders()">
+      <option value="ALL">All</option>
+      <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+    </select>
+  </div>
 </div>
 
-<div class="card-table">
+<div class="table-card">
   <table>
     <thead>
       <tr>
@@ -21,49 +21,46 @@
         <th>Buyer</th>
         <th>Seller</th>
         <th>Date</th>
-        <th>Amount</th>
         <th>Status</th>
-        <th width="160">Action</th>
+        <th>Amount</th>
+        <th class="text-right">Action</th>
       </tr>
     </thead>
 
     <tbody>
       <tr *ngFor="let o of orders">
-        <td>
-          <strong>{{ o.orderNumber }}</strong>
-        </td>
-
+        <td>{{ o.orderNumber }}</td>
         <td>{{ o.buyerName }}</td>
         <td>{{ o.sellerName }}</td>
-
-        <td>{{ o.orderDate | date:'mediumDate' }}</td>
-
-        <td class="amount">
-          ₹{{ o.totalAmount | number }}
-        </td>
+        <td>{{ o.orderDate | date:'dd MMM yyyy' }}</td>
 
         <td>
-          <span class="badge"
-                [ngClass]="{
-                  'new': o.status === 'New',
-                  'processing': o.status === 'Processing',
-                  'shipped': o.status === 'Shipped',
-                  'delivered': o.status === 'Delivered',
-                  'cancelled': o.status === 'Cancelled'
-                }">
+          <span
+            class="badge"
+            [ngClass]="{
+              pending: o.status === 'Pending',
+              accepted: o.status === 'Accepted',
+              shipped: o.status === 'Shipped',
+              delivered: o.status === 'Delivered',
+              cancelled: o.status === 'Cancelled'
+            }"
+          >
             {{ o.status }}
           </span>
         </td>
 
-        <td>
-          <select class="status-action"
-                  (change)="updateStatus(o.orderId, $event)">
-            <option value="">Change Status</option>
-            <option value="Processing">Processing</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Delivered">Delivered</option>
-            <option value="Cancelled">Cancelled</option>
+        <td>₹{{ o.totalAmount | number }}</td>
+
+        <td class="action-cell">
+          <select [(ngModel)]="o.status">
+            <option *ngFor="let s of statusOptions" [value]="s">
+              {{ s }}
+            </option>
           </select>
+
+          <button class="btn primary" (click)="saveStatus(o)">
+            Save
+          </button>
         </td>
       </tr>
     </tbody>

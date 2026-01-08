@@ -9,10 +9,15 @@ namespace Nicheon.Application.Interfaces
 {
     public interface IAdminOrderRepository
     {
-        Task<IEnumerable<AdminOrderDto>> GetOrdersAsync(string? status, DateTime? from, DateTime? to);
+        Task<IEnumerable<AdminOrderDto>> GetOrdersAsync(
+       string? status, DateTime? fromDate, DateTime? toDate);
+
         Task<AdminOrderDetailsDto> GetOrderDetailsAsync(int orderId);
+
         Task UpdateOrderStatusAsync(int orderId, string status, int adminUserId);
-        Task UpdateShipmentAsync(int orderId, string status, string? trackingNo, int adminUserId);
+
+        Task UpdateShipmentAsync(
+            int orderId, string status, string trackingNumber, int adminUserId);
     }
 
 }

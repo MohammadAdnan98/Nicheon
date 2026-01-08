@@ -1,64 +1,94 @@
 <div class="page-header">
-  <h2>Products</h2>
+    <div>
+        <h2>Products</h2>
+        <p>Manage product approvals & status</p>
+    </div>
 
-  <select class="filter"
-          [(ngModel)]="statusFilter"
-          (change)="loadProducts()">
-    <option [ngValue]="null">All</option>
-    <option [ngValue]="1">Pending</option>
-    <option [ngValue]="2">Approved</option>
-    <option [ngValue]="3">Rejected</option>
-  </select>
+    <div class="filter">
+        <label>Status</label>
+        <select [(ngModel)]="statusFilter" (change)="loadProducts()">
+            <option [ngValue]="null">All</option>
+            <option [value]="1">Draft</option>
+            <option [value]="2">Pending</option>
+            <option [value]="3">Approved</option>
+            <option [value]="4">Rejected</option>
+            <option [value]="5">Out of Stock</option>
+            <option [value]="6">Inactive</option>
+            <option [value]="7">Archived</option>
+        </select>
+    </div>
 </div>
 
-<div class="card-table">
-  <table>
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Seller</th>
-        <th>Price</th>
-        <th>Status</th>
-        <th width="180">Action</th>
-      </tr>
-    </thead>
+<div class="table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Seller</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th class="action-col">Action</th>
+            </tr>
+        </thead>
 
-    <tbody>
-      <tr *ngFor="let p of products">
-        <td>
-          <strong>{{ p.productName }}</strong><br>
-          <span class="muted">{{ p.productCode }}</span>
-        </td>
+        <tbody>
+            <tr *ngFor="let p of products">
+                <!-- Product -->
+                <td>
+                    <div class="product-name">{{ p.productName }}</div>
+                    <div class="sub">{{ p.productCode }}</div>
+                </td>
 
-        <td>{{ p.businessName }}</td>
+                <!-- Seller -->
+                <td>{{ p.businessName }}</td>
 
-        <td>₹{{ p.pricePerGram | number }}</td>
+                <!-- Category -->
+                <td>{{ p.categoryName }}</td>
 
-        <td>
+                <!-- Price -->
+                <td>₹{{ p.pricePerGram | number }}</td>
+
+                <!-- Status Badge -->
+                <!-- <td>
           <span class="badge"
-                [ngClass]="{
-                  'pending': p.productStatus === 'Pending',
-                  'approved': p.productStatus === 'Approved',
-                  'rejected': p.productStatus === 'Rejected'
-                }">
+                [ngClass]="p.productStatus.toLowerCase()">
             {{ p.productStatus }}
           </span>
-        </td>
+        </td> -->
 
-        <td>
-          <button *ngIf="p.productStatus === 'Pending'"
-                  class="btn success"
-                  (click)="approve(p.productId)">
-            Approve
-          </button>
 
-          <button *ngIf="p.productStatus === 'Pending'"
-                  class="btn danger"
-                  (click)="reject(p.productId)">
-            Reject
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+                <td>
+                    <span class="badge approved" *ngIf="p.productStatus === 'Approved'">Approved</span>
+                    <span class="badge pending" *ngIf="p.productStatus === 'PendingApproval'">Pending</span>
+                    <span class="badge draft" *ngIf="p.productStatus === 'Draft'">Draft</span>
+                    <span class="badge archived" *ngIf="p.productStatus === 'Archived'">Archived</span>
+                    <span class="badge suspended" *ngIf="p.productStatus === 'OutOfStock'">Out of Stock</span>
+                    <span class="badge rejected" *ngIf="p.productStatus === 'Rejected'">Rejected</span>
+                    <span class="badge blocked" *ngIf="p.productStatus === 'Inactive'">Inactive</span>
+                </td>
+
+                <!-- Created -->
+                <td>{{ p.createdAt | date:'dd MMM yyyy' }}</td>
+
+                <!-- Action -->
+                <td class="action-col">
+                    <select class="status-select" [(ngModel)]="p.newStatus">
+                        <option [value]="1">Draft</option>
+                        <option [value]="2">Pending</option>
+                        <option [value]="3">Approved</option>
+                        <option [value]="4">Rejected</option>
+                        <option [value]="5">Out of Stock</option>
+                        <option [value]="6">Inactive</option>
+                        <option [value]="7">Archived</option>
+                    </select>
+
+                    <button class="btn save" (click)="updateStatus(p)">
+                        Save
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

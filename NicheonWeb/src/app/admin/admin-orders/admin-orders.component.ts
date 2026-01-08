@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminDashboardService } from 'src/app/Services/admin/AdminDashboardService';
+import { AdminOrdersService } from 'src/app/Services/admin/adminOrdersService';
 
 @Component({
   selector: 'app-admin-orders',
@@ -7,31 +7,36 @@ import { AdminDashboardService } from 'src/app/Services/admin/AdminDashboardServ
   styleUrls: ['./admin-orders.component.css']
 })
 export class AdminOrdersComponent implements OnInit {
-
   orders: any[] = [];
-  statusFilter: string | null = null;
-  loading = false;
+  status = 'ALL';
+  adminId = 1;
 
-  constructor(private service: AdminDashboardService) {}
+  statusOptions = [
+    'Pending',
+    'Accepted',
+    'Shipped',
+    'Delivered',
+    'Cancelled'
+  ];
+
+  constructor(private service: AdminOrdersService) {}
 
   ngOnInit(): void {
     this.loadOrders();
   }
 
   loadOrders() {
-    this.loading = true;
-    // this.service.getOrders(this.statusFilter).subscribe({
-    //   next: res => {
-    //     this.orders = res.data;
-    //     this.loading = false;
-    //   },
-    //   error: () => this.loading = false
-    // });
+    this.service.getOrders(this.status).subscribe(res => {
+      this.orders = res.data;
+    });
   }
 
-  updateStatus(orderId: number, status: any) {
-    // this.service.updateOrderStatus(orderId, status).subscribe(() => {
-    //   this.loadOrders();
-    // });
+  saveStatus(order: any) {
+    this.service
+      .updateStatus(order.orderId, order.status, this.adminId)
+      .subscribe(() => this.loadOrders());
   }
 }
+
+
+

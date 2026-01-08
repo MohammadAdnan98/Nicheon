@@ -17,6 +17,7 @@ namespace Nicheon.Application.DTOs
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
 
+        public string ProductStatus { get; set; }
         public int BusinessId { get; set; }
         public string BusinessName { get; set; } = "";
         public string? CategoryName { get; set; }

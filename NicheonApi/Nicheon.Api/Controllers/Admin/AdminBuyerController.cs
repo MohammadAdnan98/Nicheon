@@ -17,24 +17,24 @@ namespace Nicheon.Api.Controllers.Admin
             _repo = repo;
         }
 
+        // GET api/admin/buyers?profileStatus=1
         [HttpGet]
-        public async Task<IActionResult> Get(
-           [FromQuery] int? accountStatus,
-           [FromQuery] int? profileStatus)
+        public async Task<IActionResult> Get([FromQuery] int profileStatus)
         {
-            var data = await _repo.GetBuyersAsync(accountStatus, profileStatus);
+            var data = await _repo.GetBuyersAsync(profileStatus);
             return Ok(new { success = true, data });
         }
 
+        // POST api/admin/buyers/{userId}/status?accountStatusId=3&adminId=1
         [HttpPost("{userId}/status")]
-        public async Task<IActionResult> ToggleStatus(
+        public async Task<IActionResult> ChangeStatus(
             int userId,
-            [FromQuery] int accountStatusId)
+            [FromQuery] int statusId,
+            [FromQuery] int adminId
+        )
         {
-            int adminUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
-            await _repo.ToggleBuyerStatusAsync(userId, accountStatusId, adminUserId);
-            return Ok(new { success = true, message = "Buyer status updated." });
+            await _repo.ToggleBuyerStatusAsync(userId, statusId, adminId);
+            return Ok(new { success = true });
         }
     }
 }

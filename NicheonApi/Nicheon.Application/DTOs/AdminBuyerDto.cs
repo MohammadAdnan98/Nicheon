@@ -12,6 +12,8 @@ namespace Nicheon.Application.DTOs
         public string FullName { get; set; } = "";
         public string PrimaryEmail { get; set; } = "";
         public string PrimaryPhone { get; set; } = "";
+
+        public string Status { get; set; } = "";
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
     }

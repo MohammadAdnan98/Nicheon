@@ -8,13 +8,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "accountStatus",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
         "Name": "profileStatus",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -22,7 +17,7 @@
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.Admin.AdminBuyerController",
-    "Method": "ToggleStatus",
+    "Method": "ChangeStatus",
     "RelativePath": "api/admin/buyers/{userId}/status",
     "HttpMethod": "POST",
     "IsController": true,
@@ -34,7 +29,12 @@
         "IsRequired": true
       },
       {
-        "Name": "accountStatusId",
+        "Name": "statusId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "adminId",
         "Type": "System.Int32",
         "IsRequired": false
       }
@@ -53,7 +53,7 @@
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.Admin.AdminOrderController",
-    "Method": "Get",
+    "Method": "GetOrders",
     "RelativePath": "api/admin/orders",
     "HttpMethod": "GET",
     "IsController": true,
@@ -65,12 +65,12 @@
         "IsRequired": false
       },
       {
-        "Name": "from",
+        "Name": "fromDate",
         "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
-        "Name": "to",
+        "Name": "toDate",
         "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
@@ -138,13 +138,13 @@
         "IsRequired": true
       },
       {
-        "Name": "adminId",
-        "Type": "System.Int32",
+        "Name": "status",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "status",
-        "Type": "System.String",
+        "Name": "adminId",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -160,7 +160,7 @@
     "Parameters": [
       {
         "Name": "status",
-        "Type": "System.String",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
     ],
@@ -201,21 +201,21 @@
         "IsRequired": true
       },
       {
-        "Name": "reason",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
         "Name": "adminId",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "reason",
+        "Type": "System.String",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "Nicheon.Api.Controllers.Admin.AdminProductController",
-    "Method": "ToggleStatus",
+    "Method": "ChangeStatus",
     "RelativePath": "api/admin/products/{productId}/status",
     "HttpMethod": "POST",
     "IsController": true,
@@ -227,12 +227,12 @@
         "IsRequired": true
       },
       {
-        "Name": "statusId",
+        "Name": "adminId",
         "Type": "System.Int32",
         "IsRequired": false
       },
       {
-        "Name": "adminId",
+        "Name": "statusId",
         "Type": "System.Int32",
         "IsRequired": false
       }

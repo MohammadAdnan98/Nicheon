@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminDashboardService } from 'src/app/Services/admin/AdminDashboardService';
-// import { AdminBuyerDto } from '../models/admin-buyer.dto';
+import { AdminBuyerService } from 'src/app/Services/admin/AdminBuyerService';
 
 @Component({
   selector: 'app-admin-buyers',
@@ -8,28 +7,25 @@ import { AdminDashboardService } from 'src/app/Services/admin/AdminDashboardServ
   styleUrls: ['./admin-buyers.component.css']
 })
 export class AdminBuyersComponent implements OnInit {
+ buyers: any[] = [];
+  profileStatus = 1; // Pending default
+  adminId = 1; 
 
-  buyers: any[] = [];
-
-  // ✅ IMPORTANT: number | null
-  statusFilter: number | null = null;
-
-  constructor(private service: AdminDashboardService) {}
+  constructor(private buyerService: AdminBuyerService) {}
 
   ngOnInit(): void {
     this.loadBuyers();
   }
 
-  loadBuyers(): void {
-    // this.service.getBuyers(this.statusFilter).subscribe({
-    //   next: (res) => this.buyers = res.data,
-    //   error: () => alert('Failed to load buyers')
-    // });
+  loadBuyers() {
+    this.buyerService.getBuyers(this.profileStatus)
+      .subscribe(res => {
+        this.buyers = res.data;
+      });
   }
 
-  changeStatus(userId: number, statusId: number): void {
-    // this.service.updateStatus(userId, statusId).subscribe(() => {
-    //   this.loadBuyers();
-    // });
+  changeStatus(userId: number, statusId: number) {
+    this.buyerService.toggleBuyerStatus(userId, statusId, this.adminId)
+      .subscribe(() => this.loadBuyers());
   }
 }

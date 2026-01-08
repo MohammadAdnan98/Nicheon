@@ -14,29 +14,27 @@ namespace Nicheon.Persistence.Repositories
             _db = db;
         }
 
-        public async Task<IEnumerable<AdminBuyerDto>> GetBuyersAsync(int? accountStatus, int? profileStatus)
+        public async Task<IEnumerable<AdminBuyerDto>> GetBuyersAsync(int profileStatusId)
         {
             return await _db.QueryAsync<AdminBuyerDto>(
                 "sp_Admin_GetBuyers",
-                new
-                {
-                    AccountStatus = accountStatus,
-                    ProfileStatus = profileStatus
-                },
-                commandType: CommandType.StoredProcedure);
+                new { ProfileStatus = profileStatusId },
+                commandType: CommandType.StoredProcedure
+            );
         }
 
-        public async Task ToggleBuyerStatusAsync(int userId, int accountStatusId, int adminUserId)
+        public async Task ToggleBuyerStatusAsync(int userId, int statusId, int adminUserId)
         {
             await _db.ExecuteAsync(
                 "sp_Admin_ToggleBuyerStatus",
                 new
                 {
                     UserId = userId,
-                    AccountStatusId = accountStatusId,
+                    AccountStatusId = statusId,
                     AdminUserId = adminUserId
                 },
-                commandType: CommandType.StoredProcedure);
+                commandType: CommandType.StoredProcedure
+            );
         }
     }
 }

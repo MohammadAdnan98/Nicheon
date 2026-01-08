@@ -14,13 +14,24 @@ namespace Nicheon.Persistence.Repositories
             _db = db;
         }
 
-        public async Task<IEnumerable<AdminOrderDto>> GetOrdersAsync(string? status, DateTime? from, DateTime? to)
+        public async Task<IEnumerable<AdminOrderDto>> GetOrdersAsync(
+     string? status,
+     DateTime? fromDate,
+     DateTime? toDate)
         {
             return await _db.QueryAsync<AdminOrderDto>(
                 "sp_Admin_GetOrders",
-                new { Status = status, FromDate = from, ToDate = to },
-                commandType: CommandType.StoredProcedure);
+                new
+                {
+                    Status = status,
+                    FromDate = fromDate,
+                    ToDate = toDate
+                },
+                commandType: CommandType.StoredProcedure
+            );
         }
+
+
 
         public async Task<AdminOrderDetailsDto> GetOrderDetailsAsync(int orderId)
         {
@@ -41,7 +52,8 @@ namespace Nicheon.Persistence.Repositories
             return result;
         }
 
-        public async Task UpdateOrderStatusAsync(int orderId, string status, int adminUserId)
+        public async Task UpdateOrderStatusAsync(
+    int orderId, string status, int adminUserId)
         {
             await _db.ExecuteAsync(
                 "sp_Admin_UpdateOrderStatus",

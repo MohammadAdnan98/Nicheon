@@ -19,7 +19,7 @@ namespace Nicheon.Persistence.Repositories
             _db = db;
         }
 
-        public async Task<IEnumerable<AdminProductDto>> GetProductsAsync(string? status)
+        public async Task<IEnumerable<AdminProductDto>> GetProductsAsync(int? status)
         {
             return await _db.QueryAsync<AdminProductDto>(
                 "sp_Admin_GetProducts",
@@ -47,12 +47,7 @@ namespace Nicheon.Persistence.Repositories
         {
             await _db.ExecuteAsync(
                 "sp_Admin_ToggleProductStatus",
-                new
-                {
-                    ProductId = productId,
-                    StatusId = statusId,
-                    AdminUserId = adminUserId
-                },
+                new { ProductId = productId, StatusId = statusId, AdminUserId = adminUserId },
                 commandType: CommandType.StoredProcedure);
         }
 

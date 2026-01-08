@@ -13,14 +13,6 @@
         ],
         "parameters": [
           {
-            "name": "accountStatus",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
             "name": "profileStatus",
             "in": "query",
             "schema": {
@@ -52,7 +44,15 @@
             }
           },
           {
-            "name": "accountStatusId",
+            "name": "statusId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "adminId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -93,7 +93,7 @@
             }
           },
           {
-            "name": "from",
+            "name": "fromDate",
             "in": "query",
             "schema": {
               "type": "string",
@@ -101,34 +101,11 @@
             }
           },
           {
-            "name": "to",
+            "name": "toDate",
             "in": "query",
             "schema": {
               "type": "string",
               "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/admin/orders/{orderId}": {
-      "get": {
-        "tags": [
-          "AdminOrder"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
             }
           }
         ],
@@ -155,18 +132,41 @@
             }
           },
           {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "adminId",
             "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
             }
-          },
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/orders/{orderId}": {
+      "get": {
+        "tags": [
+          "AdminOrder"
+        ],
+        "parameters": [
           {
-            "name": "status",
-            "in": "query",
+            "name": "orderId",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -232,7 +232,8 @@
             "name": "status",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -340,7 +341,7 @@
             }
           },
           {
-            "name": "statusId",
+            "name": "adminId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -348,7 +349,7 @@
             }
           },
           {
-            "name": "adminId",
+            "name": "statusId",
             "in": "query",
             "schema": {
               "type": "integer",

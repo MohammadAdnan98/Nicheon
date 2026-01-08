@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminDashboardService } from 'src/app/Services/admin/AdminDashboardService';
+import { AdminProductService } from 'src/app/Services/admin/AdminProductService';
 
 @Component({
   selector: 'app-admin-products',
@@ -10,37 +10,38 @@ export class AdminProductsComponent implements OnInit {
 
   products: any[] = [];
   statusFilter: number | null = null;
-  loading = false;
+  adminId = 1;
 
-  constructor(private service: AdminDashboardService) {}
+  constructor(private service: AdminProductService) {}
 
   ngOnInit(): void {
     this.loadProducts();
   }
 
   loadProducts() {
-    this.loading = true;
-    // this.service.getProducts(this.statusFilter).subscribe({
-    //   next: res => {
-    //     this.products = res.data;
-    //     this.loading = false;
-    //   },
-    //   error: () => this.loading = false
-    // });
+    this.service.getProducts(this.statusFilter).subscribe(res => {
+      this.products = res.data.map((p: any) => ({
+        ...p,
+        newStatus: this.mapStatusToId(p.productStatus)
+      }));
+    });
   }
 
-  approve(productId: number) {
-    // this.service.approveProduct(productId).subscribe(() => {
-    //   this.loadProducts();
-    // });
+  updateStatus(product: any) {
+    this.service.updateStatus(product.productId, product.newStatus, this.adminId)
+      .subscribe(() => this.loadProducts());
   }
 
-  reject(productId: number) {
-    const reason = prompt('Enter rejection reason');
-    if (!reason) return;
-
-    // this.service.rejectProduct(productId, reason).subscribe(() => {
-    //   this.loadProducts();
-    // });
+  private mapStatusToId(status: string): number {
+    const map: any = {
+      Draft: 1,
+      PendingApproval: 2,
+      Approved: 3,
+      Rejected: 4,
+      OutOfStock: 5,
+      Inactive: 6,
+      Archived: 7
+    };
+    return map[status] ?? 1;
   }
 }

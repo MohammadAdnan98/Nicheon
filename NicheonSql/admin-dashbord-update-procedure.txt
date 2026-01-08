@@ -105,4 +105,327 @@ BEGIN
         @StatusName  
     );  
 END  
+
+go
+
+
+CREATE PROCEDURE sp_Admin_GetOrders  
+    @Status NVARCHAR(50) = NULL,  
+    @FromDate DATE = NULL,  
+    @ToDate DATE = NULL  
+AS 
+/*
+exec sp_Admin_GetOrders 
+*/
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    SELECT  
+        o.OrderId,  
+        o.OrderNumber,  
+        o.OrderDate,  
+        o.Status,  
+        o.TotalAmount,  
+  
+        buyer.BusinessName AS BuyerName,  
+        seller.BusinessName AS SellerName  
+    FROM OrdersInfo o  
+    INNER JOIN BusinessProfiles buyer ON o.BuyerBusinessId = buyer.BusinessId  
+    INNER JOIN BusinessProfiles seller ON o.SellerBusinessId = seller.BusinessId  
+    WHERE  
+        (@Status IS NULL OR o.Status = @Status)  
+        AND (@FromDate IS NULL OR CAST(o.OrderDate AS DATE) >= @FromDate)  
+        AND (@ToDate IS NULL OR CAST(o.OrderDate AS DATE) <= @ToDate)  
+    ORDER BY o.OrderDate DESC;  
+END  
+
+
+GO
+
+  
+CREATE PROCEDURE sp_Admin_GetOrderDetails  
+    @OrderId INT  
+AS  
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    -- Order Header  
+    SELECT  
+        o.*,  
+        buyer.BusinessName AS BuyerName,  
+        seller.BusinessName AS SellerName  
+    FROM OrdersInfo o  
+    INNER JOIN BusinessProfiles buyer ON o.BuyerBusinessId = buyer.BusinessId  
+    INNER JOIN BusinessProfiles seller ON o.SellerBusinessId = seller.BusinessId  
+    WHERE o.OrderId = @OrderId;  
+  
+    -- Order Items  
+    SELECT  
+        oi.OrderItemId,  
+        p.ProductName,  
+        oi.Quantity,  
+        oi.UnitPrice,  
+        oi.MakingCharges,  
+        oi.LineTotal  
+    FROM OrderItems oi  
+    INNER JOIN Products p ON oi.ProductId = p.ProductId  
+    WHERE oi.OrderId = @OrderId;  
+  
+    -- Payment  
+    SELECT *  
+    FROM PaymentsDetails  
+    WHERE OrderId = @OrderId;  
+  
+    -- Shipment  
+    SELECT *  
+    FROM ShipmentDetails  
+    WHERE OrderId = @OrderId;  
+  
+    -- Tracking  
+    SELECT *  
+    FROM OrderTracking  
+    WHERE OrderId = @OrderId  
+    ORDER BY CreatedAt;  
+END  
+
+
+GO
+
+  
+CREATE PROCEDURE sp_Admin_UpdateOrderStatus  
+    @OrderId INT,  
+    @Status NVARCHAR(50),  
+    @AdminUserId INT  
+AS  
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    UPDATE OrdersInfo  
+    SET Status = @Status  
+    WHERE OrderId = @OrderId;  
+  
+    INSERT INTO OrderTracking  
+    (OrderId, Status, Message)  
+    VALUES  
+    (@OrderId, @Status, 'Updated by Admin');  
+  
+    INSERT INTO AdminAuditLogs  
+    (AdminUserId, Action, Entity, EntityId, NewData)  
+    VALUES  
+    (@AdminUserId, 'Update Order Status', 'Order', @OrderId, @Status);  
+END  
+
+
+GO
+
+  
+CREATE PROCEDURE sp_Admin_UpdateShipment  
+    @OrderId INT,  
+    @Status NVARCHAR(100),  
+    @TrackingNumber NVARCHAR(200) = NULL,  
+    @AdminUserId INT  
+AS  
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    UPDATE ShipmentDetails  
+    SET  
+        Status = @Status,  
+        TrackingNumber = ISNULL(@TrackingNumber, TrackingNumber)  
+    WHERE OrderId = @OrderId;  
+  
+    INSERT INTO OrderTracking  
+    (OrderId, Status, Message)  
+    VALUES  
+    (@OrderId, @Status, 'Shipment updated by Admin');  
+  
+    INSERT INTO AdminAuditLogs  
+    (AdminUserId, Action, Entity, EntityId, NewData)  
+    VALUES  
+    (@AdminUserId, 'Update Shipment', 'Order', @OrderId, @Status);  
+END  
+
+go
+
+ALter PROCEDURE sp_Admin_GetBuyers   
+ @ProfileStatus int = NULL   
+AS  
+  
+/*  
+exec sp_Admin_GetBuyers 1
+*/  
+BEGIN  
+    SET NOCOUNT ON;  
+    SELECT  
+        u.UserId,  
+        u.FullName,  
+        u.PrimaryEmail,  
+        u.PrimaryPhone,  
+        u.IsActive, 
+		ps.StatusName as Status,
+        u.CreatedAt
+		
+    FROM Users u  
+	LEFT JOIN ProfileStatusMaster ps on ps.ProfileStatusId = u.ProfileStatusId
+    WHERE u.RoleId = 2  
+    AND u.IsActive= 1  
+ AND u.IsVerified =1  
+ AND u.ProfileStatusId = @ProfileStatus  
+    ORDER BY u.CreatedAt DESC;  
+END
+
+
+GO
+
+
+Alter PROCEDURE sp_Admin_ToggleBuyerStatus  
+    @UserId INT,  
+    @AccountStatusId INT,  
+    @AdminUserId INT  
+AS /*
+exec sp_Admin_ToggleBuyerStatus 4,2,1
+*/
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    DECLARE @StatusName NVARCHAR(50);  
+  
+    -- Get status name  
+    SELECT @StatusName = StatusName  
+    FROM ProfileStatusMaster  
+    WHERE ProfileStatusId = @AccountStatusId;  
+  
+    -- Update buyer status  
+    UPDATE Users  
+    SET  
+        ProfileStatusId = @AccountStatusId
+    WHERE UserId = @UserId  
+      AND RoleId = 2; -- Buyer  
+  
+    -- Audit log  
+    INSERT INTO AdminAuditLogs  
+    (  
+        AdminUserId,  
+        Action,  
+        Entity,  
+        EntityId,  
+        NewData  
+    )  
+    VALUES  
+    (  
+        @AdminUserId,  
+        CONCAT('Buyer Status Changed To ', @StatusName),  
+        'User',  
+        @UserId,  
+        CONCAT('AccountStatus = ', @StatusName)  
+    );  
+END;  
+
+go
+
+
+CREATE PROCEDURE sp_Admin_GetProducts  
+    @Status INT = NULL   -- NULL = All  
+AS  
+/*
+exec sp_Admin_GetProducts null
+*/
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    SELECT  
+        p.ProductId,  
+        p.ProductCode,  
+        p.ProductName,  
+        p.PricePerGram,  
+        p.MakingCharges,  
+        p.Stock,  
+        p.IsActive,  
+        p.ProductStatusId,  
+        ps.ProductStatus,  
+        p.CreatedAt,  
+  
+        b.BusinessId,  
+        b.BusinessName,  
+        c.CategoryName  
+    FROM Products p  
+    INNER JOIN BusinessProfiles b ON p.BusinessId = b.BusinessId  
+    LEFT JOIN Categories c ON p.CategoryId = c.CategoryId  
+    LEFT JOIN ProductStatusMaster ps ON p.ProductStatusId = ps.ProductStatusId  
+    WHERE  
+        (@Status IS NULL OR p.ProductStatusId = @Status)  
+    ORDER BY p.CreatedAt DESC;  
+END;
+
+GO
+
+CREATE PROCEDURE sp_Admin_ApproveProduct  
+    @ProductId INT,  
+    @AdminUserId INT  
+AS  
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    UPDATE Products  
+    SET   
+    IsActive = 1 ,  
+    ProductStatusId =3  
+    WHERE ProductId = @ProductId;  
+  
+    INSERT INTO ProductModerationLogs  
+    (ProductId, AdminUserId, Action)  
+    VALUES  
+    (@ProductId, @AdminUserId, 'Approved');  
+END
+
+GO
+
+
+CREATE PROCEDURE sp_Admin_RejectProduct  
+    @ProductId INT,  
+    @AdminUserId INT,  
+    @Reason NVARCHAR(1000)  
+AS  
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    UPDATE Products  
+    SET IsActive = 1,  
+    ProductStatusId =4  
+    WHERE ProductId = @ProductId;  
+  
+    INSERT INTO ProductModerationLogs  
+    (ProductId, AdminUserId, Action, Reason)  
+    VALUES  
+    (@ProductId, @AdminUserId, 'Rejected', @Reason);  
+END
+
+GO
+
+ALTER PROCEDURE sp_Admin_ToggleProductStatus  
+    @ProductId INT,  
+    @StatusId INT,  
+    @AdminUserId INT  
+AS  
+BEGIN  
+    SET NOCOUNT ON;  
+
+    DECLARE @Status NVARCHAR(50);
+
+    SELECT @Status = ProductStatus
+    FROM ProductStatusMaster
+    WHERE ProductStatusId = @StatusId;  
+
+    UPDATE Products  
+    SET ProductStatusId = @StatusId  
+    WHERE ProductId = @ProductId;  
+
+    INSERT INTO ProductModerationLogs  
+    (ProductId, AdminUserId, Action)  
+    VALUES  
+    (@ProductId, @AdminUserId, @Status);  
+END
+
+
+
   
