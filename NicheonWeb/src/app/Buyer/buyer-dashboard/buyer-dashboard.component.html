@@ -1,96 +1,163 @@
-<div class="buyer-dashboard-container">
-  <!-- Top Bar -->
-  <div class="top-bar d-flex justify-content-between align-items-center px-3 py-2">
-    <img src="assets\Image\LumaJewalLogo.png" alt="LumaJweal Logo" class="logo-img">
-    <div>
-      <i class="bi bi-bell me-3 fs-5"></i>
-      <i class="bi bi-person-circle fs-5"></i>
-    </div>
-  </div>
+<!-- ================= BUYER B2B HOME PAGE ================= -->
+<div class="buyer-home">
 
-  <!-- Filter Bar -->
-  <div class="filter-bar d-flex flex-wrap gap-2 px-3 py-2">
-    <select class="form-select form-select-sm">
-      <option>All Scrap Types</option>
-      <option>Gold Dust</option>
-      <option>Polishing Residue</option>
-    </select>
-    <select class="form-select form-select-sm">
-      <option>All Cities</option>
-      <option>Delhi</option>
-      <option>Mumbai</option>
-    </select>
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="verifiedToggle">
-      <label class="form-check-label small" for="verifiedToggle">Verified Only</label>
+  <!-- ================= TOP HEADER ================= -->
+  <header class="top-header">
+    <div class="header-left">
+      <img src="assets/logo-gold.svg" class="logo" alt="NicheOn" />
+      <span class="location">
+        Deliver to <strong>IN</strong>
+      </span>
     </div>
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="sortToggle">
-      <label class="form-check-label small" for="sortToggle">Newest First</label>
-    </div>
-  </div>
 
-  <!-- Contract Leads Section (Horizontal Scroll) -->
-  <div class="section px-3 mt-3">
-    <h6 class="section-title">💼 Contract Leads</h6>
-    <div class="horizontal-scroll d-flex overflow-auto gap-3 pb-2">
-      <div class="card p-3 min-width-250" *ngFor="let contract of contractLeads">
-        <p class="mb-1 fw-semibold">{{ contract.sellerName }} - {{ contract.location }}</p>
-        <p class="mb-1 small">Volume: {{ contract.volume }}</p>
-        <p class="mb-1 small">Duration: {{ contract.duration }}</p>
-        <p class="mb-2 small">Bid Price: ₹{{ contract.price }}</p>
-        <button class="btn btn-sm btn-success">Send Contract Offer</button>
-      </div>
+    <div class="header-right">
+      <i class="material-icons">language</i>
+      <i class="material-icons">shopping_cart</i>
+      <i class="material-icons">person</i>
     </div>
-  </div>
+  </header>
 
-  <!-- Saved Listings Section -->
-  <div class="section px-3 mt-4">
-    <h6 class="section-title">📥 Saved Listings</h6>
-    <div class="row g-3">
-      <div class="col-12 col-sm-6 col-md-4" *ngFor="let saved of savedListings">
-        <div class="card p-2 d-flex justify-content-between align-items-center">
-          <div>
-            <p class="small mb-1 fw-semibold">{{ saved.scrapType }}</p>
-            <p class="small mb-0">{{ saved.weight }}</p>
-          </div>
-          <button class="btn btn-sm btn-outline-danger">Remove</button>
+  <!-- ================= SEARCH BAR ================= -->
+  <section class="search-section">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search gold jewellery, ring, earring, necklace..."
+      />
+
+      <button class="image-search">
+        <i class="material-icons">photo_camera</i>
+      </button>
+
+      <button class="search-btn">
+        <i class="material-icons">search</i>
+        Search
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= CATEGORY + HERO ================= -->
+  <section class="hero-section">
+
+    <!-- LEFT: CATEGORIES -->
+    <aside class="category-list">
+      <h4>Categories for you</h4>
+
+      <ul>
+        <li *ngFor="let cat of categories">
+          <span>{{ cat.categoryName }}</span>
+          <i class="material-icons">chevron_right</i>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- RIGHT: BANNER / PROMOTION -->
+    <div class="hero-banner">
+      <h2>Fast Customization</h2>
+      <p>Trusted B2B jewellery suppliers across India</p>
+      <button>View more</button>
+    </div>
+
+  </section>
+
+  <!-- ================= TRENDING PRODUCTS ================= -->
+  <section class="section">
+    <div class="section-header">
+      <h3>Trending Products</h3>
+      <span class="view-more">View more</span>
+    </div>
+
+    <div class="product-slider">
+      <div class="product-card" *ngFor="let item of trendingProducts">
+        <img [src]="item.thumbnailUrl" alt="product" />
+
+        <div class="product-info">
+          <h4>{{ item.productName }}</h4>
+          <p class="price">₹{{ item.pricePerGram }}</p>
+          <p class="moq">MOQ: {{ item.moq }}</p>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Scrap Listings Feed (Instagram-style Vertical Scroll) -->
-  <div class="section px-3 mt-4">
-    <h6 class="section-title text-center">📦 Scrap Listings</h6>
-    <div class="scrap-feed d-flex flex-column align-items-center">
-      <div class="card mb-4 w-100" *ngFor="let listing of scrapListings">
-        <img [src]="listing.image" class="img-fluid w-100 rounded-top" alt="scrap-thumbnail">
-        <div class="p-3">
-          <p class="mb-1 fw-semibold">{{ listing.scrapType }}</p>
-          <p class="mb-1 small">Weight: {{ listing.weight }}</p>
-          <p class="mb-1 small">Location: {{ listing.location }}</p>
-          <span class="badge bg-success mb-2">✅ Verified</span>
-          <div class="d-flex gap-2">
-            <button class="btn btn-outline-primary btn-sm w-50">💬 Chat</button>
-            <button class="btn btn-outline-secondary btn-sm w-50">📞 Call</button>
-          </div>
+  <!-- ================= RECOMMENDED FOR YOU ================= -->
+  <section class="section">
+    <div class="section-header">
+      <h3>Recommended for your business</h3>
+      <span class="view-more">View more</span>
+    </div>
+
+    <div class="product-grid">
+      <div class="product-card" *ngFor="let item of recommendations">
+        <img [src]="item.thumbnailUrl" />
+
+        <div class="product-info">
+          <h4>{{ item.productName }}</h4>
+          <p class="price">₹{{ item.pricePerGram }}</p>
+          <span class="seller">{{ item.businessName }}</span>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Promote Section (optional) -->
-  <div class="section px-3 mt-4 text-center">
-    <button class="btn btn-dark">🚀 Explore Premium Sellers</button>
-  </div>
+  <!-- ================= TOP CATEGORIES ================= -->
+  <section class="section">
+    <div class="section-header">
+      <h3>Top Categories</h3>
+    </div>
 
-  <!-- Bottom Navigation -->
-  <div class="bottom-nav d-flex">
-    <div><i class="bi bi-house"></i><p>Home</p></div>
-    <div><i class="bi bi-search"></i><p>Browse</p></div>
-    <div><i class="bi bi-chat-dots"></i><p>Messages</p></div>
-    <div><i class="bi bi-bookmark"></i><p>Saved</p></div>
-    <div><i class="bi bi-person"></i><p>Profile</p></div>
-  </div>
+    <div class="category-cards">
+      <div class="category-card" *ngFor="let cat of topCategories">
+        <h4>{{ cat.categoryName }}</h4>
+        <p>{{ cat.totalProducts }} Products</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RECENTLY VIEWED ================= -->
+  <section class="section" *ngIf="recentlyViewed?.length">
+    <div class="section-header">
+      <h3>Recently Viewed</h3>
+    </div>
+
+    <div class="product-slider">
+      <div class="product-card" *ngFor="let item of recentlyViewed">
+        <img [src]="item.thumbnailUrl" />
+
+        <div class="product-info">
+          <h4>{{ item.productName }}</h4>
+          <p class="price">₹{{ item.pricePerGram }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
+
+<!-- ================= BOTTOM NAV ================= -->
+<footer class="bottom-nav">
+  <div class="nav-item active">
+    <i class="material-icons">home</i>
+    <span>Home</span>
+  </div>
+
+  <div class="nav-item">
+    <i class="material-icons">inventory_2</i>
+    <span>Products</span>
+  </div>
+
+  <div class="nav-item">
+    <i class="material-icons">shopping_cart</i>
+    <span>Orders</span>
+  </div>
+
+  <div class="nav-item">
+    <i class="material-icons">favorite</i>
+    <span>Wishlist</span>
+  </div>
+
+  <div class="nav-item">
+    <i class="material-icons">person</i>
+    <span>Profile</span>
+  </div>
+</footer>
