@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { BuyerHomeService } from 'src/app/Services/buyer/BuyerHomeService';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-buyer-dashboard',
@@ -8,111 +10,143 @@ import { BuyerHomeService } from 'src/app/Services/buyer/BuyerHomeService';
 })
 export class BuyerDashboardComponent {
  
- // ========================
-  // USER CONTEXT
-  // ========================
-  userId: number = 10; // after login set dynamically
+ 
+  // =========================
+  // ENV
+  // =========================
+  imageBaseUrl = environment.imgUrl;
+  defaultImage = 'assets/images/no-image.png';
 
-  // ========================
+  // =========================
+  // USER
+  // =========================
+  userId!: number;
+
+  // =========================
   // HOME DATA
-  // ========================
+  // =========================
   categories: any[] = [];
+  metals: any[] = [];
+  topSellers: any[] = [];
+  featuredProducts: any[] = [];
+  recentlyViewed: any[] = [];
   trendingProducts: any[] = [];
   recommendations: any[] = [];
-  recentlyViewed: any[] = [];
   topCategories: any[] = [];
+  banners: any[] = [];
 
-  // ========================
+  // =========================
   // SEARCH
-  // ========================
+  // =========================
   searchText: string = '';
+  searchSuggestions: any[] = [];
   searchResults: any[] = [];
   isSearching: boolean = false;
 
-  // ========================
-  // PAGINATION
-  // ========================
-  page: number = 1;
-  pageSize: number = 20;
-  hasMore: boolean = true;
+  // Pagination
+  page = 1;
+  pageSize = 20;
+  totalCount = 0;
 
-  // ========================
-  // UI STATE
-  // ========================
-  loadingHome: boolean = false;
-  loadingSearch: boolean = false;
-  errorMessage: string = '';
+  // =========================
+  // LOADING STATES
+  // =========================
+  loadingHome = false;
+  loadingSearch = false;
 
-  constructor(private buyerService: BuyerHomeService) {}
+  constructor(private buyerHomeService: BuyerHomeService) {}
 
-  // ========================
+  // =========================
   // INIT
-  // ========================
+  // =========================
   ngOnInit(): void {
-    this.loadBuyerHome();
+    this.userId = Number(localStorage.getItem('UserId')) || 1;
+    this.loadHomeData();
+    this.loadExtraSections();
   }
 
-  // ========================
-  // LOAD BUYER HOME DATA
-  // ========================
-  loadBuyerHome(): void {
+  // =========================
+  // HOME PAGE DATA
+  // =========================
+  loadHomeData(): void {
     this.loadingHome = true;
 
-    this.buyerService.getBuyerHome(this.userId).subscribe({
+    this.buyerHomeService.getBuyerHome(this.userId).subscribe({
       next: (res) => {
-        const data = res.data;
-
-        this.categories = data.categories || [];
-        this.trendingProducts = data.trending || [];
-        this.recommendations = data.recommendations || [];
-        this.recentlyViewed = data.recentlyViewed || [];
-        this.topCategories = data.topCategories || [];
-
+        if (res?.success) {
+          this.categories = res.data.categories || [];
+          this.metals = res.data.metals || [];
+          this.topSellers = res.data.topSellers || [];
+          this.featuredProducts = res.data.featured || [];
+          this.recentlyViewed = res.data.recentlyViewed || [];
+        }
         this.loadingHome = false;
       },
       error: () => {
-        this.errorMessage = 'Failed to load buyer home';
         this.loadingHome = false;
       }
     });
   }
 
-  // ========================
-  // SEARCH PRODUCTS
-  // ========================
-  searchProducts(reset: boolean = true): void {
-    if (!this.searchText.trim()) return;
+  // =========================
+  // EXTRA SECTIONS
+  // =========================
+  loadExtraSections(): void {
+    this.buyerHomeService.getTrendingProducts().subscribe(res => {
+      this.trendingProducts = res?.data || [];
+    });
 
-    if (reset) {
-      this.page = 1;
-      this.searchResults = [];
-      this.hasMore = true;
+    this.buyerHomeService.getRecommendations(this.userId).subscribe(res => {
+      this.recommendations = res?.data || [];
+    });
+
+    this.buyerHomeService.getTopCategories(this.userId).subscribe(res => {
+      this.topCategories = res?.data || [];
+    });
+
+    this.buyerHomeService.getBanners().subscribe(res => {
+      this.banners = res?.data || [];
+    });
+  }
+
+  // =========================
+  // SEARCH FLOW (HOME SEARCH)
+  // =========================
+  onSearchChange(): void {
+    if (!this.searchText || this.searchText.length < 2) {
+      this.searchSuggestions = [];
+      return;
     }
 
-    if (!this.hasMore) return;
+    this.buyerHomeService.searchProducts({
+      q: this.searchText,
+      page: 1,
+      pageSize: 5
+    }).subscribe(res => {
+      this.searchSuggestions = res?.data || [];
+    });
+  }
+
+  onSearchSubmit(): void {
+    if (!this.searchText) return;
 
     this.loadingSearch = true;
-    this.isSearching = true;
+    this.page = 1;
 
-    // record search keyword
-    this.buyerService.recordSearchTerm(this.userId, this.searchText).subscribe();
+    // Record search
+    this.buyerHomeService.recordSearchTerm(this.userId, this.searchText).subscribe();
 
-    this.buyerService.searchProducts(
-      this.searchText,
-      this.page,
-      this.pageSize
-    ).subscribe({
+    this.buyerHomeService.searchProducts({
+      q: this.searchText,
+      sort: 'relevance',
+      page: this.page,
+      pageSize: this.pageSize
+    }).subscribe({
       next: (res) => {
-        const items = res.data || [];
-
-        this.searchResults.push(...items);
-
-        if (items.length < this.pageSize) {
-          this.hasMore = false;
-        }
-
-        this.page++;
+        this.searchResults = res?.data || [];
+        this.totalCount = res?.totalCount || 0;
         this.loadingSearch = false;
+        this.isSearching = true;
       },
       error: () => {
         this.loadingSearch = false;
@@ -120,39 +154,68 @@ export class BuyerDashboardComponent {
     });
   }
 
-  // ========================
-  // CLICK PRODUCT
-  // ========================
-  onProductClick(product: any): void {
-    if (!product?.productId) return;
+  loadMoreSearch(): void {
+    this.page++;
 
-    // log view
-    this.buyerService
-      .logProductView(this.userId, product.productId)
-      .subscribe();
-
-    // navigate to product detail page
-    // this.router.navigate(['/buyer/product', product.productId]);
+    this.buyerHomeService.searchProducts({
+      q: this.searchText,
+      sort: 'relevance',
+      page: this.page,
+      pageSize: this.pageSize
+    }).subscribe(res => {
+      this.searchResults = [...this.searchResults, ...(res?.data || [])];
+    });
   }
 
-  // ========================
-  // LOAD MORE (INFINITE SCROLL)
-  // ========================
-  loadMore(): void {
-    if (this.isSearching) {
-      this.searchProducts(false);
+  // =========================
+  // PRODUCT CLICK
+  // =========================
+  openProduct(product: any): void {
+    this.buyerHomeService.logProductView(product.productId, this.userId).subscribe();
+    // later navigate to product detail
+    // this.router.navigate(['/product', product.productId]);
+  }
+
+  // =========================
+  // IMAGE HANDLING
+  // =========================
+  getProductImage(url?: string): string {
+    if (!url) return this.defaultImage;
+    if (url.startsWith('http')) return url;
+    return this.imageBaseUrl + url;
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (!img.src.includes('no-image.png')) {
+      img.src = this.defaultImage;
     }
   }
 
-  // ========================
-  // CLEAR SEARCH
-  // ========================
-  clearSearch(): void {
-    this.searchText = '';
-    this.searchResults = [];
-    this.isSearching = false;
-    this.page = 1;
-    this.hasMore = true;
+  // =========================
+  // CAMERA SEARCH (PLACEHOLDER)
+  // =========================
+  openCamera(): void {
+    alert('Camera search – Phase 2');
+  }
+
+  // =========================
+  // FILTER CLICKS
+  // =========================
+  filterByCategory(category: any): void {
+    this.searchText = category.categoryName;
+    this.onSearchSubmit();
+  }
+
+  filterByMetal(metal: any): void {
+    this.buyerHomeService.searchProducts({
+      metalIds: metal.metalId.toString(),
+      page: 1,
+      pageSize: this.pageSize
+    }).subscribe(res => {
+      this.searchResults = res?.data || [];
+      this.isSearching = true;
+    });
   }
 
 }

@@ -12,27 +12,33 @@ export class BuyerHomeService {
 
   constructor(private http: HttpClient) {}
 
-  /* =====================================================
-     COMMON AUTH HEADER (SAME AS SELLER / ADMIN)
-     ===================================================== */
-  private getAuthHeaders(): HttpHeaders {
+  /* ======================================================
+     AUTH HEADER (SAME AS SELLER / ADMIN)
+     ====================================================== */
+  private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
 
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
   }
 
-  /* =====================================================
-     BUYER HOME DASHBOARD
-     API: GET /BuyerHome/home
-     ===================================================== */
+  /* ======================================================
+     BUYER HOME PAGE DATA
+     API: GET /api/BuyerHome/home?UserId=1
+     RESPONSE:
+     - metals
+     - categories
+     - topSellers
+     - featured
+     - recentlyViewed
+     ====================================================== */
   getBuyerHome(userId: number): Observable<any> {
-    const headers = this.getAuthHeaders();
+    const headers = this.getHeaders();
 
     const params = new HttpParams()
-      .set('userId', userId.toString());
+      .set('UserId', userId.toString());
 
     return this.http.get<any>(
       `${this.baseUrl}/home`,
@@ -40,37 +46,47 @@ export class BuyerHomeService {
     );
   }
 
-  /* =====================================================
-     SEARCH PRODUCTS
-     API: GET /BuyerHome/search
-     ===================================================== */
-  searchProducts(
-    searchText: string,
-    page: number,
-    pageSize: number,
-    sort: string = 'relevance'
-  ): Observable<any> {
+  // ==============================
+  // SEARCH PRODUCTS (HOME + SEARCH PAGE)
+  // ==============================
+  // GET: /api/BuyerHome/search
+  searchProducts(filters: {
+    q?: string;
+    metalIds?: string;
+    styleIds?: string;
+    karats?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    isHallmarked?: number;
+    sort?: string;
+    page?: number;
+    pageSize?: number;
+  }): Observable<any> {
 
-    const headers = this.getAuthHeaders();
+    let params = new HttpParams();
 
-    const params = new HttpParams()
-      .set('q', searchText)
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString())
-      .set('sort', sort);
+    Object.keys(filters).forEach((key: string) => {
+      const value = (filters as any)[key];
+      if (value !== null && value !== undefined && value !== '') {
+        params = params.set(key, value.toString());
+      }
+    });
 
     return this.http.get<any>(
       `${this.baseUrl}/search`,
-      { headers, params }
+      {
+        headers: this.getHeaders(),
+        params
+      }
     );
   }
 
-  /* =====================================================
+  /* ======================================================
      LOG PRODUCT VIEW
-     API: POST /BuyerHome/log-view/{productId}
-     ===================================================== */
+     API: POST /api/BuyerHome/log-view/{productId}
+     ====================================================== */
   logProductView(userId: number, productId: number): Observable<any> {
-    const headers = this.getAuthHeaders();
+    const headers = this.getHeaders();
 
     const params = new HttpParams()
       .set('userId', userId.toString());
@@ -82,12 +98,12 @@ export class BuyerHomeService {
     );
   }
 
-  /* =====================================================
-     TRENDING PRODUCTS
-     API: GET /BuyerHome/trending
-     ===================================================== */
+  /* ======================================================
+     TRENDING PRODUCTS (OPTIONAL SECTION)
+     API: GET /api/BuyerHome/trending
+     ====================================================== */
   getTrendingProducts(days: number = 14, limit: number = 12): Observable<any> {
-    const headers = this.getAuthHeaders();
+    const headers = this.getHeaders();
 
     const params = new HttpParams()
       .set('days', days.toString())
@@ -99,12 +115,12 @@ export class BuyerHomeService {
     );
   }
 
-  /* =====================================================
-     RECOMMENDATIONS
-     API: GET /BuyerHome/recommendations
-     ===================================================== */
+  /* ======================================================
+     RECOMMENDATIONS (OPTIONAL SECTION)
+     API: GET /api/BuyerHome/recommendations
+     ====================================================== */
   getRecommendations(userId: number, limit: number = 12): Observable<any> {
-    const headers = this.getAuthHeaders();
+    const headers = this.getHeaders();
 
     const params = new HttpParams()
       .set('userId', userId.toString())
@@ -116,17 +132,17 @@ export class BuyerHomeService {
     );
   }
 
-  /* =====================================================
-     TOP CATEGORIES
-     API: GET /BuyerHome/top-categories
-     ===================================================== */
+  /* ======================================================
+     TOP CATEGORIES (OPTIONAL SECTION)
+     API: GET /api/BuyerHome/top-categories
+     ====================================================== */
   getTopCategories(
     userId: number,
     limit: number = 8,
     days: number = 30
   ): Observable<any> {
 
-    const headers = this.getAuthHeaders();
+    const headers = this.getHeaders();
 
     const params = new HttpParams()
       .set('userId', userId.toString())
@@ -139,50 +155,51 @@ export class BuyerHomeService {
     );
   }
 
-  /* =====================================================
+  /* ======================================================
      RECORD SEARCH TERM
-     API: POST /BuyerHome/record-search
-     ===================================================== */
-  recordSearchTerm(userId: number, searchTerm: string): Observable<any> {
-    const headers = this.getAuthHeaders();
+     API: POST /api/BuyerHome/record-search
+     ====================================================== */
+  recordSearchTerm(userId: number, searchText: string): Observable<any> {
+    const headers = this.getHeaders();
 
     const params = new HttpParams()
       .set('userId', userId.toString());
 
     return this.http.post<any>(
       `${this.baseUrl}/record-search`,
-      JSON.stringify(searchTerm),
+      JSON.stringify(searchText),
       { headers, params }
     );
   }
 
-  /* =====================================================
-     TOP SEARCHES
-     API: GET /BuyerHome/top-searches
-     ===================================================== */
-  getTopSearches(days: number = 30, limit: number = 10): Observable<any> {
-    const headers = this.getAuthHeaders();
+  /* ======================================================
+     BANNERS (OPTIONAL – FUTURE)
+     API: GET /api/BuyerHome/banners
+     ====================================================== */
+  getBanners(): Observable<any> {
+    const headers = this.getHeaders();
 
+    return this.http.get<any>(
+      `${this.baseUrl}/banners`,
+      { headers }
+    );
+  }
+
+   // ==============================
+  // TOP SEARCHES (TRENDING KEYWORDS)
+  // ==============================
+  // GET: /api/BuyerHome/top-searches
+  getTopSearches(days: number = 30, limit: number = 10): Observable<any> {
     const params = new HttpParams()
       .set('days', days.toString())
       .set('limit', limit.toString());
 
     return this.http.get<any>(
       `${this.baseUrl}/top-searches`,
-      { headers, params }
-    );
-  }
-
-  /* =====================================================
-     BANNERS
-     API: GET /BuyerHome/banners
-     ===================================================== */
-  getBanners(): Observable<any> {
-    const headers = this.getAuthHeaders();
-
-    return this.http.get<any>(
-      `${this.baseUrl}/banners`,
-      { headers }
+      {
+        headers: this.getHeaders(),
+        params
+      }
     );
   }
 }
