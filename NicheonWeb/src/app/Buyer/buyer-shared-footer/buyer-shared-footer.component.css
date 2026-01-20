@@ -1,0 +1,28 @@
+/*===============================
+   FOOTER
+================================ */
+.buyer-footer {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+}
+
+.footer-item {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.footer-item i {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.footer-item.active {
+  color: #ff9900;
+}

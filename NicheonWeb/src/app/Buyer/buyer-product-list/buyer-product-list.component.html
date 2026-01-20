@@ -1,0 +1,91 @@
+<!-- ================= HEADER ================= -->
+<app-buyer-shared-header-footer></app-buyer-shared-header-footer>
+
+<div class="product-page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    Home › {{ categoryTitle }}
+  </div>
+
+  <div class="layout">
+
+    <!-- LEFT FILTERS -->
+    <aside class="filters">
+      <h4>Categories</h4>
+      <ul>
+        <li class="active">Artificial</li>
+        <li>Diamond Mangalsutra</li>
+        <li>Gold Rani Haar</li>
+        <li>Gold Ring</li>
+        <li>Silver Necklace</li>
+        <li>Temple Necklace</li>
+      </ul>
+
+      <h4>Filters</h4>
+      <div class="filter-group">Price</div>
+      <div class="filter-group">Gender</div>
+      <div class="filter-group">Stone Type</div>
+      <div class="filter-group">Supplier Rating</div>
+    </aside>
+
+    <!-- RIGHT CONTENT -->
+    <main class="content">
+
+      <!-- Header -->
+      <div class="content-header">
+        <div>
+          <h2>{{ categoryTitle }}</h2>
+          <p>{{ totalResults }} results</p>
+        </div>
+
+        <div class="sort">
+          Sort by:
+          <select (change)="onSortChange('test')">
+            <option value="popularity">Popularity</option>
+            <option value="price_low">Price: Low to High</option>
+            <option value="price_high">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- PRODUCT GRID -->
+      <div class="product-grid">
+
+        <div class="product-card" *ngFor="let p of products">
+          <div class="img-wrap">
+            <img [src]="p.image" alt="" />
+          </div>
+
+          <h3>{{ p.name }}</h3>
+
+          <p class="price">Starting from ₹{{ p.price }}</p>
+
+          <div class="rating">
+            <span *ngFor="let s of getStars(p.rating)">★</span>
+            <span class="rating-num">{{ p.rating }}</span>
+          </div>
+
+          <p class="supplier">{{ p.supplier }}</p>
+
+          <button class="quote-btn">Get Quote</button>
+        </div>
+
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="pagination">
+        <button>Previous</button>
+        <button class="active">1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>Next</button>
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<app-buyer-shared-footer></app-buyer-shared-footer>

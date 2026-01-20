@@ -53,6 +53,7 @@ export class BuyerDashboardComponent {
   // =========================
   loadingHome = false;
   loadingSearch = false;
+  selectedMetalId: number | null = null;
 
   constructor(private buyerHomeService: BuyerHomeService) {}
 
@@ -208,14 +209,28 @@ export class BuyerDashboardComponent {
   }
 
   filterByMetal(metal: any): void {
-    this.buyerHomeService.searchProducts({
-      metalIds: metal.metalId.toString(),
-      page: 1,
-      pageSize: this.pageSize
-    }).subscribe(res => {
-      this.searchResults = res?.data || [];
-      this.isSearching = true;
-    });
-  }
+  this.selectedMetalId = metal.metalId;
+
+  this.buyerHomeService.searchProducts({
+    metalIds: metal.metalId.toString(),
+    page: 1,
+    pageSize: this.pageSize
+  }).subscribe(res => {
+    this.searchResults = res?.data || [];
+    this.isSearching = true;
+  });
+}
+
+metalImageMap: Record<string, string> = {
+  Artificial: 'assets/Image/metal/Artificial_Metal.png',
+  Diamond: 'assets/Image/metal/Diamond_Metal.png',
+  Gold: 'assets/Image/metal/Gold_Metal.png',
+  Platinum: 'assets/Image/metal/Platinum_Metal.png',
+  Silver: 'assets/Image/metal/Silver_Metal.png'
+};
+
+getMetalImage(metalName: string): string {
+  return this.metalImageMap[metalName] || 'assets/Image/NoImageUploaded.png';
+}
 
 }

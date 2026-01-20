@@ -1,0 +1,135 @@
+<div class="product-details-page">
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    Home › Artificial Jewellery › Rings
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="product-main">
+
+    <!-- LEFT : IMAGE GALLERY -->
+    <div class="product-gallery">
+
+      <div class="thumbnail-list">
+        <img
+          *ngFor="let img of product.images"
+          [src]="img"
+          (click)="selectedImage = img"
+          [class.active]="selectedImage === img"
+        />
+      </div>
+
+      <div class="main-image">
+        <img [src]="selectedImage" />
+      </div>
+
+    </div>
+
+    <!-- RIGHT : PRODUCT INFO -->
+    <div class="product-info">
+
+      <h1 class="product-title">
+        {{ product.name }}
+      </h1>
+
+      <div class="brand">
+        Brand: <b>{{ product.brand }}</b>
+      </div>
+
+      <div class="rating">
+        ⭐⭐⭐⭐⭐ <span>({{ product.rating }})</span>
+      </div>
+
+      <div class="price">
+        ₹{{ product.price }}
+        <span class="mrp">₹{{ product.mrp }}</span>
+      </div>
+
+      <div class="availability">
+        ✔ Available for bulk orders
+      </div>
+
+      <!-- B2B ACTIONS -->
+      <div class="actions">
+        <button class="quote-btn">Request Bulk Quote</button>
+        <button class="wishlist-btn">♡ Wishlist</button>
+      </div>
+
+      <!-- TRUST BADGES -->
+      <div class="trust">
+        <div>✔ BIS Certified</div>
+        <div>✔ Trusted Manufacturer</div>
+        <div>✔ Secure B2B Transaction</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAILS -->
+  <div class="details-section">
+
+    <h2>Product Specifications</h2>
+
+    <table class="spec-table">
+      <tr>
+        <td>Metal Type</td>
+        <td>{{ product.metal }}</td>
+      </tr>
+      <tr>
+        <td>Purity</td>
+        <td>{{ product.purity }}</td>
+      </tr>
+      <tr>
+        <td>Weight</td>
+        <td>{{ product.weight }}</td>
+      </tr>
+      <tr>
+        <td>Stone</td>
+        <td>{{ product.stone }}</td>
+      </tr>
+      <tr>
+        <td>Origin</td>
+        <td>{{ product.origin }}</td>
+      </tr>
+    </table>
+
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div class="details-section">
+    <h2>About this Product</h2>
+    <p>
+      {{ product.description }}
+    </p>
+  </div>
+
+  <!-- SUPPLIER INFO -->
+  <div class="details-section supplier">
+    <h2>Supplier Information</h2>
+
+    <div class="supplier-box">
+      <div>
+        <b>{{ product.supplier.name }}</b>
+        <p>{{ product.supplier.location }}</p>
+      </div>
+      <div>
+        ⭐ {{ product.supplier.rating }} Supplier Rating
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATED PRODUCTS -->
+  <div class="details-section">
+    <h2>Similar Products</h2>
+
+    <div class="related-scroll">
+      <div class="related-card" *ngFor="let r of relatedProducts">
+        <img [src]="r.image" />
+        <div class="name">{{ r.name }}</div>
+        <div class="price">₹{{ r.price }}</div>
+      </div>
+    </div>
+  </div>
+
+</div>

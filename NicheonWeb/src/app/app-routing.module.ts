@@ -7,7 +7,6 @@ import { ForgotpasswordComponent } from './authentication/forgotpassword/forgotp
 import { SellerDashboardComponent } from './Seller/seller-dashboard/seller-dashboard.component';
 import { BuyerDashboardComponent } from './Buyer/buyer-dashboard/buyer-dashboard.component';
 import { ListingsComponent } from './Seller/listings/listings.component';
-import { BuyerListingsComponent } from './Buyer/buyer-listings/buyer-listings.component';
 import { AddScrapListingComponent } from './Seller/add-scrap-listing/add-scrap-listing.component';
 import { MessageComponent } from './shared/message/message.component';
 import { MessageLayoutComponent } from './shared/message-layout/message-layout.component';
@@ -22,6 +21,8 @@ import { SellerOrderDetailsComponent } from './Seller/seller-order-details/selle
 import { ProfilEditeComponent } from './shared/profil-edite/profil-edite.component';
 import { SellerProductDetailComponent } from './Seller/seller-product-detail/seller-product-detail.component';
 import { SellerEditProductComponent } from './Seller/seller-edit-product/seller-edit-product.component';
+import { BuyerProductListComponent } from './Buyer/buyer-product-list/buyer-product-list.component';
+import { BuyerProductDetailsComponent } from './buyer/buyer-product-details/buyer-product-details.component';
 
 const routes: Routes = [
    {
@@ -46,7 +47,6 @@ const routes: Routes = [
   { path: 'seller-dashboard', component: SellerDashboardComponent },
   { path: 'buyer-dashboard', component: BuyerDashboardComponent },
   { path: 'product-listings', component: ListingsComponent },
-  { path: 'buyer-listings', component: BuyerListingsComponent },
   //{ path: 'seller-add-product', component: AddScrapListingComponent },
   { path: 'seller-messages', component: MessageComponent },
   { path: 'seller-messages-list', component: MessageLayoutComponent },
@@ -59,7 +59,9 @@ const routes: Routes = [
   { path: 'seller-order-details/:id', component: SellerOrderDetailsComponent },
   { path: 'seller-profile-Edite', component: ProfilEditeComponent },
   { path: 'seller-product/:id', component: SellerProductDetailComponent },
-  { path: 'seller-edit-product/:id', component: SellerEditProductComponent }
+  { path: 'seller-edit-product/:id', component: SellerEditProductComponent },
+  { path: 'buyer-product-list/:id', component: BuyerProductListComponent},
+  { path: 'buyer-product-details',component: BuyerProductDetailsComponent}
   
 
 

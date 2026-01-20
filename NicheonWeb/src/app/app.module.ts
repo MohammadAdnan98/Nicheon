@@ -17,7 +17,6 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { SellerDashboardComponent } from './Seller/seller-dashboard/seller-dashboard.component';
 import { BuyerDashboardComponent } from './Buyer/buyer-dashboard/buyer-dashboard.component';
 import { ListingsComponent } from './Seller/listings/listings.component';
-import { BuyerListingsComponent } from './Buyer/buyer-listings/buyer-listings.component';
 import { AddScrapListingComponent } from './Seller/add-scrap-listing/add-scrap-listing.component';
 import { MessageComponent } from './shared/message/message.component';
 import { MessageLayoutComponent } from './shared/message-layout/message-layout.component';
@@ -44,6 +43,10 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { AdminRoutingModule } from './admin/admin-routing.module';
+import { BuyerProductListComponent } from './Buyer/buyer-product-list/buyer-product-list.component';
+import { BuyerSharedHeaderFooterComponent } from './buyer/buyer-shared-header-footer/buyer-shared-header-footer.component';
+import { BuyerSharedFooterComponent } from './buyer/buyer-shared-footer/buyer-shared-footer.component';
+import { BuyerProductDetailsComponent } from './buyer/buyer-product-details/buyer-product-details.component';
 
 
 @NgModule({
@@ -56,7 +59,6 @@ import { AdminRoutingModule } from './admin/admin-routing.module';
     SellerDashboardComponent,
     BuyerDashboardComponent,
     ListingsComponent,
-    BuyerListingsComponent,
     AddScrapListingComponent,
     MessageComponent,
     MessageLayoutComponent,
@@ -72,7 +74,11 @@ import { AdminRoutingModule } from './admin/admin-routing.module';
     SellerProductDetailComponent,
     SellerEditProductComponent,
     FileUploadComponent,
-    HomeComponent
+    HomeComponent,
+    BuyerProductListComponent,
+    BuyerSharedHeaderFooterComponent,
+    BuyerSharedFooterComponent,
+    BuyerProductDetailsComponent
    ],
   imports: [
     BrowserModule,

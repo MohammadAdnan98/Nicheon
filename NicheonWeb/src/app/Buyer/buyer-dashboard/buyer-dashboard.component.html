@@ -1,87 +1,12 @@
 <!-- ================= HEADER ================= -->
-<header class="buyer-header">
-  <div class="header-left">
-    <img src="assets/logo.png" alt="Nicheon" class="logo" />
-    <span class="deliver-text">Deliver to <b>IN</b></span>
-  </div>
-
-  <!-- SEARCH BAR (ONLY ONE – HEADER) -->
-  <div class="header-search">
-    <input
-      type="text"
-      placeholder="Search gold jewellery, ring, earring, necklace..."
-      [(ngModel)]="searchText"
-      (input)="onSearchChange()"
-      (keyup.enter)="onSearchSubmit()"
-    />
-
-    <i class="ri-camera-line search-icon" (click)="openCamera()"></i>
-    <i class="ri-filter-3-line search-icon"></i>
-
-    <button class="search-btn" (click)="onSearchSubmit()">
-      <i class="ri-search-line">Search</i>
-    </button>
-
-    <!-- SEARCH SUGGESTIONS -->
-    <div class="search-suggestions" *ngIf="searchSuggestions.length">
-      <div
-        class="suggestion"
-        *ngFor="let s of searchSuggestions"
-        (click)="openProduct(s)"
-      >
-        <i class="ri-search-line"></i>
-        {{ s.productName }}
-      </div>
-    </div>
-  </div>
-
-  <div class="header-right">
-    <span class="lang">EN</span>
-    <i class="ri-user-3-line"></i>
-  </div>
-</header>
-
-<!-- =========================
-     SEARCH BAR
-========================= -->
-<!-- <div class="search-wrapper">
-  <div class="search-box">
-    <input
-      type="text"
-      placeholder="Search gold jewellery, ring, earring, necklace..."
-      [(ngModel)]="searchText"
-      (input)="onSearchChange()"
-      (keyup.enter)="onSearchSubmit()"
-    />
-
-    <div class="search-actions">
-      <i class="ri-camera-line" (click)="openCamera()"></i>
-      <i class="ri-search-line" (click)="onSearchSubmit()"></i>
-      <button class="search-btn" (click)="onSearchSubmit()">Search</button>
-    </div>
-  </div>
-
- 
-  <div class="search-suggestions" *ngIf="searchSuggestions.length">
-    <div
-      class="suggestion"
-      *ngFor="let s of searchSuggestions"
-      (click)="openProduct(s)"
-    >
-      <i class="ri-search-line"></i>
-      {{ s.productName }}
-    </div>
-  </div>
-</div> -->
+<app-buyer-shared-header-footer></app-buyer-shared-header-footer>
 
 <!-- =========================
      MAIN CONTAINER
 ========================= -->
 <div class="page-container">
 
-  <!-- =========================
-       HERO SECTION
-  ========================= -->
+  <!-- ================= HERO SECTION ================= -->
   <div class="hero-section">
 
     <!-- CATEGORIES -->
@@ -104,32 +29,46 @@
       <p>
         Connect with verified B2B jewellery manufacturers & wholesalers across India
       </p>
-      <button>Request Custom Quote</button>
+      <a href="" style="color:#c7a008"><strong>Request Custom Quote</strong></a>
     </div>
   </div>
 
-  <!-- =========================
-       METAL FILTER
-  ========================= -->
-  <div class="metal-filter">
-    <h3>Browse by Metal</h3>
-    <div class="metal-list">
+  <!-- ================= BROWSE BY METAL ================= -->
+  <section class="browse-metal-section">
+    <!-- <h2 class="section-title">Browse by Metal</h2> -->
+    <h3 style="font-size: 19px;">Browse by Metal</h3>
+
+
+    <div class="metal-scroll"  routerLink="/buyer-product-list/5">
       <div
-        class="metal-item"
+        class="metal-card"
         *ngFor="let m of metals"
         (click)="filterByMetal(m)"
       >
-        {{ m.metalName }}
+        <div class="metal-image">
+          <img
+            [src]="'assets/Image/'+m.metalName+'_Metal.png'"
+            [alt]="m.metalName"
+            loading="lazy"
+            
+          />
+        </div>
+
+        <div
+          class="metal-name"
+          [class.active]="selectedMetalId === m.metalId"
+        >
+          {{ m.metalName }}
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- =========================
-       FEATURED PRODUCTS
-  ========================= -->
+  <!-- ================= FEATURED PRODUCTS ================= -->
   <div class="section-header">
     <h3>Featured Products</h3>
-    <span class="view-more">View more</span>
+    <a href="/buyer-product-list/4" style="color:#c7a008"><strong>View more</strong></a>
+    <!-- <span class="view-more">View more</span> -->
   </div>
 
   <div class="horizontal-scroll">
@@ -149,11 +88,11 @@
     </div>
   </div>
 
-  <!-- =========================
-       TRENDING PRODUCTS
-  ========================= -->
+  <!-- ================= TRENDING PRODUCTS ================= -->
   <div class="section-header">
     <h3>Trending Products</h3>
+     <a href="/buyer-product-list/1" style="color:#c7a008"><strong>View more</strong></a>
+    <!-- <span class="view-more">View more</span> -->
   </div>
 
   <div class="horizontal-scroll">
@@ -173,11 +112,11 @@
     </div>
   </div>
 
-  <!-- =========================
-       TOP SELLERS
-  ========================= -->
+  <!-- ================= TOP SELLERS ================= -->
   <div class="section-header">
     <h3>Top Sellers</h3>
+     <a href="/buyer-product-list/2" style="color:#c7a008"><strong>View more</strong></a>
+    <!-- <span class="view-more">View more</span> -->
   </div>
 
   <div class="horizontal-scroll">
@@ -187,11 +126,11 @@
     </div>
   </div>
 
-  <!-- =========================
-       RECENTLY VIEWED
-  ========================= -->
+  <!-- ================= RECENTLY VIEWED ================= -->
   <div class="section-header">
     <h3>Recently Viewed</h3>
+     <a href="/buyer-product-list/3" style="color:#c7a008"><strong>View more</strong></a>
+    <!-- <span class="view-more">View more</span> -->
   </div>
 
   <div class="horizontal-scroll">
@@ -213,34 +152,5 @@
 
 </div>
 
-<!-- =========================
-     BOTTOM NAV
-========================= -->
-<!-- ================= FOOTER NAV ================= -->
-<footer class="buyer-footer">
-  <div class="footer-item active">
-    <i class="fa fa-home"></i>
-    <span>Home</span>
-  </div>
-
-  <div class="footer-item">
-    <i class="fa fa-cube"></i>
-    <span>Products</span>
-  </div>
-
-  <div class="footer-item">
-    <i class="fa fa-shopping-cart"></i>
-    <span>Orders</span>
-  </div>
-
-  <div class="footer-item">
-    <i class="fa fa-heart"></i>
-    <span>Wishlist</span>
-  </div>
-
-  <div class="footer-item">
-    <i class="fa fa-user"></i>
-    <span>Profile</span>
-  </div>
-</footer>
-
+<!-- ================= FOOTER ================= -->
+<app-buyer-shared-footer></app-buyer-shared-footer>

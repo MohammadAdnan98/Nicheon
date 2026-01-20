@@ -1,0 +1,158 @@
+/* ===============================
+   HEADER
+================================ */
+.buyer-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 34px;
+}
+
+.deliver-text {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* SEARCH */
+.header-search {
+  position: relative;
+  flex: 1;
+  max-width: 680px;
+  display: flex;
+  align-items: center;
+  background: #f3f3f3;
+  border-radius: 24px;
+  padding: 4px;
+  min-width: 0;
+}
+
+.header-search input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-icon {
+  font-size: 18px;
+  padding: 0 8px;
+  cursor: pointer;
+  color: #666;
+}
+
+.search-btn {
+  background: #c7a008;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  cursor: pointer;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Suggestions */
+.search-suggestions {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  z-index: 50;
+}
+
+.suggestion {
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  background: #f5f5f5;
+}
+
+/* HEADER RIGHT */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+
+.lang {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ===============================
+   HEADER RESPONSIVE FIX (ONLY)
+================================ */
+
+/* Tablet & below */
+@media (max-width: 768px) {
+  .buyer-header {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 16px;
+  }
+
+  .header-left {
+    order: 1;
+  }
+
+  .header-right {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .header-search {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .search-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .mobile-menu-icon {
+    display: inline-block;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .deliver-text {
+    display: none; /* saves space, no layout break */
+  }
+
+  .search-btn {
+    padding: 8px 10px;
+  }
+
+  .search-suggestions {
+    top: 52px;
+  }
+}

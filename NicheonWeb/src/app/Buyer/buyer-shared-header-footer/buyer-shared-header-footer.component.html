@@ -1,0 +1,46 @@
+<header class="buyer-header">
+  <div class="header-left">
+    <img src="assets/Image/logo3.png" alt="Nicheon" class="logo" />
+    <span class="deliver-text">Deliver to <b>IN</b></span>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div class="header-search">
+    <input
+      type="text"
+      placeholder="Search gold jewellery, ring, earring, necklace..."
+      [(ngModel)]="searchText"
+      (input)="onSearchChange()"
+      (keyup.enter)="onSearchSubmit()"
+    />
+
+    <!-- <i class="ri-camera-line search-icon" (click)="openCamera()"></i> -->
+    <!-- <i class="ri-filter-3-line search-icon"></i> -->
+
+    <button class="search-btn" (click)="onSearchSubmit()">
+      <i class="ri-search-line"></i> Search
+    </button>
+
+    <!-- SEARCH SUGGESTIONS -->
+    <div class="search-suggestions" *ngIf="searchSuggestions.length">
+      <div
+        class="suggestion"
+        *ngFor="let s of searchSuggestions"
+        (click)="openProduct(s)"
+      >
+        <i class="ri-search-line"></i>
+        {{ s.productName }}
+      </div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <span class="lang">EN</span>
+    <i class="ri-user-3-line"></i>
+
+    <!-- Mobile menu icon (responsive fix hook) -->
+    <i class="ri-menu-line mobile-menu-icon"></i>
+  </div>
+</header>
+
+
