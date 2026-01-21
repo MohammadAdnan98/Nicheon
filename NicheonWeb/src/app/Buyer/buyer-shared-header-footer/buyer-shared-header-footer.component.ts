@@ -20,6 +20,8 @@ searchText: string = '';
   loadingHome = false;
   loadingSearch = false;
   userId!: number;
+  cartCount: number = 1;
+
 
    constructor(private buyerHomeService: BuyerHomeService) {}
 
@@ -93,5 +95,11 @@ searchText: string = '';
    openCamera(): void {
     alert('Camera search – Phase 2');
   }
+
+  openCart(): void {
+  // Phase-2: navigate to cart page
+  // this.router.navigate(['/buyer/cart']);
+  console.log('Open cart');
+}
 
 }

@@ -44,9 +44,11 @@ import { CommonModule } from '@angular/common';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { AdminRoutingModule } from './admin/admin-routing.module';
 import { BuyerProductListComponent } from './Buyer/buyer-product-list/buyer-product-list.component';
-import { BuyerSharedHeaderFooterComponent } from './buyer/buyer-shared-header-footer/buyer-shared-header-footer.component';
-import { BuyerSharedFooterComponent } from './buyer/buyer-shared-footer/buyer-shared-footer.component';
-import { BuyerProductDetailsComponent } from './buyer/buyer-product-details/buyer-product-details.component';
+import { BuyerSharedHeaderFooterComponent } from './Buyer/buyer-shared-header-footer/buyer-shared-header-footer.component';
+import { BuyerSharedFooterComponent } from './Buyer/buyer-shared-footer/buyer-shared-footer.component';
+import { BuyerProductDetailsComponent } from './Buyer/buyer-product-details/buyer-product-details.component';
+import { BuyerCartComponent } from './Buyer/buyer-cart/buyer-cart.component';
+import { BuyerCheckoutComponent } from './Buyer/buyer-checkout/buyer-checkout.component';
 
 
 @NgModule({
@@ -78,7 +80,9 @@ import { BuyerProductDetailsComponent } from './buyer/buyer-product-details/buye
     BuyerProductListComponent,
     BuyerSharedHeaderFooterComponent,
     BuyerSharedFooterComponent,
-    BuyerProductDetailsComponent
+    BuyerProductDetailsComponent,
+    BuyerCartComponent,
+    BuyerCheckoutComponent
    ],
   imports: [
     BrowserModule,

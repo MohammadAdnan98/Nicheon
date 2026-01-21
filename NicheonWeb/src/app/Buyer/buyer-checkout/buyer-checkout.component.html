@@ -1,0 +1,109 @@
+<div class="checkout-page">
+
+  <!-- LEFT -->
+  <div class="checkout-left">
+
+    <h2>Secure Checkout</h2>
+
+    <!-- =====================
+         ADDRESS SECTION
+    ====================== -->
+    <div class="checkout-card">
+
+      <h3>Shipping Address</h3>
+
+      <!-- SAVED ADDRESS -->
+      <div *ngIf="hasSavedAddress" class="saved-address">
+        <p><b>{{ address.fullName }}</b></p>
+        <p>{{ address.line1 }}, {{ address.city }}</p>
+        <p>{{ address.state }} - {{ address.pincode }}</p>
+        <p>{{ address.phone }}</p>
+
+        <button class="link-btn" (click)="editAddress()">
+          Change address
+        </button>
+      </div>
+
+      <!-- NEW ADDRESS FORM -->
+      <form *ngIf="!hasSavedAddress" class="address-form">
+
+        <input placeholder="Full Name" />
+        <input placeholder="Phone Number" />
+        <input placeholder="Street Address" />
+        <input placeholder="City" />
+
+        <div class="row">
+          <input placeholder="State" />
+          <input placeholder="Pincode" />
+        </div>
+
+        <button class="btn-primary" (click)="saveAddress()">
+          Save Address
+        </button>
+      </form>
+
+    </div>
+
+    <!-- =====================
+         PAYMENT SECTION
+    ====================== -->
+    <div class="checkout-card">
+
+      <h3>Payment Method</h3>
+
+      <label class="radio-option">
+        <input type="radio" checked />
+        <span>Cash on Delivery (COD)</span>
+      </label>
+
+      <p class="note">
+        Other payment methods will be available soon.
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+  <div class="checkout-right">
+
+    <div class="order-summary">
+
+      <h3>Order Summary</h3>
+
+      <div class="summary-row">
+        <span>Items ({{ totalItems }})</span>
+        <span>₹{{ itemTotal }}</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span class="free">FREE</span>
+      </div>
+
+      <hr />
+
+      <div class="summary-total">
+        <span>Total</span>
+        <span>₹{{ itemTotal }}</span>
+      </div>
+
+      <button
+        class="btn-primary full-width"
+        [disabled]="!hasSavedAddress"
+        (click)="placeOrder()"
+      >
+        Place Order (COD)
+      </button>
+
+      <div class="secure-text">
+        ✔ Secure Payments<br />
+        ✔ Verified Sellers<br />
+        ✔ Easy Returns
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

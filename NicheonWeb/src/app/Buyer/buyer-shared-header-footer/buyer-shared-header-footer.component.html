@@ -1,10 +1,11 @@
 <header class="buyer-header">
+  <!-- LEFT -->
   <div class="header-left">
     <img src="assets/Image/logo3.png" alt="Nicheon" class="logo" />
     <span class="deliver-text">Deliver to <b>IN</b></span>
   </div>
 
-  <!-- SEARCH BAR -->
+  <!-- SEARCH -->
   <div class="header-search">
     <input
       type="text"
@@ -13,9 +14,6 @@
       (input)="onSearchChange()"
       (keyup.enter)="onSearchSubmit()"
     />
-
-    <!-- <i class="ri-camera-line search-icon" (click)="openCamera()"></i> -->
-    <!-- <i class="ri-filter-3-line search-icon"></i> -->
 
     <button class="search-btn" (click)="onSearchSubmit()">
       <i class="ri-search-line"></i> Search
@@ -34,13 +32,21 @@
     </div>
   </div>
 
+  <!-- RIGHT -->
   <div class="header-right">
-    <span class="lang">EN</span>
-    <i class="ri-user-3-line"></i>
+    <!-- <span class="lang">EN</span>
 
-    <!-- Mobile menu icon (responsive fix hook) -->
-    <i class="ri-menu-line mobile-menu-icon"></i>
+    <i class="ri-user-3-line header-icon"></i> -->
+
+    <!-- 🛒 CART ICON -->
+    <div class="cart-icon-wrapper" (click)="openCart()">
+      <i class="bi bi-cart-fill"></i>
+      <span class="cart-badge" *ngIf="cartCount > 0">
+        {{ cartCount }}
+      </span>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <!-- <i class="ri-menu-line mobile-menu-icon"></i> -->
   </div>
 </header>
-
-

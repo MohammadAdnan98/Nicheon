@@ -1,0 +1,123 @@
+.checkout-page {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  padding: 24px;
+}
+
+/* Cards */
+.checkout-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+
+/* Address */
+.saved-address p {
+  margin: 4px 0;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #2874f0;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* Form */
+.address-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.address-form .row {
+  display: flex;
+  gap: 12px;
+}
+
+/* Payment */
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.note {
+  font-size: 12px;
+  color: #777;
+  margin-top: 8px;
+}
+
+/* Order Summary */
+.order-summary {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  position: sticky;
+  top: 90px;
+}
+
+.summary-row,
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.free {
+  color: green;
+  font-weight: 600;
+}
+
+.summary-total {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Buttons */
+.btn-primary {
+  background: #ff9900;
+  border: none;
+  color: #fff;
+  padding: 12px;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+.full-width {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Security */
+.secure-text {
+  font-size: 12px;
+  color: #555;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+/* ======================
+   RESPONSIVE
+====================== */
+@media (max-width: 768px) {
+  .checkout-page {
+    grid-template-columns: 1fr;
+  }
+
+  .order-summary {
+    position: static;
+  }
+}

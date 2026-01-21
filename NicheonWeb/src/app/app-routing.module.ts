@@ -22,7 +22,9 @@ import { ProfilEditeComponent } from './shared/profil-edite/profil-edite.compone
 import { SellerProductDetailComponent } from './Seller/seller-product-detail/seller-product-detail.component';
 import { SellerEditProductComponent } from './Seller/seller-edit-product/seller-edit-product.component';
 import { BuyerProductListComponent } from './Buyer/buyer-product-list/buyer-product-list.component';
-import { BuyerProductDetailsComponent } from './buyer/buyer-product-details/buyer-product-details.component';
+import { BuyerProductDetailsComponent } from './Buyer/buyer-product-details/buyer-product-details.component';
+import { BuyerCartComponent } from './Buyer/buyer-cart/buyer-cart.component';
+import { BuyerCheckoutComponent } from './Buyer/buyer-checkout/buyer-checkout.component';
 
 const routes: Routes = [
    {
@@ -61,7 +63,10 @@ const routes: Routes = [
   { path: 'seller-product/:id', component: SellerProductDetailComponent },
   { path: 'seller-edit-product/:id', component: SellerEditProductComponent },
   { path: 'buyer-product-list/:id', component: BuyerProductListComponent},
-  { path: 'buyer-product-details',component: BuyerProductDetailsComponent}
+  { path: 'buyer-product-details',component: BuyerProductDetailsComponent},
+  { path: 'cart/:id',component: BuyerCartComponent},
+  { path: 'checkout/:id',component: BuyerCheckoutComponent}
+
   
 
 

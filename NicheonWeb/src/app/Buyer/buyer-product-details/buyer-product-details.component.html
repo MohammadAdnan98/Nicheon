@@ -1,134 +1,245 @@
+<app-buyer-shared-header-footer></app-buyer-shared-header-footer>
+<!-- =========================
+     BREADCRUMB
+========================= -->
+<div class="breadcrumb">
+  Home / Jewellery / Rings / Artificial Jewellery
+</div>
+
+<!-- =========================
+     PRODUCT DETAILS WRAPPER
+========================= -->
 <div class="product-details-page">
 
-  <!-- BREADCRUMB -->
-  <div class="breadcrumb">
-    Home › Artificial Jewellery › Rings
+  <!-- =========================
+       LEFT: IMAGE GALLERY
+  ========================= -->
+  <div class="product-gallery">
+
+    <div class="thumbnail-list">
+      <img src="assets\Image\Earring_01.png" />
+      <img src="assets\Image\Earring_02.png" />
+      <img src="assets\Image\Earring_03.png" />
+      <img src="assets\Image\Earring_04.png" />
+    </div>
+
+    <div class="main-image">
+      <img src="assets\Image\Earring_01.png" />
+    </div>
+
   </div>
 
-  <!-- MAIN GRID -->
-  <div class="product-main">
+  <!-- =========================
+       CENTER: PRODUCT INFO
+  ========================= -->
+  <div class="product-info">
 
-    <!-- LEFT : IMAGE GALLERY -->
-    <div class="product-gallery">
+    <h1 class="product-title">
+      Hot Selling Brass Zircon Adjustable Ring for Women
+    </h1>
 
-      <div class="thumbnail-list">
-        <img
-          *ngFor="let img of product.images"
-          [src]="img"
-          (click)="selectedImage = img"
-          [class.active]="selectedImage === img"
-        />
+    <div class="product-meta">
+      <span class="rating">⭐ 4.9</span>
+      <span class="reviews">(500 reviews)</span>
+      <span class="sold">4 sold</span>
+    </div>
+
+    <div class="supplier-line">
+      Supplier:
+      <b>Xiamen Ju Min Yue Network Co., Ltd.</b>
+      <span class="supplier-badge">Verified</span>
+    </div>
+
+    <!-- PRICE TIERS -->
+    <div class="price-section">
+      <div class="price-tier">
+        <span>2 – 49 pieces</span>
+        <b>₹180 / piece</b>
+      </div>
+      <div class="price-tier">
+        <span>50 – 199 pieces</span>
+        <b>₹165 / piece</b>
+      </div>
+      <div class="price-tier">
+        <span>200+ pieces</span>
+        <b>₹150 / piece</b>
+      </div>
+    </div>
+
+    <!-- VARIATIONS -->
+    <div class="variation-section">
+
+      <div class="variation-group">
+        <label>Ring Size</label>
+        <div class="variation-options">
+          <button class="active">Adjustable</button>
+        </div>
       </div>
 
-      <div class="main-image">
-        <img [src]="selectedImage" />
+      <div class="variation-group">
+        <label>Design</label>
+        <div class="variation-options">
+          <button class="active">Casual</button>
+        </div>
+      </div>
+
+      <div class="variation-group">
+        <label>Color</label>
+        <div class="variation-options image-options">
+          <div class="color-option active">
+            <img src="assets\Image\Earring_01.png" />
+            <span>White</span>
+          </div>
+          <div class="color-option">
+            <img src="assets\Image\Earring_03.png" />
+            <span>Colorful</span>
+          </div>
+        </div>
       </div>
 
     </div>
 
-    <!-- RIGHT : PRODUCT INFO -->
-    <div class="product-info">
+    <!-- DESCRIPTION SHORT -->
+    <div class="short-description">
+      Premium quality adjustable brass ring with zircon stones.
+      Suitable for bulk orders, gifting, resellers, and retailers.
+    </div>
 
-      <h1 class="product-title">
-        {{ product.name }}
-      </h1>
+  </div>
 
-      <div class="brand">
-        Brand: <b>{{ product.brand }}</b>
+  <!-- =========================
+       RIGHT: ORDER PANEL
+  ========================= -->
+  <div class="order-panel">
+
+    <div class="delivery-info">
+      <p><b>Shipping:</b> Free shipping</p>
+      <p><b>Delivery:</b> Within 7–15 days</p>
+    </div>
+
+    <div class="quantity-box">
+      <label>Quantity</label>
+      <div class="qty-controls">
+        <button>-</button>
+        <input type="number" value="1" />
+        <button>+</button>
       </div>
+    </div>
 
-      <div class="rating">
-        ⭐⭐⭐⭐⭐ <span>({{ product.rating }})</span>
-      </div>
+    <div class="subtotal">
+      Subtotal: <b>₹180</b>
+    </div>
 
-      <div class="price">
-        ₹{{ product.price }}
-        <span class="mrp">₹{{ product.mrp }}</span>
-      </div>
+    <!-- PRIMARY CTA BUTTONS -->
+    <div class="action-buttons">
+      <button class="btn-primary">Start Order</button>
+      <button class="btn-secondary">Add to Cart</button>
+      <button class="btn-chat">
+        <i class="ri-whatsapp-line"></i>
+        Chat Now
+      </button>
+    </div>
 
-      <div class="availability">
-        ✔ Available for bulk orders
-      </div>
+    <div class="buyer-protection">
+      ✔ Secure Payments<br />
+      ✔ Easy Returns<br />
+      ✔ Verified Supplier
+    </div>
 
-      <!-- B2B ACTIONS -->
-      <div class="actions">
-        <button class="quote-btn">Request Bulk Quote</button>
-        <button class="wishlist-btn">♡ Wishlist</button>
-      </div>
+  </div>
 
-      <!-- TRUST BADGES -->
-      <div class="trust">
-        <div>✔ BIS Certified</div>
-        <div>✔ Trusted Manufacturer</div>
-        <div>✔ Secure B2B Transaction</div>
-      </div>
+</div>
 
+<!-- =========================
+     PRODUCT TABS
+========================= -->
+<div class="product-tabs">
+
+  <div class="tab-header">
+    <button class="active">Attributes</button>
+    <button>Reviews</button>
+    <button>Supplier</button>
+    <button>Description</button>
+  </div>
+
+  <div class="tab-content">
+
+    <!-- ATTRIBUTES -->
+    <div class="tab-panel active">
+      <table class="attributes-table">
+        <tr>
+          <td>Main Material</td>
+          <td>Brass</td>
+        </tr>
+        <tr>
+          <td>Plating</td>
+          <td>14K / 18K Gold Plated</td>
+        </tr>
+        <tr>
+          <td>Main Stone</td>
+          <td>Zircon</td>
+        </tr>
+        <tr>
+          <td>Gender</td>
+          <td>Women</td>
+        </tr>
+        <tr>
+          <td>Occasion</td>
+          <td>Wedding, Party, Gift</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     SUPPLIER SECTION
+========================= -->
+<div class="supplier-section">
+
+  <h3>Know Your Supplier</h3>
+
+  <div class="supplier-card">
+    <img src="assets\Image\goldchain.jpg" />
+    <div class="supplier-info">
+      <h4>Xiamen Ju Min Yue Network Co., Ltd.</h4>
+      <p>2 years on platform · Located in China</p>
+      <p>Response time: <b>≤ 2 hours</b></p>
+      <p>On-time delivery rate: <b>100%</b></p>
     </div>
   </div>
 
-  <!-- PRODUCT DETAILS -->
-  <div class="details-section">
+</div>
 
-    <h2>Product Specifications</h2>
+<!-- =========================
+     RELATED PRODUCTS
+========================= -->
+<div class="related-products">
 
-    <table class="spec-table">
-      <tr>
-        <td>Metal Type</td>
-        <td>{{ product.metal }}</td>
-      </tr>
-      <tr>
-        <td>Purity</td>
-        <td>{{ product.purity }}</td>
-      </tr>
-      <tr>
-        <td>Weight</td>
-        <td>{{ product.weight }}</td>
-      </tr>
-      <tr>
-        <td>Stone</td>
-        <td>{{ product.stone }}</td>
-      </tr>
-      <tr>
-        <td>Origin</td>
-        <td>{{ product.origin }}</td>
-      </tr>
-    </table>
+  <h3>Other Recommendations for Your Business</h3>
 
-  </div>
-
-  <!-- DESCRIPTION -->
-  <div class="details-section">
-    <h2>About this Product</h2>
-    <p>
-      {{ product.description }}
-    </p>
-  </div>
-
-  <!-- SUPPLIER INFO -->
-  <div class="details-section supplier">
-    <h2>Supplier Information</h2>
-
-    <div class="supplier-box">
-      <div>
-        <b>{{ product.supplier.name }}</b>
-        <p>{{ product.supplier.location }}</p>
-      </div>
-      <div>
-        ⭐ {{ product.supplier.rating }} Supplier Rating
-      </div>
+  <div class="related-list">
+    <div class="related-card">
+      <img src="assets\Image\silverring.png" />
+      <p>Wholesale Zircon Ring</p>
+      <b>₹160 / piece</b>
+      <span>MOQ: 2</span>
     </div>
-  </div>
 
-  <!-- RELATED PRODUCTS -->
-  <div class="details-section">
-    <h2>Similar Products</h2>
+    <div class="related-card">
+      <img src="assets\Image\goldring.png" />
+      <p>Fashion Adjustable Ring</p>
+      <b>₹155 / piece</b>
+      <span>MOQ: 5</span>
+    </div>
 
-    <div class="related-scroll">
-      <div class="related-card" *ngFor="let r of relatedProducts">
-        <img [src]="r.image" />
-        <div class="name">{{ r.name }}</div>
-        <div class="price">₹{{ r.price }}</div>
-      </div>
+    <div class="related-card">
+      <img src="assets\Image\goldchain.jpg" />
+      <p>Gold Plated Crystal Ring</p>
+      <b>₹170 / piece</b>
+      <span>MOQ: 3</span>
     </div>
   </div>
 
