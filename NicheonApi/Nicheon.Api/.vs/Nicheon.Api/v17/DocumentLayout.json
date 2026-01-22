@@ -669,7 +669,8 @@
               "RelativeToolTip": "..\\Nicheon.Persistence\\Repositories\\AuthenticationRepository.cs",
               "ViewState": "AgIAADwAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T05:50:06.667Z"
+              "WhenOpened": "2025-10-16T05:50:06.667Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -871,7 +872,8 @@
               "RelativeToolTip": "Controllers\\FileController.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAYwFMAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T12:22:14.782Z"
+              "WhenOpened": "2025-11-12T12:22:14.782Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

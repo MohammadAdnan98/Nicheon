@@ -25,6 +25,15 @@ import { BuyerProductListComponent } from './Buyer/buyer-product-list/buyer-prod
 import { BuyerProductDetailsComponent } from './Buyer/buyer-product-details/buyer-product-details.component';
 import { BuyerCartComponent } from './Buyer/buyer-cart/buyer-cart.component';
 import { BuyerCheckoutComponent } from './Buyer/buyer-checkout/buyer-checkout.component';
+import { BuyerOrderSuccessComponent } from './Buyer/buyer-order-success/buyer-order-success.component';
+import { BuyerOrdersComponent } from './Buyer/buyer-orders/buyer-orders.component';
+import { BuyerTrackOrderComponent } from './Buyer/buyer-track-order/buyer-track-order.component';
+import { BuyerOrderDetailsComponent } from './Buyer/buyer-order-details/buyer-order-details.component';
+import { BuyerWishlistComponent } from './Buyer/buyer-wishlist/buyer-wishlist.component';
+import { BuyerProfileComponent } from './Buyer/buyer-profile/buyer-profile.component';
+import { BuyerProfileEditComponent } from './Buyer/buyer-profile-edit/buyer-profile-edit.component';
+import { BuyerSavedAddressComponent } from './Buyer/buyer-saved-address/buyer-saved-address.component';
+import { BuyerSecurityComponent } from './Buyer/buyer-security/buyer-security.component';
 
 const routes: Routes = [
    {
@@ -65,7 +74,16 @@ const routes: Routes = [
   { path: 'buyer-product-list/:id', component: BuyerProductListComponent},
   { path: 'buyer-product-details',component: BuyerProductDetailsComponent},
   { path: 'cart/:id',component: BuyerCartComponent},
-  { path: 'checkout/:id',component: BuyerCheckoutComponent}
+  { path: 'checkout/:id',component: BuyerCheckoutComponent},
+  { path: 'order-success', component: BuyerOrderSuccessComponent},
+  { path: 'Order-list/:id', component: BuyerOrdersComponent},
+  { path: 'buyer-track-order/:id', component: BuyerTrackOrderComponent},
+  { path: 'order-details/:id', component: BuyerOrderDetailsComponent},
+  { path: 'wishlist/:id', component: BuyerWishlistComponent},
+  { path: 'buyer-profile', component: BuyerProfileComponent},
+  { path: 'profile-edit', component: BuyerProfileEditComponent},
+  { path: 'address-update', component: BuyerSavedAddressComponent},
+  { path: 'buyer-security', component: BuyerSecurityComponent}
 
   
 

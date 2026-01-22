@@ -1,0 +1,252 @@
+/* =========================
+   PAGE BASE
+========================= */
+.orders-page {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+/* =========================
+   ORDER CARD
+========================= */
+.order-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+/* HEADER */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
+}
+
+.order-id {
+  font-size: 13px;
+  color: #555;
+}
+
+.order-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.order-status {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.order-status.placed { background: #fff3cd; color: #856404; }
+.order-status.shipped { background: #d1ecf1; color: #0c5460; }
+.order-status.delivered { background: #d4edda; color: #155724; }
+
+/* BODY */
+.order-body {
+  padding: 16px;
+}
+
+.order-product {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.order-product img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #f3f3f3;
+}
+
+.product-info h4 {
+  font-size: 14px;
+  margin: 0 0 4px;
+}
+
+.supplier {
+  font-size: 12px;
+  color: #666;
+}
+
+.variation,
+.qty-price {
+  font-size: 12px;
+  color: #555;
+}
+
+/* FOOTER */
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-top: 1px solid #eee;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.total {
+  font-size: 14px;
+}
+
+.order-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Return Product */
+.btn-warning {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #fff7e6;
+  color: #ff9800;
+  border: 1px solid #ffcc80;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-warning:hover {
+  background: #ff9800;
+  color: #fff;
+  border-color: #ff9800;
+}
+
+/* Cancel Order */
+.btn-danger {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #fff5f5;
+  color: #e53935;
+  border: 1px solid #ef9a9a;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+  background: #e53935;
+  color: #fff;
+  border-color: #e53935;
+}
+
+.btn-outline {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  .order-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-actions {
+      width: 100%;
+    text-align: center;
+  }
+
+  .order-actions button {
+    flex: 1;
+  }
+
+   .confirm-box {
+    margin: 16px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .order-product {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-product img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* =========================
+   CONFIRMATION MODAL
+========================= */
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.confirm-box {
+  background: #fff;
+  width: 100%;
+  max-width: 380px;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  animation: scaleIn 0.2s ease;
+}
+
+.confirm-box h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+.confirm-box p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* animation */
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+

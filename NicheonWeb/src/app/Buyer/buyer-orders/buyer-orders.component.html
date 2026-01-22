@@ -1,0 +1,96 @@
+<!-- =========================
+     PAGE TITLE
+========================= -->
+<div class="orders-page">
+
+  <h2 class="page-title">My Orders</h2>
+
+  <!-- =========================
+       ORDER CARD
+  ========================= -->
+  <div class="order-card" *ngFor="let order of orders">
+
+    <!-- ORDER HEADER -->
+    <div class="order-header">
+      <div>
+        <p class="order-id">Order ID: <b>#{{ order.orderId }}</b></p>
+        <p class="order-date">Placed on {{ order.date }}</p>
+      </div>
+
+      <div class="order-status" [class]="order.status.toLowerCase()">
+        {{ order.status }}
+      </div>
+    </div>
+
+    <!-- ORDER BODY -->
+    <div class="order-body">
+
+      <!-- PRODUCT -->
+      <div class="order-product" *ngFor="let item of order.items">
+        <img [src]="item.image" alt="product" />
+
+        <div class="product-info">
+          <h4>{{ item.name }}</h4>
+          <p class="supplier">Supplier: {{ item.supplier }}</p>
+          <p class="variation">
+            Color: {{ item.color }} | Size: {{ item.size }}
+          </p>
+          <p class="qty-price">
+            Qty: {{ item.qty }} × ₹{{ item.price }}
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ORDER FOOTER -->
+    <div class="order-footer">
+      <div class="total">
+        Order Total: <b>₹{{ order.total }}</b>
+      </div>
+
+      <div class="order-actions">
+        <button class="btn-outline">View Details</button>
+        <button class="btn-outline">Track Order</button>
+        <button class="btn-outline">Reorder</button>
+
+        <!-- =========================
+             CONDITIONAL ACTIONS
+        ========================= -->
+
+        <!-- RETURN (only if Delivered) -->
+        <button
+        class="btn-warning"
+          *ngIf="order.status === 'Delivered'"
+          (click)="confirmReturn(order)">
+          Return Product
+        </button>
+
+        <!-- CANCEL (if NOT Delivered) -->
+        <button
+          *ngIf="order.status !== 'Delivered'"
+          class="btn-danger"
+          (click)="confirmCancel(order)">
+          Cancel Order
+        </button>
+      </div>
+    </div>
+
+    <!-- =========================
+     CONFIRMATION MODAL
+========================= -->
+<div class="confirm-overlay" *ngIf="showConfirmModal">
+  <div class="confirm-box">
+    <h3>{{ confirmTitle }}</h3>
+    <p>{{ confirmMessage }}</p>
+
+    <div class="confirm-actions">
+      <button class="btn-outline" (click)="closeConfirm()">No</button>
+      <button class="btn-primary" (click)="confirmAction()">Yes</button>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+</div>

@@ -1,0 +1,321 @@
+/* =========================
+   GLOBAL
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #f6f7f8;
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 16px;
+}
+
+/* =========================
+   PAGE WRAPPER
+========================= */
+.track-order-page {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  padding: 0 16px;
+}
+
+/* =========================
+   HEADER
+========================= */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.order-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.order-id {
+  font-size: 14px;
+  margin-top: 4px;
+  color: #555;
+}
+
+.order-meta {
+  text-align: right;
+  font-size: 14px;
+  color: #444;
+}
+
+.order-meta span {
+  display: block;
+}
+
+/* =========================
+   TIMELINE (DESKTOP)
+========================= */
+.order-timeline {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin: 24px 0 32px;
+  padding: 0 10px;
+}
+
+.order-timeline::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ddd;
+}
+
+.timeline-step {
+  position: relative;
+  text-align: center;
+  flex: 1;
+  font-size: 13px;
+  color: #999;
+}
+
+.timeline-step p {
+  margin: 28px 0 2px;
+  font-weight: 500;
+}
+
+.timeline-step small {
+  font-size: 12px;
+}
+
+.timeline-step .dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ccc;
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+/* COMPLETED */
+.timeline-step.completed {
+  color: #2e7d32;
+}
+
+.timeline-step.completed .dot {
+  background: #2e7d32;
+}
+
+/* ACTIVE */
+.timeline-step.active {
+  color: #f57c00;
+  font-weight: 600;
+}
+
+.timeline-step.active .dot {
+  background: #f57c00;
+}
+
+/* =========================
+   MAIN CONTENT GRID
+========================= */
+.track-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+/* =========================
+   CARDS
+========================= */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px;
+  border: 1px solid #e4e4e4;
+  margin-bottom: 16px;
+}
+
+.card h4 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* =========================
+   ADDRESS
+========================= */
+.card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================
+   ORDER ITEM
+========================= */
+.order-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.order-item img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f2f2f2;
+  padding: 6px;
+}
+
+.item-info h5 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.item-info p {
+  font-size: 13px;
+  color: #555;
+  margin: 0 0 6px;
+}
+
+.seller {
+  font-size: 12px;
+  color: #777;
+}
+
+.item-price {
+  margin-left: auto;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+.summary-card .summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.summary-card .total {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* =========================
+   SUPPORT
+========================= */
+.support-card button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.support-card button:hover {
+  background: #f9f9f9;
+}
+
+.help-note {
+  font-size: 12px;
+  color: #777;
+  margin-top: 8px;
+}
+
+/* =========================
+   MOBILE VIEW
+========================= */
+@media (max-width: 768px) {
+  .order-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .order-meta {
+    text-align: left;
+  }
+
+  /* MOBILE TIMELINE */
+  .order-timeline {
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .order-timeline::before {
+    display: none;
+  }
+
+  .timeline-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .timeline-step .dot {
+    position: static;
+    transform: none;
+    width: 10px;
+    height: 10px;
+  }
+
+  .timeline-step p {
+    margin: 0;
+  }
+
+  .timeline-step small {
+    margin-left: auto;
+  }
+
+  .track-content {
+    grid-template-columns: 1fr;
+  }
+
+  .order-item {
+    flex-direction: column;
+  }
+
+  .item-price {
+    text-align: left;
+    margin-top: 8px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+@media (max-width: 480px) {
+  .order-header h2 {
+    font-size: 20px;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .order-item img {
+    width: 100%;
+    height: auto;
+  }
+}

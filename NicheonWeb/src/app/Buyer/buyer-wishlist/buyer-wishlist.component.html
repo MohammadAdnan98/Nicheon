@@ -1,0 +1,100 @@
+<!-- =========================
+     BREADCRUMB
+========================= -->
+<div class="breadcrumb">
+  Home / Wishlist
+</div>
+
+<div class="wishlist-page">
+
+  <!-- =========================
+       PAGE HEADER
+  ========================= -->
+  <div class="wishlist-header">
+    <h2>My Wishlist</h2>
+
+    <div class="wishlist-controls">
+      <div class="search-box">
+        <i class="ri-search-line"></i>
+        <input
+          type="text"
+          placeholder="Search this list"
+          [(ngModel)]="searchText"
+        />
+      </div>
+
+      <select [(ngModel)]="filterStatus">
+        <option value="ALL">Show: All items</option>
+        <option value="UNPURCHASED">Unpurchased</option>
+        <option value="PURCHASED">Purchased</option>
+      </select>
+
+      <select [(ngModel)]="sortBy">
+        <option value="RECENT">Most recently added</option>
+        <option value="PRICE_LOW">Price (low to high)</option>
+        <option value="PRICE_HIGH">Price (high to low)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- =========================
+       WISHLIST ITEMS
+  ========================= -->
+  <div class="wishlist-list">
+
+    <div
+      class="wishlist-card"
+      *ngFor="let item of filteredWishlist()">
+
+      <button class="remove-btn" (click)="removeFromWishlist(item)">
+        ✕
+      </button>
+
+      <img [src]="item.image" alt="product" />
+
+      <div class="wishlist-info">
+        <h4>{{ item.name }}</h4>
+
+        <p class="supplier">
+          Supplier: {{ item.supplier }}
+        </p>
+
+        <p class="variation">
+          Color: {{ item.color }} | Size: {{ item.size }}
+        </p>
+
+        <div class="price">₹{{ item.price }}</div>
+
+        <div class="wishlist-actions">
+          <button class="btn-outline" (click)="viewProduct(item)">
+            View Product
+          </button>
+
+          <button class="btn-primary" (click)="addToCart(item)">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- =========================
+       RECOMMENDED PRODUCTS
+  ========================= -->
+  <div class="recommend-section">
+    <h3>Recommended for You</h3>
+
+    <div class="recommend-list">
+      <div class="recommend-card" *ngFor="let r of recommendedProducts">
+        <img [src]="r.image" />
+        <p>{{ r.name }}</p>
+        <b>₹{{ r.price }}</b>
+        <button class="btn-outline" (click)="viewProduct(r)">
+          View
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

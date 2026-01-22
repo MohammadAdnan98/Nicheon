@@ -49,6 +49,15 @@ import { BuyerSharedFooterComponent } from './Buyer/buyer-shared-footer/buyer-sh
 import { BuyerProductDetailsComponent } from './Buyer/buyer-product-details/buyer-product-details.component';
 import { BuyerCartComponent } from './Buyer/buyer-cart/buyer-cart.component';
 import { BuyerCheckoutComponent } from './Buyer/buyer-checkout/buyer-checkout.component';
+import { BuyerOrderSuccessComponent } from './Buyer/buyer-order-success/buyer-order-success.component';
+import { BuyerOrdersComponent } from './Buyer/buyer-orders/buyer-orders.component';
+import { BuyerTrackOrderComponent } from './Buyer/buyer-track-order/buyer-track-order.component';
+import { BuyerOrderDetailsComponent } from './Buyer/buyer-order-details/buyer-order-details.component';
+import { BuyerWishlistComponent } from './Buyer/buyer-wishlist/buyer-wishlist.component';
+import { BuyerProfileComponent } from './Buyer/buyer-profile/buyer-profile.component';
+import { BuyerProfileEditComponent } from './Buyer/buyer-profile-edit/buyer-profile-edit.component';
+import { BuyerSavedAddressComponent } from './Buyer/buyer-saved-address/buyer-saved-address.component';
+import { BuyerSecurityComponent } from './Buyer/buyer-security/buyer-security.component';
 
 
 @NgModule({
@@ -82,7 +91,16 @@ import { BuyerCheckoutComponent } from './Buyer/buyer-checkout/buyer-checkout.co
     BuyerSharedFooterComponent,
     BuyerProductDetailsComponent,
     BuyerCartComponent,
-    BuyerCheckoutComponent
+    BuyerCheckoutComponent,
+    BuyerOrderSuccessComponent,
+    BuyerOrdersComponent,
+    BuyerTrackOrderComponent,
+    BuyerOrderDetailsComponent,
+    BuyerWishlistComponent,
+    BuyerProfileComponent,
+    BuyerProfileEditComponent,
+    BuyerSavedAddressComponent,
+    BuyerSecurityComponent
    ],
   imports: [
     BrowserModule,

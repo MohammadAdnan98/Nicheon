@@ -1,0 +1,148 @@
+<!-- =========================
+     BREADCRUMB
+========================= -->
+<div class="breadcrumb">
+  Home / Profile / Saved Addresses
+</div>
+
+<!-- =========================
+     SAVED ADDRESS PAGE
+========================= -->
+<div class="address-page">
+
+  <div class="page-header">
+    <h2>Saved Addresses</h2>
+    <button class="btn-primary" (click)="openAddAddress()">
+      + Add New Address
+    </button>
+  </div>
+
+  <!-- =========================
+       ADDRESS LIST
+  ========================= -->
+  <div class="address-list">
+
+    <div
+      class="address-card"
+      *ngFor="let address of addresses">
+
+      <div class="address-info">
+        <h4>
+          {{ address.name }}
+          <span *ngIf="address.isDefault" class="default-badge">
+            Default
+          </span>
+        </h4>
+
+        <p>
+          {{ address.line1 }}<br />
+          {{ address.line2 }}<br />
+          {{ address.city }}, {{ address.state }} - {{ address.pincode }}<br />
+          {{ address.country }}
+        </p>
+
+        <p class="phone">
+          📞 {{ address.phone }}
+        </p>
+      </div>
+
+      <div class="address-actions">
+        <button class="btn-outline" (click)="openEditAddress(address)">
+          Edit
+        </button>
+
+        <button
+          class="btn-danger"
+          *ngIf="!address.isDefault"
+          (click)="confirmDelete(address)">
+          Delete
+        </button>
+
+        <button
+          class="btn-outline"
+          *ngIf="!address.isDefault"
+          (click)="setAsDefault(address)">
+          Set as Default
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     ADD / EDIT ADDRESS MODAL
+========================= -->
+<div class="modal-overlay" *ngIf="showAddressModal">
+  <div class="modal-box">
+
+    <h3>{{ isEditMode ? 'Edit Address' : 'Add New Address' }}</h3>
+
+    <div class="form-grid">
+
+      <input placeholder="Full Name"
+             [(ngModel)]="form.name" />
+
+      <input placeholder="Phone Number"
+             [(ngModel)]="form.phone" />
+
+      <input placeholder="Address Line 1"
+             [(ngModel)]="form.line1" />
+
+      <input placeholder="Address Line 2"
+             [(ngModel)]="form.line2" />
+
+      <input placeholder="City"
+             [(ngModel)]="form.city" />
+
+      <input placeholder="State"
+             [(ngModel)]="form.state" />
+
+      <input placeholder="Pincode"
+             [(ngModel)]="form.pincode" />
+
+      <input placeholder="Country"
+             [(ngModel)]="form.country" />
+
+    </div>
+
+    <label class="checkbox">
+      <input type="checkbox"
+             [(ngModel)]="form.isDefault" />
+      Set as default address
+    </label>
+
+    <div class="modal-actions">
+      <button class="btn-outline" (click)="closeModal()">
+        Cancel
+      </button>
+      <button class="btn-primary" (click)="saveAddress()">
+        Save Address
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- =========================
+     DELETE CONFIRMATION
+========================= -->
+<div class="modal-overlay" *ngIf="showDeleteConfirm">
+  <div class="modal-box small">
+
+    <h3>Delete Address</h3>
+    <p>Are you sure you want to delete this address?</p>
+
+    <div class="modal-actions">
+      <button class="btn-outline" (click)="closeDelete()">
+        No
+      </button>
+      <button class="btn-danger" (click)="deleteAddress()">
+        Yes, Delete
+      </button>
+    </div>
+
+  </div>
+</div>

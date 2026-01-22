@@ -1,0 +1,133 @@
+<!-- =========================
+     BREADCRUMB
+========================= -->
+<div class="breadcrumb">
+  Home / Profile / Security
+</div>
+
+<!-- =========================
+     SECURITY PAGE
+========================= -->
+<div class="security-page">
+
+  <h2 class="page-title">Security & Login Settings</h2>
+
+  <!-- =========================
+       LOGIN INFO
+  ========================= -->
+  <div class="card">
+    <h3>Login Information</h3>
+
+    <div class="info-row">
+      <div>
+        <label>Email</label>
+        <p>{{ user.email }}</p>
+      </div>
+      <button class="btn-outline" (click)="openChangeEmail()">Change</button>
+    </div>
+
+    <div class="info-row">
+      <div>
+        <label>Mobile Number</label>
+        <p>{{ user.phone }}</p>
+      </div>
+      <button class="btn-outline" (click)="openChangePhone()">Change</button>
+    </div>
+  </div>
+
+  <!-- =========================
+       PASSWORD
+  ========================= -->
+  <div class="card">
+    <h3>Password</h3>
+
+    <div class="info-row">
+      <div>
+        <label>Password</label>
+        <p>Last updated {{ user.passwordUpdated }}</p>
+      </div>
+      <button class="btn-primary" (click)="openChangePassword()">
+        Change Password
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================
+       TWO STEP VERIFICATION
+  ========================= -->
+  <div class="card">
+    <h3>Two-Step Verification</h3>
+
+    <div class="toggle-row">
+      <div>
+        <p class="toggle-title">Enable 2-Step Verification</p>
+        <p class="toggle-desc">
+          Add an extra layer of security to your account.
+        </p>
+      </div>
+
+      <label class="switch">
+        <input type="checkbox"
+               [(ngModel)]="user.twoFactorEnabled"
+               (change)="toggle2FA()" />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- =========================
+       ACTIVE SESSIONS
+  ========================= -->
+  <div class="card">
+    <h3>Active Sessions</h3>
+
+    <div class="session"
+         *ngFor="let session of sessions">
+      <div>
+        <p class="session-device">{{ session.device }}</p>
+        <p class="session-meta">
+          {{ session.location }} • {{ session.lastActive }}
+        </p>
+      </div>
+
+      <button class="btn-danger"
+              *ngIf="!session.current"
+              (click)="logoutSession(session)">
+        Log out
+      </button>
+
+      <span class="current-session"
+            *ngIf="session.current">
+        Current session
+      </span>
+    </div>
+  </div>
+
+  <!-- =========================
+       DANGER ZONE
+  ========================= -->
+  <div class="card danger-card">
+    <h3>Account Security</h3>
+
+    <button class="btn-danger full-width"
+            (click)="logoutAll()">
+      Log out from all devices
+    </button>
+  </div>
+
+</div>
+
+<!-- =========================
+     MODAL (REUSED)
+========================= -->
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal">
+    <h3>{{ modalTitle }}</h3>
+    <p>{{ modalMessage }}</p>
+
+    <div class="modal-actions">
+      <button class="btn-outline" (click)="closeModal()">Cancel</button>
+      <button class="btn-primary" (click)="confirmModal()">Confirm</button>
+    </div>
+  </div>
+</div>

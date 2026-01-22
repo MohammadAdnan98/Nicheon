@@ -1,0 +1,137 @@
+<!-- =========================
+     BREADCRUMB
+========================= -->
+<div class="breadcrumb">
+  Home / Profile
+</div>
+
+<!-- =========================
+     PROFILE PAGE
+========================= -->
+<div class="profile-page">
+
+  <!-- =========================
+       LEFT SIDEBAR
+  ========================= -->
+  <aside class="profile-sidebar">
+
+    <div class="profile-card">
+      <div class="avatar">
+        {{ user.name.charAt(0) }}
+      </div>
+
+      <h3>{{ user.name }}</h3>
+      <p class="email">{{ user.email }}</p>
+
+      <span class="badge verified">Verified Buyer</span>
+    </div>
+
+    <ul class="profile-menu">
+      <li class="active">Profile Info</li>
+      <li>Saved Addresses</li>
+      <li>Orders</li>
+      <li>Wishlist</li>
+      <li>Security</li>
+    </ul>
+
+  </aside>
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================= -->
+  <section class="profile-content">
+
+    <!-- =========================
+         PERSONAL INFO
+    ========================= -->
+    <div class="card">
+      <div class="card-header">
+        <h4>Personal Information</h4>
+        <button class="btn-link">Edit</button>
+      </div>
+
+      <div class="info-grid">
+        <div>
+          <label>Full Name</label>
+          <p>{{ user.name }}</p>
+        </div>
+
+        <div>
+          <label>Email</label>
+          <p>{{ user.email }}</p>
+        </div>
+
+        <div>
+          <label>Phone</label>
+          <p>{{ user.phone }}</p>
+        </div>
+
+        <div>
+          <label>Account Type</label>
+          <p>Buyer</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================
+         DEFAULT ADDRESS
+    ========================= -->
+    <div class="card">
+      <div class="card-header">
+        <h4>Default Address</h4>
+        <button class="btn-link">Manage</button>
+      </div>
+
+      <p class="address">
+        <b>{{ user.address.name }}</b><br />
+        {{ user.address.line1 }}<br />
+        {{ user.address.line2 }}<br />
+        {{ user.address.city }}, {{ user.address.state }} – {{ user.address.pincode }}<br />
+        {{ user.address.country }}
+      </p>
+    </div>
+
+    <!-- =========================
+         ACCOUNT SUMMARY
+    ========================= -->
+    <div class="card">
+      <h4>Account Summary</h4>
+
+      <div class="summary-grid">
+        <div class="summary-box">
+          <h3>{{ stats.orders }}</h3>
+          <p>Total Orders</p>
+        </div>
+
+        <div class="summary-box">
+          <h3>{{ stats.wishlist }}</h3>
+          <p>Wishlist Items</p>
+        </div>
+
+        <div class="summary-box">
+          <h3>{{ stats.addresses }}</h3>
+          <p>Saved Addresses</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================
+         SECURITY
+    ========================= -->
+    <div class="card">
+      <h4>Security</h4>
+
+      <div class="security-row">
+        <span>Password</span>
+        <button class="btn-outline">Change Password</button>
+      </div>
+
+      <div class="security-row">
+        <span>Two-Factor Authentication</span>
+        <span class="status enabled">Enabled</span>
+      </div>
+    </div>
+
+  </section>
+
+</div>
