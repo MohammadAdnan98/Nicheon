@@ -1,0 +1,108 @@
+<!-- =========================
+     BREADCRUMB
+========================= -->
+<div class="breadcrumb">
+  Home / Products
+</div>
+
+<!-- =========================
+     PRODUCT LIST PAGE
+========================= -->
+<div class="product-list-page">
+
+  <!-- =========================
+       LEFT FILTER PANEL
+  ========================= -->
+  <aside class="filters">
+
+    <!-- CATEGORY -->
+    <div class="filter-card">
+      <h4>Categories</h4>
+      <ul>
+        <li *ngFor="let c of categories" (click)="filterByCategory(c)">
+          {{ c }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- METAL -->
+    <div class="filter-card">
+      <h4>Browse by Metal</h4>
+      <ul>
+        <li *ngFor="let m of metals" (click)="filterByMetal(m)">
+          {{ m }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- JEWELLERY TYPE -->
+    <div class="filter-card">
+      <h4>Jewellery Type</h4>
+      <ul>
+        <li *ngFor="let t of jewelleryTypes" (click)="filterByType(t)">
+          {{ t }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- REGIONAL STYLE -->
+    <div class="filter-card">
+      <h4>Regional Style</h4>
+      <ul>
+        <li *ngFor="let r of regionalStyles" (click)="filterByRegion(r)">
+          {{ r }}
+        </li>
+      </ul>
+    </div>
+
+  </aside>
+
+  <!-- =========================
+       RIGHT PRODUCT GRID
+  ========================= -->
+  <section class="products">
+
+    <!-- SORT BAR -->
+    <div class="sort-bar">
+      <span>{{ filteredProducts.length }} Products</span>
+
+      <select (change)="sortProducts('')">
+        <option value="recent">Most Recent</option>
+        <option value="priceLow">Price: Low to High</option>
+        <option value="priceHigh">Price: High to Low</option>
+      </select>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <div class="product-grid">
+
+      <div class="product-card" *ngFor="let p of filteredProducts">
+
+        <img [src]="p.image" alt="product" />
+
+        <h4>{{ p.name }}</h4>
+
+        <p class="supplier">
+          Supplier: {{ p.supplier }}
+        </p>
+
+        <p class="meta">
+          {{ p.metal }} | {{ p.type }} | {{ p.region }}
+        </p>
+
+        <div class="price">
+          ₹{{ p.price }} / piece
+        </div>
+
+        <div class="actions">
+          <button class="btn-outline">View</button>
+          <button class="btn-primary">Add to Cart</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

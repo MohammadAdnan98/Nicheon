@@ -34,6 +34,7 @@ import { BuyerProfileComponent } from './Buyer/buyer-profile/buyer-profile.compo
 import { BuyerProfileEditComponent } from './Buyer/buyer-profile-edit/buyer-profile-edit.component';
 import { BuyerSavedAddressComponent } from './Buyer/buyer-saved-address/buyer-saved-address.component';
 import { BuyerSecurityComponent } from './Buyer/buyer-security/buyer-security.component';
+import { BuyerProductsComponent } from './Buyer/buyer-products/buyer-products.component';
 
 const routes: Routes = [
    {
@@ -83,7 +84,8 @@ const routes: Routes = [
   { path: 'buyer-profile', component: BuyerProfileComponent},
   { path: 'profile-edit', component: BuyerProfileEditComponent},
   { path: 'address-update', component: BuyerSavedAddressComponent},
-  { path: 'buyer-security', component: BuyerSecurityComponent}
+  { path: 'buyer-security', component: BuyerSecurityComponent},
+  { path: 'buyer-product', component: BuyerProductsComponent}
 
   
 

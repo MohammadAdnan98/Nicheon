@@ -58,6 +58,7 @@ import { BuyerProfileComponent } from './Buyer/buyer-profile/buyer-profile.compo
 import { BuyerProfileEditComponent } from './Buyer/buyer-profile-edit/buyer-profile-edit.component';
 import { BuyerSavedAddressComponent } from './Buyer/buyer-saved-address/buyer-saved-address.component';
 import { BuyerSecurityComponent } from './Buyer/buyer-security/buyer-security.component';
+import { BuyerProductsComponent } from './Buyer/buyer-products/buyer-products.component';
 
 
 @NgModule({
@@ -100,7 +101,8 @@ import { BuyerSecurityComponent } from './Buyer/buyer-security/buyer-security.co
     BuyerProfileComponent,
     BuyerProfileEditComponent,
     BuyerSavedAddressComponent,
-    BuyerSecurityComponent
+    BuyerSecurityComponent,
+    BuyerProductsComponent
    ],
   imports: [
     BrowserModule,
